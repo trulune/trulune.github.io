@@ -16,7 +16,7 @@ class TruPerfume {
         this.initProductSlideshows();
     }
 
-    // Sticky Header functionality
+    // Sticky Header functionality - Fixed to be transparent and blurry when scrolling
     initStickyHeader() {
         const header = document.querySelector('.site-header');
         
@@ -176,7 +176,7 @@ class TruPerfume {
         this.isTooltipVisible = false;
     }
 
-    // Social Sticky functionality
+    // Social Sticky functionality - Fixed for mobile and desktop
     initSocialSticky() {
         this.socialSticky = document.querySelector('.social-sticky');
         this.socialToggle = document.querySelector('.social-toggle');
@@ -185,6 +185,7 @@ class TruPerfume {
         if (this.socialSticky && this.socialIcons) {
             let hideTimeout;
             
+            // Desktop hover behavior
             this.socialSticky.addEventListener('mouseenter', () => {
                 clearTimeout(hideTimeout);
                 this.socialIcons.style.display = 'flex';
@@ -196,19 +197,43 @@ class TruPerfume {
                 }, 300);
             });
 
-            // Touch support for mobile
-            this.socialSticky.addEventListener('touchstart', () => {
-                clearTimeout(hideTimeout);
-                this.socialIcons.style.display = this.socialIcons.style.display === 'flex' ? 'none' : 'flex';
+            // Mobile touch behavior - fixed to prevent closing when clicking icons
+            this.socialToggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if (this.socialIcons.style.display === 'flex') {
+                    this.socialIcons.style.display = 'none';
+                    this.socialSticky.classList.remove('active');
+                } else {
+                    this.socialIcons.style.display = 'flex';
+                    this.socialSticky.classList.add('active');
+                }
+            });
+            
+            // Prevent closing when touching the icons themselves
+            this.socialIcons.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+            });
+            
+            // Close when clicking outside on mobile
+            document.addEventListener('touchstart', (e) => {
+                if (!this.socialSticky.contains(e.target) && this.socialIcons.style.display === 'flex') {
+                    this.socialIcons.style.display = 'none';
+                    this.socialSticky.classList.remove('active');
+                }
             });
         }
     }
 
-    // Back to Top functionality
+    // Back to Top functionality - Fixed to appear only when scrolling
     initBackToTop() {
         this.backToTop = document.querySelector('.back-to-top');
         
         if (this.backToTop) {
+            // Initially hide the button
+            this.backToTop.style.display = 'none';
+            
             window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 300) {
                     this.backToTop.style.display = 'flex';
@@ -226,7 +251,7 @@ class TruPerfume {
         }
     }
 
-    // Modal functionality
+    // Modal functionality - Fixed to center vertically
     initModal() {
         this.modal = document.getElementById('quickViewModal');
         this.modalContent = document.getElementById('modalContent');
