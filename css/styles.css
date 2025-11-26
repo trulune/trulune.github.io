@@ -295,7 +295,7 @@ body{
   filter:drop-shadow(0 18px 40px rgba(6,122,130,0.25));
   border-radius:18px;
   transition:var(--transition);
-  animation:float 6s ease-in-out infinite;
+  /* Remove animation as requested */
 }
 @keyframes float{
   0%,100%{transform:translateY(0px)}
@@ -346,10 +346,10 @@ body{
   transform:translateY(-2px);
 }
 
-/* Social Media Sticky */
+/* Social Media Sticky - Fixed to show "Follow Us" on the right */
 .social-sticky {
   position: fixed;
-  left: 0;
+  right: 0;
   top: 50%;
   transform: translateY(-50%);
   z-index: 99;
@@ -362,7 +362,7 @@ body{
   background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 0 25px 25px 0;
+  border-radius: 25px 0 0 25px;
   padding: 1rem 1.2rem;
   cursor: pointer;
   transition: var(--transition);
@@ -381,7 +381,7 @@ body{
 
 .social-toggle:hover {
   background: var(--color-cta);
-  padding-right: 1.4rem;
+  padding-left: 1.4rem;
 }
 
 .social-icons {
@@ -390,11 +390,11 @@ body{
   gap: 0.5rem;
   background: white;
   padding: 1rem;
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: var(--radius) 0 0 var(--radius);
   box-shadow: var(--shadow);
   border: 1px solid var(--color-soft);
   position: absolute;
-  left: 100%;
+  right: 100%;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
@@ -437,7 +437,7 @@ body{
   cursor: pointer;
   transition: var(--transition);
   z-index: 98;
-  display: flex;
+  display: none; /* Hidden by default, will show on scroll */
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow);
@@ -842,7 +842,7 @@ body{
   font-family: 'Baloo 2', cursive;
 }
 
-/* Modal */
+/* Modal - Fixed to center vertically */
 .modal{
   display:none;
   position:fixed;
@@ -856,17 +856,20 @@ body{
 }
 .modal-content{
   background:white;
-  margin:5% auto;
+  margin: auto;
   padding:2rem;
   border-radius:var(--radius);
   width:90%;
   max-width:500px;
-  position:relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   animation:modalAppear 0.3s ease;
 }
 @keyframes modalAppear{
-  from{opacity:0;transform:scale(0.8)}
-  to{opacity:1;transform:scale(1)}
+  from{opacity:0;transform:translate(-50%, -50%) scale(0.8)}
+  to{opacity:1;transform:translate(-50%, -50%) scale(1)}
 }
 .close{
   position:absolute;
@@ -897,10 +900,10 @@ body{
   border-color: var(--color-cta);
 }
 
-/* Footer */
+/* Footer - Added padding at the top */
 .site-footer{
   background:linear-gradient(180deg,#f6ffff,#e9fbfc);
-  padding: 2rem 0;
+  padding: 3rem 0 2rem 0; /* Added padding at the top */
   margin-top: 0;
   border-top: none;
   text-align: center;
@@ -944,7 +947,7 @@ body{
     margin:0 auto 2rem;
   }
   .social-sticky{
-    left:0;
+    right:0;
   }
   .product-slideshow{
     grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
@@ -952,7 +955,39 @@ body{
   }
 }
 
-@media (max-width:768px){
+/* Tablet and above layout (768px and up) - Fixed to match desktop layout */
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem; /* Fixed spacing for tablets and above */
+  }
+  
+  .header-inner {
+    padding: 1rem 0; /* Fixed header spacing */
+  }
+  
+  .nav {
+    display: flex; /* Ensure navigation is visible */
+  }
+  
+  .hamburger-menu {
+    display: none; /* Hide hamburger menu on tablets and above */
+  }
+  
+  .social-sticky {
+    display: flex !important; /* Ensure social sticky is visible */
+    right: 0;
+  }
+  
+  .social-icons {
+    display: none; /* Hide by default, show on hover */
+  }
+  
+  .social-sticky:hover .social-icons {
+    display: flex;
+  }
+}
+
+@media (max-width:767px){
   .header-inner{
     padding: 1rem 1.25rem;
     gap: 1rem;
@@ -979,7 +1014,7 @@ body{
   }
   .social-sticky{
     display: flex !important;
-    left:0;
+    right:0;
   }
   .header-actions .btn-primary{
     display:none;
@@ -1003,6 +1038,29 @@ body{
   }
   .slideshow-container {
     height: 250px;
+  }
+  
+  /* Fix for mobile social icons - ensure they're clickable */
+  .social-icons {
+    display: none;
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    background: white;
+    padding: 1rem;
+    border-radius: var(--radius) 0 0 var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--color-soft);
+  }
+  
+  .social-sticky.active .social-icons {
+    display: flex;
+  }
+  
+  .social-icon {
+    pointer-events: auto; /* Ensure icons are clickable */
   }
 }
 
@@ -1048,7 +1106,7 @@ body{
     font-size:.9rem;
   }
   .social-sticky{
-    left:0;
+    right:0;
   }
   .social-toggle {
     writing-mode: vertical-rl;
