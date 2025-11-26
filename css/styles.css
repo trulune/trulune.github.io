@@ -14,7 +14,7 @@
 /* Import custom font for brand name */
 @font-face {
   font-family: 'Meila';
-  src: url('../fonts/meila-demo.solid.otf') format('opentype');
+  src: url('fonts/meila-demo.solid.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
@@ -279,7 +279,7 @@ body{
 }
 .hero-text h1{
   font-family: 'Meila';
-  src: url('../fonts/meila-demo.solid.otf') format('opentype');
+  src: url('fonts/meila-demo.solid.otf') format('opentype');
   font-size:clamp(2.5rem, 5vw, 3.5rem);
   margin:0 0 .4rem;
   line-height:1.2;
@@ -1157,3 +1157,4 @@ body{
     height: 220px;
   }
 }
+
