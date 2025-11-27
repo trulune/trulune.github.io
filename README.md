@@ -1,4 +1,4 @@
-# Tru Perfume Website
+# Trulune Perfume Website
 
 Premium fragrance e-commerce website with modern design and smooth interactions.
 
@@ -13,3 +13,4 @@ Premium fragrance e-commerce website with modern design and smooth interactions.
 - ♿ Accessibility features
 
 ## File Structure
+
