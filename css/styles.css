@@ -12,6 +12,14 @@
 }
 
 /* FIXED: Font import removed from CSS and moved to HTML */
+/* FIXED: Added local Meila font fallback */
+@font-face {
+  font-family: 'Meila';
+  src: url('../fonts/meila-demo.solid.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 *{box-sizing:border-box}
 body{
@@ -24,11 +32,11 @@ body{
   overflow-x: hidden;
 }
 
-/* FIXED: Consistent spacing for ALL sections on 768px and above */
+/* FIXED: SEMUA SECTION GUNA SAMA SPACING - 1.25rem */
 .container{
   max-width:1100px;
   margin:0 auto;
-  padding:0 1.25rem;
+  padding:0 1.25rem; /* SEMUA SECTION SAMA */
 }
 
 /* Header - Removed background as requested */
@@ -51,7 +59,7 @@ body{
   box-shadow: 0 4px 20px rgba(6,122,130,0.15);
 }
 
-/* FIXED: Header spacing EXACTLY matches hero section */
+/* FIXED: Header spacing SAMA DENGAN SEMUA SECTION LAIN */
 .header-inner{
   display:flex;
   align-items:center;
@@ -59,7 +67,7 @@ body{
   gap:1rem;
   position: relative;
   z-index: 2;
-  padding: 1rem 1.25rem; /* Same padding as hero section */
+  padding: 1rem 1.25rem; /* SAMA DENGAN .container */
   height: 100%;
 }
 
@@ -310,7 +318,7 @@ body{
   align-items:center;
   position:relative;
   z-index:2;
-  padding: 0 1.25rem; /* Same padding as header */
+  padding: 0 1.25rem; /* SAMA DENGAN SEMUA SECTION */
 }
 .hero-text h1{
   font-family: 'Meila', 'Baloo 2', cursive;
@@ -1024,12 +1032,21 @@ body{
   text-align: center;
   margin-bottom: 0.5rem;
 }
-.footer-brand strong {
-  font-family: 'Baloo 2', cursive;
-  font-size: 1.5rem;
+
+/* FIXED: Removed neon effect from Trulune in footer - KEEP MEILA FONT */
+.footer-brand-name {
+  font-family: 'Meila', 'Baloo 2', cursive;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-primary); /* warna utama logo */
+  line-height: 1;
+  text-shadow: none !important;
+  animation: none !important;
+  letter-spacing: 1px;
   display: block;
   margin-bottom: 0.5rem;
 }
+
 .footer-inner p {
   color: var(--color-muted);
   font-size: 14px;
@@ -1059,15 +1076,20 @@ body{
   }
 }
 
-/* FIXED: Tablet and above layout (768px and up) - PERFECT SPACING CONSISTENCY */
+/* FIXED: REMOVED CONFLICTING MEDIA QUERY - SEMUA GUNA 1.25rem */
+/* Tablet and desktop (768px and up) - SEMUA SAMA SPACING */
 @media (min-width: 768px) {
-  /* Consistent spacing for ALL sections including header */
+  /* SEMUA SECTION GUNA SAMA SPACING - 1.25rem */
   .container {
-    padding: 0 1.25rem !important;
+    padding: 0 1.25rem !important; /* SAMA DENGAN MOBILE */
   }
   
   .header-inner {
-    padding: 1rem 1.25rem !important;
+    padding: 1rem 1.25rem !important; /* SAMA DENGAN SEMUA SECTION */
+  }
+  
+  .hero-inner {
+    padding: 0 1.25rem !important; /* SAMA DENGAN SEMUA SECTION */
   }
   
   /* Ensure navigation is visible */
@@ -1093,7 +1115,6 @@ body{
     gap: 3rem !important;
     align-items: center !important;
     text-align: left !important;
-    padding: 0 1.25rem !important;
   }
   
   .hero-text {
@@ -1119,9 +1140,10 @@ body{
   }
 }
 
+/* Mobile styles (767px and below) */
 @media (max-width:767px){
   .header-inner{
-    padding: 1rem 1.25rem;
+    padding: 1rem 1.25rem; /* SAMA DENGAN TABLET/DESKTOP */
     gap: 1rem;
   }
   .nav{
@@ -1233,10 +1255,10 @@ body{
 
 @media (max-width:480px){
   .container{
-    padding:0 1rem;
+    padding:0 1rem; /* Sedikit lebih kecil untuk mobile sangat kecil */
   }
   .header-inner{
-    padding:1rem;
+    padding:1rem; /* Sedikit lebih kecil untuk mobile sangat kecil */
   }
   .section{
     padding:2rem 0;
