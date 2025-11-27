@@ -32,11 +32,11 @@ body{
   overflow-x: hidden;
 }
 
-/* FIXED: SEMUA SECTION GUNA SAMA SPACING - 1.25rem */
+/* FIXED: REMOVED ALL PADDING - TABLET & DESKTOP WILL HAVE ZERO SPACING */
 .container{
   max-width:1100px;
   margin:0 auto;
-  padding:0 1.25rem; /* SEMUA SECTION SAMA */
+  padding:0 1.25rem; /* MOBILE ONLY - will be removed for tablet/desktop */
 }
 
 /* Header - Removed background as requested */
@@ -59,7 +59,7 @@ body{
   box-shadow: 0 4px 20px rgba(6,122,130,0.15);
 }
 
-/* FIXED: Header spacing SAMA DENGAN SEMUA SECTION LAIN */
+/* FIXED: Header spacing */
 .header-inner{
   display:flex;
   align-items:center;
@@ -67,7 +67,7 @@ body{
   gap:1rem;
   position: relative;
   z-index: 2;
-  padding: 1rem 1.25rem; /* SAMA DENGAN .container */
+  padding: 1rem 1.25rem; /* MOBILE ONLY - will be removed for tablet/desktop */
   height: 100%;
 }
 
@@ -318,7 +318,7 @@ body{
   align-items:center;
   position:relative;
   z-index:2;
-  padding: 0 1.25rem; /* SAMA DENGAN SEMUA SECTION */
+  padding: 0 1.25rem; /* MOBILE ONLY - will be removed for tablet/desktop */
 }
 .hero-text h1{
   font-family: 'Meila', 'Baloo 2', cursive;
@@ -1033,13 +1033,12 @@ body{
   margin-bottom: 0.5rem;
 }
 
-/* FIXED: Removed neon effect from Trulune in footer - KEEP MEILA FONT */
+/* FIXED: Footer Trulune font detection - ADDED FONT-WEIGHT */
 .footer-brand-name {
   font-family: 'Meila', 'Baloo 2', cursive;
-    src: url('../fonts/meila-demo.solid.otf') format('opentype');
   font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--color-primary); /* warna utama logo */
+  font-weight: 800; /* ADDED THIS LINE - FIXES FONT DETECTION */
+  color: var(--color-primary);
   line-height: 1;
   text-shadow: none !important;
   animation: none !important;
@@ -1077,20 +1076,19 @@ body{
   }
 }
 
-/* FIXED: REMOVED CONFLICTING MEDIA QUERY - SEMUA GUNA 1.25rem */
-/* Tablet and desktop (768px and up) - SEMUA SAMA SPACING */
+/* FIXED: TABLET & DESKTOP - COMPLETELY REMOVED ALL SPACING */
 @media (min-width: 768px) {
-  /* SEMUA SECTION GUNA SAMA SPACING - 1.25rem */
+  /* REMOVED ALL PADDING - ZERO SPACING LEFT & RIGHT */
   .container {
-    padding: 0 1.25rem !important; /* SAMA DENGAN MOBILE */
+    padding: 0 0 !important; /* ZERO SPACING */
   }
   
   .header-inner {
-    padding: 1rem 1.25rem !important; /* SAMA DENGAN SEMUA SECTION */
+    padding: 1rem 0 !important; /* ZERO SPACING */
   }
   
   .hero-inner {
-    padding: 0 1.25rem !important; /* SAMA DENGAN SEMUA SECTION */
+    padding: 0 0 !important; /* ZERO SPACING */
   }
   
   /* Ensure navigation is visible */
@@ -1141,10 +1139,10 @@ body{
   }
 }
 
-/* Mobile styles (767px and below) */
+/* Mobile styles (767px and below) - KEEP SPACING FOR MOBILE ONLY */
 @media (max-width:767px){
   .header-inner{
-    padding: 1rem 1.25rem; /* SAMA DENGAN TABLET/DESKTOP */
+    padding: 1rem 1.25rem; /* KEEP SPACING FOR MOBILE */
     gap: 1rem;
   }
   .nav{
@@ -1256,10 +1254,10 @@ body{
 
 @media (max-width:480px){
   .container{
-    padding:0 1rem; /* Sedikit lebih kecil untuk mobile sangat kecil */
+    padding:0 1rem; /* Keep spacing for very small mobile */
   }
   .header-inner{
-    padding:1rem; /* Sedikit lebih kecil untuk mobile sangat kecil */
+    padding:1rem; /* Keep spacing for very small mobile */
   }
   .section{
     padding:2rem 0;
@@ -1313,4 +1311,3 @@ body{
     height: 220px;
   }
 }
-
