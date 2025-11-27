@@ -1036,6 +1036,7 @@ body{
 /* FIXED: Removed neon effect from Trulune in footer - KEEP MEILA FONT */
 .footer-brand-name {
   font-family: 'Meila', 'Baloo 2', cursive;
+    src: url('../fonts/meila-demo.solid.otf') format('opentype');
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--color-primary); /* warna utama logo */
@@ -1312,3 +1313,4 @@ body{
     height: 220px;
   }
 }
+
