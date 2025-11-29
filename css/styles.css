@@ -1225,5 +1225,10 @@ body{
     content: '';
     width: 250px;            /* panjang line */
   }
+  /* Line atas Best Sellers */
+  #products .section-title::after {
+    content: '';
+    width: 250px;            /* panjang line */
+  }
 }
 
