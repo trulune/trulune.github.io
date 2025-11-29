@@ -11,8 +11,6 @@
   --transition:    all 0.3s ease;
 }
 
-/* FIXED: Font import removed from CSS and moved to HTML */
-/* FIXED: Added local Meila font fallback */
 @font-face {
   font-family: 'Meila';
   src: url('../fonts/meila-demo.solid.otf') format('opentype');
@@ -21,276 +19,154 @@
   font-display: swap;
 }
 
-*{box-sizing:border-box}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body{
-  margin:0;
   font-family: 'Baloo 2', cursive;
   color:var(--color-text);
   background:linear-gradient(180deg, var(--color-soft), #ffffff);
   -webkit-font-smoothing:antialiased;
   line-height:1.6;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* FIXED: CONTAINER - SAME SPACING FOR ALL SECTIONS */
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:0 1.25rem; /* SAME SPACING FOR ALL SECTIONS */
-}
+/* ==========================
+   HEADER FIX
+========================== */
 
-/* Header - Removed background as requested */
-.site-header{
-  position: sticky;
+/* HEADER BASE */
+.site-header {
+  position: fixed;
   top: 0;
-  z-index: 100;
-  overflow: hidden;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
-  padding: 0;
-  transition: all 0.3s ease;
-  height: 80px;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: transparent;
+  backdrop-filter: none;
+  transition: backdrop-filter 0.3s ease, background 0.3s ease;
+  padding: 10px 0;
 }
 
-/* FIXED: HEADER SCROLL - DARKER BACKGROUND FOR BETTER VISIBILITY */
+/* SCROLL EFFECT */
 .site-header.scrolled {
-  background: rgba(5, 175, 194, 0.95) !important; /* DARKER FOR BETTER VISIBILITY */
-  backdrop-filter: blur(15px);
-  box-shadow: 0 4px 20px rgba(6,122,130,0.25);
+  background: #E8FDFF;
+  backdrop-filter: blur(12px);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
-/* FIXED: Header spacing - SAME AS OTHER SECTIONS */
-.header-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:1rem;
-  position: relative;
-  z-index: 2;
-  padding: 1rem 1.25rem; /* SAME AS .container */
-  height: 100%;
+/* HEADER CONTENT ALIGNED */
+.site-header .content-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  padding: 0 18px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* Brand Container with Circular Logo */
+/* NAV RIGHT ALIGNED */
+.nav {
+  margin-left: auto;
+  display: flex;
+  gap: 28px;
+}
+
+.nav a {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-primary);
+  transition: 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.nav a:hover {
+  color: var(--color-primary);
+  text-shadow:
+    0 0 8px rgba(105, 230, 239, 0.7),
+    0 0 18px rgba(105, 230, 239, 0.5),
+    0 0 28px rgba(105, 230, 239, 0.35);
+}
+
+.content-section {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 18px;
+  margin: 0 auto;
+}
+
+/* Brand area */
 .brand-container {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: inherit;
+  gap: 10px;
+  position: relative;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 .logo-circle {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rgba(255,255,255,0.3);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  overflow: hidden;
-  padding: 2px;
-  flex-shrink: 0;
 }
 
 .logo-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  border-radius: 25%;
 }
 
-/* FIXED: Brand name with proper spacing from verified badge */
-.brand-name {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* Increased gap from 0.3rem to 0.5rem */
-  position: relative;
-}
-
-/* FIXED: BRAND NAME - BETTER VISIBILITY WHEN SCROLLED */
-.brand-name span {
-  font-family: 'Meila', 'Baloo 2', cursive;
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--color-white);
-  line-height: 1;
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-  text-shadow: 
-    0 0 10px var(--color-accent),
-    0 0 20px var(--color-accent),
-    0 0 30px var(--color-primary),
-    0 0 40px var(--color-primary);
-  letter-spacing: 1px;
-  animation: neonGlow 2s ease-in-out infinite alternate;
-}
-
-/* FIXED: BETTER VISIBILITY FOR NAV LINKS WHEN SCROLLED */
-.site-header.scrolled .nav a {
-  color: var(--color-white) !important;
-  font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-}
-
-.site-header.scrolled .nav a::after {
-  background: var(--color-white) !important;
-}
-
-.site-header.scrolled .brand-name span {
-  text-shadow: 
-    0 0 15px var(--color-accent),
-    0 0 25px var(--color-accent),
-    0 0 35px var(--color-primary),
-    0 0 45px var(--color-primary);
-}
-
-@keyframes neonGlow {
-  from {
-    text-shadow: 
-      0 0 5px var(--color-accent),
-      0 0 10px var(--color-accent),
-      0 0 15px var(--color-primary),
-      0 0 20px var(--color-primary);
-  }
-  to {
-    text-shadow: 
-      0 0 10px var(--color-accent),
-      0 0 20px var(--color-accent),
-      0 0 30px var(--color-primary),
-      0 0 40px var(--color-primary);
-  }
-}
-
-/* FIXED: Verified Badge - Better visibility when scrolled */
+/* Verified badge positioned at bottom-right of logo */
 .verified-badge {
-  background: none;
-  border: none;
-  color: var(--color-white);
-  cursor: pointer;
-  padding: 0;
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: #E8FDFF;
   border-radius: 50%;
-  transition: var(--transition);
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 0 3px var(--color-accent)) 
-          drop-shadow(0 0 6px var(--color-accent))
-          drop-shadow(0 0 9px var(--color-primary));
-}
-
-.site-header.scrolled .verified-badge {
-  filter: drop-shadow(0 0 4px var(--color-accent)) 
-          drop-shadow(0 0 8px var(--color-accent))
-          drop-shadow(0 0 12px var(--color-primary));
-}
-
-.verified-badge:hover {
-  background: rgba(255,255,255,0.2);
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 4px var(--color-accent)) 
-          drop-shadow(0 0 8px var(--color-accent))
-          drop-shadow(0 0 12px var(--color-primary));
+  box-shadow: var(--shadow);
+  border: none;
+  padding: 0;
+  z-index: 10;
 }
 
 .verified-badge svg {
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-  width: 100%;
-  height: 100%;
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:1rem;
-}
-
-.nav{
-  display:flex;
-  gap:1.5rem;
-  margin-left: auto;
-  margin-right: 0;
-}
-.nav a{
-  color:var(--color-white);
-  text-decoration:none;
-  font-weight:600;
-  padding:.5rem 1rem;
-  border-radius:8px;
-  transition:var(--transition);
-  position: relative;
-  white-space: nowrap;
-  font-family: 'Baloo 2', cursive;
-}
-.nav a:hover{
-  transform: translateY(-2px);
-}
-.nav a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--color-white);
-  transition: var(--transition);
-  transform: translateX(-50%);
-}
-.nav a:hover::after {
-  width: 80%;
-}
-
-/* Tooltip */
-.tooltip {
-  display: none;
-  position: fixed;
-  background: white;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 1rem;
-  z-index: 1000;
-  max-width: 200px;
-  border: 1px solid var(--color-soft);
-  animation: tooltipAppear 0.3s ease;
-}
-
-@keyframes tooltipAppear {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.tooltip-content h4 {
-  margin: 0 0 0.5rem 0;
+  width: 14px;
+  height: 14px;
   color: var(--color-primary);
-  font-size: 0.9rem;
-  font-family: 'Baloo 2', cursive;
-  text-align: center;
 }
 
-.tooltip-content p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--color-text);
-  line-height: 1.4;
-  font-family: 'Baloo 2', cursive;
-  text-align: justify;
+/* Brand name with MEILA font */
+.brand-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Meila', 'Baloo 2', cursive !important;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
 }
 
-/* Hamburger Menu */
+/* Mobile menu */
 .hamburger-menu {
   display: none;
   flex-direction: column;
@@ -306,7 +182,7 @@ body{
 .hamburger-menu span {
   width: 20px;
   height: 2px;
-  background: var(--color-white);
+  background: var(--color-primary);
   transition: var(--transition);
   transform-origin: center;
 }
@@ -323,399 +199,108 @@ body{
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Hero Section - Clean background */
-.hero{
-  padding: 2rem 0 6rem;
-  color:var(--color-white);
-  position:relative;
-  overflow:hidden;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 50%, var(--color-primary) 100%);
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
-  margin-top: -80px;
-  padding-top: 9rem;
+/* ==========================
+   HERO SECTION FIX
+========================== */
+
+.hero {
+  padding-top: 110px;
+  padding-bottom: 70px;
 }
 
-.hero-inner{
-  display:grid;
-  grid-template-columns:1fr 320px;
-  gap:3rem;
-  align-items:center;
-  position:relative;
-  z-index:2;
-  padding: 0 1.25rem; /* SAME AS .container */
+.hero .content-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
 }
-.hero-text h1{
+
+/* text */
+.hero-text h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color:var(--color-primary);
   font-family: 'Meila', 'Baloo 2', cursive;
-  font-size:clamp(2.5rem, 5vw, 3.5rem);
-  margin:0 0 .4rem;
-  line-height:1.2;
-  text-shadow: 
-    0 0 10px var(--color-accent),
-    0 0 20px var(--color-accent),
-    0 0 30px var(--color-primary),
-    0 0 40px var(--color-primary);
-  letter-spacing: 2px;
-  animation: neonGlow 2s ease-in-out infinite alternate;
-}
-.tagline{
-  font-size:1.25rem;
-  opacity:.95;
-  margin:0 0 .5rem;
-  font-weight:300;
-  font-family: 'Baloo 2', cursive;
-}
-.hero-desc{
-  opacity:.9;
-  margin:0 0 2rem;
-  max-width:500px;
-  font-family: 'Baloo 2', cursive;
-}
-.hero-ctas{display:flex;gap:.8rem;flex-wrap:wrap}
-.hero-image{
-  text-align:center;
-  position:relative;
-}
-.hero-image img{
-  width:100%;
-  max-width:280px;
-  filter:drop-shadow(0 18px 40px rgba(6,122,130,0.25));
-  border-radius:18px;
-  transition:var(--transition);
+  text-shadow:
+    0 0 8px rgba(105, 230, 239, 0.7),
+    0 0 18px rgba(105, 230, 239, 0.5),
+    0 0 28px rgba(105, 230, 239, 0.35);
 }
 
-/* Buttons */
-.btn-primary{
-  background:var(--color-primary);
-  color:var(--color-white);
-  padding:.85rem 1.5rem;
-  border-radius:12px;
-  border:none;
-  font-weight:700;
-  cursor:pointer;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  gap:.5rem;
-  transition:var(--transition);
-  font-size:14px;
-  justify-content: center;
-  text-align: center;
-  font-family: 'Baloo 2', cursive;
-}
-.btn-primary:hover{
-  background:var(--color-cta);
-  transform:translateY(-2px);
-  box-shadow:0 8px 25px rgba(6,122,130,0.3);
-}
-.btn-ghost{
-  background:transparent;
-  border:2px solid rgba(255,255,255,0.3);
-  color:var(--color-white);
-  padding:.7rem 1.2rem;
-  border-radius:12px;
-  text-decoration:none;
-  transition:var(--transition);
-  font-size:14px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Baloo 2', cursive;
-}
-.btn-ghost:hover{
-  background:rgba(255,255,255,0.1);
-  border-color:rgba(255,255,255,0.5);
-  transform:translateY(-2px);
+.hero-desc {
+  max-width: 500px;
+  color: var(--color-text);
+  margin-bottom: 25px;
+  font-size: 1.1rem;
 }
 
-/* Social Media Sticky - Moved to left side with text starting from bottom */
-.social-sticky {
-  position: fixed;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 99;
+.tagline {
+  color: var(--color-muted);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.hero-ctas {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.social-toggle {
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 0 25px 25px 0;
-  padding: 1rem 1.2rem;
-  cursor: pointer;
-  transition: var(--transition);
-  writing-mode: vertical-rl;
-  font-weight: 600;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Baloo 2', cursive;
-  position: relative;
-  z-index: 2;
-  height: 120px;
-  /* Text starts from bottom */
-  flex-direction: column-reverse;
+.hero .btn-ghost {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-.social-toggle:hover {
-  background: var(--color-cta);
-  padding-right: 1.4rem;
-}
-
-/* Rotate only the text */
-.social-toggle .follow-text {
-  transform: rotate(180deg);  /* menghadap kanan */
-}
-
-/* Social icons - No space between button and icons */
-.social-icons {
-  display: none;
-  flex-direction: column;
-  gap: 0.5rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--color-soft);
-  position: absolute;
-  left: 100%; /* No gap - directly attached */
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-  margin-left: 0; /* Ensure no gap */
-}
-
-/* FIXED: Telegram icon - FIXED HEIGHT, SAME WIDTH, PROPER SPACING, PROPER LOGO */
-.telegram-icon {
-  position: fixed;
-  left: 0;
-  top: calc(50% + 120px); /* FIXED: Increased spacing from Follow Us button */
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 0 25px 25px 0;
-  padding: 1rem 1.2rem; /* FIXED: Same width as Follow Us */
-  cursor: pointer;
-  transition: var(--transition);
-  writing-mode: vertical-rl;
-  font-weight: 600;
-  font-size: 0.8rem;
-  font-family: 'Baloo 2', cursive;
-  z-index: 99;
-  height: 80px; /* FIXED: Fixed height based on logo */
-  text-decoration: none;
-  /* Text starts from bottom */
-  flex-direction: column-reverse;
-}
-
-.telegram-icon:hover {
-  background: var(--color-cta);
-  padding-right: 1.4rem;
-}
-
-.telegram-logo {
-  width: 20px;
-  height: 20px;
-}
-
-.social-sticky:hover .social-icons {
-  display: flex;
-}
-
-.social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+.hero .btn-ghost:hover {
   background: var(--color-soft);
   color: var(--color-primary);
-  text-decoration: none;
-  transition: var(--transition);
+  border-color: var(--color-primary);
+  text-shadow:
+    0 0 8px rgba(105, 230, 239, 0.7),
+    0 0 18px rgba(105, 230, 239, 0.5),
+    0 0 28px rgba(105, 230, 239, 0.35);
 }
 
-.social-icon:hover {
-  background: var(--color-primary);
-  color: white;
-  transform: scale(1.1);
-}
-
-/* Back to Top Button */
-.back-to-top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--color-primary);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  transition: var(--transition);
-  z-index: 98;
-  display: none; /* Hidden by default, will show on scroll */
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow);
-}
-
-.back-to-top:hover {
-  background: var(--color-cta);
-  transform: translateY(-5px);
-}
-
-/* Mobile Menu */
-.mobile-menu-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 998;
-  backdrop-filter: blur(5px);
-}
-
-.mobile-menu {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 400px;
-  max-height: 80vh;
-  background: white;
-  z-index: 999;
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  border-radius: var(--radius);
-  opacity: 0;
-  visibility: hidden;
-}
-
-.mobile-menu.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.mobile-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--color-soft);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-.mobile-menu-header .logo-circle {
-  width: 50px;
-  height: 50px;
-}
-
-.mobile-menu-header .brand-name span {
-  color: var(--color-white);
-}
-
-.mobile-menu-header .verified-badge {
-  color: var(--color-white);
-}
-
-.close-mobile-menu {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--color-white);
-  padding: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mobile-menu-links {
-  flex: 1;
-  padding: 1.5rem;
-  overflow-y: auto;
-}
-
-.mobile-menu-link {
-  display: block;
-  padding: 1rem 0;
-  text-decoration: none;
-  color: var(--color-text);
-  font-weight: 600;
-  border-bottom: 1px solid var(--color-soft);
-  transition: var(--transition);
-  font-family: 'Baloo 2', cursive;
-}
-
-.mobile-menu-link:hover {
-  color: var(--color-primary);
-}
-
-.mobile-menu-actions {
-  padding: 1.5rem;
-  border-top: 1px solid var(--color-soft);
-}
-
-.mobile-menu-actions .btn-primary {
-  background: var(--color-primary);
-  color: var(--color-white);
-  border: 2px solid var(--color-primary);
+/* image - standard header size */
+.hero-image img {
   width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Baloo 2', cursive;
+  max-width: 500px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
 }
 
-.mobile-menu-actions .btn-primary:hover {
-  background: var(--color-cta);
-  border-color: var(--color-cta);
-}
+/* =========================
+   SECTIONS
+========================= */
 
-.full-width {
-  width: 100%;
-  justify-content: center;
-}
-
-/* Sections */
 .section{
-  padding: 4rem 0;
-  scroll-margin-top: 80px;
+  padding: 60px 0;
+  scroll-margin-top: 60px;
 }
+
 .section.alt{
   background:var(--color-soft);
   border-radius:30px;
   margin:2rem 0;
-  padding: 3rem 0;
+  padding: 70px 0;
 }
+
+.section-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
 .section-title{
   font-family:'Baloo 2',cursive;
   font-size:clamp(1.75rem, 4vw, 2.25rem);
   margin:0 0 .5rem;
   text-align:center;
+  color: var(--color-primary);
 }
+
 .section-sub{
   color:var(--color-muted);
   margin:0 0 2rem;
@@ -724,13 +309,30 @@ body{
   font-family: 'Baloo 2', cursive;
 }
 
-/* Product Slideshow */
+/* =========================
+   PRODUCTS
+========================= */
+
+/* Line atas Best Sellers */
+#products .section-title::before {
+  content: '';
+  display: block;          /* pastikan dia block, jadi line atas tajuk */
+  width: 500px;            /* panjang line */
+  height: 2px;             /* tebal line */
+  background: var(--color-primary);
+  border-radius: 2px;
+  margin: 0 auto 15px;     /* auto untuk center, 15px jarak bawah ke tajuk */
+}
+
+
+
 .product-slideshow{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
   gap:2rem;
   margin-top:2rem;
 }
+
 .card{
   background:var(--color-white);
   border-radius:var(--radius);
@@ -739,6 +341,7 @@ body{
   transition:var(--transition);
   border:1px solid rgba(6,122,130,0.1);
 }
+
 .card:hover{
   transform:translateY(-8px);
   box-shadow:0 20px 40px rgba(6,122,130,0.15);
@@ -841,6 +444,7 @@ body{
   color:var(--color-text);
   font-family: 'Baloo 2', cursive;
 }
+
 .price{
   color:var(--color-cta);
   font-weight:700;
@@ -848,7 +452,7 @@ body{
   font-size:1.1rem;
   font-family: 'Baloo 2', cursive;
 }
-/* FIXED: About description now uses same style as Best Sellers desc */
+
 .desc{
   color:#556b6b;
   font-size:14px;
@@ -856,17 +460,20 @@ body{
   margin:.5rem 0 1rem;
   font-family: 'Baloo 2', cursive;
 }
+
 .card-cta{
   display:flex;
   gap:.6rem;
   margin-top:1rem;
 }
+
 .card-cta .btn-primary,
 .card-cta .btn-ghost{
   flex:1;
   justify-content:center;
   text-align:center;
 }
+
 .card-cta .btn-primary {
   background: var(--color-primary);
   color: var(--color-white);
@@ -874,34 +481,42 @@ body{
   text-decoration: none;
   font-family: 'Baloo 2', cursive;
 }
+
 .card-cta .btn-primary:hover {
   background: var(--color-cta);
   border-color: var(--color-cta);
 }
+
 .card-cta .btn-ghost{
   border-color:var(--color-primary);
   color:var(--color-primary);
   font-family: 'Baloo 2', cursive;
 }
+
 .card-cta .btn-ghost:hover{
   background:var(--color-primary);
   color:white;
 }
 
-/* About Section - SAME STYLE AS BEST SELLERS DESC */
-.about-inner{
+/* =========================
+   ABOUT SECTION
+========================= */
+
+.about-content{
   text-align:center;
   max-width:800px;
   margin: 0 auto;
 }
-/* FIXED: About description now uses same style as Best Sellers */
-.about-inner .desc {
-  color:#556b6b;
-  font-size:1.1rem;
-  line-height:1.5;
-  margin:1rem 0 2rem;
+
+#about .desc {
+  color: var(--color-muted);
+  font-size: 1.1rem;
+  text-align: center;
   font-family: 'Baloo 2', cursive;
+  margin-bottom: 2rem;
+  line-height: 1.4;
 }
+
 .features{
   list-style:none;
   padding:0;
@@ -910,6 +525,7 @@ body{
   gap:1rem;
   margin:2rem 0 0;
 }
+
 .features li{
   background:white;
   padding:1rem;
@@ -922,6 +538,7 @@ body{
   gap: 0.5rem;
   font-family: 'Baloo 2', cursive;
   text-align: center;
+  color: var(--color-text);
 }
 
 .checkmark {
@@ -930,7 +547,10 @@ body{
   font-size: 1.2rem;
 }
 
-/* Reviews Section */
+/* =========================
+   REVIEWS SECTION
+========================= */
+
 .reviews-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -978,7 +598,256 @@ body{
   font-family: 'Baloo 2', cursive;
 }
 
-/* Modal - Fixed to center vertically */
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-primary{
+  background:var(--color-primary);
+  color:var(--color-white);
+  padding:.85rem 1.5rem;
+  border-radius:12px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  transition:var(--transition);
+  font-size:14px;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Baloo 2', cursive;
+}
+
+.btn-primary:hover{
+  background:var(--color-cta);
+  transform:translateY(-2px);
+  box-shadow:0 8px 25px rgba(6,122,130,0.3);
+}
+
+.btn-ghost{
+  background:transparent;
+  border:2px solid var(--color-primary);
+  color:var(--color-primary);
+  padding:.7rem 1.2rem;
+  border-radius:12px;
+  text-decoration:none;
+  transition:var(--transition);
+  font-size:14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Baloo 2', cursive;
+}
+
+.btn-ghost:hover{
+  background:var(--color-primary);
+  color:var(--color-white);
+  transform:translateY(-2px);
+}
+
+/* =========================
+   SOCIAL MEDIA STICKY
+========================= */
+
+.social-sticky {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.social-toggle {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 0 25px 25px 0;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+  writing-mode: vertical-rl;
+  font-weight: 600;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Baloo 2', cursive;
+  position: relative;
+  z-index: 2;
+  height: 120px;
+  flex-direction: column-reverse;
+}
+
+.social-toggle:hover {
+  background: var(--color-cta);
+  padding-right: 1.4rem;
+}
+
+.social-toggle .follow-text {
+  transform: rotate(180deg);
+}
+
+.social-icons {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--color-soft);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  margin-left: 0;
+}
+
+.telegram-icon {
+  position: fixed;
+  left: 0;
+  top: calc(50% + 120px);
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 0 25px 25px 0;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+  writing-mode: vertical-rl;
+  font-weight: 600;
+  font-size: 0.8rem;
+  font-family: 'Baloo 2', cursive;
+  z-index: 99;
+  height: 80px;
+  text-decoration: none;
+  flex-direction: column-reverse;
+}
+
+.telegram-icon:hover {
+  background: var(--color-cta);
+  padding-right: 1.4rem;
+}
+
+.telegram-logo {
+  width: 20px;
+  height: 20px;
+}
+
+.social-sticky:hover .social-icons {
+  display: flex;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-soft);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.social-icon:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer{
+  background:linear-gradient(180deg,#f6ffff,#e9fbfc);
+  padding: 45px 0 30px 0;
+  margin-top: 0;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  text-align: center;
+}
+
+.footer-content{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:1rem;
+  flex-direction: column;
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.footer-brand {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.footer-brand-name {
+  font-family: 'Meila', 'Baloo 2', cursive !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: var(--color-primary) !important;
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.footer-content p {
+  color: var(--color-muted);
+  font-size: 14px;
+  font-family: 'Baloo 2', cursive;
+  margin: 0;
+}
+
+/* =========================
+   BACK TO TOP BUTTON
+========================= */
+
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 98;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+}
+
+.back-to-top:hover {
+  background: var(--color-cta);
+  transform: translateY(-5px);
+}
+
+/* =========================
+   MODAL
+========================= */
+
 .modal{
   display:none;
   position:fixed;
@@ -990,6 +859,7 @@ body{
   background:rgba(0,0,0,0.5);
   backdrop-filter:blur(5px);
 }
+
 .modal-content{
   background:white;
   margin: auto;
@@ -1003,10 +873,12 @@ body{
   transform: translate(-50%, -50%);
   animation:modalAppear 0.3s ease;
 }
+
 @keyframes modalAppear{
   from{opacity:0;transform:translate(-50%, -50%) scale(0.8)}
   to{opacity:1;transform:translate(-50%, -50%) scale(1)}
 }
+
 .close{
   position:absolute;
   right:1rem;
@@ -1015,6 +887,7 @@ body{
   cursor:pointer;
   color:var(--color-muted);
 }
+
 .close:hover{color:var(--color-text)}
 
 .modal-actions {
@@ -1036,187 +909,320 @@ body{
   border-color: var(--color-cta);
 }
 
-/* Footer - Added padding at the top */
-.site-footer{
-  background:linear-gradient(180deg,#f6ffff,#e9fbfc);
-  padding: 3rem 0 2rem 0;
-  margin-top: 0;
-  border-top-left-radius: 40px;
-  border-top-right-radius: 40px;
-  text-align: center;
+/* =========================
+   MOBILE MENU
+========================= */
+
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 998;
+  backdrop-filter: blur(5px);
 }
-.footer-inner{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:1rem;
+
+.mobile-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  background: #E8FDFF;
+  z-index: 999;
+  transition: all 0.3s ease;
+  display: flex;
   flex-direction: column;
-  text-align: center;
-}
-.footer-brand {
-  text-align: center;
-  margin-bottom: 0.5rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  border-radius: var(--radius);
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* FIXED: FOOTER FONT - SEPARATE FROM BRAND NAME FOR BETTER DETECTION */
-.footer-brand-name {
-  font-family: 'Meila', 'Baloo 2', cursive !important;
-  font-size: 2rem !important;
-  font-weight: 800 !important;
-  color: var(--color-primary) !important;
-  line-height: 1;
+.mobile-menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--color-soft);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.mobile-menu-header .logo-circle {
+  width: 50px;
+  height: 50px;
+}
+
+.mobile-menu-header .brand-name span {
+  color: var(--color-white);
+}
+
+.mobile-menu-header .verified-badge {
+  color: var(--color-white);
+}
+
+.close-mobile-menu {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--color-white);
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu-links {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.mobile-menu-link {
   display: block;
-  margin-bottom: 0.5rem;
-  letter-spacing: 1px;
-}
-
-.footer-inner p {
-  color: var(--color-muted);
-  font-size: 14px;
+  padding: 1rem 0;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-soft);
+  transition: var(--transition);
   font-family: 'Baloo 2', cursive;
+}
+
+.mobile-menu-link:hover {
+  color: var(--color-primary);
+}
+
+.mobile-menu-actions {
+  padding: 1.5rem;
+  border-top: 1px solid var(--color-soft);
+}
+
+.mobile-menu-actions .btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Baloo 2', cursive;
+}
+
+.mobile-menu-actions .btn-primary:hover {
+  background: var(--color-cta);
+  border-color: var(--color-cta);
+}
+
+.full-width {
+  width: 100%;
+  justify-content: center;
+}
+
+/* =========================
+   TOOLTIP
+========================= */
+
+.tooltip {
+  display: none;
+  position: fixed;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  z-index: 1000;
+  max-width: 200px;
+  border: 1px solid var(--color-soft);
+  animation: tooltipAppear 0.3s ease;
+}
+
+@keyframes tooltipAppear {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tooltip-content h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  font-family: 'Baloo 2', cursive;
+  text-align: center;
+}
+
+.tooltip-content p {
   margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  line-height: 1.4;
+  font-family: 'Baloo 2', cursive;
+  text-align: justify;
 }
 
-/* Responsive */
-@media (max-width:1024px){
-  .hero-inner{
-    grid-template-columns:1fr;
-    text-align:center;
-    gap:2rem;
-  }
-  .hero-image{
-    order:-1;
-  }
-  .hero-desc{
-    margin:0 auto 2rem;
-  }
-  .social-sticky{
-    left:0;
-  }
-  .product-slideshow{
-    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-    gap:1.5rem;
-  }
-}
-
-/* FIXED: TABLET & DESKTOP - SAME SPACING AS OTHER SECTIONS */
-@media (min-width: 768px) {
-  /* ALL SECTIONS INCLUDING HEADER HAVE SAME SPACING */
-  .container {
-    padding: 0 1.25rem !important; /* SAME SPACING AS MOBILE */
-  }
-  
-  .header-inner {
-    padding: 1rem 1.25rem !important; /* SAME SPACING AS OTHER SECTIONS */
-  }
-  
-  .hero-inner {
-    padding: 0 1.25rem !important; /* SAME SPACING AS OTHER SECTIONS */
-  }
-  
-  /* Ensure navigation is visible */
+@media screen and (max-width: 768px) {
+  /* =========================
+     NAVIGATION / HAMBURGER
+  ========================== */
   .nav {
-    display: flex !important;
+    display: none;
   }
-  
-  /* Hide hamburger menu */
+
   .hamburger-menu {
-    display: none !important;
+    display: flex;
+    background: var(--color-primary); /* tukar warna kotak */
+    border: 1px solid var(--color-cta);
   }
-  
-  /* Maintain social sticky position */
+
+  .hamburger-menu span {
+    background: var(--color-white); /* garis hamburger putih */
+  }
+
+  /* =========================
+     HERO SECTION
+  ========================== */
+  .hero {
+    padding-top: 100px;
+    padding-bottom: 50px;
+  }
+
+  .hero .content-section {
+    flex-direction: column; /* kekalkan column */
+    text-align: center;
+    gap: 20px;
+    padding: 0 15px; /* samakan dengan section-content */
+  }
+
+  /* Hero image atas text & button */
+  .hero-image {
+    order: -1; /* pastikan image atas text & button */
+    width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;       /* penuh parent width */
+    max-width: 100%;   /* jangan hadkan */
+    height: auto;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+
+  /* Hero buttons inline */
+  .hero-ctas {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* =========================
+     TOOLTIP
+  ========================== */
+  .tooltip-parent {
+    position: relative; /* parent tooltip */
+  }
+
+  .tooltip {
+    display: none;
+    position: absolute; /* ikut parent */
+    top: 0;             /* start dari top parent */
+    left: 0;            /* start dari kiri parent */
+    transform: translateY(-100%); /* naik atas parent */
+    z-index: 1000;
+    max-width: calc(100vw - 20px); /* jangan keluar screen */
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1rem;
+    border: 1px solid var(--color-soft);
+    background: white;
+    animation: tooltipAppear 0.3s ease;
+    word-wrap: break-word;
+  }
+
+  /* =========================
+     SECTION / CONTENT PADDING
+  ========================== */
+  .section {
+    padding: 45px 0;
+  }
+
+  .section.alt {
+    padding: 50px 0;
+    margin: 1rem 0;
+    border-radius: 20px;
+  }
+
+  .section-content {
+    padding: 0 15px;
+  }
+
+  /* =========================
+     CARD BUTTONS
+  ========================== */
+  .card-cta {
+    flex-direction: column;
+  }
+
+  /* =========================
+     FEATURES GRID
+  ========================== */
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  /* =========================
+     OTHER MOBILE ADJUSTMENTS
+  ========================== */
   .social-sticky {
     display: flex !important;
-    left: 0;
   }
-  
-  /* Ensure hero layout matches desktop */
-  .hero-inner {
-    display: grid !important;
-    grid-template-columns: 1fr 320px !important;
-    gap: 3rem !important;
-    align-items: center !important;
-    text-align: left !important;
-  }
-  
-  .hero-text {
-    text-align: left !important;
-  }
-  
-  .hero-desc {
-    margin: 0 0 2rem 0 !important;
-  }
-  
-  .hero-ctas {
-    justify-content: flex-start !important;
-  }
-  
-  .hero-image {
-    order: 2 !important;
-    text-align: center !important;
-  }
-  
-  /* Show telegram icon on desktop */
-  .telegram-icon {
-    display: flex !important;
-  }
-}
 
-/* Mobile styles (767px and below) - KEEP SPACING FOR MOBILE ONLY */
-@media (max-width:767px){
-  .header-inner{
-    padding: 1rem 1.25rem; /* KEEP SPACING FOR MOBILE */
-    gap: 1rem;
-  }
-  .nav{
-    display:none;
-  }
-  .hamburger-menu{
-    display:flex;
-  }
-  .hero-ctas{
-    justify-content:center;
-  }
-  .features{
-    grid-template-columns:1fr;
-  }
-  .card-cta{
-    flex-direction:column;
-  }
-  .hero{
-    padding: 2rem 0 4rem;
-    padding-top: 7rem;
-    margin-top: -80px;
-  }
-  .social-sticky{
-    display: flex !important;
-    left:0;
-  }
-  .header-actions .btn-primary{
-    display:none;
-  }
-  .brand-name span{
-    font-size:1.3rem;
-  }
-  .logo-circle{
-    width:50px;
-    height:50px;
-  }
-  .nav {
-    margin-right: 0;
-  }
-  .section {
-    padding: 3rem 0;
-    scroll-margin-top: 70px;
-  }
-  .section.alt {
-    padding: 2rem 0;
-  }
   .slideshow-container {
     height: 250px;
   }
-  
-  /* Fix for mobile social icons - RAPATKAN DENGAN BUTTON (NO SPACE) */
-  .social-icons {
-    display: none;
-    position: absolute;
+
+  .site-footer {
+    padding: 30px 0;
+  }
+
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .mobile-menu-link {
+    font-size: 1.1rem;
+  }
+
+/* Line atas Best Sellers */
+#products .section-title::before {
+  content: '';
+  width: 250px;            /* panjang line */
+
+}
+
+}
