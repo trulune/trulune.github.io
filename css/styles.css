@@ -49,7 +49,7 @@ body{
   background: transparent;
   backdrop-filter: none;
   transition: backdrop-filter 0.3s ease, background 0.3s ease;
-  padding: 10px 0;
+  padding: 30px 0;
 }
 
 /* SCROLL EFFECT */
@@ -276,7 +276,7 @@ body{
 ========================= */
 
 .section{
-  padding: 60px 0;
+  padding: 30px 0;
   scroll-margin-top: 60px;
 }
 
@@ -1076,6 +1076,17 @@ body{
 }
 
 @media screen and (max-width: 768px) {
+
+/* ==========================
+   HEADER FIX
+========================== */
+
+/* HEADER BASE */
+.site-header {
+  padding: 25px 0;
+}
+
+
   /* =========================
      NAVIGATION / HAMBURGER
   ========================== */
@@ -1086,7 +1097,7 @@ body{
   .hamburger-menu {
     display: flex;
     background: var(--color-primary); /* tukar warna kotak */
-    border: 1px solid var(--color-cta);
+    border: 0px solid var(--color-cta);
   }
 
   .hamburger-menu span {
@@ -1098,14 +1109,13 @@ body{
   ========================== */
   .hero {
     padding-top: 100px;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
   }
 
   .hero .content-section {
     flex-direction: column; /* kekalkan column */
     text-align: center;
     gap: 20px;
-    padding: 0 15px; /* samakan dengan section-content */
   }
 
   /* Hero image atas text & button */
@@ -1142,25 +1152,8 @@ body{
   /* =========================
      TOOLTIP
   ========================== */
-  .tooltip-parent {
-    position: relative; /* parent tooltip */
-  }
-
   .tooltip {
-    display: none;
-    position: absolute; /* ikut parent */
-    top: 0;             /* start dari top parent */
-    left: 0;            /* start dari kiri parent */
-    transform: translateY(-100%); /* naik atas parent */
-    z-index: 1000;
-    max-width: calc(100vw - 20px); /* jangan keluar screen */
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 1rem;
-    border: 1px solid var(--color-soft);
-    background: white;
-    animation: tooltipAppear 0.3s ease;
-    word-wrap: break-word;
+    transform: translateX(70px) translateY(10%);
   }
 
   /* =========================
@@ -1216,13 +1209,20 @@ body{
 
   .mobile-menu-link {
     font-size: 1.1rem;
+    color: var(--color-primary);
   }
 
-/* Line atas Best Sellers */
-#products .section-title::before {
-  content: '';
-  width: 250px;            /* panjang line */
+  .mobile-menu-link:hover {
+    color: var(--color-cta); /* ⬅️ Boleh adjust hover color juga kalau nak */
+    text-shadow:
+      0 0 8px rgba(105, 230, 239, 0.7),
+      0 0 18px rgba(105, 230, 239, 0.5),
+      0 0 28px rgba(105, 230, 239, 0.35);
+  }
 
-}
-
+  /* Line atas Best Sellers */
+  #products .section-title::before {
+    content: '';
+    width: 250px;            /* panjang line */
+  }
 }
