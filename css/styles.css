@@ -1058,6 +1058,7 @@ body{
   max-width: 200px;
   border: 1px solid var(--color-soft);
   animation: tooltipAppear 0.3s ease;
+  transform: translateX(70px) translateY(10%);
   /* Kedudukan asal tanpa transform di sini */
 }
 
@@ -1290,5 +1291,6 @@ body{
     display: none;
   }
 }
+
 
 
