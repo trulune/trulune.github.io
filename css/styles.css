@@ -1074,7 +1074,6 @@ body{
     /* Kekalkan transform asal */
     transform: translateX(70px) translateY(10%) scale(1); 
   }
-}
 
 .tooltip-content h4 {
   margin: 0 0 0.5rem 0;
@@ -1092,7 +1091,7 @@ body{
   font-family: 'Baloo 2', cursive;
   text-align: justify;
 }
-
+}
 @media screen and (max-width: 768px) {
   /* ==========================
      HEADER FIX
@@ -1292,3 +1291,4 @@ body{
     display: none;
   }
 }
+
