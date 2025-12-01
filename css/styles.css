@@ -271,6 +271,81 @@ body{
   border-radius: 20px;
 }
 
+/* ==========================
+   HERO SPARKLE EFFECT - THEMED
+========================== */
+
+.hero-image {
+  position: relative; /* Untuk sparkle positioning */
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 1.8rem;
+  opacity: 0;
+  animation: sparkleGlow 2.5s infinite alternate ease-in-out;
+  z-index: 2;
+  pointer-events: none;
+  /* Gunakan warna dari tema */
+  color: var(--color-accent); /* Warna accent (#69E6EF) - sparkle aqua */
+  text-shadow: 
+    0 0 10px rgba(105, 230, 239, 0.7),
+    0 0 20px rgba(105, 230, 239, 0.5),
+    0 0 30px rgba(105, 230, 239, 0.3);
+}
+
+.sparkle-top-left {
+  top: -18px;
+  left: 20px;
+  animation-delay: 0.5s;
+}
+
+.sparkle-bottom-right {
+  bottom: -12px;
+  right: 20px;
+  animation-delay: 1s;
+}
+
+@keyframes sparkleGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.9) rotate(0deg);
+    filter: drop-shadow(0 0 5px rgba(105, 230, 239, 0.5));
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 0 15px rgba(105, 230, 239, 0.8));
+    color: var(--color-primary); /* Tukar ke primary color (#05AFC2) waktu peak */
+  }
+}
+
+/* Alternatif: Gradient sparkle */
+.sparkle.gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Mobile adjustment untuk sparkle */
+@media screen and (max-width: 768px) {
+  .sparkle {
+    font-size: 1.5rem;
+  }
+  
+  .sparkle-top-left {
+    top: -18px;
+    left: 20px;
+  }
+  
+  .sparkle-bottom-right {
+    bottom: -10px;
+    right: 20px;
+  }
+}
+
+
 /* =========================
    SECTIONS
 ========================= */
@@ -1291,6 +1366,3 @@ body{
     display: none;
   }
 }
-
-
-
