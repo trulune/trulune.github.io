@@ -1058,22 +1058,21 @@ body{
   max-width: 200px;
   border: 1px solid var(--color-soft);
   animation: tooltipAppear 0.3s ease;
-  transform: translateX(70px) translateY(10%);
-  /* Pastikan animasi tidak override transform asal */
-  animation-fill-mode: both;
+  /* Kedudukan asal tanpa transform di sini */
 }
 
 @keyframes tooltipAppear {
   from { 
     opacity: 0; 
-    /* Gunakan transform yang sama seperti .tooltip tapi dengan opacity 0 */
-    transform: translateX(70px) translateY(10%) scale(0.9); 
+    /* Start dari kanan sedikit (sesuai dengan kedudukan akhir) */
+    transform: translateX(80px) translateY(10%) scale(0.95); 
   }
   to { 
     opacity: 1; 
-    /* Kekalkan transform asal */
+    /* Kedudukan akhir seperti CSS biasa */
     transform: translateX(70px) translateY(10%) scale(1); 
   }
+} /* ← INI BETUL: CLOSING BRACE UNTUK @KEYFRAMES */
 
 .tooltip-content h4 {
   margin: 0 0 0.5rem 0;
@@ -1091,7 +1090,7 @@ body{
   font-family: 'Baloo 2', cursive;
   text-align: justify;
 }
-}
+
 @media screen and (max-width: 768px) {
   /* ==========================
      HEADER FIX
@@ -1291,4 +1290,5 @@ body{
     display: none;
   }
 }
+
 
