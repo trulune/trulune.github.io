@@ -1074,6 +1074,7 @@ body{
     /* Kekalkan transform asal */
     transform: translateX(70px) translateY(10%) scale(1); 
   }
+}
 
 .tooltip-content h4 {
   margin: 0 0 0.5rem 0;
@@ -1291,4 +1292,3 @@ body{
     display: none;
   }
 }
-
