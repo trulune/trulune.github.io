@@ -1058,12 +1058,22 @@ body{
   max-width: 200px;
   border: 1px solid var(--color-soft);
   animation: tooltipAppear 0.3s ease;
+  transform: translateX(70px) translateY(10%);
+  /* Pastikan animasi tidak override transform asal */
+  animation-fill-mode: both;
 }
 
 @keyframes tooltipAppear {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  from { 
+    opacity: 0; 
+    /* Gunakan transform yang sama seperti .tooltip tapi dengan opacity 0 */
+    transform: translateX(70px) translateY(10%) scale(0.9); 
+  }
+  to { 
+    opacity: 1; 
+    /* Kekalkan transform asal */
+    transform: translateX(70px) translateY(10%) scale(1); 
+  }
 
 .tooltip-content h4 {
   margin: 0 0 0.5rem 0;
@@ -1281,3 +1291,4 @@ body{
     display: none;
   }
 }
+
