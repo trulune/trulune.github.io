@@ -969,18 +969,14 @@ body{
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
-.mobile-menu-header .logo-circle {
-  width: 50px;
-  height: 50px;
-}
-
-.mobile-menu-header .brand-name span {
+.panel-title {
+  font-family: 'Meila', 'Baloo 2', cursive !important;
+  font-size: 1.5rem;
+  font-weight: 800;
   color: var(--color-white);
-}
-
-.mobile-menu-header .verified-badge {
-  color: var(--color-white);
-
+  margin: 0;
+  text-align: center;
+  flex: 1;
 }
 
 .close-mobile-menu {
@@ -1087,16 +1083,12 @@ body{
 }
 
 @media screen and (max-width: 768px) {
-
-/* ==========================
-   HEADER FIX
-========================== */
-
-/* HEADER BASE */
-.site-header {
-  padding: 25px 0;
-}
-
+  /* ==========================
+     HEADER FIX
+  ========================== */
+  .site-header {
+    padding: 25px 0;
+  }
 
   /* =========================
      NAVIGATION / HAMBURGER
@@ -1107,12 +1099,59 @@ body{
 
   .hamburger-menu {
     display: flex;
-    background: var(--color-primary); /* tukar warna kotak */
+    background: var(--color-primary);
     border: 0px solid var(--color-cta);
   }
 
   .hamburger-menu span {
-    background: var(--color-white); /* garis hamburger putih */
+    background: var(--color-white);
+  }
+
+  /* =========================
+     MOBILE MENU FIX
+  ========================== */
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-soft);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius) var(--radius) 0 0;
+    position: relative;
+  }
+  
+  .mobile-menu-header .brand-container {
+    display: none !important;
+  }
+  
+  .panel-title {
+    font-family: 'Meila', 'Baloo 2', cursive !important;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-white);
+    margin: 0;
+    text-align: center;
+    flex: 1;
+    display: block;
+  }
+  
+  .close-mobile-menu {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--color-white);
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   /* =========================
@@ -1124,14 +1163,13 @@ body{
   }
 
   .hero .content-section {
-    flex-direction: column; /* kekalkan column */
+    flex-direction: column;
     text-align: center;
     gap: 20px;
   }
 
-  /* Hero image atas text & button */
   .hero-image {
-    order: -1; /* pastikan image atas text & button */
+    order: -1;
     width: 100%;
   }
 
@@ -1145,14 +1183,13 @@ body{
   }
 
   .hero-image img {
-    width: 100%;       /* penuh parent width */
-    max-width: 100%;   /* jangan hadkan */
+    width: 100%;
+    max-width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 20px;
   }
 
-  /* Hero buttons inline */
   .hero-ctas {
     flex-direction: row;
     flex-wrap: nowrap;
@@ -1224,7 +1261,7 @@ body{
   }
 
   .mobile-menu-link:hover {
-    color: var(--color-cta); /* ⬅️ Boleh adjust hover color juga kalau nak */
+    color: var(--color-cta);
     text-shadow:
       0 0 8px rgba(105, 230, 239, 0.7),
       0 0 18px rgba(105, 230, 239, 0.5),
@@ -1232,13 +1269,15 @@ body{
   }
 
   /* Line atas Best Sellers */
-  #products .section-title::before {
+  #products .section-title::after {
     content: '';
-    width: 250px;            /* panjang line */
+    width: 250px;
   }
+}
 
-/* Line atas Best Sellers */
-#products .section-title::after {
-  content: '';
-  width: 250px;            /* panjang line */
+/* Panel title hidden on desktop */
+@media screen and (min-width: 769px) {
+  .panel-title {
+    display: none;
+  }
 }
