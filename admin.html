@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Trulune Malaysia</title>
+    
+    <!-- Same styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lato', sans-serif;
+        }
+        
+        body {
+            color: #FFFFFF;
+            min-height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(14, 54, 89, 0.7) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(24, 45, 64, 0.7) 0%, transparent 50%),
+                linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .admin-container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(24, 45, 64, 0.4);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .admin-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-header p {
+            color: #d3ced7;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        textarea {
+            width: 100%;
+            background: rgba(12, 29, 47, 0.8);
+            border: 1px solid #0E3659;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #FFFFFF;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 150px;
+            font-family: inherit;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(12, 29, 47, 0.6);
+            border: 1px dashed #0E3659;
+            border-radius: 8px;
+            color: #d3ced7;
+            cursor: pointer;
+        }
+        
+        .post-options {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .option-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .option-group label {
+            display: block;
+            color: #d3ced7;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .option-select, .option-date {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(12, 29, 47, 0.6);
+            border: 1px solid #0E3659;
+            border-radius: 8px;
+            color: #FFFFFF;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #d3ced7;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .back-link:hover {
+            color: #FFFFFF;
+        }
+        
+        .preview-container {
+            margin-top: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            max-height: 200px;
+            display: none;
+        }
+        
+        .preview-img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        /* PIN Modal */
+        .pin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pin-modal.active {
+            display: flex;
+        }
+        
+        .pin-form {
+            background: rgba(24, 45, 64, 0.95);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .pin-input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(12, 29, 47, 0.8);
+            border: 1px solid #0E3659;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 0.5rem;
+            font-family: monospace;
+        }
+        
+        .pin-input:focus {
+            outline: none;
+            border-color: #d3ced7;
+            box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .admin-container {
+                padding: 1.5rem;
+            }
+            
+            .post-options {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .option-group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-lock"></i> Admin Panel</h1>
+            <p>Post updates for Trulune Malaysia</p>
+        </div>
+        
+        <div class="form-group">
+            <textarea id="post-content" placeholder="What's new at Trulune? Share updates here..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <input type="file" id="image-upload" class="file-input" accept="image/*" onchange="previewImage(event)">
+            <small style="color:#d3ced7;display:block;margin-top:0.5rem;">Optional: Upload images (max 5MB)</small>
+            <div id="image-preview" class="preview-container">
+                <img id="preview-img" class="preview-img">
+            </div>
+        </div>
+        
+        <div class="post-options">
+            <div class="option-group">
+                <label for="post-status">Post Status</label>
+                <select id="post-status" class="option-select">
+                    <option value="published">Publish Now</option>
+                    <option value="draft">Save as Draft</option>
+                </select>
+            </div>
+            
+            <div class="option-group">
+                <label for="schedule-date">Schedule for Later (Optional)</label>
+                <input type="datetime-local" id="schedule-date" class="option-date">
+            </div>
+        </div>
+        
+        <button class="btn" onclick="showPinModal()">
+            <i class="fas fa-paper-plane"></i> Publish Update
+        </button>
+        
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Homepage
+        </a>
+    </div>
+    
+    <!-- PIN Modal -->
+    <div class="pin-modal" id="pinModal">
+        <div class="pin-form">
+            <h3 style="color: #FFFFFF; margin-bottom: 1rem;">Admin PIN Required</h3>
+            <p style="color: #d3ced7; margin-bottom: 1rem;">Enter PIN to post update:</p>
+            <input type="password" class="pin-input" id="pinInput" maxlength="4" placeholder="****">
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button class="btn" onclick="submitPin()">Submit</button>
+                <button class="btn" style="background: rgba(12, 29, 47, 0.8);" onclick="closePinModal()">Cancel</button>
+            </div>
+            <p id="pinError" style="color: #ff6b6b; margin-top: 1rem; display: none;">Incorrect PIN. Try again.</p>
+        </div>
+    </div>
+
+    <script>
+        // === FIREBASE CONFIG ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
+            authDomain: "post-58eb6.firebaseapp.com",
+            projectId: "post-58eb6",
+            storageBucket: "post-58eb6.firebasestorage.app",
+            messagingSenderId: "448356917822",
+            appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // === ADMIN PIN ===
+        const ADMIN_PIN = "1234"; // Tukar dengan PIN awak sendiri
+        let pendingPost = {
+            content: '',
+            imageFile: null,
+            status: 'published',
+            scheduleDate: null
+        };
+
+        // === IMAGE PREVIEW ===
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('image-preview');
+            const previewImg = document.getElementById('preview-img');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        // === SHOW PIN MODAL ===
+        function showPinModal() {
+            const content = document.getElementById('post-content').value.trim();
+            const imageFile = document.getElementById('image-upload').files[0];
+            const status = document.getElementById('post-status').value;
+            const scheduleDate = document.getElementById('schedule-date').value;
+            
+            if (!content) {
+                alert('Please enter some content for your post.');
+                return;
+            }
+            
+            // Check file size (max 5MB)
+            if (imageFile && imageFile.size > 5 * 1024 * 1024) {
+                alert('Image size should be less than 5MB.');
+                return;
+            }
+            
+            // Save pending post data
+            pendingPost = { 
+                content, 
+                imageFile, 
+                status,
+                scheduleDate: scheduleDate ? new Date(scheduleDate) : null
+            };
+            
+            // Show modal
+            document.getElementById('pinModal').classList.add('active');
+            document.getElementById('pinInput').value = '';
+            document.getElementById('pinInput').focus();
+            document.getElementById('pinError').style.display = 'none';
+        }
+
+        function closePinModal() {
+            document.getElementById('pinModal').classList.remove('active');
+        }
+
+        // === SUBMIT PIN ===
+        function submitPin() {
+            const enteredPin = document.getElementById('pinInput').value;
+            const pinError = document.getElementById('pinError');
+            
+            if (enteredPin === ADMIN_PIN) {
+                closePinModal();
+                createPost();
+            } else {
+                pinError.style.display = 'block';
+                pinError.textContent = 'Incorrect PIN. Try again.';
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinInput').focus();
+            }
+        }
+
+        // === CREATE POST ===
+        async function createPost() {
+            try {
+                let mediaArray = [];
+                
+                // Upload image jika ada
+                if (pendingPost.imageFile) {
+                    const storageRef = storage.ref(`posts/${Date.now()}_${pendingPost.imageFile.name}`);
+                    await storageRef.put(pendingPost.imageFile);
+                    const imageUrl = await storageRef.getDownloadURL();
+                    
+                    mediaArray.push({
+                        url: imageUrl,
+                        type: 'image'
+                    });
+                }
+                
+                // Determine publish date
+                let publishDate;
+                if (pendingPost.scheduleDate && pendingPost.status === 'published') {
+                    publishDate = pendingPost.scheduleDate;
+                } else {
+                    publishDate = firebase.firestore.FieldValue.serverTimestamp();
+                }
+                
+                // Prepare post data sesuai dengan database structure
+                const postData = {
+                    content: pendingPost.content,
+                    media: mediaArray.length > 0 ? mediaArray : [],
+                    status: pendingPost.status,
+                    likes: 0,
+                    deleted: false,
+                    archived: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    publishAt: publishDate
+                };
+                
+                // Save to Firestore
+                await db.collection('posts').add(postData);
+                
+                // Clear form
+                document.getElementById('post-content').value = '';
+                document.getElementById('image-upload').value = '';
+                document.getElementById('post-status').value = 'published';
+                document.getElementById('schedule-date').value = '';
+                document.getElementById('image-preview').style.display = 'none';
+                
+                // Reset pending post
+                pendingPost = { 
+                    content: '', 
+                    imageFile: null, 
+                    status: 'published',
+                    scheduleDate: null 
+                };
+                
+                // Success message
+                alert('Post created successfully!');
+                
+            } catch (error) {
+                console.error("Error creating post:", error);
+                alert('Error posting. Please try again.\nError: ' + error.message);
+            }
+        }
+
+        // === INITIALIZE ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default date/time to now
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('schedule-date').min = `${year}-${month}-${day}T${hours}:${minutes}`;
+            
+            // PIN input hanya nombor
+            document.getElementById('pinInput').addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            // Submit PIN dengan Enter
+            document.getElementById('pinInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') submitPin();
+            });
+            
+            // Close modal dengan Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closePinModal();
+            });
+        });
+    </script>
+</body>
+</html>
