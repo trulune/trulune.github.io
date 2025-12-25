@@ -13,9 +13,9 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
+    
     <style>
+        /* PASTE SEMUA CSS YANG SAMA SEPERTI AWAK ADA */
         * {
             margin: 0;
             padding: 0;
@@ -490,19 +490,7 @@
             line-height: 1.6;
             margin-bottom: 0.5rem;
             color: #FFFFFF;
-        }
-        
-        .post-media {
-            margin-top: 1rem;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .post-img {
-            width: 100%;
-            border-radius: 10px;
-            max-height: 400px;
-            object-fit: cover;
+            white-space: pre-wrap; /* Untuk maintain line breaks */
         }
         
         /* Page switching */
@@ -609,10 +597,6 @@
                 height: 45px;
                 font-size: 1.3rem;
             }
-            
-            .post-img {
-                max-height: 300px;
-            }
         }
         
         @media (max-width: 576px) {
@@ -676,10 +660,6 @@
                 width: 100px;
                 height: 100px;
                 font-size: 2rem;
-            }
-            
-            .post-img {
-                max-height: 250px;
             }
         }
     </style>
@@ -803,17 +783,63 @@
     </footer>
 
     <script>
-        // === LOAD POSTS DARI FIREBASE ===
+        // === FIREBASE CONFIG ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
+            authDomain: "post-58eb6.firebaseapp.com",
+            projectId: "post-58eb6",
+            storageBucket: "post-58eb6.firebasestorage.app",
+            messagingSenderId: "448356917822",
+            appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
+        };
+
+        // === INITIALIZE FIREBASE ===
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // === FUNGSI ASAS ===
+        function switchPage(page) {
+            // Hide semua pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show page yang dipilih
+            document.getElementById(`${page}-page`).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.querySelector(`.nav-${page}`).classList.add('active');
+            
+            // Load posts kalau ke Profile page
+            if (page === 'profile') {
+                loadPosts();
+            }
+            
+            // Scroll ke atas
+            window.scrollTo(0, 0);
+            closeMobileMenu();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('navLinks').classList.remove('active');
+        }
+
+        // === LOAD POSTS DARI FIREBASE (SIMPLE VERSION) ===
         async function loadPosts() {
             const postsContainer = document.getElementById('posts-container');
             postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">Loading posts...</p>';
             
             try {
-                // Dapatkan posts yang published sahaja
+                // SIMPLE QUERY - Dapatkan SEMUA posts, order by date
                 const querySnapshot = await db.collection('posts')
-                    .where('status', '==', 'published')
-                    .where('deleted', '==', false)
-                    .where('archived', '==', false)
                     .orderBy('createdAt', 'desc')
                     .get();
                 
@@ -833,37 +859,15 @@
                     postElement.className = 'post';
                     
                     // Format tarikh
-                    const postDate = post.createdAt ? post.createdAt.toDate() : new Date();
-                    const timeAgo = formatTimeAgo(postDate);
-                    
-                    // Parse media jika ada
-                    let mediaHTML = '';
+                    let timeAgo = "Recently";
                     try {
-                        if (post.media && Array.isArray(post.media)) {
-                            // Jika media adalah array of objects
-                            post.media.forEach(mediaItem => {
-                                if (mediaItem.type === 'image') {
-                                    mediaHTML += `<img src="${mediaItem.url}" class="post-img" alt="Post image">`;
-                                }
-                            });
-                        } else if (post.imageUrl) {
-                            // Untuk backward compatibility (post lama)
-                            mediaHTML = `<img src="${post.imageUrl}" class="post-img" alt="Post image">`;
+                        if (post.createdAt) {
+                            const postDate = post.createdAt.toDate();
+                            timeAgo = formatTimeAgo(postDate);
                         }
                     } catch (e) {
-                        console.log("Error parsing media:", e);
+                        console.log("Error formatting date:", e);
                     }
-                    
-                    // Like button
-                    const likeCount = post.likes || 0;
-                    const liked = localStorage.getItem(`liked-${doc.id}`) ? 'liked' : '';
-                    const likeButton = `
-                        <div class="post-actions" style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem;">
-                            <button onclick="toggleLike('${doc.id}')" style="background:none; border:none; color:${liked ? '#ff5a5f' : '#d3ced7'}; cursor:pointer; display:flex; align-items:center; gap:5px;">
-                                <i class="fas fa-heart"></i> <span id="like-count-${doc.id}">${likeCount}</span>
-                            </button>
-                        </div>
-                    `;
                     
                     postElement.innerHTML = `
                         <div class="post-header">
@@ -878,17 +882,15 @@
                             </div>
                         </div>
                         <div class="post-content">
-                            ${post.content}
+                            ${post.content || ''}
                         </div>
-                        ${mediaHTML ? `<div class="post-media">${mediaHTML}</div>` : ''}
-                        ${likeButton}
                     `;
                     
                     postsContainer.appendChild(postElement);
                 });
             } catch (error) {
                 console.error("Error loading posts:", error);
-                postsContainer.innerHTML = '<p style="text-align:center;color:#ff6b6b;">Error loading updates.</p>';
+                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">No updates yet.</p>';
             }
         }
 
@@ -916,69 +918,12 @@
             });
         }
 
-        // === LIKE FUNCTION ===
-        async function toggleLike(postId) {
-            const likedKey = `liked-${postId}`;
-            const countEl = document.getElementById(`like-count-${postId}`);
-            const button = document.querySelector(`[onclick="toggleLike('${postId}')"]`);
-            
-            if (localStorage.getItem(likedKey)) {
-                // Already liked
-                return;
-            }
-            
-            // Update UI immediately
-            const currentCount = parseInt(countEl.textContent) || 0;
-            countEl.textContent = currentCount + 1;
-            button.style.color = '#ff5a5f';
-            localStorage.setItem(likedKey, 'true');
-            
-            try {
-                // Update in Firebase
-                await db.collection('posts').doc(postId).update({
-                    likes: firebase.firestore.FieldValue.increment(1)
-                });
-            } catch (error) {
-                console.error("Error updating like:", error);
-            }
-        }
-
-        // === SWITCH PAGE ===
-        function switchPage(page) {
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-            });
-            
-            document.getElementById(`${page}-page`).classList.add('active');
-            
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            document.querySelector(`.nav-${page}`).classList.add('active');
-            
-            if (page === 'profile') {
-                loadPosts();
-            }
-            
-            window.scrollTo(0, 0);
-            closeMobileMenu();
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
-        }
-
-        function closeMobileMenu() {
-            document.getElementById('navLinks').classList.remove('active');
-        }
-
         // === INITIALIZE PAGE ===
         document.addEventListener('DOMContentLoaded', function() {
             // Set tahun dalam copyright
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Load posts jika dalam page profile
+            // Load posts pertama kali jika dalam profile page
             if (document.getElementById('profile-page').classList.contains('active')) {
                 loadPosts();
             }
