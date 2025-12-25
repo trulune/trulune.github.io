@@ -6,18 +6,19 @@
     <title>Admin Panel - Trulune Malaysia</title>
     <link rel="icon" type="image/png" href="images/Logo.png">
     
-    <!-- Firebase SDK v8 -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     
-    <!-- Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
@@ -32,20 +33,15 @@
                 radial-gradient(circle at 20% 80%, rgba(14, 54, 89, 0.7) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(24, 45, 64, 0.7) 0%, transparent 50%),
                 linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-            padding: 1rem;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* LOGIN PAGE STYLES */
-        .login-container {
+        /* LOGIN PAGE - Works on ALL screens */
+        #loginPage {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 80vh;
+            min-height: 100vh;
+            padding: 1rem;
         }
         
         .login-box {
@@ -56,7 +52,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             width: 100%;
             max-width: 400px;
-            backdrop-filter: blur(10px);
         }
         
         .login-header {
@@ -128,6 +123,14 @@
             background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
         }
         
+        .btn-success {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+        }
+        
         .error-message {
             color: #ff6b6b;
             margin-top: 0.5rem;
@@ -136,103 +139,192 @@
             min-height: 20px;
         }
         
-        /* ADMIN PANEL STYLES (Hidden until login) */
-        .admin-panel {
+        /* ADMIN PANEL - Hidden until login */
+        #adminPanel {
             display: none;
+            min-height: 100vh;
         }
         
-        /* Header */
-        .header {
+        /* DESKTOP LAYOUT */
+        .desktop-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Desktop Sidebar */
+        .desktop-sidebar {
+            width: 250px;
+            background: rgba(12, 29, 47, 0.95);
+            border-right: 1px solid rgba(14, 54, 89, 0.5);
+            padding: 1.5rem 1rem;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .desktop-sidebar .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             margin-bottom: 2rem;
-        }
-        
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
             border-bottom: 1px solid rgba(14, 54, 89, 0.3);
-            padding-bottom: 0.5rem;
-            flex-wrap: wrap;
         }
         
-        .tab {
-            background: rgba(24, 45, 64, 0.4);
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            color: #d3ced7;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .desktop-sidebar .logo i {
+            font-size: 1.5rem;
+            color: #4dabf7;
         }
         
-        .tab:hover {
-            background: rgba(24, 45, 64, 0.6);
+        .desktop-sidebar .logo h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
         }
         
-        .tab.active {
-            background: rgba(14, 54, 89, 0.6);
-            color: #FFFFFF;
-            border-bottom-color: transparent;
-        }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* User Info */
-        .user-info {
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            margin-bottom: 1.5rem;
+        .desktop-nav {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
+            flex: 1;
         }
         
-        @media (min-width: 768px) {
-            .user-info {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .desktop-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 1rem;
+            color: #d3ced7;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .desktop-nav-item i {
+            font-size: 1.1rem;
+            width: 24px;
+        }
+        
+        .desktop-nav-item:hover {
+            background: rgba(14, 54, 89, 0.3);
+            color: #FFFFFF;
+        }
+        
+        .desktop-nav-item.active {
+            background: rgba(14, 54, 89, 0.6);
+            color: #FFFFFF;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
+        /* Desktop Main Content */
+        .desktop-main {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .desktop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
+        .desktop-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .user-info-desktop {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         
         .user-email {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            color: #d3ced7;
         }
         
-        .user-email i {
-            color: #4dabf7;
+        /* Mobile Header (Hidden on Desktop) - FIXED: Center aligned */
+        .mobile-header {
+            background: rgba(12, 29, 47, 0.95);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(14, 54, 89, 0.5);
+            display: block;
+            text-align: center; /* Center the title */
+        }
+        
+        .mobile-header h1 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center horizontally */
+            gap: 0.5rem;
+        }
+        
+        /* Bottom Navigation - Mobile only - FIXED: Removed logout on desktop */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(12, 29, 47, 0.95);
+            padding: 0.8rem 1rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.5);
+            display: flex;
+            justify-content: space-around;
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #d3ced7;
+            text-decoration: none;
+            font-size: 0.75rem;
+            gap: 0.3rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            min-width: 70px;
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+        
+        .nav-item.active {
+            color: #FFFFFF;
+            background: rgba(14, 54, 89, 0.6);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 1rem;
+            padding-bottom: 80px; /* Space for bottom nav on mobile */
+        }
+        
+        /* User Info Mobile */
+        .user-info-mobile {
+            background: rgba(24, 45, 64, 0.4);
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         
         .action-buttons {
@@ -241,19 +333,24 @@
             gap: 0.8rem;
         }
         
-        @media (min-width: 768px) {
-            .action-buttons {
-                flex-direction: row;
-            }
+        /* Tabs Content */
+        .tab-content {
+            display: none;
         }
         
-        /* Create Post Tab */
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Create Post - FIXED: Schedule options for mobile */
         .create-post-container {
             background: rgba(24, 45, 64, 0.4);
             border-radius: 12px;
             padding: 1.5rem;
             border: 1px solid rgba(14, 54, 89, 0.3);
             margin-bottom: 1.5rem;
+            max-width: 100%;
+            overflow: hidden; /* Prevent overflow */
         }
         
         .form-group {
@@ -269,14 +366,52 @@
             color: #FFFFFF;
             font-size: 1rem;
             resize: vertical;
-            min-height: 150px;
+            min-height: 120px;
             font-family: inherit;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         
         textarea:focus {
             outline: none;
             border-color: #d3ced7;
             box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
+        }
+        
+        /* FIXED: Schedule options for mobile */
+        select, input[type="datetime-local"] {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(12, 29, 47, 0.8);
+            border: 1px solid #0E3659;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-size: 1rem;
+            font-family: inherit;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        select:focus, input[type="datetime-local"]:focus {
+            outline: none;
+            border-color: #d3ced7;
+        }
+        
+        /* Fix for datetime-local on mobile */
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.7;
+        }
+        
+        /* Schedule options container - FIXED for mobile */
+        #scheduleOptions {
+            margin-bottom: 1.5rem;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        #scheduleOptions input[type="datetime-local"] {
+            width: 100%;
         }
         
         /* Posts List */
@@ -288,13 +423,14 @@
         .post-card {
             background: rgba(24, 45, 64, 0.4);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 1.2rem;
             border: 1px solid rgba(14, 54, 89, 0.3);
             transition: transform 0.3s;
         }
         
         .post-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .post-header {
@@ -304,7 +440,7 @@
         }
         
         .post-meta {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #d3ced7;
             margin-bottom: 0.5rem;
             display: flex;
@@ -315,16 +451,20 @@
         .post-content {
             line-height: 1.6;
             margin-bottom: 1.5rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
         
-        /* Post Footer - Like and Delete inline */
+        /* Post Footer - Inline on ALL screens */
         .post-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-top: 1rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         
         .post-likes {
@@ -359,6 +499,26 @@
             transform: translateY(-2px);
         }
         
+        .publish-btn {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            min-width: 100px;
+        }
+        
+        .publish-btn:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            transform: translateY(-2px);
+        }
+        
         /* Loading States */
         .loading {
             text-align: center;
@@ -374,20 +534,6 @@
             border-radius: 12px;
             border: 1px solid rgba(14, 54, 89, 0.3);
             margin-top: 1rem;
-        }
-        
-        /* Back Link */
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 2rem;
-            color: #d3ced7;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .back-link:hover {
-            color: #FFFFFF;
         }
         
         /* Modal */
@@ -416,6 +562,7 @@
             max-width: 500px;
             width: 100%;
             border: 1px solid rgba(14, 54, 89, 0.3);
+            box-sizing: border-box;
         }
         
         .modal h3 {
@@ -445,97 +592,357 @@
         .modal-buttons {
             display: flex;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         
-        /* Tablet and Desktop */
+        /* Message Toast - ADDED: For notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: rgba(46, 125, 50, 0.95);
+            color: white;
+            border-radius: 8px;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toast.error {
+            background: rgba(211, 47, 47, 0.95);
+        }
+        
+        .toast.warning {
+            background: rgba(245, 124, 0, 0.95);
+        }
+        
+        .toast.info {
+            background: rgba(30, 136, 229, 0.95);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        /* RESPONSIVE DESIGN */
+        
+        /* Mobile (default) - Show mobile layout */
+        .desktop-container {
+            display: block;
+        }
+        
+        .desktop-sidebar {
+            display: none;
+        }
+        
+        .desktop-main {
+            padding: 0;
+        }
+        
+        .desktop-header {
+            display: none;
+        }
+        
+        .user-info-desktop {
+            display: none;
+        }
+        
+        .mobile-header {
+            display: block;
+        }
+        
+        .bottom-nav {
+            display: flex;
+        }
+        
+        .user-info-mobile {
+            display: flex;
+        }
+        
+        .posts-container {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Tablet (768px and up) */
         @media (min-width: 768px) {
-            body {
-                padding: 2rem;
+            .mobile-header {
+                display: none;
+            }
+            
+            .bottom-nav {
+                display: none;
+            }
+            
+            .user-info-mobile {
+                display: none;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+                padding-bottom: 1.5rem;
             }
             
             .posts-container {
-                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
+            }
+            
+            .post-card {
+                padding: 1.5rem;
+            }
+            
+            .btn {
+                width: auto;
+                min-width: 140px;
+            }
+            
+            /* Fix for schedule options on tablet */
+            #scheduleOptions input[type="datetime-local"] {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        /* Desktop (1024px and up) - Show desktop layout */
+        @media (min-width: 1024px) {
+            .desktop-container {
+                display: flex;
+            }
+            
+            .desktop-sidebar {
+                display: flex;
+            }
+            
+            .desktop-main {
+                padding: 1.5rem;
+            }
+            
+            .desktop-header {
+                display: flex;
+            }
+            
+            .user-info-desktop {
+                display: flex;
+            }
+            
+            .mobile-header {
+                display: none;
+            }
+            
+            .bottom-nav {
+                display: none;
+            }
+            
+            .user-info-mobile {
+                display: none;
+            }
+            
+            .main-content {
+                padding: 0;
+                padding-bottom: 0;
+            }
+            
+            .posts-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .create-post-container {
+                max-width: 800px;
+                margin: 0 auto 2rem auto;
+            }
+            
+            /* Remove logout button from bottom nav on desktop */
+            .bottom-nav .nav-item[onclick*="logout"] {
+                display: none;
+            }
+        }
+        
+        /* Large Desktop (1200px and up) */
+        @media (min-width: 1200px) {
+            .posts-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .desktop-sidebar {
+                width: 280px;
+            }
+        }
+        
+        /* Extra Large Desktop (1600px and up) */
+        @media (min-width: 1600px) {
+            .posts-container {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <!-- LOGIN PAGE (Visible by default) -->
-    <div class="container" id="loginPage">
-        <div class="login-container">
-            <div class="login-box">
-                <div class="login-header">
-                    <h1><i class="fas fa-lock"></i> Admin Login</h1>
-                    <p>Enter your credentials to access the admin panel</p>
-                </div>
-                
-                <input type="email" class="login-input" id="loginEmail" placeholder="Email Address">
-                <input type="password" class="login-input" id="loginPassword" placeholder="Password">
-                
-                <button class="btn" onclick="login()">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-                
-                <div class="error-message" id="loginError"></div>
-                
-                <a href="newhome.html" class="back-link" style="margin-top: 1.5rem;">
-                    <i class="fas fa-arrow-left"></i> Back to Homepage
-                </a>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <h1><i class="fas fa-lock"></i> Admin Login</h1>
+                <p>Manage Trulune Malaysia posts</p>
             </div>
-        </div>
-    </div>
-    
-    <!-- ADMIN PANEL (Hidden until login) -->
-    <div class="container" id="adminPanel" style="display: none;">
-        <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-cogs"></i> Admin Panel</h1>
             
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('create')">
-                    <i class="fas fa-plus"></i> Create Post
-                </div>
-                <div class="tab" onclick="switchTab('manage')">
-                    <i class="fas fa-list"></i> Manage Posts
-                </div>
-            </div>
+            <input type="email" class="login-input" id="loginEmail" placeholder="Email Address">
+            <input type="password" class="login-input" id="loginPassword" placeholder="Password">
+            
+            <button class="btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            
+            <div class="error-message" id="loginError"></div>
+            
+            <a href="newhome.html" class="btn" style="margin-top: 1rem; background: rgba(12, 29, 47, 0.8);">
+                <i class="fas fa-arrow-left"></i> Back to Homepage
+            </a>
         </div>
-        
-        <!-- User Info -->
-        <div class="user-info" id="userInfo">
-            <!-- User info will be inserted here -->
-        </div>
-        
-        <!-- Create Post Tab -->
-        <div id="createTab" class="tab-content active">
-            <div class="create-post-container">
-                <div class="form-group">
-                    <textarea id="post-content" placeholder="What's new at Trulune? Share updates here..."></textarea>
-                </div>
-                <button class="btn" onclick="createPost()">
-                    <i class="fas fa-paper-plane"></i> Post Update
-                </button>
-            </div>
-        </div>
-        
-        <!-- Manage Posts Tab -->
-        <div id="manageTab" class="tab-content">
-            <div id="postsList">
-                <!-- Posts will be loaded here -->
-                <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i> Loading posts...
-                </div>
-            </div>
-        </div>
-        
-        <!-- Back to Home -->
-        <a href="newhome.html" class="back-link">
-            <i class="fas fa-arrow-left"></i> Back to Homepage
-        </a>
     </div>
     
-    <!-- Delete Confirmation Modal -->
+    <!-- ADMIN PANEL -->
+    <div id="adminPanel">
+        <!-- Desktop Layout Container -->
+        <div class="desktop-container">
+            <!-- Desktop Sidebar (Hidden on Mobile) -->
+            <div class="desktop-sidebar">
+                <div class="logo">
+                    <i class="fas fa-cogs"></i>
+                    <h1>Admin Panel</h1>
+                </div>
+                
+                <div class="desktop-nav">
+                    <a href="#" class="desktop-nav-item active" onclick="switchTab('create')">
+                        <i class="fas fa-plus"></i>
+                        <span>Create Post</span>
+                    </a>
+                    <a href="#" class="desktop-nav-item" onclick="switchTab('manage')">
+                        <i class="fas fa-list"></i>
+                        <span>Manage Posts</span>
+                    </a>
+                    <a href="#" class="desktop-nav-item" onclick="switchTab('schedule')">
+                        <i class="fas fa-clock"></i>
+                        <span>Scheduled Posts</span>
+                    </a>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <div class="user-info-desktop" id="userInfoDesktop">
+                        <!-- User info will be inserted here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desktop Main Content -->
+            <div class="desktop-main">
+                <!-- Desktop Header -->
+                <div class="desktop-header">
+                    <h2 id="desktopTitle">Create Post</h2>
+                    <div class="user-info-desktop" id="userInfoDesktopHeader">
+                        <!-- User info will be inserted here -->
+                    </div>
+                </div>
+                
+                <!-- Mobile Header (Hidden on Desktop) - FIXED: Centered -->
+                <div class="mobile-header">
+                    <h1><i class="fas fa-cogs"></i> Admin Panel</h1>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- User Info Mobile -->
+                    <div class="user-info-mobile" id="userInfoMobile">
+                        <!-- User info will be inserted here -->
+                    </div>
+                    
+                    <!-- Create Post Tab -->
+                    <div id="createTab" class="tab-content active">
+                        <div class="create-post-container">
+                            <div class="form-group">
+                                <textarea id="post-content" placeholder="What's new at Trulune? Share updates here..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label style="color: #d3ced7; display: block; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-clock"></i> Schedule Options
+                                </label>
+                                <select id="post-schedule" onchange="toggleScheduleOptions()">
+                                    <option value="now">Post Now</option>
+                                    <option value="schedule">Schedule for Later</option>
+                                </select>
+                            </div>
+                            
+                            <div id="scheduleOptions" style="display: none; margin-bottom: 1.5rem;">
+                                <input type="datetime-local" id="schedule-time">
+                            </div>
+                            
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <button class="btn btn-success" onclick="createPost()">
+                                    <i class="fas fa-paper-plane"></i> Publish
+                                </button>
+                                <button class="btn" onclick="clearForm()">
+                                    <i class="fas fa-times"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manage Posts Tab -->
+                    <div id="manageTab" class="tab-content">
+                        <div class="posts-container" id="postsList">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Loading posts...
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schedule Tab -->
+                    <div id="scheduleTab" class="tab-content">
+                        <div class="posts-container" id="scheduledPosts">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i> Loading scheduled posts...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation (Mobile Only) - FIXED: 3 items on desktop -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="switchTab('create')">
+                <i class="fas fa-plus"></i>
+                <span>Create</span>
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('manage')">
+                <i class="fas fa-list"></i>
+                <span>Manage</span>
+            </a>
+            <a href="#" class="nav-item" onclick="switchTab('schedule')">
+                <i class="fas fa-clock"></i>
+                <span>Schedule</span>
+            </a>
+            <!-- Logout button - will be hidden on desktop -->
+            <a href="#" class="nav-item" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Delete Modal -->
     <div class="modal" id="deleteModal">
         <div class="modal-content">
             <h3><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
@@ -547,6 +954,19 @@
             </div>
         </div>
     </div>
+    
+    <!-- Cancel Schedule Modal -->
+    <div class="modal" id="cancelScheduleModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-calendar-times"></i> Cancel Schedule</h3>
+            <p>Are you sure you want to cancel this scheduled post?</p>
+            <div id="cancelSchedulePreview" class="modal-preview"></div>
+            <div class="modal-buttons">
+                <button id="confirmCancelBtn" class="btn btn-danger">Cancel Schedule</button>
+                <button class="btn" onclick="closeCancelModal()">Keep Scheduled</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // === FIREBASE CONFIG ===
@@ -554,80 +974,100 @@
             apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
             authDomain: "post-58eb6.firebaseapp.com",
             projectId: "post-58eb6",
-            storageBucket: "post-58eb6.firebasestorage.app",
+            storageBucket: "post-58eb6.appspot.com",
             messagingSenderId: "448356917822",
             appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
         };
 
-        // Initialize Firebase
+        // Firebase instances
         let db = null;
         let auth = null;
         let postsListener = null;
+        let scheduledListener = null;
         let currentPostToDelete = null;
+        let currentScheduleToCancel = null;
 
+        // Initialize Firebase
         if (typeof firebase !== 'undefined') {
             try {
                 firebase.initializeApp(firebaseConfig);
                 db = firebase.firestore();
                 auth = firebase.auth();
-                console.log("Admin Panel: Firebase initialized!");
                 
-                // Monitor auth state - Check if user is already logged in
                 auth.onAuthStateChanged(handleAuthStateChange);
             } catch (error) {
-                console.error("Admin Panel: Firebase init error:", error);
-                showMessage('❌ Firebase initialization failed. Please refresh.', 'error');
+                console.error("Firebase init error:", error);
+                showNotification('Firebase initialization failed', 'error');
             }
         }
 
-        // === AUTH STATE HANDLER ===
+        // === AUTH HANDLER ===
         function handleAuthStateChange(user) {
             const loginPage = document.getElementById('loginPage');
             const adminPanel = document.getElementById('adminPanel');
-            const userInfo = document.getElementById('userInfo');
             
             if (user) {
-                // User is logged in - Show admin panel
                 loginPage.style.display = 'none';
                 adminPanel.style.display = 'block';
                 
-                // Update user info
-                userInfo.innerHTML = `
-                    <div class="user-email">
-                        <i class="fas fa-user"></i> ${user.email}
-                    </div>
-                    <div class="action-buttons">
-                        <button onclick="logout()" class="btn btn-danger">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
-                    </div>
-                `;
+                // Update user info in all places
+                updateUserInfo(user.email);
                 
-                // Load posts if on manage tab
-                if (document.getElementById('manageTab').classList.contains('active')) {
-                    loadPosts();
-                }
+                // Load initial content
+                loadPosts();
+                loadScheduledPosts();
                 
-                // Focus on post content textarea
-                setTimeout(() => {
-                    document.getElementById('post-content').focus();
-                }, 100);
+                // Show login success notification
+                showNotification('Login successful!', 'success');
                 
             } else {
-                // User is logged out - Show login page
-                loginPage.style.display = 'block';
+                loginPage.style.display = 'flex';
                 adminPanel.style.display = 'none';
                 document.getElementById('loginError').textContent = '';
             }
         }
 
-        // === LOGIN FUNCTIONS ===
+        // Update user info in all locations
+        function updateUserInfo(email) {
+            // Desktop sidebar
+            document.getElementById('userInfoDesktop').innerHTML = `
+                <div class="user-email">
+                    <i class="fas fa-user"></i> ${email}
+                </div>
+                <button onclick="logout()" class="btn btn-danger" style="margin-top: 1rem; width: 100%;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            `;
+            
+            // Desktop header
+            document.getElementById('userInfoDesktopHeader').innerHTML = `
+                <div class="user-email">
+                    <i class="fas fa-user"></i> ${email}
+                </div>
+                <button onclick="logout()" class="btn btn-danger" style="margin-left: 1rem;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            `;
+            
+            // Mobile
+            document.getElementById('userInfoMobile').innerHTML = `
+                <div class="user-email">
+                    <i class="fas fa-user"></i> ${email}
+                </div>
+                <div class="action-buttons">
+                    <button onclick="logout()" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            `;
+        }
+
+        // === LOGIN ===
         async function login() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
             const errorElement = document.getElementById('loginError');
             
-            // Clear previous error
             errorElement.textContent = '';
             
             if (!email || !password) {
@@ -636,98 +1076,131 @@
             }
             
             try {
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                console.log("Login successful:", userCredential.user.email);
-                
-                // Clear password field
+                await auth.signInWithEmailAndPassword(email, password);
                 document.getElementById('loginPassword').value = '';
-                
-                showMessage('Login successful!', 'success');
-                
+                // Login success notification is shown in handleAuthStateChange
             } catch (error) {
                 console.error("Login error:", error);
                 
-                // User-friendly error messages
+                let message = 'Login failed. Please try again.';
+                
                 switch (error.code) {
                     case 'auth/invalid-email':
-                        errorElement.textContent = 'Invalid email address';
+                        message = 'Invalid email address';
                         break;
                     case 'auth/user-disabled':
-                        errorElement.textContent = 'This account has been disabled';
+                        message = 'This account has been disabled';
                         break;
                     case 'auth/user-not-found':
-                        errorElement.textContent = 'No account found with this email';
+                        message = 'No account found with this email';
                         break;
                     case 'auth/wrong-password':
-                        errorElement.textContent = 'Incorrect password';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorElement.textContent = 'Too many failed attempts. Please try again later.';
+                        message = 'Incorrect password';
                         break;
                     default:
-                        errorElement.textContent = 'Login failed. Please try again.';
+                        message = 'Login failed. Please try again.';
                 }
+                
+                errorElement.textContent = message;
+                showNotification(message, 'error');
             }
         }
 
         function logout() {
             auth.signOut().then(() => {
-                console.log("User signed out");
-                showMessage('👋 Logged out successfully', 'info');
+                showNotification('Logged out successfully', 'success');
             }).catch((error) => {
                 console.error("Logout error:", error);
-                showMessage('❌ Logout failed. Please try again.', 'error');
+                showNotification('Logout failed. Please try again.', 'error');
             });
         }
 
         // === TAB MANAGEMENT ===
         function switchTab(tabName) {
-            // Update active tab
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
+            // Update mobile nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
             });
             
-            // Update active content
+            // Update desktop nav
+            document.querySelectorAll('.desktop-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Update tab content
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
+            // Update desktop title
+            const titleMap = {
+                'create': 'Create Post',
+                'manage': 'Manage Posts',
+                'schedule': 'Scheduled Posts'
+            };
+            
+            document.getElementById('desktopTitle').textContent = titleMap[tabName] || 'Admin Panel';
+            
             // Activate selected tab
             if (tabName === 'create') {
-                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+                document.querySelector('.desktop-nav-item:nth-child(1)').classList.add('active');
                 document.getElementById('createTab').classList.add('active');
             } else if (tabName === 'manage') {
-                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+                document.querySelector('.desktop-nav-item:nth-child(2)').classList.add('active');
                 document.getElementById('manageTab').classList.add('active');
-                
-                // Load posts if user is logged in
-                if (auth.currentUser) {
-                    loadPosts();
-                }
+                loadPosts();
+            } else if (tabName === 'schedule') {
+                document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+                document.querySelector('.desktop-nav-item:nth-child(3)').classList.add('active');
+                document.getElementById('scheduleTab').classList.add('active');
+                loadScheduledPosts();
             }
         }
 
         // === POST CREATION ===
+        function toggleScheduleOptions() {
+            const scheduleType = document.getElementById('post-schedule').value;
+            const scheduleOptions = document.getElementById('scheduleOptions');
+            
+            if (scheduleType === 'schedule') {
+                scheduleOptions.style.display = 'block';
+                // Set default time to 1 hour from now
+                const now = new Date();
+                now.setHours(now.getHours() + 1);
+                const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+                document.getElementById('schedule-time').value = localDateTime;
+            } else {
+                scheduleOptions.style.display = 'none';
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('post-content').value = '';
+            document.getElementById('post-schedule').value = 'now';
+            document.getElementById('scheduleOptions').style.display = 'none';
+            showNotification('Form cleared', 'info');
+        }
+
         async function createPost() {
             const content = document.getElementById('post-content').value.trim();
+            const scheduleType = document.getElementById('post-schedule').value;
+            const scheduleTime = document.getElementById('schedule-time').value;
             
             if (!content) {
-                alert('Please enter some content for your post.');
+                showNotification('Please enter post content', 'warning');
                 return;
             }
             
-            if (!db || !auth.currentUser) {
-                showMessage('❌ Please login first', 'error');
-                return;
-            }
-            
-            if (!confirm('Are you sure you want to post this update?')) {
+            if (!auth.currentUser) {
+                showNotification('Please login first', 'error');
                 return;
             }
             
             try {
                 const user = auth.currentUser;
-                const postData = {
+                let postData = {
                     content: content,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                     likes: 0,
@@ -737,33 +1210,46 @@
                     timestamp: new Date().toISOString()
                 };
                 
-                await db.collection('posts').add(postData);
+                if (scheduleType === 'schedule' && scheduleTime) {
+                    const scheduledDate = new Date(scheduleTime);
+                    if (scheduledDate <= new Date()) {
+                        showNotification('Schedule time must be in the future', 'warning');
+                        return;
+                    }
+                    
+                    postData.status = "scheduled";
+                    postData.scheduledFor = scheduledDate.toISOString();
+                    
+                    await db.collection('scheduled_posts').add(postData);
+                    showNotification('Post scheduled successfully!', 'success');
+                } else {
+                    await db.collection('posts').add(postData);
+                    showNotification('Post published successfully!', 'success');
+                }
                 
                 // Clear form
-                document.getElementById('post-content').value = '';
+                clearForm();
                 
-                // Switch to manage tab
-                switchTab('manage');
-                
-                showMessage('✅ Post created successfully!', 'success');
+                // Switch to appropriate tab
+                if (scheduleType === 'schedule') {
+                    switchTab('schedule');
+                } else {
+                    switchTab('manage');
+                }
                 
             } catch (error) {
                 console.error("Error creating post:", error);
-                showMessage('❌ Error posting: ' + error.message, 'error');
+                showNotification('Error: ' + error.message, 'error');
             }
         }
 
         // === POSTS MANAGEMENT ===
         function loadPosts() {
-            if (!db || !auth.currentUser) {
-                showMessage('❌ Please login first', 'error');
-                return;
-            }
+            if (!db || !auth.currentUser) return;
             
             const postsList = document.getElementById('postsList');
             postsList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading posts...</div>';
             
-            // Set up real-time listener for posts
             if (postsListener) postsListener();
             
             postsListener = db.collection('posts')
@@ -775,7 +1261,7 @@
                                 <i class="fas fa-newspaper fa-2x" style="margin-bottom: 1rem; color: #d3ced7;"></i>
                                 <h3 style="margin-bottom: 0.5rem;">No Posts Yet</h3>
                                 <p style="margin: 1rem 0; color: #d3ced7;">Create your first post!</p>
-                                <button onclick="switchTab('create')" class="btn">Create New Post</button>
+                                <button onclick="switchTab('create')" class="btn">Create Post</button>
                             </div>
                         `;
                         return;
@@ -794,7 +1280,7 @@
                         }) : 'Date not available';
                         
                         postsHTML += `
-                            <div class="post-card" id="post-${postId}">
+                            <div class="post-card">
                                 <div class="post-header">
                                     <div class="post-meta">
                                         <i class="far fa-calendar"></i> ${date}
@@ -820,24 +1306,92 @@
                     postsList.innerHTML = postsHTML;
                 }, error => {
                     console.error("Error loading posts:", error);
-                    postsList.innerHTML = `
-                        <div class="no-posts">
-                            <i class="fas fa-exclamation-triangle fa-2x" style="margin-bottom: 1rem; color: #ff6b6b;"></i>
-                            <h3 style="margin-bottom: 0.5rem;">Error Loading Posts</h3>
-                            <p style="margin: 1rem 0; color: #d3ced7;">Please refresh or try again later.</p>
-                            <button onclick="loadPosts()" class="btn">Retry</button>
-                        </div>
-                    `;
+                    postsList.innerHTML = `<div class="no-posts">Error loading posts. Please refresh.</div>`;
+                    showNotification('Error loading posts', 'error');
+                });
+        }
+
+        // === SCHEDULED POSTS ===
+        function loadScheduledPosts() {
+            if (!db || !auth.currentUser) return;
+            
+            const scheduledList = document.getElementById('scheduledPosts');
+            scheduledList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading scheduled posts...</div>';
+            
+            if (scheduledListener) scheduledListener();
+            
+            scheduledListener = db.collection('scheduled_posts')
+                .orderBy('scheduledFor', 'asc')
+                .onSnapshot(snapshot => {
+                    if (snapshot.empty) {
+                        scheduledList.innerHTML = `
+                            <div class="no-posts">
+                                <i class="fas fa-clock fa-2x" style="margin-bottom: 1rem; color: #d3ced7;"></i>
+                                <h3 style="margin-bottom: 0.5rem;">No Scheduled Posts</h3>
+                                <p style="margin: 1rem 0; color: #d3ced7;">Schedule your first post!</p>
+                                <button onclick="switchTab('create')" class="btn">Schedule Post</button>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let postsHTML = '';
+                    snapshot.forEach(doc => {
+                        const post = doc.data();
+                        const postId = doc.id;
+                        const scheduledDate = post.scheduledFor ? new Date(post.scheduledFor).toLocaleDateString('en-MY', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }) : 'Not scheduled';
+                        
+                        postsHTML += `
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="post-meta">
+                                        <i class="fas fa-clock"></i> Scheduled for: ${scheduledDate}
+                                    </div>
+                                    ${post.postedBy ? `<div class="post-meta"><i class="fas fa-user"></i> ${post.postedBy}</div>` : ''}
+                                </div>
+                                <div class="post-content">
+                                    ${post.content.replace(/\n/g, '<br>')}
+                                </div>
+                                <div class="post-footer">
+                                    <div class="post-likes">
+                                        <i class="fas fa-heart"></i> ${post.likes || 0} likes
+                                    </div>
+                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                        <button onclick="publishNow('${postId}')" 
+                                                class="publish-btn">
+                                            <i class="fas fa-paper-plane"></i> Publish Now
+                                        </button>
+                                        <button onclick="confirmCancelSchedule('${postId}', \`${post.content.substring(0, 100)}${post.content.length > 100 ? '...' : ''}\`)" 
+                                                class="delete-btn">
+                                            <i class="fas fa-ban"></i> Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    scheduledList.innerHTML = postsHTML;
+                }, error => {
+                    console.error("Error loading scheduled posts:", error);
+                    scheduledList.innerHTML = `<div class="no-posts">Error loading scheduled posts.</div>`;
+                    showNotification('Error loading scheduled posts', 'error');
                 });
         }
 
         // === DELETE FUNCTIONS ===
-        function confirmDelete(postId, postPreview) {
+        function confirmDelete(postId, preview) {
             currentPostToDelete = postId;
             const modal = document.getElementById('deleteModal');
             const previewDiv = document.getElementById('deletePostPreview');
             
-            previewDiv.textContent = postPreview;
+            previewDiv.textContent = preview;
             modal.classList.add('active');
         }
 
@@ -847,84 +1401,100 @@
         }
 
         async function deletePost() {
-            if (!currentPostToDelete || !db || !auth.currentUser) {
-                showMessage('❌ Error: Cannot delete post', 'error');
-                return;
-            }
+            if (!currentPostToDelete) return;
             
             try {
                 await db.collection('posts').doc(currentPostToDelete).delete();
-                
-                const postElement = document.getElementById(`post-${currentPostToDelete}`);
-                if (postElement) {
-                    postElement.style.opacity = '0.5';
-                    setTimeout(() => {
-                        if (postElement.parentNode) {
-                            postElement.parentNode.removeChild(postElement);
-                        }
-                    }, 300);
-                }
-                
                 closeDeleteModal();
-                showMessage('✅ Post deleted successfully!', 'success');
-                
+                showNotification('Post deleted successfully!', 'success');
+                loadPosts();
             } catch (error) {
                 console.error("Error deleting post:", error);
-                showMessage('❌ Error deleting post: ' + error.message, 'error');
+                showNotification('Error deleting post', 'error');
             }
         }
 
-        // === MESSAGE NOTIFICATION ===
-        function showMessage(message, type) {
-            const messageDiv = document.createElement('div');
-            const bgColor = type === 'success' ? 'rgba(46, 125, 50, 0.9)' : 
-                           type === 'error' ? 'rgba(211, 47, 47, 0.9)' : 
-                           'rgba(30, 136, 229, 0.9)';
+        function confirmCancelSchedule(postId, preview) {
+            currentScheduleToCancel = postId;
+            const modal = document.getElementById('cancelScheduleModal');
+            const previewDiv = document.getElementById('cancelSchedulePreview');
             
-            messageDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 1rem 1.5rem;
-                background: ${bgColor};
-                color: white;
-                border-radius: 8px;
-                z-index: 10000;
-                animation: slideIn 0.3s ease;
-                max-width: 400px;
-                font-size: 0.9rem;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            `;
+            previewDiv.textContent = preview;
+            modal.classList.add('active');
+        }
+
+        function closeCancelModal() {
+            document.getElementById('cancelScheduleModal').classList.remove('active');
+            currentScheduleToCancel = null;
+        }
+
+        async function cancelSchedule() {
+            if (!currentScheduleToCancel) return;
+            
+            try {
+                await db.collection('scheduled_posts').doc(currentScheduleToCancel).delete();
+                closeCancelModal();
+                showNotification('Schedule cancelled successfully!', 'success');
+                loadScheduledPosts();
+            } catch (error) {
+                console.error("Error cancelling schedule:", error);
+                showNotification('Error cancelling schedule', 'error');
+            }
+        }
+
+        async function publishNow(postId) {
+            if (!postId) return;
+            
+            try {
+                // Get scheduled post
+                const postDoc = await db.collection('scheduled_posts').doc(postId).get();
+                if (!postDoc.exists) return;
+                
+                const postData = postDoc.data();
+                postData.status = "published";
+                postData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+                
+                // Add to regular posts
+                await db.collection('posts').add(postData);
+                
+                // Remove from scheduled
+                await db.collection('scheduled_posts').doc(postId).delete();
+                
+                showNotification('Post published now!', 'success');
+                loadScheduledPosts();
+                
+            } catch (error) {
+                console.error("Error publishing now:", error);
+                showNotification('Error publishing post', 'error');
+            }
+        }
+
+        // === NOTIFICATION SYSTEM - ADDED ===
+        function showNotification(message, type = 'success') {
+            // Remove existing notification
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
             
             const icon = type === 'success' ? 'fa-check-circle' : 
-                        type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+                        type === 'error' ? 'fa-exclamation-circle' : 
+                        type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
             
-            messageDiv.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+            toast.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
             
-            document.body.appendChild(messageDiv);
+            document.body.appendChild(toast);
             
-            // Add animation styles if not present
-            if (!document.querySelector('#messageAnimations')) {
-                const style = document.createElement('style');
-                style.id = 'messageAnimations';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { transform: translateX(100%); opacity: 0; }
-                        to { transform: translateX(0); opacity: 1; }
-                    }
-                    @keyframes slideOut {
-                        from { transform: translateX(0); opacity: 1; }
-                        to { transform: translateX(100%); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
+            // Auto remove after 3 seconds
             setTimeout(() => {
-                messageDiv.style.animation = 'slideOut 0.3s ease';
+                toast.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
-                    if (messageDiv.parentNode) {
-                        messageDiv.parentNode.removeChild(messageDiv);
+                    if (toast.parentNode) {
+                        toast.remove();
                     }
                 }, 300);
             }, 3000);
@@ -932,30 +1502,48 @@
 
         // === INITIALIZE ===
         document.addEventListener('DOMContentLoaded', function() {
-            // Set up delete confirmation button
+            // Set up button handlers
             document.getElementById('confirmDeleteBtn').onclick = deletePost;
+            document.getElementById('confirmCancelBtn').onclick = cancelSchedule;
             
-            // Submit login with Enter key
-            document.getElementById('loginPassword')?.addEventListener('keypress', function(e) {
+            // Login with Enter key
+            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') login();
             });
             
-            // Close modal with Escape key
+            // Close modals with Escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     closeDeleteModal();
+                    closeCancelModal();
                 }
             });
             
-            // Close modal when clicking outside
-            document.getElementById('deleteModal')?.addEventListener('click', function(e) {
-                if (e.target.classList?.contains('modal')) {
-                    closeDeleteModal();
+            // Hide logout button on desktop in bottom nav
+            function updateBottomNavForDesktop() {
+                const bottomNav = document.querySelector('.bottom-nav');
+                const logoutButton = bottomNav.querySelector('.nav-item[onclick*="logout"]');
+                
+                if (window.innerWidth >= 1024) {
+                    // Hide logout on desktop
+                    if (logoutButton) {
+                        logoutButton.style.display = 'none';
+                    }
+                    // Adjust layout for 3 items instead of 4
+                    bottomNav.style.justifyContent = 'space-around';
+                } else {
+                    // Show logout on mobile
+                    if (logoutButton) {
+                        logoutButton.style.display = 'flex';
+                    }
                 }
-            });
+            }
             
-            // Auto-focus email field on page load
-            document.getElementById('loginEmail').focus();
+            // Initial check
+            updateBottomNavForDesktop();
+            
+            // Update on resize
+            window.addEventListener('resize', updateBottomNavForDesktop);
         });
     </script>
 </body>
