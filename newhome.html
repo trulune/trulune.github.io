@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for social icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
     <style>
         * {
             margin: 0;
@@ -423,130 +428,16 @@
             justify-content: center;
             width: 26px;
             height: 26px;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             border-radius: 50%;
             color: #FFFFFF;
             font-size: 0.8rem;
             flex-shrink: 0;
         }
         
-        .admin-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-left: 0.5rem;
-        }
-        
         .profile-bio {
             color: #d3ced7;
             line-height: 1.6;
             margin-bottom: 1.5rem;
-        }
-        
-        .post-form {
-            background: rgba(24, 45, 64, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-        }
-        
-        .form-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        textarea {
-            width: 100%;
-            background: rgba(12, 29, 47, 0.8);
-            border: 1px solid #0E3659;
-            border-radius: 8px;
-            padding: 1rem;
-            color: #FFFFFF;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #d3ced7;
-            box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: none;
-            padding: 0.8rem 1.8rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 700;
-            transition: all 0.3s;
-            border: 1px solid rgba(211, 206, 215, 0.2);
-        }
-        
-        .btn:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            color: #FFFFFF;
-        }
-        
-        /* PIN Modal */
-        .pin-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .pin-modal.active {
-            display: flex;
-        }
-        
-        .pin-form {
-            background: rgba(24, 45, 64, 0.95);
-            padding: 2rem;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-        }
-        
-        .pin-input {
-            width: 100%;
-            padding: 1rem;
-            margin: 1rem 0;
-            background: rgba(12, 29, 47, 0.8);
-            border: 1px solid #0E3659;
-            border-radius: 8px;
-            color: #FFFFFF;
-            font-size: 1.2rem;
-            text-align: center;
-            letter-spacing: 0.5rem;
         }
         
         .posts {
@@ -599,6 +490,19 @@
             line-height: 1.6;
             margin-bottom: 0.5rem;
             color: #FFFFFF;
+        }
+        
+        .post-media {
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .post-img {
+            width: 100%;
+            border-radius: 10px;
+            max-height: 400px;
+            object-fit: cover;
         }
         
         /* Page switching */
@@ -705,6 +609,10 @@
                 height: 45px;
                 font-size: 1.3rem;
             }
+            
+            .post-img {
+                max-height: 300px;
+            }
         }
         
         @media (max-width: 576px) {
@@ -768,6 +676,10 @@
                 width: 100px;
                 height: 100px;
                 font-size: 2rem;
+            }
+            
+            .post-img {
+                max-height: 250px;
             }
         }
     </style>
@@ -849,42 +761,22 @@
             <section class="profile-header">
                 <div class="profile-avatar">TM</div>
                 <div class="profile-info">
-                    <h1 class="profile-name">Trulune Malaysia <span class="verified-badge">✓</span></h1>
+                    <h1 class="profile-name">Trulune Malaysia 
+                        <span class="verified-badge">
+                            <img src="images/verified.svg" style="width: 100%; height: 100%;">
+                        </span>
+                    </h1>
                     <p class="profile-bio">Leading provider of premium fruit-based health products in Malaysia. Committed to quality, sustainability, and customer wellness. Follow us for updates on new products, health tips, and special promotions!</p>
                 </div>
-            </section>
-            
-            <!-- Post Update Form -->
-            <section class="post-form">
-                <h3 class="form-title">Post an Update <span class="admin-badge">Admin</span></h3>
-                <div class="form-group">
-                    <textarea id="post-content" placeholder="Share something about your business..."></textarea>
-                </div>
-                <button class="btn" onclick="showPinModal()">Post Update</button>
             </section>
             
             <!-- Updates Feed -->
             <h2 class="section-title">Business Updates</h2>
             <div class="posts" id="posts-container">
-                <!-- Posts will be loaded here from localStorage -->
+                <!-- Posts will be loaded here from Firebase -->
             </div>
         </section>
     </main>
-
-    <!-- PIN Modal - Enhanced Security -->
-    <div class="pin-modal" id="pinModal">
-        <div class="pin-form">
-            <h3 style="color: #FFFFFF; margin-bottom: 1rem;">Admin PIN Required</h3>
-            <p style="color: #d3ced7; margin-bottom: 1rem;">Enter PIN to post update:</p>
-            <input type="password" class="pin-input" id="pinInput" maxlength="4" placeholder="****">
-            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
-                <button class="btn" onclick="submitPin()">Submit</button>
-                <button class="btn" style="background: rgba(12, 29, 47, 0.8);" onclick="closePinModal()">Cancel</button>
-            </div>
-            <p id="pinError" style="color: #ff6b6b; margin-top: 1rem; display: none;">Incorrect PIN. Try again.</p>
-            <p id="attemptsWarning" style="color: #d3ced7; font-size: 0.8rem; margin-top: 0.5rem; display: none;">Too many attempts. Try again later.</p>
-        </div>
-    </div>
 
     <!-- Footer with Social Icons -->
     <footer class="footer">
@@ -911,268 +803,190 @@
     </footer>
 
     <script>
-        // Enhanced Security: Admin PIN is hashed
-        const ADMIN_PIN_HASH = "70c445ee64b1ed0583367a12a79a9ef2";
-        let pinAttempts = 0;
-        let lastPinAttemptTime = 0;
-        const MAX_PIN_ATTEMPTS = 5;
-        const PIN_COOLDOWN_MINUTES = 15;
-        
-        // Simple MD5 hash function for PIN verification
-        function md5(input) {
-            // This is a simplified version for demo purposes
-            // In production, use a proper crypto library
-            return CryptoJS.MD5(input).toString();
-        }
-        
-        // Load posts from localStorage with timestamp updates
-        function loadPosts() {
+        // === LOAD POSTS DARI FIREBASE ===
+        async function loadPosts() {
             const postsContainer = document.getElementById('posts-container');
-            const savedPosts = JSON.parse(localStorage.getItem('trulunePosts')) || [];
+            postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">Loading posts...</p>';
             
-            // Update timestamps for all posts
-            const updatedPosts = savedPosts.map(post => {
-                return {
-                    ...post,
-                    time: formatTimeAgo(post.timestamp)
-                };
-            });
-            
-            // Save updated posts back to localStorage
-            localStorage.setItem('trulunePosts', JSON.stringify(updatedPosts));
-            
-            // Display posts
-            postsContainer.innerHTML = '';
-            updatedPosts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.className = 'post';
-                postElement.innerHTML = `
-                    <div class="post-header">
-                        <div class="post-avatar">TM</div>
-                        <div>
-                            <div class="post-user">Trulune Malaysia <span class="verified-badge" style="width: 20px; height: 20px; font-size: 0.6rem; display: inline-flex;">✓</span></div>
-                            <div class="post-time">${post.time}</div>
+            try {
+                // Dapatkan posts yang published sahaja
+                const querySnapshot = await db.collection('posts')
+                    .where('status', '==', 'published')
+                    .where('deleted', '==', false)
+                    .where('archived', '==', false)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                
+                // Kosongkan container
+                postsContainer.innerHTML = '';
+                
+                // Kalau tiada posts
+                if (querySnapshot.empty) {
+                    postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">No updates yet. Check back soon!</p>';
+                    return;
+                }
+                
+                // Tunjukkan setiap post
+                querySnapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postElement = document.createElement('div');
+                    postElement.className = 'post';
+                    
+                    // Format tarikh
+                    const postDate = post.createdAt ? post.createdAt.toDate() : new Date();
+                    const timeAgo = formatTimeAgo(postDate);
+                    
+                    // Parse media jika ada
+                    let mediaHTML = '';
+                    try {
+                        if (post.media && Array.isArray(post.media)) {
+                            // Jika media adalah array of objects
+                            post.media.forEach(mediaItem => {
+                                if (mediaItem.type === 'image') {
+                                    mediaHTML += `<img src="${mediaItem.url}" class="post-img" alt="Post image">`;
+                                }
+                            });
+                        } else if (post.imageUrl) {
+                            // Untuk backward compatibility (post lama)
+                            mediaHTML = `<img src="${post.imageUrl}" class="post-img" alt="Post image">`;
+                        }
+                    } catch (e) {
+                        console.log("Error parsing media:", e);
+                    }
+                    
+                    // Like button
+                    const likeCount = post.likes || 0;
+                    const liked = localStorage.getItem(`liked-${doc.id}`) ? 'liked' : '';
+                    const likeButton = `
+                        <div class="post-actions" style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem;">
+                            <button onclick="toggleLike('${doc.id}')" style="background:none; border:none; color:${liked ? '#ff5a5f' : '#d3ced7'}; cursor:pointer; display:flex; align-items:center; gap:5px;">
+                                <i class="fas fa-heart"></i> <span id="like-count-${doc.id}">${likeCount}</span>
+                            </button>
                         </div>
-                    </div>
-                    <div class="post-content">
-                        ${post.content}
-                    </div>
-                `;
-                postsContainer.appendChild(postElement);
-            });
+                    `;
+                    
+                    postElement.innerHTML = `
+                        <div class="post-header">
+                            <div class="post-avatar">TM</div>
+                            <div>
+                                <div class="post-user">Trulune Malaysia 
+                                    <span class="verified-badge" style="width: 20px; height: 20px; font-size: 0.6rem; display: inline-flex;">
+                                        <img src="images/verified.svg" style="width:100%;height:100%;">
+                                    </span>
+                                </div>
+                                <div class="post-time">${timeAgo}</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            ${post.content}
+                        </div>
+                        ${mediaHTML ? `<div class="post-media">${mediaHTML}</div>` : ''}
+                        ${likeButton}
+                    `;
+                    
+                    postsContainer.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error("Error loading posts:", error);
+                postsContainer.innerHTML = '<p style="text-align:center;color:#ff6b6b;">Error loading updates.</p>';
+            }
         }
-        
-        // Format timestamp to show relative time or date
-        function formatTimeAgo(timestamp) {
-            const now = new Date().getTime();
-            const diff = now - timestamp;
-            
-            // Convert to seconds
+
+        // === FORMAT TIME AGO ===
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
             const seconds = Math.floor(diff / 1000);
             
-            if (seconds < 60) {
-                return "Just now";
-            }
+            if (seconds < 60) return "Just now";
             
             const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) {
-                return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-            }
+            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
             
             const hours = Math.floor(minutes / 60);
-            if (hours < 24) {
-                return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-            }
+            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
             
             const days = Math.floor(hours / 24);
-            if (days < 7) {
-                return `${days} day${days > 1 ? 's' : ''} ago`;
-            }
+            if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
             
-            // If more than 7 days, show the actual date
-            const date = new Date(timestamp);
             return date.toLocaleDateString('en-MY', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
             });
         }
-        
-        // Switch between Home and Profile pages
+
+        // === LIKE FUNCTION ===
+        async function toggleLike(postId) {
+            const likedKey = `liked-${postId}`;
+            const countEl = document.getElementById(`like-count-${postId}`);
+            const button = document.querySelector(`[onclick="toggleLike('${postId}')"]`);
+            
+            if (localStorage.getItem(likedKey)) {
+                // Already liked
+                return;
+            }
+            
+            // Update UI immediately
+            const currentCount = parseInt(countEl.textContent) || 0;
+            countEl.textContent = currentCount + 1;
+            button.style.color = '#ff5a5f';
+            localStorage.setItem(likedKey, 'true');
+            
+            try {
+                // Update in Firebase
+                await db.collection('posts').doc(postId).update({
+                    likes: firebase.firestore.FieldValue.increment(1)
+                });
+            } catch (error) {
+                console.error("Error updating like:", error);
+            }
+        }
+
+        // === SWITCH PAGE ===
         function switchPage(page) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(p => {
                 p.classList.remove('active');
             });
             
-            // Show selected page
             document.getElementById(`${page}-page`).classList.add('active');
             
-            // Update navigation active state
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
             });
             
             document.querySelector(`.nav-${page}`).classList.add('active');
             
-            // Scroll to top
-            window.scrollTo(0, 0);
-            
-            // Load posts if switching to profile page
             if (page === 'profile') {
                 loadPosts();
             }
             
-            // Close mobile menu if open
+            window.scrollTo(0, 0);
             closeMobileMenu();
         }
-        
-        // Toggle mobile menu
+
         function toggleMobileMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+            document.getElementById('navLinks').classList.toggle('active');
         }
-        
-        // Close mobile menu
+
         function closeMobileMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.remove('active');
+            document.getElementById('navLinks').classList.remove('active');
         }
-        
-        // Show PIN modal with security checks
-        function showPinModal() {
-            const postContent = document.getElementById('post-content').value;
-            
-            if (postContent.trim() === '') {
-                alert('Please enter some content for your post.');
-                return;
-            }
-            
-            // Check if user has exceeded PIN attempts
-            const now = Date.now();
-            const cooldownPeriod = PIN_COOLDOWN_MINUTES * 60 * 1000; // Convert to milliseconds
-            
-            if (pinAttempts >= MAX_PIN_ATTEMPTS && (now - lastPinAttemptTime) < cooldownPeriod) {
-                const minutesLeft = Math.ceil((cooldownPeriod - (now - lastPinAttemptTime)) / (60 * 1000));
-                alert(`Too many failed attempts. Please try again in ${minutesLeft} minute${minutesLeft > 1 ? 's' : ''}.`);
-                return;
-            }
-            
-            // Store the post content temporarily
-            sessionStorage.setItem('pendingPost', postContent);
-            document.getElementById('pinModal').classList.add('active');
-            document.getElementById('pinInput').focus();
-            document.getElementById('pinError').style.display = 'none';
-            document.getElementById('attemptsWarning').style.display = 'none';
-            document.getElementById('pinInput').value = '';
-        }
-        
-        // Close PIN modal
-        function closePinModal() {
-            document.getElementById('pinModal').classList.remove('active');
-        }
-        
-        // Submit PIN with enhanced security
-        function submitPin() {
-            const enteredPin = document.getElementById('pinInput').value;
-            const pinError = document.getElementById('pinError');
-            const attemptsWarning = document.getElementById('attemptsWarning');
-            
-            // Hash the entered PIN for comparison
-            const enteredPinHash = md5(enteredPin);
-            
-            if (enteredPinHash === ADMIN_PIN_HASH) {
-                // PIN is correct, reset attempts
-                pinAttempts = 0;
-                lastPinAttemptTime = 0;
-                
-                // Create the post
-                closePinModal();
-                createPost();
-            } else {
-                // Increment attempts
-                pinAttempts++;
-                lastPinAttemptTime = Date.now();
-                
-                // Show error
-                pinError.style.display = 'block';
-                
-                // Show warning if approaching limit
-                if (pinAttempts >= MAX_PIN_ATTEMPTS) {
-                    attemptsWarning.style.display = 'block';
-                    pinError.textContent = `Too many attempts. Try again in ${PIN_COOLDOWN_MINUTES} minutes.`;
-                } else {
-                    const attemptsLeft = MAX_PIN_ATTEMPTS - pinAttempts;
-                    pinError.textContent = `Incorrect PIN. ${attemptsLeft} attempt${attemptsLeft > 1 ? 's' : ''} left.`;
-                }
-                
-                document.getElementById('pinInput').value = '';
-                document.getElementById('pinInput').focus();
-            }
-        }
-        
-        // Create a new post
-        function createPost() {
-            const postContent = sessionStorage.getItem('pendingPost');
-            
-            // Get existing posts
-            const savedPosts = JSON.parse(localStorage.getItem('trulunePosts')) || [];
-            
-            // Create new post object
-            const newPost = {
-                id: savedPosts.length > 0 ? Math.max(...savedPosts.map(p => p.id)) + 1 : 1,
-                content: postContent,
-                time: "Just now",
-                timestamp: new Date().getTime()
-            };
-            
-            // Add to beginning of array
-            savedPosts.unshift(newPost);
-            
-            // Save to localStorage
-            localStorage.setItem('trulunePosts', JSON.stringify(savedPosts));
-            
-            // Clear the textarea
-            document.getElementById('post-content').value = '';
-            
-            // Reload posts
-            loadPosts();
-            
-            // Show success message
-            alert('Post published successfully!');
-            
-            // Clear pending post
-            sessionStorage.removeItem('pendingPost');
-        }
-        
-        // Sticky header on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 100) {
-                header.classList.add('sticky');
-            } else {
-                header.classList.remove('sticky');
-            }
-        });
-        
-        // PIN input handling
-        document.getElementById('pinInput').addEventListener('input', function(e) {
-            // Only allow numbers
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-        
-        // Initialize the page
+
+        // === INITIALIZE PAGE ===
         document.addEventListener('DOMContentLoaded', function() {
-            // Set current year in copyright
+            // Set tahun dalam copyright
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Load posts initially
-            loadPosts();
+            // Load posts jika dalam page profile
+            if (document.getElementById('profile-page').classList.contains('active')) {
+                loadPosts();
+            }
             
-            // Set up mobile menu toggle
+            // Mobile menu
             document.getElementById('mobileMenuToggle').addEventListener('click', toggleMobileMenu);
             
-            // Close mobile menu when clicking outside
+            // Close mobile menu kalau click luar
             document.addEventListener('click', function(event) {
                 const navLinks = document.getElementById('navLinks');
                 const mobileToggle = document.getElementById('mobileMenuToggle');
@@ -1184,35 +998,16 @@
                 }
             });
             
-            // Initialize PIN attempts from localStorage
-            const storedAttempts = localStorage.getItem('pinAttempts');
-            const storedTime = localStorage.getItem('lastPinAttemptTime');
-            
-            if (storedAttempts) {
-                pinAttempts = parseInt(storedAttempts);
-                lastPinAttemptTime = parseInt(storedTime) || 0;
-                
-                // Reset if cooldown period has passed
-                const now = Date.now();
-                const cooldownPeriod = PIN_COOLDOWN_MINUTES * 60 * 1000;
-                
-                if (pinAttempts >= MAX_PIN_ATTEMPTS && (now - lastPinAttemptTime) > cooldownPeriod) {
-                    pinAttempts = 0;
-                    lastPinAttemptTime = 0;
-                    localStorage.setItem('pinAttempts', '0');
-                    localStorage.setItem('lastPinAttemptTime', '0');
+            // Sticky header
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('main-header');
+                if (window.scrollY > 100) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
                 }
-            }
-        });
-        
-        // Save PIN attempts to localStorage
-        window.addEventListener('beforeunload', function() {
-            localStorage.setItem('pinAttempts', pinAttempts.toString());
-            localStorage.setItem('lastPinAttemptTime', lastPinAttemptTime.toString());
+            });
         });
     </script>
-    
-    <!-- CryptoJS for PIN hashing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </body>
 </html>
