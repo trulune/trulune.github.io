@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trulune Malaysia</title>
+    
+    <!-- Firebase SDK v8 (CORRECT VERSION) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
     <!-- Lato Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for social icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
     
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* PASTE SEMUA CSS YANG SAMA SEPERTI AWAK ADA */
         * {
@@ -793,166 +795,191 @@
             appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
         };
 
-        // === INITIALIZE FIREBASE ===
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // === FUNGSI ASAS ===
-        function switchPage(page) {
-            // Hide semua pages
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.remove('active');
-            });
+        // === INITIALIZE FIREBASE (v8 style) ===
+        // Pastikan firebase.js sudah load dulu
+        if (typeof firebase === 'undefined') {
+            console.error("Firebase SDK not loaded!");
+        } else {
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
             
-            // Show page yang dipilih
-            document.getElementById(`${page}-page`).classList.add('active');
+            // Initialize Firestore
+            const db = firebase.firestore();
             
-            // Update navigation
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
+            console.log("Firebase initialized successfully!");
             
-            document.querySelector(`.nav-${page}`).classList.add('active');
-            
-            // Load posts kalau ke Profile page
-            if (page === 'profile') {
-                loadPosts();
-            }
-            
-            // Scroll ke atas
-            window.scrollTo(0, 0);
-            closeMobileMenu();
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
-        }
-
-        function closeMobileMenu() {
-            document.getElementById('navLinks').classList.remove('active');
-        }
-
-        // === LOAD POSTS DARI FIREBASE (SIMPLE VERSION) ===
-        async function loadPosts() {
-            const postsContainer = document.getElementById('posts-container');
-            postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">Loading posts...</p>';
-            
-            try {
-                // SIMPLE QUERY - Dapatkan SEMUA posts, order by date
-                const querySnapshot = await db.collection('posts')
-                    .orderBy('createdAt', 'desc')
-                    .get();
-                
-                // Kosongkan container
-                postsContainer.innerHTML = '';
-                
-                // Kalau tiada posts
-                if (querySnapshot.empty) {
-                    postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">No updates yet. Check back soon!</p>';
+            // === FUNGSI LOAD POSTS ===
+            async function loadPosts() {
+                const postsContainer = document.getElementById('posts-container');
+                if (!postsContainer) {
+                    console.error("posts-container not found!");
                     return;
                 }
                 
-                // Tunjukkan setiap post
-                querySnapshot.forEach((doc) => {
-                    const post = doc.data();
-                    const postElement = document.createElement('div');
-                    postElement.className = 'post';
+                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">Loading posts...</p>';
+                
+                try {
+                    // Dapatkan posts dari Firestore
+                    const querySnapshot = await db.collection('posts')
+                        .orderBy('createdAt', 'desc')
+                        .get();
                     
-                    // Format tarikh
-                    let timeAgo = "Recently";
-                    try {
-                        if (post.createdAt) {
-                            const postDate = post.createdAt.toDate();
-                            timeAgo = formatTimeAgo(postDate);
-                        }
-                    } catch (e) {
-                        console.log("Error formatting date:", e);
+                    // Kosongkan container
+                    postsContainer.innerHTML = '';
+                    
+                    // Kalau tiada posts
+                    if (querySnapshot.empty) {
+                        postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">No updates yet. Check back soon!</p>';
+                        return;
                     }
                     
-                    postElement.innerHTML = `
-                        <div class="post-header">
-                            <div class="post-avatar">TM</div>
-                            <div>
-                                <div class="post-user">Trulune Malaysia 
-                                    <span class="verified-badge" style="width: 20px; height: 20px; font-size: 0.6rem; display: inline-flex;">
-                                        <img src="images/verified.svg" style="width:100%;height:100%;">
-                                    </span>
+                    // Tunjukkan setiap post
+                    querySnapshot.forEach((doc) => {
+                        const post = doc.data();
+                        const postElement = document.createElement('div');
+                        postElement.className = 'post';
+                        
+                        // Format tarikh
+                        let timeAgo = "Recently";
+                        try {
+                            if (post.createdAt) {
+                                const postDate = post.createdAt.toDate();
+                                timeAgo = formatTimeAgo(postDate);
+                            }
+                        } catch (e) {
+                            console.log("Error formatting date:", e);
+                        }
+                        
+                        postElement.innerHTML = `
+                            <div class="post-header">
+                                <div class="post-avatar">TM</div>
+                                <div>
+                                    <div class="post-user">Trulune Malaysia 
+                                        <span class="verified-badge" style="width: 20px; height: 20px; font-size: 0.6rem; display: inline-flex;">
+                                            <img src="images/verified.svg" style="width:100%;height:100%;">
+                                        </span>
+                                    </div>
+                                    <div class="post-time">${timeAgo}</div>
                                 </div>
-                                <div class="post-time">${timeAgo}</div>
                             </div>
-                        </div>
-                        <div class="post-content">
-                            ${post.content || ''}
-                        </div>
-                    `;
-                    
-                    postsContainer.appendChild(postElement);
-                });
-            } catch (error) {
-                console.error("Error loading posts:", error);
-                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">No updates yet.</p>';
+                            <div class="post-content">
+                                ${post.content || ''}
+                            </div>
+                        `;
+                        
+                        postsContainer.appendChild(postElement);
+                    });
+                } catch (error) {
+                    console.error("Error loading posts:", error);
+                    postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;">No posts yet.</p>';
+                }
             }
-        }
 
-        // === FORMAT TIME AGO ===
-        function formatTimeAgo(date) {
-            const now = new Date();
-            const diff = now - date;
-            const seconds = Math.floor(diff / 1000);
-            
-            if (seconds < 60) return "Just now";
-            
-            const minutes = Math.floor(seconds / 60);
-            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-            
-            const hours = Math.floor(minutes / 60);
-            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-            
-            const days = Math.floor(hours / 24);
-            if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
-            
-            return date.toLocaleDateString('en-MY', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-        // === INITIALIZE PAGE ===
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set tahun dalam copyright
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-            
-            // Load posts pertama kali jika dalam profile page
-            if (document.getElementById('profile-page').classList.contains('active')) {
-                loadPosts();
-            }
-            
-            // Mobile menu
-            document.getElementById('mobileMenuToggle').addEventListener('click', toggleMobileMenu);
-            
-            // Close mobile menu kalau click luar
-            document.addEventListener('click', function(event) {
-                const navLinks = document.getElementById('navLinks');
-                const mobileToggle = document.getElementById('mobileMenuToggle');
+            // === FORMAT TIME AGO ===
+            function formatTimeAgo(date) {
+                const now = new Date();
+                const diff = now - date;
+                const seconds = Math.floor(diff / 1000);
                 
-                if (navLinks.classList.contains('active') && 
-                    !navLinks.contains(event.target) && 
-                    !mobileToggle.contains(event.target)) {
-                    closeMobileMenu();
+                if (seconds < 60) return "Just now";
+                
+                const minutes = Math.floor(seconds / 60);
+                if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+                
+                const hours = Math.floor(minutes / 60);
+                if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+                
+                const days = Math.floor(hours / 24);
+                if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+                
+                return date.toLocaleDateString('en-MY', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            }
+
+            // === SWITCH PAGE ===
+            function switchPage(page) {
+                document.querySelectorAll('.page').forEach(p => {
+                    p.classList.remove('active');
+                });
+                
+                document.getElementById(`${page}-page`).classList.add('active');
+                
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                document.querySelector(`.nav-${page}`).classList.add('active');
+                
+                if (page === 'profile') {
+                    loadPosts();
                 }
-            });
-            
-            // Sticky header
-            window.addEventListener('scroll', function() {
-                const header = document.getElementById('main-header');
-                if (window.scrollY > 100) {
-                    header.classList.add('sticky');
-                } else {
-                    header.classList.remove('sticky');
+                
+                window.scrollTo(0, 0);
+                closeMobileMenu();
+            }
+
+            function toggleMobileMenu() {
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks) {
+                    navLinks.classList.toggle('active');
                 }
+            }
+
+            function closeMobileMenu() {
+                const navLinks = document.getElementById('navLinks');
+                if (navLinks) {
+                    navLinks.classList.remove('active');
+                }
+            }
+
+            // === INITIALIZE PAGE ===
+            document.addEventListener('DOMContentLoaded', function() {
+                // Set tahun dalam copyright
+                const yearEl = document.getElementById('current-year');
+                if (yearEl) {
+                    yearEl.textContent = new Date().getFullYear();
+                }
+                
+                // Load posts jika dalam page profile
+                if (document.getElementById('profile-page')?.classList.contains('active')) {
+                    loadPosts();
+                }
+                
+                // Mobile menu
+                const mobileToggle = document.getElementById('mobileMenuToggle');
+                if (mobileToggle) {
+                    mobileToggle.addEventListener('click', toggleMobileMenu);
+                }
+                
+                // Close mobile menu kalau click luar
+                document.addEventListener('click', function(event) {
+                    const navLinks = document.getElementById('navLinks');
+                    const mobileToggle = document.getElementById('mobileMenuToggle');
+                    
+                    if (navLinks && navLinks.classList.contains('active') && 
+                        !navLinks.contains(event.target) && 
+                        mobileToggle && !mobileToggle.contains(event.target)) {
+                        closeMobileMenu();
+                    }
+                });
+                
+                // Sticky header
+                window.addEventListener('scroll', function() {
+                    const header = document.getElementById('main-header');
+                    if (header) {
+                        if (window.scrollY > 100) {
+                            header.classList.add('sticky');
+                        } else {
+                            header.classList.remove('sticky');
+                        }
+                    }
+                });
             });
-        });
+        }
+    </script>
     </script>
 </body>
 </html>
