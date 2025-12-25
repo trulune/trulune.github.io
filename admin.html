@@ -11,10 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase -->
+    <!-- Firebase (NO STORAGE) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
     
     <style>
         * {
@@ -39,10 +38,10 @@
         
         .admin-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             background: rgba(24, 45, 64, 0.4);
             border-radius: 16px;
-            padding: 2.5rem;
+            padding: 2rem;
             border: 1px solid rgba(14, 54, 89, 0.3);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
@@ -53,7 +52,7 @@
         }
         
         .admin-header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -63,6 +62,7 @@
         
         .admin-header p {
             color: #d3ced7;
+            font-size: 0.9rem;
         }
         
         .form-group {
@@ -78,53 +78,21 @@
             color: #FFFFFF;
             font-size: 1rem;
             resize: vertical;
-            min-height: 150px;
+            min-height: 120px;
             font-family: inherit;
         }
         
-        .file-input {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(12, 29, 47, 0.6);
-            border: 1px dashed #0E3659;
-            border-radius: 8px;
-            color: #d3ced7;
-            cursor: pointer;
-        }
-        
-        .post-options {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .option-group {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .option-group label {
-            display: block;
-            color: #d3ced7;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        .option-select, .option-date {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(12, 29, 47, 0.6);
-            border: 1px solid #0E3659;
-            border-radius: 8px;
-            color: #FFFFFF;
+        textarea:focus {
+            outline: none;
+            border-color: #d3ced7;
+            box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
         }
         
         .btn {
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #FFFFFF;
             border: none;
-            padding: 1rem 2rem;
+            padding: 0.8rem 2rem;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
@@ -137,7 +105,6 @@
         
         .btn:hover {
             background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
         }
         
         .back-link {
@@ -151,22 +118,6 @@
         
         .back-link:hover {
             color: #FFFFFF;
-        }
-        
-        .preview-container {
-            margin-top: 1rem;
-            border-radius: 8px;
-            overflow: hidden;
-            max-height: 200px;
-            display: none;
-        }
-        
-        .preview-img {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: contain;
-            background: rgba(0, 0, 0, 0.2);
         }
         
         /* PIN Modal */
@@ -192,14 +143,14 @@
             padding: 2rem;
             border-radius: 12px;
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
             border: 1px solid rgba(14, 54, 89, 0.5);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
         
         .pin-input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             margin: 1rem 0;
             background: rgba(12, 29, 47, 0.8);
             border: 1px solid #0E3659;
@@ -211,12 +162,6 @@
             font-family: monospace;
         }
         
-        .pin-input:focus {
-            outline: none;
-            border-color: #d3ced7;
-            box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
-        }
-        
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
@@ -225,15 +170,6 @@
             .admin-container {
                 padding: 1.5rem;
             }
-            
-            .post-options {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .option-group {
-                min-width: 100%;
-            }
         }
     </style>
 </head>
@@ -241,38 +177,15 @@
     <div class="admin-container">
         <div class="admin-header">
             <h1><i class="fas fa-lock"></i> Admin Panel</h1>
-            <p>Post updates for Trulune Malaysia</p>
+            <p>Post text updates for Trulune Malaysia</p>
         </div>
         
         <div class="form-group">
             <textarea id="post-content" placeholder="What's new at Trulune? Share updates here..."></textarea>
         </div>
         
-        <div class="form-group">
-            <input type="file" id="image-upload" class="file-input" accept="image/*" onchange="previewImage(event)">
-            <small style="color:#d3ced7;display:block;margin-top:0.5rem;">Optional: Upload images (max 5MB)</small>
-            <div id="image-preview" class="preview-container">
-                <img id="preview-img" class="preview-img">
-            </div>
-        </div>
-        
-        <div class="post-options">
-            <div class="option-group">
-                <label for="post-status">Post Status</label>
-                <select id="post-status" class="option-select">
-                    <option value="published">Publish Now</option>
-                    <option value="draft">Save as Draft</option>
-                </select>
-            </div>
-            
-            <div class="option-group">
-                <label for="schedule-date">Schedule for Later (Optional)</label>
-                <input type="datetime-local" id="schedule-date" class="option-date">
-            </div>
-        </div>
-        
         <button class="btn" onclick="showPinModal()">
-            <i class="fas fa-paper-plane"></i> Publish Update
+            <i class="fas fa-paper-plane"></i> Post Update
         </button>
         
         <a href="index.html" class="back-link">
@@ -308,60 +221,22 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const storage = firebase.storage();
 
         // === ADMIN PIN ===
         const ADMIN_PIN = "1234"; // Tukar dengan PIN awak sendiri
-        let pendingPost = {
-            content: '',
-            imageFile: null,
-            status: 'published',
-            scheduleDate: null
-        };
-
-        // === IMAGE PREVIEW ===
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const previewContainer = document.getElementById('image-preview');
-            const previewImg = document.getElementById('preview-img');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    previewImg.src = e.target.result;
-                    previewContainer.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            } else {
-                previewContainer.style.display = 'none';
-            }
-        }
+        let pendingContent = '';
 
         // === SHOW PIN MODAL ===
         function showPinModal() {
             const content = document.getElementById('post-content').value.trim();
-            const imageFile = document.getElementById('image-upload').files[0];
-            const status = document.getElementById('post-status').value;
-            const scheduleDate = document.getElementById('schedule-date').value;
             
             if (!content) {
                 alert('Please enter some content for your post.');
                 return;
             }
             
-            // Check file size (max 5MB)
-            if (imageFile && imageFile.size > 5 * 1024 * 1024) {
-                alert('Image size should be less than 5MB.');
-                return;
-            }
-            
-            // Save pending post data
-            pendingPost = { 
-                content, 
-                imageFile, 
-                status,
-                scheduleDate: scheduleDate ? new Date(scheduleDate) : null
-            };
+            // Save pending content
+            pendingContent = content;
             
             // Show modal
             document.getElementById('pinModal').classList.add('active');
@@ -390,41 +265,15 @@
             }
         }
 
-        // === CREATE POST ===
+        // === CREATE POST (SIMPLE TEXT ONLY) ===
         async function createPost() {
             try {
-                let mediaArray = [];
-                
-                // Upload image jika ada
-                if (pendingPost.imageFile) {
-                    const storageRef = storage.ref(`posts/${Date.now()}_${pendingPost.imageFile.name}`);
-                    await storageRef.put(pendingPost.imageFile);
-                    const imageUrl = await storageRef.getDownloadURL();
-                    
-                    mediaArray.push({
-                        url: imageUrl,
-                        type: 'image'
-                    });
-                }
-                
-                // Determine publish date
-                let publishDate;
-                if (pendingPost.scheduleDate && pendingPost.status === 'published') {
-                    publishDate = pendingPost.scheduleDate;
-                } else {
-                    publishDate = firebase.firestore.FieldValue.serverTimestamp();
-                }
-                
-                // Prepare post data sesuai dengan database structure
+                // Simple post data - TEXT ONLY
                 const postData = {
-                    content: pendingPost.content,
-                    media: mediaArray.length > 0 ? mediaArray : [],
-                    status: pendingPost.status,
-                    likes: 0,
-                    deleted: false,
-                    archived: false,
+                    content: pendingContent,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    publishAt: publishDate
+                    likes: 0,
+                    status: "published"
                 };
                 
                 // Save to Firestore
@@ -432,18 +281,9 @@
                 
                 // Clear form
                 document.getElementById('post-content').value = '';
-                document.getElementById('image-upload').value = '';
-                document.getElementById('post-status').value = 'published';
-                document.getElementById('schedule-date').value = '';
-                document.getElementById('image-preview').style.display = 'none';
                 
-                // Reset pending post
-                pendingPost = { 
-                    content: '', 
-                    imageFile: null, 
-                    status: 'published',
-                    scheduleDate: null 
-                };
+                // Reset pending content
+                pendingContent = '';
                 
                 // Success message
                 alert('Post created successfully!');
@@ -456,16 +296,6 @@
 
         // === INITIALIZE ===
         document.addEventListener('DOMContentLoaded', function() {
-            // Set default date/time to now
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            
-            document.getElementById('schedule-date').min = `${year}-${month}-${day}T${hours}:${minutes}`;
-            
             // PIN input hanya nombor
             document.getElementById('pinInput').addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^0-9]/g, '');
