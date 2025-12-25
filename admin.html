@@ -255,24 +255,31 @@
             color: #d3ced7;
         }
         
-        /* Mobile Header (Hidden on Desktop) - FIXED: Center aligned */
+        /* Mobile Header (Hidden on Desktop) - FIXED: Simple, clean layout */
         .mobile-header {
             background: rgba(12, 29, 47, 0.95);
             padding: 1rem;
             border-bottom: 1px solid rgba(14, 54, 89, 0.5);
             display: block;
-            text-align: center; /* Center the title */
+            position: relative;
         }
         
         .mobile-header h1 {
             font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Center horizontally */
-            gap: 0.5rem;
+            text-align: center;
+            margin: 0;
         }
         
-        /* Bottom Navigation - Mobile only - FIXED: Removed logout on desktop */
+        .mobile-header-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #4dabf7;
+        }
+        
+        /* Bottom Navigation - Mobile only */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -342,7 +349,7 @@
             display: block;
         }
         
-        /* Create Post - FIXED: Schedule options for mobile */
+        /* Create Post */
         .create-post-container {
             background: rgba(24, 45, 64, 0.4);
             border-radius: 12px;
@@ -376,42 +383,6 @@
             outline: none;
             border-color: #d3ced7;
             box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
-        }
-        
-        /* FIXED: Schedule options for mobile */
-        select, input[type="datetime-local"] {
-            width: 100%;
-            padding: 0.8rem;
-            background: rgba(12, 29, 47, 0.8);
-            border: 1px solid #0E3659;
-            border-radius: 8px;
-            color: #FFFFFF;
-            font-size: 1rem;
-            font-family: inherit;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        
-        select:focus, input[type="datetime-local"]:focus {
-            outline: none;
-            border-color: #d3ced7;
-        }
-        
-        /* Fix for datetime-local on mobile */
-        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            opacity: 0.7;
-        }
-        
-        /* Schedule options container - FIXED for mobile */
-        #scheduleOptions {
-            margin-bottom: 1.5rem;
-            max-width: 100%;
-            overflow: hidden;
-        }
-        
-        #scheduleOptions input[type="datetime-local"] {
-            width: 100%;
         }
         
         /* Posts List */
@@ -706,12 +677,6 @@
                 width: auto;
                 min-width: 140px;
             }
-            
-            /* Fix for schedule options on tablet */
-            #scheduleOptions input[type="datetime-local"] {
-                width: 100%;
-                max-width: 300px;
-            }
         }
         
         /* Desktop (1024px and up) - Show desktop layout */
@@ -761,11 +726,6 @@
             .create-post-container {
                 max-width: 800px;
                 margin: 0 auto 2rem auto;
-            }
-            
-            /* Remove logout button from bottom nav on desktop */
-            .bottom-nav .nav-item[onclick*="logout"] {
-                display: none;
             }
         }
         
@@ -832,10 +792,6 @@
                         <i class="fas fa-list"></i>
                         <span>Manage Posts</span>
                     </a>
-                    <a href="#" class="desktop-nav-item" onclick="switchTab('schedule')">
-                        <i class="fas fa-clock"></i>
-                        <span>Scheduled Posts</span>
-                    </a>
                 </div>
                 
                 <div class="sidebar-footer">
@@ -855,9 +811,10 @@
                     </div>
                 </div>
                 
-                <!-- Mobile Header (Hidden on Desktop) - FIXED: Centered -->
+                <!-- Mobile Header (Hidden on Desktop) -->
                 <div class="mobile-header">
-                    <h1><i class="fas fa-cogs"></i> Admin Panel</h1>
+                    <i class="fas fa-cogs mobile-header-icon"></i>
+                    <h1>Admin Panel</h1>
                 </div>
                 
                 <!-- Main Content -->
@@ -872,20 +829,6 @@
                         <div class="create-post-container">
                             <div class="form-group">
                                 <textarea id="post-content" placeholder="What's new at Trulune? Share updates here..."></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label style="color: #d3ced7; display: block; margin-bottom: 0.5rem;">
-                                    <i class="fas fa-clock"></i> Schedule Options
-                                </label>
-                                <select id="post-schedule" onchange="toggleScheduleOptions()">
-                                    <option value="now">Post Now</option>
-                                    <option value="schedule">Schedule for Later</option>
-                                </select>
-                            </div>
-                            
-                            <div id="scheduleOptions" style="display: none; margin-bottom: 1.5rem;">
-                                <input type="datetime-local" id="schedule-time">
                             </div>
                             
                             <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -907,20 +850,11 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Schedule Tab -->
-                    <div id="scheduleTab" class="tab-content">
-                        <div class="posts-container" id="scheduledPosts">
-                            <div class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> Loading scheduled posts...
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Bottom Navigation (Mobile Only) - FIXED: 3 items on desktop -->
+        <!-- Bottom Navigation (Mobile Only) - Only Create and Manage tabs -->
         <div class="bottom-nav">
             <a href="#" class="nav-item active" onclick="switchTab('create')">
                 <i class="fas fa-plus"></i>
@@ -929,15 +863,6 @@
             <a href="#" class="nav-item" onclick="switchTab('manage')">
                 <i class="fas fa-list"></i>
                 <span>Manage</span>
-            </a>
-            <a href="#" class="nav-item" onclick="switchTab('schedule')">
-                <i class="fas fa-clock"></i>
-                <span>Schedule</span>
-            </a>
-            <!-- Logout button - will be hidden on desktop -->
-            <a href="#" class="nav-item" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
             </a>
         </div>
     </div>
@@ -951,19 +876,6 @@
             <div class="modal-buttons">
                 <button id="confirmDeleteBtn" class="btn btn-danger">Delete Post</button>
                 <button class="btn" onclick="closeDeleteModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Cancel Schedule Modal -->
-    <div class="modal" id="cancelScheduleModal">
-        <div class="modal-content">
-            <h3><i class="fas fa-calendar-times"></i> Cancel Schedule</h3>
-            <p>Are you sure you want to cancel this scheduled post?</p>
-            <div id="cancelSchedulePreview" class="modal-preview"></div>
-            <div class="modal-buttons">
-                <button id="confirmCancelBtn" class="btn btn-danger">Cancel Schedule</button>
-                <button class="btn" onclick="closeCancelModal()">Keep Scheduled</button>
             </div>
         </div>
     </div>
@@ -983,9 +895,7 @@
         let db = null;
         let auth = null;
         let postsListener = null;
-        let scheduledListener = null;
         let currentPostToDelete = null;
-        let currentScheduleToCancel = null;
 
         // Initialize Firebase
         if (typeof firebase !== 'undefined') {
@@ -1015,7 +925,6 @@
                 
                 // Load initial content
                 loadPosts();
-                loadScheduledPosts();
                 
                 // Show login success notification
                 showNotification('Login successful!', 'success');
@@ -1135,8 +1044,7 @@
             // Update desktop title
             const titleMap = {
                 'create': 'Create Post',
-                'manage': 'Manage Posts',
-                'schedule': 'Scheduled Posts'
+                'manage': 'Manage Posts'
             };
             
             document.getElementById('desktopTitle').textContent = titleMap[tabName] || 'Admin Panel';
@@ -1151,42 +1059,16 @@
                 document.querySelector('.desktop-nav-item:nth-child(2)').classList.add('active');
                 document.getElementById('manageTab').classList.add('active');
                 loadPosts();
-            } else if (tabName === 'schedule') {
-                document.querySelector('.nav-item:nth-child(3)').classList.add('active');
-                document.querySelector('.desktop-nav-item:nth-child(3)').classList.add('active');
-                document.getElementById('scheduleTab').classList.add('active');
-                loadScheduledPosts();
-            }
-        }
-
-        // === POST CREATION ===
-        function toggleScheduleOptions() {
-            const scheduleType = document.getElementById('post-schedule').value;
-            const scheduleOptions = document.getElementById('scheduleOptions');
-            
-            if (scheduleType === 'schedule') {
-                scheduleOptions.style.display = 'block';
-                // Set default time to 1 hour from now
-                const now = new Date();
-                now.setHours(now.getHours() + 1);
-                const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-                document.getElementById('schedule-time').value = localDateTime;
-            } else {
-                scheduleOptions.style.display = 'none';
             }
         }
 
         function clearForm() {
             document.getElementById('post-content').value = '';
-            document.getElementById('post-schedule').value = 'now';
-            document.getElementById('scheduleOptions').style.display = 'none';
             showNotification('Form cleared', 'info');
         }
 
         async function createPost() {
             const content = document.getElementById('post-content').value.trim();
-            const scheduleType = document.getElementById('post-schedule').value;
-            const scheduleTime = document.getElementById('schedule-time').value;
             
             if (!content) {
                 showNotification('Please enter post content', 'warning');
@@ -1210,32 +1092,14 @@
                     timestamp: new Date().toISOString()
                 };
                 
-                if (scheduleType === 'schedule' && scheduleTime) {
-                    const scheduledDate = new Date(scheduleTime);
-                    if (scheduledDate <= new Date()) {
-                        showNotification('Schedule time must be in the future', 'warning');
-                        return;
-                    }
-                    
-                    postData.status = "scheduled";
-                    postData.scheduledFor = scheduledDate.toISOString();
-                    
-                    await db.collection('scheduled_posts').add(postData);
-                    showNotification('Post scheduled successfully!', 'success');
-                } else {
-                    await db.collection('posts').add(postData);
-                    showNotification('Post published successfully!', 'success');
-                }
+                await db.collection('posts').add(postData);
+                showNotification('Post published successfully!', 'success');
                 
                 // Clear form
                 clearForm();
                 
-                // Switch to appropriate tab
-                if (scheduleType === 'schedule') {
-                    switchTab('schedule');
-                } else {
-                    switchTab('manage');
-                }
+                // Switch to manage tab
+                switchTab('manage');
                 
             } catch (error) {
                 console.error("Error creating post:", error);
@@ -1311,80 +1175,6 @@
                 });
         }
 
-        // === SCHEDULED POSTS ===
-        function loadScheduledPosts() {
-            if (!db || !auth.currentUser) return;
-            
-            const scheduledList = document.getElementById('scheduledPosts');
-            scheduledList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading scheduled posts...</div>';
-            
-            if (scheduledListener) scheduledListener();
-            
-            scheduledListener = db.collection('scheduled_posts')
-                .orderBy('scheduledFor', 'asc')
-                .onSnapshot(snapshot => {
-                    if (snapshot.empty) {
-                        scheduledList.innerHTML = `
-                            <div class="no-posts">
-                                <i class="fas fa-clock fa-2x" style="margin-bottom: 1rem; color: #d3ced7;"></i>
-                                <h3 style="margin-bottom: 0.5rem;">No Scheduled Posts</h3>
-                                <p style="margin: 1rem 0; color: #d3ced7;">Schedule your first post!</p>
-                                <button onclick="switchTab('create')" class="btn">Schedule Post</button>
-                            </div>
-                        `;
-                        return;
-                    }
-                    
-                    let postsHTML = '';
-                    snapshot.forEach(doc => {
-                        const post = doc.data();
-                        const postId = doc.id;
-                        const scheduledDate = post.scheduledFor ? new Date(post.scheduledFor).toLocaleDateString('en-MY', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }) : 'Not scheduled';
-                        
-                        postsHTML += `
-                            <div class="post-card">
-                                <div class="post-header">
-                                    <div class="post-meta">
-                                        <i class="fas fa-clock"></i> Scheduled for: ${scheduledDate}
-                                    </div>
-                                    ${post.postedBy ? `<div class="post-meta"><i class="fas fa-user"></i> ${post.postedBy}</div>` : ''}
-                                </div>
-                                <div class="post-content">
-                                    ${post.content.replace(/\n/g, '<br>')}
-                                </div>
-                                <div class="post-footer">
-                                    <div class="post-likes">
-                                        <i class="fas fa-heart"></i> ${post.likes || 0} likes
-                                    </div>
-                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                        <button onclick="publishNow('${postId}')" 
-                                                class="publish-btn">
-                                            <i class="fas fa-paper-plane"></i> Publish Now
-                                        </button>
-                                        <button onclick="confirmCancelSchedule('${postId}', \`${post.content.substring(0, 100)}${post.content.length > 100 ? '...' : ''}\`)" 
-                                                class="delete-btn">
-                                            <i class="fas fa-ban"></i> Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    scheduledList.innerHTML = postsHTML;
-                }, error => {
-                    console.error("Error loading scheduled posts:", error);
-                    scheduledList.innerHTML = `<div class="no-posts">Error loading scheduled posts.</div>`;
-                    showNotification('Error loading scheduled posts', 'error');
-                });
-        }
-
         // === DELETE FUNCTIONS ===
         function confirmDelete(postId, preview) {
             currentPostToDelete = postId;
@@ -1414,62 +1204,7 @@
             }
         }
 
-        function confirmCancelSchedule(postId, preview) {
-            currentScheduleToCancel = postId;
-            const modal = document.getElementById('cancelScheduleModal');
-            const previewDiv = document.getElementById('cancelSchedulePreview');
-            
-            previewDiv.textContent = preview;
-            modal.classList.add('active');
-        }
-
-        function closeCancelModal() {
-            document.getElementById('cancelScheduleModal').classList.remove('active');
-            currentScheduleToCancel = null;
-        }
-
-        async function cancelSchedule() {
-            if (!currentScheduleToCancel) return;
-            
-            try {
-                await db.collection('scheduled_posts').doc(currentScheduleToCancel).delete();
-                closeCancelModal();
-                showNotification('Schedule cancelled successfully!', 'success');
-                loadScheduledPosts();
-            } catch (error) {
-                console.error("Error cancelling schedule:", error);
-                showNotification('Error cancelling schedule', 'error');
-            }
-        }
-
-        async function publishNow(postId) {
-            if (!postId) return;
-            
-            try {
-                // Get scheduled post
-                const postDoc = await db.collection('scheduled_posts').doc(postId).get();
-                if (!postDoc.exists) return;
-                
-                const postData = postDoc.data();
-                postData.status = "published";
-                postData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                
-                // Add to regular posts
-                await db.collection('posts').add(postData);
-                
-                // Remove from scheduled
-                await db.collection('scheduled_posts').doc(postId).delete();
-                
-                showNotification('Post published now!', 'success');
-                loadScheduledPosts();
-                
-            } catch (error) {
-                console.error("Error publishing now:", error);
-                showNotification('Error publishing post', 'error');
-            }
-        }
-
-        // === NOTIFICATION SYSTEM - ADDED ===
+        // === NOTIFICATION SYSTEM ===
         function showNotification(message, type = 'success') {
             // Remove existing notification
             const existing = document.querySelector('.toast');
@@ -1504,7 +1239,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Set up button handlers
             document.getElementById('confirmDeleteBtn').onclick = deletePost;
-            document.getElementById('confirmCancelBtn').onclick = cancelSchedule;
             
             // Login with Enter key
             document.getElementById('loginPassword').addEventListener('keypress', function(e) {
@@ -1515,35 +1249,8 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     closeDeleteModal();
-                    closeCancelModal();
                 }
             });
-            
-            // Hide logout button on desktop in bottom nav
-            function updateBottomNavForDesktop() {
-                const bottomNav = document.querySelector('.bottom-nav');
-                const logoutButton = bottomNav.querySelector('.nav-item[onclick*="logout"]');
-                
-                if (window.innerWidth >= 1024) {
-                    // Hide logout on desktop
-                    if (logoutButton) {
-                        logoutButton.style.display = 'none';
-                    }
-                    // Adjust layout for 3 items instead of 4
-                    bottomNav.style.justifyContent = 'space-around';
-                } else {
-                    // Show logout on mobile
-                    if (logoutButton) {
-                        logoutButton.style.display = 'flex';
-                    }
-                }
-            }
-            
-            // Initial check
-            updateBottomNavForDesktop();
-            
-            // Update on resize
-            window.addEventListener('resize', updateBottomNavForDesktop);
         });
     </script>
 </body>
