@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Trulune Malaysia</title>
     
-    <!-- Same styling -->
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Firebase (NO STORAGE) -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
     
     <style>
         * {
@@ -188,7 +188,7 @@
             <i class="fas fa-paper-plane"></i> Post Update
         </button>
         
-        <a href="index.html" class="back-link">
+        <a href="newhome.html" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to Homepage
         </a>
     </div>
@@ -218,12 +218,23 @@
             appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
         };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        // Initialize Firebase jika sudah loaded
+        let db = null;
+        
+        if (typeof firebase !== 'undefined') {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                console.log("Admin: Firebase initialized!");
+            } catch (error) {
+                console.error("Admin: Firebase init error:", error);
+            }
+        } else {
+            console.error("Admin: Firebase SDK not loaded!");
+        }
 
         // === ADMIN PIN ===
-        const ADMIN_PIN = "1234"; // Tukar dengan PIN awak sendiri
+        const ADMIN_PIN = "1234";
         let pendingContent = '';
 
         // === SHOW PIN MODAL ===
@@ -232,6 +243,11 @@
             
             if (!content) {
                 alert('Please enter some content for your post.');
+                return;
+            }
+            
+            if (!db) {
+                alert('Database not connected. Please refresh page.');
                 return;
             }
             
@@ -265,10 +281,15 @@
             }
         }
 
-        // === CREATE POST (SIMPLE TEXT ONLY) ===
+        // === CREATE POST ===
         async function createPost() {
+            if (!db) {
+                alert('Database not connected. Please refresh page.');
+                return;
+            }
+            
             try {
-                // Simple post data - TEXT ONLY
+                // Simple post data
                 const postData = {
                     content: pendingContent,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -286,23 +307,23 @@
                 pendingContent = '';
                 
                 // Success message
-                alert('Post created successfully!');
+                alert('✅ Post created successfully!');
                 
             } catch (error) {
                 console.error("Error creating post:", error);
-                alert('Error posting. Please try again.\nError: ' + error.message);
+                alert('❌ Error posting. Please try again.\nError: ' + error.message);
             }
         }
 
         // === INITIALIZE ===
         document.addEventListener('DOMContentLoaded', function() {
             // PIN input hanya nombor
-            document.getElementById('pinInput').addEventListener('input', function(e) {
+            document.getElementById('pinInput')?.addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^0-9]/g, '');
             });
             
             // Submit PIN dengan Enter
-            document.getElementById('pinInput').addEventListener('keypress', function(e) {
+            document.getElementById('pinInput')?.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') submitPin();
             });
             
