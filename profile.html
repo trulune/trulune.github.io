@@ -32,13 +32,10 @@
             color: #FFFFFF;
             min-height: 100vh;
             background: 
-                radial-gradient(ellipse at 20% 10%, rgba(14, 54, 89, 0.8) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(24, 45, 64, 0.8) 0%, transparent 50%),
-                radial-gradient(ellipse at 40% 40%, rgba(12, 29, 47, 0.9) 0%, transparent 60%),
-                radial-gradient(ellipse at 60% 60%, rgba(14, 54, 89, 0.6) 0%, transparent 55%),
-                radial-gradient(ellipse at 10% 70%, rgba(28, 65, 100, 0.5) 0%, transparent 45%),
-                radial-gradient(ellipse at 90% 30%, rgba(20, 40, 60, 0.6) 0%, transparent 45%),
-                linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+                radial-gradient(circle at 20% 20%, rgba(14, 54, 89, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(24, 45, 64, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 40% 40%, rgba(12, 29, 47, 1) 0%, transparent 50%),
+                linear-gradient(145deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
             background-attachment: fixed;
             display: flex;
             flex-direction: column;
@@ -168,10 +165,16 @@
             padding: 0 1.5rem;
         }
         
+        /* Section spacing - FIXED: Added top/bottom spacing */
+        .profile-section {
+            margin: 3rem 0;
+        }
+        
         /* Footer with Social Media INLINE */
         .footer {
-            padding: 1.5rem 0;
-            margin-top: 1rem;
+            padding: 2.5rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
         
         .footer-content {
@@ -190,6 +193,7 @@
             justify-content: center;
             gap: 1.5rem;
             flex-wrap: wrap;
+            margin-bottom: 1.5rem;
         }
         
         .social-text {
@@ -226,7 +230,7 @@
         
         .copyright {
             text-align: center;
-            padding-top: 1rem;
+            padding-top: 1.5rem;
             color: #d3ced7;
             width: 100%;
             font-size: 0.9rem;
@@ -259,13 +263,13 @@
             border-radius: 12px;
         }
         
-        /* PROFILE HEADER - Fixed centering */
+        /* PROFILE HEADER - Fixed centering - FIXED: Stick to image header */
         .profile-header {
             position: relative;
-            background: rgba(24, 45, 64, 0.5);
+            background: rgba(24, 45, 64, 0.85);
             border-radius: 12px;
             padding: 1.5rem;
-            margin: -110px auto 1rem auto;
+            margin: -60px auto 3rem auto;
             max-width: 800px;
             display: flex;
             align-items: center;
@@ -274,8 +278,9 @@
             border: 1px solid rgba(14, 54, 89, 0.3);
             z-index: 2;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             min-height: 140px;
+            transform: translateY(-50%);
         }
         
         .profile-avatar {
@@ -352,26 +357,31 @@
             max-width: 100%;
         }
         
+        /* Posts container spacing */
         .posts {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 2rem;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 2rem auto;
         }
         
-        /* Post box - Fixed height */
+        /* Post box - FIXED: Reduced height */
         .post {
-            background: rgba(24, 45, 64, 0.5);
+            background: rgba(24, 45, 64, 0.7);
             border-radius: 12px;
             padding: 1.2rem;
             position: relative;
             border: 1px solid rgba(14, 54, 89, 0.3);
             z-index: 2;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(5px);
-            height: auto;
             min-height: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .post:hover {
+            transform: translateY(-3px);
         }
         
         .post-header {
@@ -423,7 +433,7 @@
             font-size: 0.85rem;
         }
         
-        /* Post content - Fixed alignment */
+        /* Post content - FIXED: Removed auto centering space */
         .post-content {
             line-height: 1.6;
             color: #FFFFFF;
@@ -481,7 +491,7 @@
             transform: scale(1.1);
         }
         
-        /* NEW: Like button - minimalist like share button */
+        /* NEW: Like button - FIXED with heartbeat animation */
         .post-like-button {
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #FFFFFF;
@@ -493,15 +503,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            padding: 0;
         }
         
-        .post-like-button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: scale(1.1);
+        .post-like-button:active {
+            animation: heartbeat 0.3s ease;
         }
         
         .post-like-button.liked {
@@ -509,14 +519,20 @@
             color: #FFFFFF;
         }
         
-        .post-like-button.liked:hover {
-            background: linear-gradient(135deg, #ff5252 0%, #ff6b6b 100%);
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(0.95); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .post-like-count {
             font-size: 0.95rem;
             color: #d3ced7;
             margin-left: 0.5rem;
+            min-width: 30px;
+            display: inline-block;
         }
         
         .like-container {
@@ -623,12 +639,12 @@
         /* Section title */
         .section-title {
             font-size: 2.2rem;
-            margin-bottom: 0.3rem;
+            margin: 3rem 0 1rem 0;
             color: #FFFFFF;
             text-align: center;
         }
         
-        /* Notification button - Clean and simple */
+        /* Notification button - FIXED for all devices */
         #notificationPrompt {
             position: fixed;
             bottom: 20px;
@@ -650,6 +666,7 @@
             gap: 8px;
             font-size: 0.9rem;
             transition: all 0.3s;
+            font-weight: 500;
         }
         
         #notificationPrompt button:hover {
@@ -681,14 +698,15 @@
             .profile-hero-section {
                 max-width: 100%;
                 width: 100%;
-                height: 300px;
+                height: 280px;
                 margin: 100px auto 0 auto;
             }
             
             .profile-header {
-                margin: -50px auto 1rem auto;
+                margin: -60px auto 2rem auto;
                 padding: 1.2rem;
                 gap: 1.2rem;
+                transform: translateY(-50%);
             }
             
             .profile-avatar {
@@ -702,17 +720,17 @@
             
             .section-title {
                 font-size: 2rem;
+                margin: 2rem 0 1rem 0;
+            }
+            
+            .posts {
+                gap: 1.5rem;
+                margin: 1.5rem auto;
             }
             
             #notificationPrompt {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
-            }
-            
-            #notificationPrompt button {
-                width: 100%;
-                justify-content: center;
+                bottom: 15px;
+                right: 15px;
             }
         }
         
@@ -757,17 +775,17 @@
             
             /* Profile hero section mobile */
             .profile-hero-section {
-                max-width: 90%;
+                max-width: 95%;
                 width: 100%;
                 height: 250px;
-                border-radius: 0px;
+                border-radius: 8px;
                 margin: 100px auto 0 auto;
             }
             
             /* Section titles mobile */
             .section-title {
                 font-size: 1.8rem;
-                margin-bottom: 0.3rem;
+                margin: 2rem 0 1rem 0;
             }
             
             /* Profile header mobile */
@@ -776,8 +794,9 @@
                 text-align: center;
                 padding: 1.2rem;
                 gap: 1rem;
-                max-width: 80%;
-                margin: -110px auto 1rem auto;
+                max-width: 90%;
+                margin: -60px auto 2rem auto;
+                transform: translateY(-50%);
             }
             
             .profile-info {
@@ -825,6 +844,11 @@
             }
             
             /* Posts mobile */
+            .posts {
+                gap: 1.2rem;
+                margin: 1.2rem auto;
+            }
+            
             .post {
                 padding: 1rem;
             }
@@ -847,6 +871,20 @@
             .post-time {
                 font-size: 0.8rem;
             }
+            
+            /* Notification button mobile */
+            #notificationPrompt {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+            
+            #notificationPrompt button {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
         }
         
         /* Small Mobile View (max-width: 480px) */
@@ -865,22 +903,24 @@
             }
             
             .profile-section {
-                margin: 1rem 0;
+                margin: 2rem 0;
             }
             
             .footer {
-                padding: 1.2rem 0;
-                margin-top: 1rem;
+                padding: 2rem 0;
+                margin-top: 2rem;
             }
             
             .section-title {
                 font-size: 1.6rem;
+                margin: 1.5rem 0 0.8rem 0;
             }
             
             .profile-header {
                 padding: 1rem;
                 gap: 0.8rem;
-                margin: -30px auto 0.8rem auto;
+                margin: -50px auto 1.5rem auto;
+                transform: translateY(-50%);
             }
             
             .profile-avatar {
@@ -894,6 +934,11 @@
             
             .profile-bio {
                 font-size: 0.9rem;
+            }
+            
+            .posts {
+                gap: 1rem;
+                margin: 1rem auto;
             }
             
             .post {
@@ -914,7 +959,7 @@
             .post-like-button {
                 width: 32px;
                 height: 32px;
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
             
             .post-actions {
@@ -955,6 +1000,11 @@
                 width: 38px;
                 height: 38px;
                 font-size: 1rem;
+            }
+            
+            #notificationPrompt button {
+                padding: 8px 14px;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -1004,7 +1054,7 @@
             </section>
             
             <!-- Updates Feed -->
-            <h2 class="section-title" style="text-align: center; margin-top: 1rem;">Updates</h2>
+            <h2 class="section-title" style="text-align: center;">Updates</h2>
             <div class="posts" id="posts-container">
                 <!-- Posts will load here automatically -->
             </div>
@@ -1218,7 +1268,7 @@
             link.click();
         }
         
-        // === LIKE FUNCTIONALITY (UNLIMITED LIKES) ===
+        // === LIKE FUNCTIONALITY (FIXED with heartbeat animation) ===
         async function likePost(postId, currentLikes) {
             if (!db) {
                 console.error("Firebase not initialized");
@@ -1264,10 +1314,15 @@
             if (likeButton && likeCountElement) {
                 if (liked) {
                     likeButton.classList.add('liked');
-                    likeButton.innerHTML = '❤︎';
+                    likeButton.innerHTML = '💗';
+                    // Trigger heartbeat animation
+                    likeButton.style.animation = 'none';
+                    setTimeout(() => {
+                        likeButton.style.animation = 'heartbeat 0.3s ease';
+                    }, 10);
                 } else {
                     likeButton.classList.remove('liked');
-                    likeButton.innerHTML = '❤︎';
+                    likeButton.innerHTML = '💗';
                 }
                 likeCountElement.textContent = likes;
             }
@@ -1322,7 +1377,7 @@
                     const isLiked = likedPosts[postId] || false;
                     
                     postsHTML += `
-                        <div class="post">
+                        <div class="post" id="post-${postId}">
                             <div class="post-header">
                                 <div class="post-avatar">
                                     <img src="images/Logo.png" alt="Trulune Malaysia">
@@ -1348,7 +1403,7 @@
                                     <button class="post-like-button ${isLiked ? 'liked' : ''}" 
                                             data-post-id="${postId}" 
                                             onclick="likePost('${postId}', ${post.likes || 0})">
-                                        ♡
+                                        💗
                                     </button>
                                     <span class="post-like-count" data-post-id="${postId}">${post.likes || 0}</span>
                                 </div>
@@ -1388,7 +1443,7 @@
             });
         }
         
-        // === NOTIFICATION SYSTEM (FIXED) ===
+        // === NOTIFICATION SYSTEM (FIXED for all devices) ===
         async function initializeNotifications() {
             if (!messaging) {
                 console.log("Messaging not supported");
@@ -1428,47 +1483,107 @@
         
         async function requestNotificationPermission() {
             try {
-                const permission = await Notification.requestPermission();
+                // Check if we're on a mobile device
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 
-                if (permission === 'granted') {
-                    // Remove button
-                    const prompt = document.getElementById('notificationPrompt');
-                    if (prompt) prompt.remove();
+                if (isMobile) {
+                    // On mobile, we need to use the browser's native permission request
+                    const permission = await Notification.requestPermission();
                     
-                    // Setup notifications
-                    await setupGrantedNotifications();
+                    if (permission === 'granted') {
+                        // Remove button
+                        const prompt = document.getElementById('notificationPrompt');
+                        if (prompt) prompt.remove();
+                        
+                        // Setup notifications
+                        await setupGrantedNotifications();
+                        
+                        // Show success message
+                        showNotificationToast('✅ Notifications enabled! You will receive alerts for new posts.');
+                    } else if (permission === 'denied') {
+                        showNotificationToast('Notifications blocked. You can enable them later in browser settings.');
+                    }
+                } else {
+                    // On desktop, use standard flow
+                    const permission = await Notification.requestPermission();
                     
-                    // Show success message
-                    alert('✅ Notifications enabled! You will receive alerts for new posts.');
-                } else if (permission === 'denied') {
-                    alert('Notifications blocked. You can enable them later in browser settings.');
+                    if (permission === 'granted') {
+                        // Remove button
+                        const prompt = document.getElementById('notificationPrompt');
+                        if (prompt) prompt.remove();
+                        
+                        // Setup notifications
+                        await setupGrantedNotifications();
+                        
+                        // Show success message
+                        showNotificationToast('✅ Notifications enabled! You will receive alerts for new posts.');
+                    } else if (permission === 'denied') {
+                        showNotificationToast('Notifications blocked. You can enable them later in browser settings.');
+                    }
                 }
             } catch (error) {
                 console.error('Permission request error:', error);
-                alert('Error requesting notification permission. Please try again.');
+                showNotificationToast('Error requesting notification permission. Please try again.');
             }
+        }
+        
+        function showNotificationToast(message) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(24, 45, 64, 0.95);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 2000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                border: 1px solid rgba(14, 54, 89, 0.5);
+                backdrop-filter: blur(10px);
+                animation: slideInUp 0.3s ease;
+                max-width: 90%;
+                text-align: center;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(20px)';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
         }
         
         async function setupGrantedNotifications() {
             try {
                 // Register service worker
-                const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
-                messaging.useServiceWorker(registration);
-                
-                // Get token
-                const token = await messaging.getToken({ vapidKey: VAPID_KEY });
-                
-                if (token) {
-                    console.log('FCM Token obtained:', token.substring(0, 20) + '...');
+                if ('serviceWorker' in navigator) {
+                    const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
+                    messaging.useServiceWorker(registration);
                     
-                    // Save token to Firestore
-                    await saveTokenToServer(token);
+                    // Get token
+                    const token = await messaging.getToken({ vapidKey: VAPID_KEY });
                     
-                    // Listen for new posts
-                    setupPostNotificationsListener();
-                    
-                    // Send test notification
-                    sendTestNotification();
+                    if (token) {
+                        console.log('FCM Token obtained:', token.substring(0, 20) + '...');
+                        
+                        // Save token to Firestore
+                        await saveTokenToServer(token);
+                        
+                        // Listen for new posts
+                        setupPostNotificationsListener();
+                        
+                        // Send test notification
+                        sendTestNotification();
+                    }
                 }
             } catch (error) {
                 console.error('Notification setup error:', error);
@@ -1511,7 +1626,7 @@
                         if (change.type === 'added') {
                             const newPost = change.doc.data();
                             console.log('New post detected, showing notification...');
-                            showNewPostNotification(newPost);
+                            showNewPostNotification(newPost, change.doc.id);
                         }
                     });
                 }, (error) => {
@@ -1519,17 +1634,34 @@
                 });
         }
         
-        function showNewPostNotification(post) {
+        function showNewPostNotification(post, postId) {
             if (Notification.permission !== 'granted') return;
             
             const notification = new Notification("📢 New Post from Trulune", {
                 body: post.content ? (post.content.substring(0, 100) + (post.content.length > 100 ? '...' : '')) : 'New update from Trulune!',
                 icon: "./images/Logo.png",
-                tag: 'new-post'
+                tag: 'new-post',
+                data: { postId: postId }
             });
             
+            // FIXED: When notification is clicked, scroll to the post
             notification.onclick = function() {
                 window.focus();
+                
+                // Scroll to the new post
+                setTimeout(() => {
+                    const postElement = document.getElementById(`post-${postId}`);
+                    if (postElement) {
+                        postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // Add highlight effect
+                        postElement.style.backgroundColor = 'rgba(14, 54, 89, 0.5)';
+                        setTimeout(() => {
+                            postElement.style.backgroundColor = '';
+                        }, 2000);
+                    }
+                }, 100);
+                
                 this.close();
             };
         }
