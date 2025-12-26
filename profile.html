@@ -9,7 +9,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -108,7 +107,7 @@
             font-weight: 400;
         }
         
-        /* Mobile Menu Toggle - PLAIN */
+        /* Mobile Menu Toggle - PLAIN VERSION */
         .mobile-menu-toggle {
             display: none;
             background: none;
@@ -120,7 +119,7 @@
             z-index: 1002;
         }
         
-        /* Menu header - PLAIN */
+        /* Menu header */
         .nav-links {
             display: flex;
             list-style: none;
@@ -165,7 +164,7 @@
             padding: 0 1.5rem;
         }
         
-        /* Section spacing - FIXED: Normal spacing */
+        /* Section spacing */
         .profile-section {
             margin: 2rem 0;
         }
@@ -186,7 +185,7 @@
             padding: 0 1.5rem;
         }
         
-        /* Social section - INLINE with text and icons */
+        /* Social section */
         .social-section {
             display: flex;
             align-items: center;
@@ -237,12 +236,11 @@
             border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
         
-        /* PROFILE PAGE HEADER FIXES - FIXED: Normal spacing */
+        /* PROFILE HEADER SECTION - FIXED SIZE */
         .profile-hero-section {
             position: relative;
-            max-width: 1150px;
-            width: 100%;
-            height: 250px;
+            width: 1150px;
+            height: 350px;
             margin: 120px auto 0 auto;
             overflow: hidden;
             border-radius: 8px;
@@ -256,28 +254,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80');
+            background: url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1150&h=350&q=80');
             background-size: cover;
             background-position: center;
             z-index: -1;
-            border-radius: 12px;
+            border-radius: 8px;
         }
         
-        /* PROFILE HEADER - Fixed centering - FIXED: Normal spacing */
+        /* PROFILE HEADER - POSITIONED AT BOTTOM OF IMAGE */
         .profile-header {
-            position: relative;
-            background: rgba(24, 45, 64, 0.85);
-            border-radius: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(24, 45, 64, 0.9);
+            border-radius: 0 0 8px 8px;
             padding: 1.5rem;
-            margin: -80px auto 2rem auto;
-            max-width: 800px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             flex-wrap: wrap;
             gap: 1.5rem;
             border: 1px solid rgba(14, 54, 89, 0.3);
+            border-top: none;
             z-index: 2;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             min-height: 140px;
         }
@@ -295,6 +294,8 @@
             border: 4px solid rgba(12, 29, 47, 0.8);
             flex-shrink: 0;
             overflow: hidden;
+            margin-top: -60px;
+            margin-left: 1.5rem;
         }
         
         .profile-avatar img {
@@ -312,7 +313,7 @@
             align-items: flex-start;
         }
         
-        /* Profile name - LEFT ALIGNED FOR DESKTOP ONLY */
+        /* Profile name */
         .profile-name {
             font-size: 1.6rem;
             margin-bottom: 0.5rem;
@@ -323,7 +324,7 @@
             flex-wrap: wrap;
         }
         
-        /* VERIFIED BADGE - CLICKABLE TOOLTIP */
+        /* VERIFIED BADGE - FIXED: Disable right click and long press */
         .verified-badge {
             display: inline-flex;
             align-items: center;
@@ -335,16 +336,42 @@
             position: relative;
             vertical-align: middle;
             cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        
+        /* FIX 4: Disable context menu and long press */
+        .verified-badge img {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
         }
         
         .profile-name .verified-badge {
             width: 26px;
             height: 26px;
+            cursor: pointer;
+            pointer-events: auto; /* Enable clicking for tooltip */
         }
         
         .post-user .verified-badge {
             width: 18px;
             height: 18px;
+            cursor: pointer;
+            pointer-events: auto; /* Enable clicking for tooltip */
         }
         
         .profile-bio {
@@ -362,7 +389,7 @@
             flex-direction: column;
             gap: 1.5rem;
             max-width: 800px;
-            margin: 1rem auto;
+            margin: 2rem auto 1rem auto;
         }
         
         /* Post box */
@@ -410,7 +437,7 @@
             flex: 1;
         }
         
-        /* Post user name aligned properly */
+        /* Post user name */
         .post-user {
             font-weight: 600;
             color: #FFFFFF;
@@ -427,7 +454,7 @@
             font-size: 0.85rem;
         }
         
-        /* Post content - FIXED: Removed extra spacing like Twitter */
+        /* FIX 1 & 5: Post content - Remove spacing and align left properly */
         .post-content {
             line-height: 1.6;
             color: #FFFFFF;
@@ -436,11 +463,16 @@
             text-align: left;
             word-break: break-word;
             overflow-wrap: break-word;
-            margin: 0 0 0.5rem 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            display: block;
+            text-align: left !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
         }
         
-        /* Style for links in posts - UNDERLINE */
+        /* Style for links in posts */
         .post-content a {
             color: #4dabf7;
             text-decoration: underline;
@@ -460,7 +492,7 @@
             border-top: 1px solid rgba(14, 54, 89, 0.2);
         }
         
-        /* Share button positioned top right */
+        /* Share button */
         .post-share-button {
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #FFFFFF;
@@ -485,7 +517,7 @@
             transform: scale(1.1);
         }
         
-        /* LIKE BUTTON - FIXED: Plain, no hover, no style */
+        /* FIX 2: LIKE BUTTON moved to the LEFT */
         .post-like-button {
             background: transparent;
             color: #d3ced7;
@@ -518,7 +550,7 @@
             gap: 0.3rem;
         }
         
-        /* Tooltip for verified badge - CLICKABLE MODAL */
+        /* Tooltip for verified badge */
         .verified-wrapper {
             position: relative;
             display: inline-flex;
@@ -570,7 +602,7 @@
             justify-content: center;
         }
         
-        /* Share modal */
+        /* FIX 3: Share modal layout */
         .share-modal {
             display: none;
             position: fixed;
@@ -601,9 +633,12 @@
         
         .share-image {
             max-width: 100%;
+            max-height: 60vh;
             border-radius: 8px;
             margin-bottom: 1rem;
             border: 1px solid rgba(14, 54, 89, 0.5);
+            object-fit: contain;
+            display: none; /* Hide the old image, we're using preview */
         }
         
         .share-buttons {
@@ -611,6 +646,95 @@
             gap: 1rem;
             justify-content: center;
             margin-top: 1rem;
+        }
+        
+        /* Share preview styling */
+        .share-preview {
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .share-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .share-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(211, 206, 215, 0.3);
+            flex-shrink: 0;
+        }
+        
+        .share-user-info {
+            flex: 1;
+        }
+        
+        .share-username {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .share-verified-badge {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+        
+        /* FIX 5: Share content aligned left */
+        .share-content {
+            color: #FFFFFF;
+            font-size: 1rem;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            width: 100%;
+            display: block;
+        }
+        
+        .share-footer {
+            color: #d3ced7;
+            font-size: 0.9rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
+            text-align: left;
+        }
+        
+        /* Buy button style */
+        .buy-button {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .buy-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
         }
         
         /* Section title */
@@ -621,64 +745,80 @@
             text-align: center;
         }
         
-        /* Notification button */
-        #notificationPrompt {
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            animation: slideInUp 0.5s ease;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 4000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
         }
         
-        #notificationPrompt button {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(14, 54, 89, 0.3);
+            border-top: 5px solid #4dabf7;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: rgba(46, 125, 50, 0.95);
             color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            font-weight: 500;
+            gap: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
         }
         
-        #notificationPrompt button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
+        .toast.error {
+            background: rgba(211, 47, 47, 0.95);
         }
         
-        @keyframes slideInUp {
-            from {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         /* ========== RESPONSIVE DESIGN ========== */
         
         /* Tablet View (768px - 991px) */
-        @media (max-width: 991px) {
+        @media (max-width: 1199px) {
             .header-container {
                 padding: 0 1.2rem;
             }
             
             .profile-hero-section {
-                max-width: 100%;
-                width: 100%;
-                height: 230px;
+                width: 90%;
+                height: 300px;
                 margin: 100px auto 0 auto;
             }
             
             .profile-header {
-                margin: -70px auto 1.5rem auto;
                 padding: 1.2rem;
                 gap: 1.2rem;
             }
@@ -686,6 +826,7 @@
             .profile-avatar {
                 width: 100px;
                 height: 100px;
+                margin-top: -50px;
             }
             
             .profile-name {
@@ -699,12 +840,7 @@
             
             .posts {
                 gap: 1.2rem;
-                margin: 1rem auto;
-            }
-            
-            #notificationPrompt {
-                bottom: 15px;
-                right: 15px;
+                margin: 2rem auto 1rem auto;
             }
         }
         
@@ -747,48 +883,51 @@
             }
             
             .profile-hero-section {
-                max-width: 95%;
-                width: 100%;
-                height: 200px;
-                border-radius: 8px;
-                margin: 80px auto 0 auto;
+                width: calc(100% - 3rem);
+                height: 250px;
+                margin: 100px auto 0 auto;
+                border-radius: 8px 8px 0 0;
             }
             
-            .section-title {
-                font-size: 1.6rem;
-                margin: 0 0 0.8rem 0;
+            .profile-header-image {
+                border-radius: 8px 8px 0 0;
             }
             
+            /* FIX 6: Remove gap between hero image and profile header on mobile */
             .profile-header {
-                flex-direction: column;
-                text-align: center;
                 padding: 1.2rem;
                 gap: 1rem;
-                max-width: 90%;
-                margin: -60px auto 1.5rem auto;
+                min-height: 120px;
+                flex-direction: column;
+                align-items: flex-start;
+                border-radius: 0 0 8px 8px;
+                margin-top: 0;
+                border-top: 1px solid rgba(14, 54, 89, 0.3);
             }
             
             .profile-info {
                 min-width: 100%;
-                align-items: center;
+                margin-top: 0;
             }
             
             .profile-name {
-                justify-content: center;
+                justify-content: flex-start;
                 font-size: 1.4rem;
-                text-align: center;
+                text-align: left;
                 width: 100%;
             }
             
             .profile-bio {
-                text-align: center;
+                text-align: left;
                 font-size: 0.95rem;
             }
             
             .profile-avatar {
                 width: 90px;
                 height: 90px;
-                margin-top: 0;
+                margin-top: -60px;
+                margin-left: 0;
+                align-self: flex-start;
             }
             
             .social-section {
@@ -823,6 +962,7 @@
             .post-content {
                 font-size: 0.95rem;
                 line-height: 1.5;
+                text-align: left !important;
             }
             
             .post-avatar {
@@ -839,58 +979,66 @@
                 font-size: 0.8rem;
             }
             
-            #notificationPrompt {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
+            /* FIX 3: Adjust modal share layout on mobile */
+            .share-container {
+                padding: 1rem;
+                max-width: 90%;
             }
             
-            #notificationPrompt button {
+            .share-preview {
+                padding: 1rem;
+                gap: 0.8rem;
+            }
+            
+            .share-header {
+                gap: 0.8rem;
+            }
+            
+            .share-avatar {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .share-username {
+                font-size: 1rem; /* Smaller font size for mobile */
+            }
+            
+            .share-content {
+                font-size: 0.95rem;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .buy-button {
                 width: 100%;
-                justify-content: center;
-                padding: 10px 16px;
-                font-size: 0.85rem;
+                padding: 0.7rem 1rem;
             }
         }
         
-        /* Small Mobile View (max-width: 480px) */
+        /* Small Mobile (max-width: 480px) */
         @media (max-width: 480px) {
-            .header-container {
-                padding: 0 1rem;
-            }
-            
-            .container {
-                padding: 0 1rem;
-            }
-            
             .profile-hero-section {
-                height: 180px;
-                margin: 70px auto 0 auto;
+                width: calc(100% - 2rem);
+                height: 200px;
+                margin: 90px auto 0 auto;
+                border-radius: 8px 8px 0 0;
             }
             
-            .profile-section {
-                margin: 1.5rem 0;
-            }
-            
-            .footer {
-                padding: 1.5rem 0;
-                margin-top: 1.5rem;
-            }
-            
-            .section-title {
-                font-size: 1.4rem;
-                margin: 0 0 0.8rem 0;
-            }
-            
+            /* FIX 6: Ensure no gap */
             .profile-header {
                 padding: 1rem;
-                gap: 0.8rem;
-                margin: -50px auto 1.2rem auto;
+                min-height: 100px;
+                margin-top: 0;
             }
             
             .profile-avatar {
-                width: 80px;
-                height: 80px;
+                width: 70px;
+                height: 70px;
+                margin-top: -45px;
+                border-width: 3px;
             }
             
             .profile-name {
@@ -898,81 +1046,28 @@
             }
             
             .profile-bio {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
             
-            .posts {
-                gap: 0.8rem;
-                margin: 0.8rem auto;
-            }
-            
-            .post {
-                padding: 0.8rem;
-            }
-            
-            .post-header {
-                margin-bottom: 0.6rem;
-                padding-right: 35px;
-            }
-            
-            .post-share-button {
-                width: 32px;
-                height: 32px;
-                font-size: 0.8rem;
-            }
-            
-            .post-like-button {
-                font-size: 1.2rem;
-            }
-            
-            .post-actions {
-                margin-top: 0.4rem;
-                padding-top: 0.4rem;
-            }
-        }
-        
-        /* Very Small Screens (max-width: 360px) */
-        @media (max-width: 360px) {
-            .logo-container {
-                gap: 0.7rem;
-            }
-            
-            .logo-image {
-                width: 45px;
-                height: 45px;
-            }
-            
-            .logo-text {
-                font-size: 1rem;
-            }
-            
-            .logo-text span {
-                font-size: 0.75rem;
-            }
-            
-            .profile-name {
-                font-size: 1.1rem;
-            }
-            
-            .profile-avatar {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .social-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 1rem;
-            }
-            
-            #notificationPrompt button {
-                padding: 8px 14px;
-                font-size: 0.8rem;
+            .section-title {
+                font-size: 1.4rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+        <div id="loadingText">Loading...</div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toastNotification">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
     <!-- Profile Page Header -->
     <header class="header" id="main-header">
         <div class="header-container">
@@ -995,27 +1090,28 @@
     <!-- Profile Page Header with Background Image -->
     <div class="profile-hero-section">
         <div class="profile-header-image"></div>
+        <!-- Profile Header Positioned at Bottom -->
+        <section class="profile-header">
+            <div class="profile-avatar">
+                <img src="images/Logo.png" alt="Trulune Malaysia Logo">
+            </div>
+            <div class="profile-info">
+                <h1 class="profile-name">
+                    Trulune Malaysia 
+                    <span class="verified-badge" onclick="openVerifiedTooltip()" 
+                          oncontextmenu="return false" 
+                          ondragstart="return false">
+                        <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                    </span>
+                </h1>
+                <p class="profile-bio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
+            </div>
+        </section>
     </div>
 
     <!-- Profile Page Content -->
     <main class="container">
         <section class="profile-section">
-            <!-- Profile Header -->
-            <section class="profile-header">
-                <div class="profile-avatar">
-                    <img src="images/Logo.png" alt="Trulune Malaysia Logo">
-                </div>
-                <div class="profile-info">
-                    <h1 class="profile-name">
-                        Trulune Malaysia 
-                        <span class="verified-badge" onclick="openVerifiedTooltip()">
-                            <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
-                        </span>
-                    </h1>
-                    <p class="profile-bio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
-                </div>
-            </section>
-            
             <!-- Updates Feed -->
             <h2 class="section-title" style="text-align: center;">Updates</h2>
             <div class="posts" id="posts-container">
@@ -1072,7 +1168,27 @@
     <div class="share-modal" id="shareModal">
         <div class="share-container">
             <h3 style="color: #FFFFFF; margin-bottom: 1rem;">Share this Post</h3>
-            <img id="shareImage" class="share-image" alt="Shareable Post">
+            
+            <!-- Share preview section -->
+            <div class="share-preview" id="sharePreview">
+                <div class="share-header">
+                    <img src="images/Logo.png" alt="Trulune Malaysia" class="share-avatar">
+                    <div class="share-user-info">
+                        <div class="share-username">
+                            Trulune Malaysia
+                            <img src="images/verified.svg" alt="Verified" class="share-verified-badge">
+                        </div>
+                        <div style="color: #d3ced7; font-size: 0.9rem;">@trulune</div>
+                    </div>
+                </div>
+                <div class="share-content" id="sharePreviewContent">
+                    <!-- Content will be inserted here -->
+                </div>
+                <div class="share-footer" id="sharePreviewFooter">
+                    <!-- Date will be inserted here -->
+                </div>
+            </div>
+            
             <div class="share-buttons">
                 <button class="buy-button" onclick="downloadShareImage()">
                     <i class="fas fa-download"></i> Download Image
@@ -1095,27 +1211,59 @@
             appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
         };
 
-        // === VAPID KEY ===
-        const VAPID_KEY = "BDVVFmrQCB5MNEsdvxz8Gu66BTqk-7hRioCj_YHa7ItYyV8Q-o0S_4yy3kn5CcgEfbJF8rhz0Mp2Mewp-Ptq51c";
-
         // === INITIALIZE FIREBASE ===
         let db = null;
-        let messaging = null;
-        // No local storage for likes - we want unlimited likes
+        let postsListener = null; // For real-time updates
 
         // Initialize Firebase immediately
         try {
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
             console.log("Firebase initialized successfully!");
-            
-            // Initialize messaging if supported
-            if (firebase.messaging.isSupported()) {
-                messaging = firebase.messaging();
-                initializeNotifications();
-            }
         } catch (error) {
             console.error("Firebase initialization error:", error);
+            showToast('Firebase initialization failed', 'error');
+        }
+
+        // === UTILITY FUNCTIONS ===
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toastNotification');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.className = 'toast ' + (type === 'error' ? 'error' : '');
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function showLoading(message = 'Loading...') {
+            const spinner = document.getElementById('loadingSpinner');
+            const loadingText = document.getElementById('loadingText');
+            
+            loadingText.textContent = message;
+            spinner.style.display = 'flex';
+        }
+
+        function hideLoading() {
+            const spinner = document.getElementById('loadingSpinner');
+            spinner.style.display = 'none';
+        }
+
+        // FIX: Updated formatNumber function to handle 1B for 1000M
+        function formatNumber(num) {
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toString();
         }
 
         // === CORE FUNCTIONS ===
@@ -1127,17 +1275,44 @@
             document.getElementById('verifiedTooltipModal').classList.remove('active');
         }
         
-        // === SHARE FUNCTIONALITY ===
+        // === SHARE FUNCTIONALITY - FIXED VERSION ===
         let currentPostForShare = null;
         
+        // FIX 4: Make sure ALL posts can click the share button
         function openShareModal(postContent, postDate, postId) {
-            currentPostForShare = { 
-                content: postContent, 
-                date: postDate,
-                id: postId
-            };
-            document.getElementById('shareModal').classList.add('active');
-            generateShareImage();
+            try {
+                // Properly decode the content
+                const decodedContent = decodeURIComponent(postContent);
+                currentPostForShare = { 
+                    content: decodedContent, 
+                    date: postDate,
+                    id: postId
+                };
+                
+                // Update the share preview content
+                const sharePreviewContent = document.getElementById('sharePreviewContent');
+                const sharePreviewFooter = document.getElementById('sharePreviewFooter');
+                
+                // Clean and format the content - FIX 5: Align left
+                let formattedContent = decodedContent;
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                formattedContent = formattedContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener" style="color: #4dabf7; text-decoration: underline;">$1</a>');
+                formattedContent = formattedContent.replace(/\n/g, '<br>');
+                
+                sharePreviewContent.innerHTML = formattedContent;
+                sharePreviewFooter.textContent = postDate;
+                
+                // FIX 4: Ensure modal opens
+                document.getElementById('shareModal').classList.add('active');
+                
+                // Generate share image in background
+                setTimeout(() => {
+                    generateShareImage();
+                }, 100);
+            } catch (error) {
+                console.error("Error opening share modal:", error);
+                showToast("Error opening share", 'error');
+            }
         }
         
         function closeShareModal() {
@@ -1149,128 +1324,317 @@
             if (!currentPostForShare) return;
             
             const content = currentPostForShare.content || '';
+            // Adjust container size based on content length
             const contentLength = content.length;
-            let containerHeight = 400;
+            let containerHeight = 350;
             
-            if (contentLength > 100) containerHeight = 500;
-            if (contentLength > 200) containerHeight = 600;
-            if (contentLength > 300) containerHeight = 700;
-            if (contentLength > 400) containerHeight = 800;
+            if (contentLength > 100) containerHeight = 400;
+            if (contentLength > 200) containerHeight = 450;
+            if (contentLength > 300) containerHeight = 500;
+            if (contentLength > 400) containerHeight = 550;
             
             const container = document.createElement('div');
             container.style.cssText = `
                 width: 800px;
                 height: ${containerHeight}px;
                 background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-                padding: 40px;
+                padding: 30px;
                 color: white;
                 font-family: 'Lato', sans-serif;
                 display: flex;
                 flex-direction: column;
                 position: fixed;
                 left: -9999px;
+                top: -9999px;
+                box-sizing: border-box;
             `;
             
-            const logoUrl = 'images/Logo.png';
-            const verifiedUrl = 'images/verified.svg';
-            
-            const header = `
-                <div style="display: flex; align-items: center; margin-bottom: 30px;">
-                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0E3659 0%, #182D40 100%); display: flex; align-items: center; justify-content: center; margin-right: 20px; border: 3px solid rgba(211, 206, 215, 0.3); overflow: hidden;">
-                        <img src="${logoUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Trulune Logo" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span style=\\'color:white; font-size:24px;\\'>TL</span>';">
-                    </div>
-                    <div>
-                        <div style="font-size: 28px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
-                            Trulune Malaysia 
-                            <span style="background: linear-gradient(135deg, #0E3659 0%, #182D40 100%); width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px;">
-                                <img src="${verifiedUrl}" style="width: 70%; height: 70%;" alt="Verified" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span style=\\'color:white;\\'>✓</span>';">
-                            </span>
-                        </div>
-                        <div style="font-size: 16px; color: #d3ced7; margin-top: 5px;">Everyday scents. Timeless allure.</div>
-                    </div>
-                </div>
+            // Use images/Logo.png and images/verified.svg
+            const header = document.createElement('div');
+            header.style.cssText = `
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
             `;
             
-            const contentDiv = `
-                <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px 0;">
-                    <div style="font-size: ${contentLength > 200 ? '28px' : '32px'}; line-height: 1.5; text-align: center; max-width: 600px; padding: 20px;">
-                        "${content}"
-                    </div>
-                </div>
+            // Avatar image
+            const avatarImg = document.createElement('img');
+            avatarImg.src = 'images/Logo.png';
+            avatarImg.alt = 'Trulune Logo';
+            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px;';
+            
+            // Verified badge
+            const verifiedImg = document.createElement('img');
+            verifiedImg.src = 'images/verified.svg';
+            verifiedImg.alt = 'Verified';
+            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 5px;';
+            
+            // Header text
+            const headerText = document.createElement('div');
+            const nameDiv = document.createElement('div');
+            nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px;';
+            nameDiv.textContent = 'Trulune Malaysia ';
+            nameDiv.appendChild(verifiedImg);
+            
+            const tagline = document.createElement('div');
+            tagline.style.cssText = 'font-size: 14px; color: #d3ced7;';
+            tagline.textContent = 'Everyday scents. Timeless allure.';
+            
+            headerText.appendChild(nameDiv);
+            headerText.appendChild(tagline);
+            
+            header.appendChild(avatarImg);
+            header.appendChild(headerText);
+            
+            // Content section - FIX 1 & 5: No spacing, align left
+            const contentDiv = document.createElement('div');
+            contentDiv.style.cssText = `
+                flex: 1;
+                display: block;
+                padding: 0 !important;
+                margin: 0 !important;
+                text-align: left;
             `;
             
-            const footer = `
-                <div style="text-align: center; padding-top: 20px; border-top: 2px solid rgba(14, 54, 89, 0.3);">
-                    <div style="font-size: 18px; color: #d3ced7;">${currentPostForShare.date}</div>
-                </div>
+            const contentText = document.createElement('div');
+            contentText.style.cssText = `
+                font-size: ${contentLength > 200 ? '24px' : '28px'};
+                line-height: 1.4;
+                text-align: left;
+                max-width: 650px;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100%;
             `;
             
-            container.innerHTML = header + contentDiv + footer;
+            // Handle line breaks
+            const lines = content.split('\\n');
+            lines.forEach((line, index) => {
+                if (line.trim()) {
+                    contentText.appendChild(document.createTextNode(line));
+                    if (index < lines.length - 1 && lines[index + 1].trim()) {
+                        contentText.appendChild(document.createElement('br'));
+                        contentText.appendChild(document.createElement('br'));
+                    }
+                }
+            });
+            
+            contentDiv.appendChild(contentText);
+            
+            // Footer
+            const footer = document.createElement('div');
+            footer.style.cssText = `
+                text-align: center;
+                padding-top: 15px;
+                border-top: 1px solid rgba(14, 54, 89, 0.3);
+            `;
+            
+            const dateText = document.createElement('div');
+            dateText.style.cssText = 'font-size: 16px; color: #d3ced7;';
+            dateText.textContent = currentPostForShare.date;
+            
+            footer.appendChild(dateText);
+            
+            container.appendChild(header);
+            container.appendChild(contentDiv);
+            container.appendChild(footer);
             document.body.appendChild(container);
             
-            // Generate the image
-            html2canvas(container, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: null
-            }).then(canvas => {
-                document.getElementById('shareImage').src = canvas.toDataURL('image/png');
-                document.body.removeChild(container);
-            }).catch(error => {
-                console.error("Error generating share image:", error);
-                alert("Error generating image. Please try again.");
-                document.body.removeChild(container);
-            });
+            // Generate image with proper image loading
+            setTimeout(() => {
+                html2canvas(container, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: null,
+                    logging: false,
+                    onclone: function(clonedDoc, element) {
+                        // Handle images in clone
+                        const images = element.querySelectorAll('img');
+                        images.forEach(img => {
+                            img.crossOrigin = 'anonymous';
+                        });
+                    }
+                }).then(canvas => {
+                    document.body.removeChild(container);
+                    showToast('Share image ready!');
+                }).catch(error => {
+                    console.error("Error generating share image:", error);
+                    showToast("Error generating image", 'error');
+                    document.body.removeChild(container);
+                });
+            }, 500);
         }
         
         function downloadShareImage() {
-            const link = document.createElement('a');
-            link.download = 'trulune-post.png';
-            link.href = document.getElementById('shareImage').src;
-            link.click();
+            try {
+                // Generate the share image for download
+                generateShareImageForDownload();
+            } catch (error) {
+                console.error("Error downloading image:", error);
+                showToast('Error downloading image', 'error');
+            }
         }
         
-        // === LIKE FUNCTIONALITY (FIXED: Plain button, unlimited likes) ===
+        function generateShareImageForDownload() {
+            if (!currentPostForShare) return;
+            
+            const content = currentPostForShare.content || '';
+            const contentLength = content.length;
+            let containerHeight = 350;
+            
+            if (contentLength > 100) containerHeight = 400;
+            if (contentLength > 200) containerHeight = 450;
+            if (contentLength > 300) containerHeight = 500;
+            if (contentLength > 400) containerHeight = 550;
+            
+            const container = document.createElement('div');
+            container.style.cssText = `
+                width: 800px;
+                height: ${containerHeight}px;
+                background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+                padding: 30px;
+                color: white;
+                font-family: 'Lato', sans-serif;
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                left: -9999px;
+                top: -9999px;
+                box-sizing: border-box;
+            `;
+            
+            // Use proper images
+            const header = document.createElement('div');
+            header.style.cssText = `
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            `;
+            
+            const avatarImg = document.createElement('img');
+            avatarImg.src = 'images/Logo.png';
+            avatarImg.alt = 'Trulune Logo';
+            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px;';
+            
+            const verifiedImg = document.createElement('img');
+            verifiedImg.src = 'images/verified.svg';
+            verifiedImg.alt = 'Verified';
+            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 5px;';
+            
+            const headerText = document.createElement('div');
+            const nameDiv = document.createElement('div');
+            nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px;';
+            nameDiv.textContent = 'Trulune Malaysia ';
+            nameDiv.appendChild(verifiedImg);
+            
+            const tagline = document.createElement('div');
+            tagline.style.cssText = 'font-size: 14px; color: #d3ced7;';
+            tagline.textContent = 'Everyday scents. Timeless allure.';
+            
+            headerText.appendChild(nameDiv);
+            headerText.appendChild(tagline);
+            header.appendChild(avatarImg);
+            header.appendChild(headerText);
+            
+            // FIX 1 & 5: No spacing, align left
+            const contentDiv = document.createElement('div');
+            contentDiv.style.cssText = `
+                flex: 1;
+                display: block;
+                padding: 0 !important;
+                margin: 0 !important;
+                text-align: left;
+            `;
+            
+            const contentText = document.createElement('div');
+            contentText.style.cssText = `
+                font-size: ${contentLength > 200 ? '24px' : '28px'};
+                line-height: 1.4;
+                text-align: left;
+                max-width: 650px;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100%;
+            `;
+            
+            const lines = content.split('\\n');
+            lines.forEach((line, index) => {
+                if (line.trim()) {
+                    contentText.appendChild(document.createTextNode(line));
+                    if (index < lines.length - 1 && lines[index + 1].trim()) {
+                        contentText.appendChild(document.createElement('br'));
+                        contentText.appendChild(document.createElement('br'));
+                    }
+                }
+            });
+            
+            contentDiv.appendChild(contentText);
+            
+            const footer = document.createElement('div');
+            footer.style.cssText = `
+                text-align: center;
+                padding-top: 15px;
+                border-top: 1px solid rgba(14, 54, 89, 0.3);
+            `;
+            
+            const dateText = document.createElement('div');
+            dateText.style.cssText = 'font-size: 16px; color: #d3ced7;';
+            dateText.textContent = currentPostForShare.date;
+            
+            footer.appendChild(dateText);
+            container.appendChild(header);
+            container.appendChild(contentDiv);
+            container.appendChild(footer);
+            document.body.appendChild(container);
+            
+            setTimeout(() => {
+                html2canvas(container, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: null,
+                    logging: false
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'trulune-post.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    document.body.removeChild(container);
+                    showToast('Image downloaded!');
+                }).catch(error => {
+                    console.error("Error generating download image:", error);
+                    showToast("Error generating image", 'error');
+                    document.body.removeChild(container);
+                });
+            }, 500);
+        }
+        
+        // === LIKE FUNCTIONALITY ===
         async function likePost(postId) {
             if (!db) {
-                console.error("Firebase not initialized");
+                showToast('Database not connected', 'error');
                 return;
             }
             
             try {
-                // Get current likes from the button
-                const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
-                let currentLikes = parseInt(likeCountElement.textContent) || 0;
-                
-                // ALWAYS INCREASE BY 1 (unlimited likes)
-                const newLikes = currentLikes + 1;
-                
-                // Update in Firebase
-                await db.collection('posts').doc(postId).update({
-                    likes: newLikes
+                const postRef = db.collection('posts').doc(postId);
+                await postRef.update({
+                    likes: firebase.firestore.FieldValue.increment(1)
                 });
-                
-                // Update UI immediately
-                updateLikeUI(postId, newLikes);
-                
-                return newLikes;
+                console.log(`Liked post ${postId}`);
             } catch (error) {
                 console.error("Error liking post:", error);
-                return 0;
+                showToast('Error liking post', 'error');
             }
         }
         
         function updateLikeUI(postId, likes) {
             const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
-            
             if (likeCountElement) {
-                likeCountElement.textContent = likes;
-                
-                // Simple animation on the button
+                likeCountElement.setAttribute('data-actual-likes', likes);
+                likeCountElement.textContent = formatNumber(likes);
                 const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
                 if (likeButton) {
-                    likeButton.style.transform = 'scale(1.3)';
+                    likeButton.style.transform = 'scale(1.2)';
                     setTimeout(() => {
                         likeButton.style.transform = 'scale(1)';
                     }, 100);
@@ -1287,6 +1651,8 @@
                 return;
             }
             
+            showLoading('Loading posts...');
+            
             try {
                 const querySnapshot = await db.collection('posts')
                     .orderBy('createdAt', 'desc')
@@ -1295,6 +1661,7 @@
                 
                 if (querySnapshot.empty) {
                     postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">No updates yet. Check back soon!</p>';
+                    hideLoading();
                     return;
                 }
                 
@@ -1313,18 +1680,26 @@
                         console.log("Error formatting date:", e);
                     }
                     
-                    // Clean post content - FIXED: No extra spaces
+                    // Clean post content - FIX 1 & 5: No spacing, align left
                     let postContent = post.content ? post.content.trim() : '';
                     
                     // Remove leading/trailing whitespace and normalize line breaks
                     postContent = postContent.replace(/\n\s*\n/g, '\n').trim();
                     
+                    // If content has multiple paragraphs, use proper spacing
+                    if (postContent.includes('\n')) {
+                        postContent = postContent.replace(/\n/g, '<br>');
+                    }
+                    
                     // Detect and underline links in post content
                     const urlRegex = /(https?:\/\/[^\s]+)/g;
                     postContent = postContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener">$1</a>');
                     
-                    // Escape quotes for the share function
-                    const escapedContent = post.content ? post.content.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n') : '';
+                    // Escape quotes for the share function - FIX 4: Handle quotes properly
+                    const escapedContent = encodeURIComponent(post.content || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    
+                    // Get likes count
+                    const likes = post.likes || 0;
                     
                     postsHTML += `
                         <div class="post" id="post-${postId}">
@@ -1335,7 +1710,9 @@
                                 <div class="post-user-info">
                                     <div class="post-user">
                                         Trulune Malaysia 
-                                        <span class="verified-badge" onclick="openVerifiedTooltip()">
+                                        <span class="verified-badge" onclick="openVerifiedTooltip()" 
+                                              oncontextmenu="return false" 
+                                              ondragstart="return false">
                                             <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
                                         </span>
                                     </div>
@@ -1353,9 +1730,13 @@
                                     <button class="post-like-button" 
                                             data-post-id="${postId}" 
                                             onclick="likePost('${postId}')">
-                                        💗
+                                        ❤
                                     </button>
-                                    <span class="post-like-count" data-post-id="${postId}">${post.likes || 0}</span>
+                                    <span class="post-like-count" 
+                                          data-post-id="${postId}"
+                                          data-actual-likes="${likes}">
+                                        ${formatNumber(likes)}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -1363,11 +1744,38 @@
                 });
                 
                 postsContainer.innerHTML = postsHTML;
+                hideLoading();
+                
+                // Setup real-time listener for likes
+                setupRealtimeListener();
                 
             } catch (error) {
                 console.error("Error loading posts:", error);
                 postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">Error loading posts. Please refresh.</p>';
+                hideLoading();
+                showToast('Error loading posts', 'error');
             }
+        }
+        
+        function setupRealtimeListener() {
+            if (!db || postsListener) return;
+            
+            // Listen for real-time updates on posts
+            postsListener = db.collection('posts')
+                .onSnapshot((snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === "modified") {
+                            const postId = change.doc.id;
+                            const postData = change.doc.data();
+                            const likes = postData.likes || 0;
+                            
+                            // Update the UI for this post
+                            updateLikeUI(postId, likes);
+                        }
+                    });
+                }, (error) => {
+                    console.error("Error in real-time listener:", error);
+                });
         }
         
         function formatTimeAgo(date) {
@@ -1393,222 +1801,48 @@
             });
         }
         
-        // === NOTIFICATION SYSTEM ===
-        async function initializeNotifications() {
-            if (!messaging) {
-                console.log("Messaging not supported");
-                return;
-            }
-            
-            // Check current permission
-            const permission = Notification.permission;
-            
-            if (permission === 'granted') {
-                // Already granted - setup silently
-                await setupGrantedNotifications();
-                console.log("Notifications already granted and set up");
-            } else if (permission === 'default') {
-                // Not asked yet - show button
-                showNotificationButton();
-            }
-            // If 'denied', do nothing
-        }
-        
-        function showNotificationButton() {
-            // Remove existing button
-            const existing = document.getElementById('notificationPrompt');
-            if (existing) existing.remove();
-            
-            // Create notification button
-            const buttonHTML = `
-                <div id="notificationPrompt">
-                    <button onclick="requestNotificationPermission()">
-                        <i class="fas fa-bell"></i> Get Post Notifications
-                    </button>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', buttonHTML);
-        }
-        
-        async function requestNotificationPermission() {
-            try {
-                const permission = await Notification.requestPermission();
-                
-                if (permission === 'granted') {
-                    // Remove button
-                    const prompt = document.getElementById('notificationPrompt');
-                    if (prompt) prompt.remove();
-                    
-                    // Setup notifications
-                    await setupGrantedNotifications();
-                    
-                    // Show success message
-                    showNotificationToast('✅ Notifications enabled! You will receive alerts for new posts.');
-                } else if (permission === 'denied') {
-                    showNotificationToast('Notifications blocked. You can enable them later in browser settings.');
+        // === FIX 4: Disable right click and long press on verified badges ===
+        function disableVerifiedBadgeActions() {
+            // Disable context menu (right click) on verified badges
+            document.addEventListener('contextmenu', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    return false;
                 }
-            } catch (error) {
-                console.error('Permission request error:', error);
-                showNotificationToast('Error requesting notification permission. Please try again.');
-            }
-        }
-        
-        function showNotificationToast(message) {
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(24, 45, 64, 0.95);
-                color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                z-index: 2000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-                border: 1px solid rgba(14, 54, 89, 0.5);
-                backdrop-filter: blur(10px);
-                animation: slideInUp 0.3s ease;
-                max-width: 90%;
-                text-align: center;
-            `;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            
-            // Remove toast after 3 seconds
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(-50%) translateY(20px)';
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        document.body.removeChild(toast);
-                    }
-                }, 300);
-            }, 3000);
-        }
-        
-        async function setupGrantedNotifications() {
-            try {
-                // Register service worker
-                if ('serviceWorker' in navigator) {
-                    const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
-                    messaging.useServiceWorker(registration);
-                    
-                    // Get token
-                    const token = await messaging.getToken({ vapidKey: VAPID_KEY });
-                    
-                    if (token) {
-                        console.log('FCM Token obtained:', token.substring(0, 20) + '...');
-                        
-                        // Save token to Firestore
-                        await saveTokenToServer(token);
-                        
-                        // Listen for new posts
-                        setupPostNotificationsListener();
-                        
-                        // Send test notification
-                        sendTestNotification();
-                    }
-                }
-            } catch (error) {
-                console.error('Notification setup error:', error);
-            }
-        }
-        
-        async function saveTokenToServer(token) {
-            if (!db) return;
-            
-            try {
-                // Check if token already exists
-                const tokensRef = db.collection('notification_tokens');
-                const querySnapshot = await tokensRef.where('token', '==', token).get();
-                
-                if (querySnapshot.empty) {
-                    // Save new token
-                    await tokensRef.add({
-                        token: token,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        userAgent: navigator.userAgent,
-                        platform: 'web',
-                        subscribed: true
-                    });
-                    console.log('Token saved to Firestore');
-                }
-            } catch (error) {
-                console.error('Error saving token:', error);
-            }
-        }
-        
-        // Listen for new posts
-        function setupPostNotificationsListener() {
-            if (!db) return;
-            
-            db.collection('posts')
-                .orderBy('createdAt', 'desc')
-                .limit(1)
-                .onSnapshot((snapshot) => {
-                    snapshot.docChanges().forEach((change) => {
-                        if (change.type === 'added') {
-                            const newPost = change.doc.data();
-                            console.log('New post detected, showing notification...');
-                            showNewPostNotification(newPost, change.doc.id);
-                        }
-                    });
-                }, (error) => {
-                    console.error('Error listening for new posts:', error);
-                });
-        }
-        
-        function showNewPostNotification(post, postId) {
-            if (Notification.permission !== 'granted') return;
-            
-            const notification = new Notification("📢 New Post from Trulune", {
-                body: post.content ? (post.content.substring(0, 100) + (post.content.length > 100 ? '...' : '')) : 'New update from Trulune!',
-                icon: "./images/Logo.png",
-                tag: 'new-post',
-                data: { postId: postId }
             });
             
-            // When notification is clicked, scroll to the post
-            notification.onclick = function() {
-                window.focus();
-                
-                // Scroll to the new post
-                setTimeout(() => {
-                    const postElement = document.getElementById(`post-${postId}`);
-                    if (postElement) {
-                        postElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
-                        // Add highlight effect
-                        postElement.style.backgroundColor = 'rgba(14, 54, 89, 0.5)';
-                        setTimeout(() => {
-                            postElement.style.backgroundColor = '';
-                        }, 2000);
-                    }
-                }, 100);
-                
-                this.close();
-            };
-        }
-        
-        function sendTestNotification() {
-            if (Notification.permission !== 'granted') return;
+            // Disable drag and drop on verified badges
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
             
-            // Send a test notification after 2 seconds
-            setTimeout(() => {
-                const notification = new Notification("🎉 Trulune Notifications Enabled!", {
-                    body: "You'll now receive notifications when we post new content!",
-                    icon: "./images/Logo.png",
-                    tag: 'test-notification'
-                });
-                
-                notification.onclick = function() {
-                    window.focus();
-                    this.close();
-                };
-            }, 2000);
+            // Disable text selection on verified badges
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Add touch event prevention for long press
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            // Add more event listeners for comprehensive protection
+            document.addEventListener('mousedown', function(e) {
+                if (e.target.closest('.verified-badge img')) {
+                    if (e.button === 2) { // Right click
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
         }
         
         // === UTILITY FUNCTIONS ===
@@ -1653,14 +1887,10 @@
             window.addEventListener('scroll', handleScroll);
             
             // Load posts immediately
-            if (typeof loadPosts === 'function') {
-                loadPosts();
-            }
+            loadPosts();
             
-            // Initialize notifications
-            if (typeof initializeNotifications === 'function') {
-                setTimeout(initializeNotifications, 1000);
-            }
+            // FIX 4: Apply verified badge protection
+            disableVerifiedBadgeActions();
             
             // Modal close handlers
             document.getElementById('verifiedTooltipModal').addEventListener('click', function(e) {
