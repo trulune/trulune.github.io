@@ -165,15 +165,15 @@
             padding: 0 1.5rem;
         }
         
-        /* Section spacing - FIXED: Added top/bottom spacing */
+        /* Section spacing - FIXED: Normal spacing */
         .profile-section {
-            margin: 3rem 0;
+            margin: 2rem 0;
         }
         
         /* Footer with Social Media INLINE */
         .footer {
-            padding: 2.5rem 0;
-            margin-top: 3rem;
+            padding: 2rem 0;
+            margin-top: 2rem;
             border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
         
@@ -193,7 +193,7 @@
             justify-content: center;
             gap: 1.5rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .social-text {
@@ -230,20 +230,20 @@
         
         .copyright {
             text-align: center;
-            padding-top: 1.5rem;
+            padding-top: 1rem;
             color: #d3ced7;
             width: 100%;
             font-size: 0.9rem;
             border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
         
-        /* PROFILE PAGE HEADER FIXES */
+        /* PROFILE PAGE HEADER FIXES - FIXED: Normal spacing */
         .profile-hero-section {
             position: relative;
             max-width: 1150px;
             width: 100%;
-            height: 300px;
-            margin: 100px auto 0 auto;
+            height: 250px;
+            margin: 120px auto 0 auto;
             overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -263,13 +263,13 @@
             border-radius: 12px;
         }
         
-        /* PROFILE HEADER - Fixed centering - FIXED: Stick to image header */
+        /* PROFILE HEADER - Fixed centering - FIXED: Normal spacing */
         .profile-header {
             position: relative;
             background: rgba(24, 45, 64, 0.85);
             border-radius: 12px;
             padding: 1.5rem;
-            margin: -60px auto 3rem auto;
+            margin: -80px auto 2rem auto;
             max-width: 800px;
             display: flex;
             align-items: center;
@@ -280,7 +280,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             min-height: 140px;
-            transform: translateY(-50%);
         }
         
         .profile-avatar {
@@ -361,12 +360,12 @@
         .posts {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
             max-width: 800px;
-            margin: 2rem auto;
+            margin: 1rem auto;
         }
         
-        /* Post box - FIXED: Reduced height */
+        /* Post box */
         .post {
             background: rgba(24, 45, 64, 0.7);
             border-radius: 12px;
@@ -377,11 +376,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(5px);
             min-height: auto;
-            transition: transform 0.3s ease;
-        }
-        
-        .post:hover {
-            transform: translateY(-3px);
         }
         
         .post-header {
@@ -433,7 +427,7 @@
             font-size: 0.85rem;
         }
         
-        /* Post content - FIXED: Removed auto centering space */
+        /* Post content - FIXED: Removed extra spacing like Twitter */
         .post-content {
             line-height: 1.6;
             color: #FFFFFF;
@@ -442,7 +436,7 @@
             text-align: left;
             word-break: break-word;
             overflow-wrap: break-word;
-            margin: 0.5rem 0 0.8rem 0;
+            margin: 0 0 0.5rem 0;
             padding: 0;
         }
         
@@ -461,8 +455,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-top: 0.8rem;
-            padding-top: 0.8rem;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
             border-top: 1px solid rgba(14, 54, 89, 0.2);
         }
         
@@ -491,54 +485,37 @@
             transform: scale(1.1);
         }
         
-        /* NEW: Like button - FIXED with heartbeat animation */
+        /* LIKE BUTTON - FIXED: Plain, no hover, no style */
         .post-like-button {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
+            background: transparent;
+            color: #d3ced7;
             border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
             padding: 0;
+            margin: 0;
+            transition: transform 0.1s;
         }
         
         .post-like-button:active {
-            animation: heartbeat 0.3s ease;
-        }
-        
-        .post-like-button.liked {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
-            color: #FFFFFF;
-        }
-        
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(0.95); }
-            75% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            transform: scale(1.2);
         }
         
         .post-like-count {
             font-size: 0.95rem;
             color: #d3ced7;
-            margin-left: 0.5rem;
-            min-width: 30px;
+            margin-left: 0.3rem;
+            min-width: 20px;
             display: inline-block;
         }
         
         .like-container {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
         
         /* Tooltip for verified badge - CLICKABLE MODAL */
@@ -638,13 +615,13 @@
         
         /* Section title */
         .section-title {
-            font-size: 2.2rem;
-            margin: 3rem 0 1rem 0;
+            font-size: 2rem;
+            margin: 0 0 1rem 0;
             color: #FFFFFF;
             text-align: center;
         }
         
-        /* Notification button - FIXED for all devices */
+        /* Notification button */
         #notificationPrompt {
             position: fixed;
             bottom: 20px;
@@ -689,24 +666,21 @@
         
         /* Tablet View (768px - 991px) */
         @media (max-width: 991px) {
-            /* Header adjustments */
             .header-container {
                 padding: 0 1.2rem;
             }
             
-            /* Profile header adjustments */
             .profile-hero-section {
                 max-width: 100%;
                 width: 100%;
-                height: 280px;
+                height: 230px;
                 margin: 100px auto 0 auto;
             }
             
             .profile-header {
-                margin: -60px auto 2rem auto;
+                margin: -70px auto 1.5rem auto;
                 padding: 1.2rem;
                 gap: 1.2rem;
-                transform: translateY(-50%);
             }
             
             .profile-avatar {
@@ -719,13 +693,13 @@
             }
             
             .section-title {
-                font-size: 2rem;
-                margin: 2rem 0 1rem 0;
+                font-size: 1.8rem;
+                margin: 0 0 1rem 0;
             }
             
             .posts {
-                gap: 1.5rem;
-                margin: 1.5rem auto;
+                gap: 1.2rem;
+                margin: 1rem auto;
             }
             
             #notificationPrompt {
@@ -736,7 +710,6 @@
         
         /* Mobile View (max-width: 767px) */
         @media (max-width: 767px) {
-            /* Mobile Header */
             .mobile-menu-toggle {
                 display: block;
             }
@@ -773,30 +746,26 @@
                 font-size: 0.8rem;
             }
             
-            /* Profile hero section mobile */
             .profile-hero-section {
                 max-width: 95%;
                 width: 100%;
-                height: 250px;
+                height: 200px;
                 border-radius: 8px;
-                margin: 100px auto 0 auto;
+                margin: 80px auto 0 auto;
             }
             
-            /* Section titles mobile */
             .section-title {
-                font-size: 1.8rem;
-                margin: 2rem 0 1rem 0;
+                font-size: 1.6rem;
+                margin: 0 0 0.8rem 0;
             }
             
-            /* Profile header mobile */
             .profile-header {
                 flex-direction: column;
                 text-align: center;
                 padding: 1.2rem;
                 gap: 1rem;
                 max-width: 90%;
-                margin: -60px auto 2rem auto;
-                transform: translateY(-50%);
+                margin: -60px auto 1.5rem auto;
             }
             
             .profile-info {
@@ -822,7 +791,6 @@
                 margin-top: 0;
             }
             
-            /* Social section mobile */
             .social-section {
                 flex-direction: column;
                 gap: 0.8rem;
@@ -843,10 +811,9 @@
                 font-size: 1.1rem;
             }
             
-            /* Posts mobile */
             .posts {
-                gap: 1.2rem;
-                margin: 1.2rem auto;
+                gap: 1rem;
+                margin: 1rem auto;
             }
             
             .post {
@@ -872,7 +839,6 @@
                 font-size: 0.8rem;
             }
             
-            /* Notification button mobile */
             #notificationPrompt {
                 bottom: 10px;
                 right: 10px;
@@ -898,29 +864,28 @@
             }
             
             .profile-hero-section {
-                height: 220px;
+                height: 180px;
                 margin: 70px auto 0 auto;
             }
             
             .profile-section {
-                margin: 2rem 0;
+                margin: 1.5rem 0;
             }
             
             .footer {
-                padding: 2rem 0;
-                margin-top: 2rem;
+                padding: 1.5rem 0;
+                margin-top: 1.5rem;
             }
             
             .section-title {
-                font-size: 1.6rem;
-                margin: 1.5rem 0 0.8rem 0;
+                font-size: 1.4rem;
+                margin: 0 0 0.8rem 0;
             }
             
             .profile-header {
                 padding: 1rem;
                 gap: 0.8rem;
-                margin: -50px auto 1.5rem auto;
-                transform: translateY(-50%);
+                margin: -50px auto 1.2rem auto;
             }
             
             .profile-avatar {
@@ -937,8 +902,8 @@
             }
             
             .posts {
-                gap: 1rem;
-                margin: 1rem auto;
+                gap: 0.8rem;
+                margin: 0.8rem auto;
             }
             
             .post {
@@ -957,14 +922,12 @@
             }
             
             .post-like-button {
-                width: 32px;
-                height: 32px;
                 font-size: 1.2rem;
             }
             
             .post-actions {
-                margin-top: 0.6rem;
-                padding-top: 0.6rem;
+                margin-top: 0.4rem;
+                padding-top: 0.4rem;
             }
         }
         
@@ -1138,7 +1101,7 @@
         // === INITIALIZE FIREBASE ===
         let db = null;
         let messaging = null;
-        let likedPosts = JSON.parse(localStorage.getItem('trulune_liked_posts') || '{}');
+        // No local storage for likes - we want unlimited likes
 
         // Initialize Firebase immediately
         try {
@@ -1268,29 +1231,20 @@
             link.click();
         }
         
-        // === LIKE FUNCTIONALITY (FIXED with heartbeat animation) ===
-        async function likePost(postId, currentLikes) {
+        // === LIKE FUNCTIONALITY (FIXED: Plain button, unlimited likes) ===
+        async function likePost(postId) {
             if (!db) {
                 console.error("Firebase not initialized");
                 return;
             }
             
             try {
-                // Check if already liked in this session
-                const isLiked = likedPosts[postId] || false;
+                // Get current likes from the button
+                const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
+                let currentLikes = parseInt(likeCountElement.textContent) || 0;
                 
-                // Calculate new likes count
-                let newLikes = currentLikes || 0;
-                if (!isLiked) {
-                    newLikes += 1;
-                    likedPosts[postId] = true;
-                } else {
-                    newLikes -= 1;
-                    likedPosts[postId] = false;
-                }
-                
-                // Save to localStorage
-                localStorage.setItem('trulune_liked_posts', JSON.stringify(likedPosts));
+                // ALWAYS INCREASE BY 1 (unlimited likes)
+                const newLikes = currentLikes + 1;
                 
                 // Update in Firebase
                 await db.collection('posts').doc(postId).update({
@@ -1298,33 +1252,29 @@
                 });
                 
                 // Update UI immediately
-                updateLikeUI(postId, newLikes, !isLiked);
+                updateLikeUI(postId, newLikes);
                 
                 return newLikes;
             } catch (error) {
                 console.error("Error liking post:", error);
-                return currentLikes;
+                return 0;
             }
         }
         
-        function updateLikeUI(postId, likes, liked) {
-            const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
+        function updateLikeUI(postId, likes) {
             const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
             
-            if (likeButton && likeCountElement) {
-                if (liked) {
-                    likeButton.classList.add('liked');
-                    likeButton.innerHTML = '💗';
-                    // Trigger heartbeat animation
-                    likeButton.style.animation = 'none';
-                    setTimeout(() => {
-                        likeButton.style.animation = 'heartbeat 0.3s ease';
-                    }, 10);
-                } else {
-                    likeButton.classList.remove('liked');
-                    likeButton.innerHTML = '💗';
-                }
+            if (likeCountElement) {
                 likeCountElement.textContent = likes;
+                
+                // Simple animation on the button
+                const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
+                if (likeButton) {
+                    likeButton.style.transform = 'scale(1.3)';
+                    setTimeout(() => {
+                        likeButton.style.transform = 'scale(1)';
+                    }, 100);
+                }
             }
         }
         
@@ -1363,8 +1313,11 @@
                         console.log("Error formatting date:", e);
                     }
                     
-                    // Clean post content
+                    // Clean post content - FIXED: No extra spaces
                     let postContent = post.content ? post.content.trim() : '';
+                    
+                    // Remove leading/trailing whitespace and normalize line breaks
+                    postContent = postContent.replace(/\n\s*\n/g, '\n').trim();
                     
                     // Detect and underline links in post content
                     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -1372,9 +1325,6 @@
                     
                     // Escape quotes for the share function
                     const escapedContent = post.content ? post.content.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n') : '';
-                    
-                    // Check if this post was liked before
-                    const isLiked = likedPosts[postId] || false;
                     
                     postsHTML += `
                         <div class="post" id="post-${postId}">
@@ -1400,9 +1350,9 @@
                             </div>
                             <div class="post-actions">
                                 <div class="like-container">
-                                    <button class="post-like-button ${isLiked ? 'liked' : ''}" 
+                                    <button class="post-like-button" 
                                             data-post-id="${postId}" 
-                                            onclick="likePost('${postId}', ${post.likes || 0})">
+                                            onclick="likePost('${postId}')">
                                         💗
                                     </button>
                                     <span class="post-like-count" data-post-id="${postId}">${post.likes || 0}</span>
@@ -1443,7 +1393,7 @@
             });
         }
         
-        // === NOTIFICATION SYSTEM (FIXED for all devices) ===
+        // === NOTIFICATION SYSTEM ===
         async function initializeNotifications() {
             if (!messaging) {
                 console.log("Messaging not supported");
@@ -1483,43 +1433,20 @@
         
         async function requestNotificationPermission() {
             try {
-                // Check if we're on a mobile device
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const permission = await Notification.requestPermission();
                 
-                if (isMobile) {
-                    // On mobile, we need to use the browser's native permission request
-                    const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    // Remove button
+                    const prompt = document.getElementById('notificationPrompt');
+                    if (prompt) prompt.remove();
                     
-                    if (permission === 'granted') {
-                        // Remove button
-                        const prompt = document.getElementById('notificationPrompt');
-                        if (prompt) prompt.remove();
-                        
-                        // Setup notifications
-                        await setupGrantedNotifications();
-                        
-                        // Show success message
-                        showNotificationToast('✅ Notifications enabled! You will receive alerts for new posts.');
-                    } else if (permission === 'denied') {
-                        showNotificationToast('Notifications blocked. You can enable them later in browser settings.');
-                    }
-                } else {
-                    // On desktop, use standard flow
-                    const permission = await Notification.requestPermission();
+                    // Setup notifications
+                    await setupGrantedNotifications();
                     
-                    if (permission === 'granted') {
-                        // Remove button
-                        const prompt = document.getElementById('notificationPrompt');
-                        if (prompt) prompt.remove();
-                        
-                        // Setup notifications
-                        await setupGrantedNotifications();
-                        
-                        // Show success message
-                        showNotificationToast('✅ Notifications enabled! You will receive alerts for new posts.');
-                    } else if (permission === 'denied') {
-                        showNotificationToast('Notifications blocked. You can enable them later in browser settings.');
-                    }
+                    // Show success message
+                    showNotificationToast('✅ Notifications enabled! You will receive alerts for new posts.');
+                } else if (permission === 'denied') {
+                    showNotificationToast('Notifications blocked. You can enable them later in browser settings.');
                 }
             } catch (error) {
                 console.error('Permission request error:', error);
@@ -1644,7 +1571,7 @@
                 data: { postId: postId }
             });
             
-            // FIXED: When notification is clicked, scroll to the post
+            // When notification is clicked, scroll to the post
             notification.onclick = function() {
                 window.focus();
                 
