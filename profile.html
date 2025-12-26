@@ -30,14 +30,22 @@
         body {
             color: #FFFFFF;
             min-height: 100vh;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(14, 54, 89, 0.9) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(24, 45, 64, 0.9) 0%, transparent 40%),
-                radial-gradient(circle at 40% 40%, rgba(12, 29, 47, 1) 0%, transparent 50%),
-                linear-gradient(145deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            background: url('images/background.png') no-repeat center center fixed;
+            background-size: cover;
             background-attachment: fixed;
             display: flex;
             flex-direction: column;
+        }
+        
+        /* Background overlay to ensure readability */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
         
         a {
@@ -88,7 +96,7 @@
         .logo-image {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 8px;
             object-fit: cover;
             border: 2px solid rgba(211, 206, 215, 0.3);
         }
@@ -107,7 +115,7 @@
             font-weight: 400;
         }
         
-        /* Mobile Menu Toggle - PLAIN VERSION */
+        /* Mobile Menu Toggle */
         .mobile-menu-toggle {
             display: none;
             background: none;
@@ -155,7 +163,87 @@
             border-radius: 2px;
         }
         
-        /* Main Content */
+        /* Profile Hero Section - FULL WIDTH */
+        .profile-hero-section {
+            position: relative;
+            width: 100%;
+            margin-top: 100px;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
+        /* Profile Header Container */
+        .profile-header {
+            max-width: 1150px;
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+            justify-content: center;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 3px solid rgba(211, 206, 215, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+            background: rgba(12, 29, 47, 0.3);
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* No animation */
+        }
+        
+        .profile-info {
+            flex: 1;
+            max-width: 600px;
+            text-align: left;
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #FFFFFF;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            /* No animation */
+        }
+        
+        .profile-bio {
+            font-size: 1.1rem;
+            color: #d3ced7;
+            line-height: 1.5;
+            width: 100%;
+        }
+        
+        .verified-badge {
+            display: inline-flex;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            /* No animation */
+            vertical-align: middle;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Main Content Container */
         .container {
             flex: 1;
             max-width: 1200px;
@@ -164,16 +252,190 @@
             padding: 0 1.5rem;
         }
         
-        /* Section spacing */
+        /* Profile Section - Matched with homepage spacing */
         .profile-section {
-            margin: 2rem 0;
+            padding: 2rem 0;
+            margin: 30px 0 0 0;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        
+        /* Posts Container */
+        .posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Post Card - Matching homepage product cards */
+        .post {
+            background: rgba(24, 45, 64, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(14, 54, 89, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(14, 54, 89, 0.6);
+        }
+        
+        .post::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0E3659, #182D40);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .post:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Post Header */
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
+            position: relative;
+        }
+        
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid rgba(211, 206, 215, 0.3);
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .post-user-info {
+            flex: 1;
+        }
+        
+        .post-user {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .post-time {
+            font-size: 0.9rem;
+            color: #d3ced7;
+        }
+        
+        .post-share-button {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(211, 206, 215, 0.2);
+            flex-shrink: 0;
+        }
+        
+        .post-share-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.4);
+        }
+        
+        /* Post Content */
+        .post-content {
+            padding: 1.2rem;
+            color: #FFFFFF;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .post-content a {
+            color: #4dabf7;
+            text-decoration: underline;
+        }
+        
+        .post-content a:hover {
+            text-decoration: none;
+        }
+        
+        /* Post Actions */
+        .post-actions {
+            padding: 0.8rem 1.2rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
+            display: flex;
+            align-items: center;
+        }
+        
+        .like-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .post-like-button {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(211, 206, 215, 0.2);
+        }
+        
+        .post-like-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: scale(1.1);
+        }
+        
+        .post-like-count {
+            color: #d3ced7;
+            font-size: 0.95rem;
+            font-weight: 600;
         }
         
         /* Footer with Social Media INLINE */
         .footer {
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             margin-top: 2rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
         
         .footer-content {
@@ -185,14 +447,13 @@
             padding: 0 1.5rem;
         }
         
-        /* Social section */
+        /* Social section - INLINE with text and icons */
         .social-section {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 1.5rem;
             flex-wrap: wrap;
-            margin-bottom: 1rem;
         }
         
         .social-text {
@@ -209,7 +470,7 @@
         .social-icon {
             width: 45px;
             height: 45px;
-            border-radius: 50%;
+            border-radius: 8px;
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             display: flex;
             justify-content: center;
@@ -236,516 +497,7 @@
             border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
         
-        /* PROFILE HEADER SECTION - FIXED SIZE */
-        .profile-hero-section {
-            position: relative;
-            width: 1150px;
-            height: 350px;
-            margin: 120px auto 0 auto;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(14, 54, 89, 0.3);
-        }
-        
-        .profile-header-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1150&h=350&q=80');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            border-radius: 8px;
-        }
-        
-        /* PROFILE HEADER - POSITIONED AT BOTTOM OF IMAGE */
-        .profile-header {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(24, 45, 64, 0.9);
-            border-radius: 0 0 8px 8px;
-            padding: 1.5rem;
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            border-top: none;
-            z-index: 2;
-            backdrop-filter: blur(10px);
-            min-height: 140px;
-        }
-        
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            color: #FFFFFF;
-            border: 4px solid rgba(12, 29, 47, 0.8);
-            flex-shrink: 0;
-            overflow: hidden;
-            margin-top: -60px;
-            margin-left: 1.5rem;
-        }
-        
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .profile-info {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        
-        /* Profile name */
-        .profile-name {
-            font-size: 1.6rem;
-            margin-bottom: 0.5rem;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        /* VERIFIED BADGE - FIXED: Disable right click and long press */
-        .verified-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 22px;
-            height: 22px;
-            color: #FFFFFF;
-            flex-shrink: 0;
-            position: relative;
-            vertical-align: middle;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -webkit-touch-callout: none;
-        }
-        
-        /* FIX 4: Disable context menu and long press */
-        .verified-badge img {
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            user-drag: none;
-        }
-        
-        .profile-name .verified-badge {
-            width: 26px;
-            height: 26px;
-            cursor: pointer;
-            pointer-events: auto; /* Enable clicking for tooltip */
-        }
-        
-        .post-user .verified-badge {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            pointer-events: auto; /* Enable clicking for tooltip */
-        }
-        
-        .profile-bio {
-            color: #d3ced7;
-            line-height: 1.6;
-            margin-bottom: 0;
-            font-size: 1rem;
-            text-align: left;
-            max-width: 100%;
-        }
-        
-        /* Posts container spacing */
-        .posts {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 2rem auto 1rem auto;
-        }
-        
-        /* Post box */
-        .post {
-            background: rgba(24, 45, 64, 0.7);
-            border-radius: 12px;
-            padding: 1.2rem;
-            position: relative;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            z-index: 2;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
-            min-height: auto;
-        }
-        
-        .post-header {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 0.8rem;
-            position: relative;
-            padding-right: 40px;
-        }
-        
-        .post-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 1rem;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-        
-        .post-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .post-user-info {
-            flex: 1;
-        }
-        
-        /* Post user name */
-        .post-user {
-            font-weight: 600;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.2rem;
-            font-size: 1rem;
-        }
-        
-        .post-time {
-            color: #d3ced7;
-            font-size: 0.85rem;
-        }
-        
-        /* FIX 1 & 5: Post content - Remove spacing and align left properly */
-        .post-content {
-            line-height: 1.6;
-            color: #FFFFFF;
-            font-size: 1rem;
-            white-space: pre-wrap;
-            text-align: left;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100%;
-            display: block;
-            text-align: left !important;
-            justify-content: flex-start !important;
-            align-items: flex-start !important;
-        }
-        
-        /* Style for links in posts */
-        .post-content a {
-            color: #4dabf7;
-            text-decoration: underline;
-            word-break: break-all;
-        }
-        
-        .post-content a:hover {
-            color: #74c0fc;
-        }
-        
-        .post-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.2);
-        }
-        
-        /* Share button */
-        .post-share-button {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 1;
-        }
-        
-        .post-share-button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: scale(1.1);
-        }
-        
-        /* FIX 2: LIKE BUTTON moved to the LEFT */
-        .post-like-button {
-            background: transparent;
-            color: #d3ced7;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            padding: 0;
-            margin: 0;
-            transition: transform 0.1s;
-        }
-        
-        .post-like-button:active {
-            transform: scale(1.2);
-        }
-        
-        .post-like-count {
-            font-size: 0.95rem;
-            color: #d3ced7;
-            margin-left: 0.3rem;
-            min-width: 20px;
-            display: inline-block;
-        }
-        
-        .like-container {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        
-        /* Tooltip for verified badge */
-        .verified-wrapper {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .verified-tooltip-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        
-        .verified-tooltip-modal.active {
-            display: flex;
-        }
-        
-        .verified-tooltip-content {
-            background: rgba(24, 45, 64, 0.95);
-            border-radius: 12px;
-            padding: 1.5rem;
-            max-width: 300px;
-            width: 100%;
-            text-align: center;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            position: relative;
-        }
-        
-        .verified-tooltip-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: #d3ced7;
-            font-size: 1.2rem;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* FIX 3: Share modal layout */
-        .share-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        
-        .share-modal.active {
-            display: flex;
-        }
-        
-        .share-container {
-            background: rgba(24, 45, 64, 0.95);
-            padding: 1.5rem;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            text-align: center;
-        }
-        
-        .share-image {
-            max-width: 100%;
-            max-height: 60vh;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            object-fit: contain;
-            display: none; /* Hide the old image, we're using preview */
-        }
-        
-        .share-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        
-        /* Share preview styling */
-        .share-preview {
-            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: left;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .share-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .share-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(211, 206, 215, 0.3);
-            flex-shrink: 0;
-        }
-        
-        .share-user-info {
-            flex: 1;
-        }
-        
-        .share-username {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .share-verified-badge {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-        
-        /* FIX 5: Share content aligned left */
-        .share-content {
-            color: #FFFFFF;
-            font-size: 1rem;
-            line-height: 1.5;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-            width: 100%;
-            display: block;
-        }
-        
-        .share-footer {
-            color: #d3ced7;
-            font-size: 0.9rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.3);
-            text-align: left;
-        }
-        
-        /* Buy button style */
-        .buy-button {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-        
-        .buy-button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
-        }
-        
-        /* Section title */
-        .section-title {
-            font-size: 2rem;
-            margin: 0 0 1rem 0;
-            color: #FFFFFF;
-            text-align: center;
-        }
-        
-        /* Loading spinner */
+        /* Loading Spinner */
         .loading-spinner {
             display: none;
             position: fixed;
@@ -753,19 +505,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 4000;
+            background: rgba(12, 29, 47, 0.95);
+            z-index: 9999;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            color: white;
         }
         
         .spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid rgba(14, 54, 89, 0.3);
-            border-top: 5px solid #4dabf7;
+            border: 5px solid rgba(211, 206, 215, 0.3);
+            border-top: 5px solid #0E3659;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 1rem;
@@ -776,71 +527,231 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Toast notification */
+        /* Toast Notification */
         .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: rgba(46, 125, 50, 0.95);
-            color: white;
-            border-radius: 8px;
-            z-index: 2000;
-            animation: slideIn 0.3s ease;
-            max-width: 400px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 9998;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            animation: slideIn 0.3s ease;
         }
         
         .toast.error {
-            background: rgba(211, 47, 47, 0.95);
+            background: linear-gradient(135deg, #9b2c2c 0%, #c53030 100%);
         }
         
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Verified Tooltip Modal */
+        .verified-tooltip-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .verified-tooltip-modal.active {
+            display: flex;
+        }
+        
+        .verified-tooltip-content {
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            position: relative;
+        }
+        
+        .verified-tooltip-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(12, 29, 47, 0.8);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Share Modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .share-modal.active {
+            display: flex;
+        }
+        
+        .share-container {
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+        }
+        
+        .share-preview {
+            background: rgba(12, 29, 47, 0.5);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
+        .share-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .share-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 1rem;
+            border: 2px solid rgba(211, 206, 215, 0.3);
+        }
+        
+        .share-user-info {
+            flex: 1;
+        }
+        
+        .share-username {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .share-verified-badge {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .share-content {
+            color: #FFFFFF;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .share-content a {
+            color: #4dabf7;
+            text-decoration: underline;
+        }
+        
+        .share-footer {
+            color: #d3ced7;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
+            padding-top: 0.8rem;
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .share-buttons .buy-button {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(211, 206, 215, 0.2);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .share-buttons .buy-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
         }
         
         /* ========== RESPONSIVE DESIGN ========== */
         
         /* Tablet View (768px - 991px) */
-        @media (max-width: 1199px) {
+        @media (max-width: 991px) {
             .header-container {
                 padding: 0 1.2rem;
             }
             
             .profile-hero-section {
-                width: 90%;
-                height: 300px;
-                margin: 100px auto 0 auto;
+                margin-top: 100px;
+                min-height: 200px;
             }
             
             .profile-header {
-                padding: 1.2rem;
-                gap: 1.2rem;
+                padding: 1.5rem;
+                gap: 1.5rem;
             }
             
             .profile-avatar {
                 width: 100px;
                 height: 100px;
-                margin-top: -50px;
             }
             
             .profile-name {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
+            }
+            
+            .profile-bio {
+                font-size: 1rem;
             }
             
             .section-title {
-                font-size: 1.8rem;
-                margin: 0 0 1rem 0;
+                font-size: 2rem;
             }
             
             .posts {
-                gap: 1.2rem;
-                margin: 2rem auto 1rem auto;
+                max-width: 100%;
             }
         }
         
@@ -882,52 +793,63 @@
                 font-size: 0.8rem;
             }
             
+            /* Profile Hero Section - FULL WIDTH on mobile */
             .profile-hero-section {
-                width: calc(100% - 3rem);
-                height: 250px;
-                margin: 100px auto 0 auto;
-                border-radius: 8px 8px 0 0;
-            }
-            
-            .profile-header-image {
-                border-radius: 8px 8px 0 0;
-            }
-            
-            /* FIX 6: Remove gap between hero image and profile header on mobile */
-            .profile-header {
-                padding: 1.2rem;
-                gap: 1rem;
-                min-height: 120px;
-                flex-direction: column;
-                align-items: flex-start;
-                border-radius: 0 0 8px 8px;
-                margin-top: 0;
-                border-top: 1px solid rgba(14, 54, 89, 0.3);
-            }
-            
-            .profile-info {
-                min-width: 100%;
-                margin-top: 0;
-            }
-            
-            .profile-name {
-                justify-content: flex-start;
-                font-size: 1.4rem;
-                text-align: left;
+                margin: 100px 0 30px 0;
+                min-height: 180px;
                 width: 100%;
+                padding: 0;
             }
             
-            .profile-bio {
-                text-align: left;
-                font-size: 0.95rem;
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 1.5rem;
+                gap: 1rem;
             }
             
             .profile-avatar {
-                width: 90px;
-                height: 90px;
-                margin-top: -60px;
-                margin-left: 0;
-                align-self: flex-start;
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+                justify-content: center;
+            }
+            
+            .profile-bio {
+                font-size: 1rem;
+                text-align: center;
+            }
+            
+            .profile-section {
+                padding: 1.5rem 0;
+                margin: 30px 0 0 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .post-header {
+                padding: 1rem;
+            }
+            
+            .post-avatar {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .post-user {
+                font-size: 1rem;
+            }
+            
+            .post-content {
+                padding: 1rem;
+                font-size: 0.95rem;
             }
             
             .social-section {
@@ -950,107 +872,100 @@
                 font-size: 1.1rem;
             }
             
-            .posts {
-                gap: 1rem;
-                margin: 1rem auto;
-            }
-            
-            .post {
-                padding: 1rem;
-            }
-            
-            .post-content {
-                font-size: 0.95rem;
-                line-height: 1.5;
-                text-align: left !important;
-            }
-            
-            .post-avatar {
-                width: 40px;
-                height: 40px;
-                margin-right: 0.8rem;
-            }
-            
-            .post-user {
-                font-size: 0.95rem;
-            }
-            
-            .post-time {
-                font-size: 0.8rem;
-            }
-            
-            /* FIX 3: Adjust modal share layout on mobile */
-            .share-container {
-                padding: 1rem;
-                max-width: 90%;
-            }
-            
-            .share-preview {
-                padding: 1rem;
-                gap: 0.8rem;
-            }
-            
-            .share-header {
-                gap: 0.8rem;
-            }
-            
-            .share-avatar {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .share-username {
-                font-size: 1rem; /* Smaller font size for mobile */
-            }
-            
-            .share-content {
-                font-size: 0.95rem;
-            }
-            
             .share-buttons {
                 flex-direction: column;
                 gap: 0.8rem;
             }
-            
-            .buy-button {
-                width: 100%;
-                padding: 0.7rem 1rem;
-            }
         }
         
-        /* Small Mobile (max-width: 480px) */
+        /* Small Mobile View (max-width: 480px) */
         @media (max-width: 480px) {
-            .profile-hero-section {
-                width: calc(100% - 2rem);
-                height: 200px;
-                margin: 90px auto 0 auto;
-                border-radius: 8px 8px 0 0;
+            .header-container {
+                padding: 0 1rem;
             }
             
-            /* FIX 6: Ensure no gap */
+            .container {
+                padding: 0 1rem;
+            }
+            
+            /* Profile Hero Section - FULL WIDTH */
+            .profile-hero-section {
+                margin: 100px 0 30px 0;
+                min-height: 150px;
+                width: 100%;
+            }
+            
             .profile-header {
                 padding: 1rem;
-                min-height: 100px;
-                margin-top: 0;
             }
             
             .profile-avatar {
-                width: 70px;
-                height: 70px;
-                margin-top: -45px;
-                border-width: 3px;
+                width: 100px;
+                height: 100px;
             }
             
             .profile-name {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             }
             
             .profile-bio {
-                font-size: 0.85rem;
+                font-size: 0.95rem;
             }
             
             .section-title {
-                font-size: 1.4rem;
+                font-size: 1.6rem;
+            }
+            
+            .footer {
+                padding: 1.2rem 0;
+            }
+            
+            .share-container {
+                padding: 1.5rem;
+            }
+            
+            .share-preview {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+        }
+        
+        /* Very Small Screens (max-width: 360px) */
+        @media (max-width: 360px) {
+            .logo-container {
+                gap: 0.7rem;
+            }
+            
+            .logo-image {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.75rem;
+            }
+            
+            .profile-avatar {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .profile-name {
+                font-size: 1.3rem;
+            }
+            
+            .profile-bio {
+                font-size: 0.9rem;
+            }
+            
+            .social-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -1087,21 +1002,20 @@
         </div>
     </header>
 
-    <!-- Profile Page Header with Background Image -->
+    <!-- Profile Page Header - FULL WIDTH -->
     <div class="profile-hero-section">
-        <div class="profile-header-image"></div>
-        <!-- Profile Header Positioned at Bottom -->
+        <!-- Profile Header -->
         <section class="profile-header">
             <div class="profile-avatar">
                 <img src="images/Logo.png" alt="Trulune Malaysia Logo">
             </div>
             <div class="profile-info">
                 <h1 class="profile-name">
-                    Trulune Malaysia 
+                    Trulune Malaysia
                     <span class="verified-badge" onclick="openVerifiedTooltip()" 
                           oncontextmenu="return false" 
                           ondragstart="return false">
-                        <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                        <img src="images/verified.svg" style="width: 20px; height: 20px;" alt="Verified">
                     </span>
                 </h1>
                 <p class="profile-bio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
@@ -1113,7 +1027,7 @@
     <main class="container">
         <section class="profile-section">
             <!-- Updates Feed -->
-            <h2 class="section-title" style="text-align: center;">Updates</h2>
+            <h2 class="section-title">Updates</h2>
             <div class="posts" id="posts-container">
                 <!-- Posts will load here automatically -->
             </div>
@@ -1278,7 +1192,7 @@
         // === SHARE FUNCTIONALITY - FIXED VERSION ===
         let currentPostForShare = null;
         
-        // FIX 4: Make sure ALL posts can click the share button
+        // Make sure ALL posts can click the share button
         function openShareModal(postContent, postDate, postId) {
             try {
                 // Properly decode the content
@@ -1293,7 +1207,7 @@
                 const sharePreviewContent = document.getElementById('sharePreviewContent');
                 const sharePreviewFooter = document.getElementById('sharePreviewFooter');
                 
-                // Clean and format the content - FIX 5: Align left
+                // Clean and format the content
                 let formattedContent = decodedContent;
                 const urlRegex = /(https?:\/\/[^\s]+)/g;
                 formattedContent = formattedContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener" style="color: #4dabf7; text-decoration: underline;">$1</a>');
@@ -1302,7 +1216,7 @@
                 sharePreviewContent.innerHTML = formattedContent;
                 sharePreviewFooter.textContent = postDate;
                 
-                // FIX 4: Ensure modal opens
+                // Ensure modal opens
                 document.getElementById('shareModal').classList.add('active');
                 
                 // Generate share image in background
@@ -1361,19 +1275,22 @@
             const avatarImg = document.createElement('img');
             avatarImg.src = 'images/Logo.png';
             avatarImg.alt = 'Trulune Logo';
-            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px;';
+            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px;';
             
-            // Verified badge
+            // Verified badge - FIXED SIZE
             const verifiedImg = document.createElement('img');
             verifiedImg.src = 'images/verified.svg';
             verifiedImg.alt = 'Verified';
-            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 5px;';
+            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 8px; vertical-align: middle;';
             
             // Header text
             const headerText = document.createElement('div');
             const nameDiv = document.createElement('div');
             nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px;';
-            nameDiv.textContent = 'Trulune Malaysia ';
+            
+            // Create text node and append
+            const nameText = document.createTextNode('Trulune Malaysia');
+            nameDiv.appendChild(nameText);
             nameDiv.appendChild(verifiedImg);
             
             const tagline = document.createElement('div');
@@ -1386,7 +1303,7 @@
             header.appendChild(avatarImg);
             header.appendChild(headerText);
             
-            // Content section - FIX 1 & 5: No spacing, align left
+            // Content section
             const contentDiv = document.createElement('div');
             contentDiv.style.cssText = `
                 flex: 1;
@@ -1394,6 +1311,7 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 text-align: left;
+                overflow: hidden;
             `;
             
             const contentText = document.createElement('div');
@@ -1405,6 +1323,8 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100%;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
             `;
             
             // Handle line breaks
@@ -1427,6 +1347,7 @@
                 text-align: center;
                 padding-top: 15px;
                 border-top: 1px solid rgba(14, 54, 89, 0.3);
+                margin-top: auto;
             `;
             
             const dateText = document.createElement('div');
@@ -1462,7 +1383,7 @@
                     showToast("Error generating image", 'error');
                     document.body.removeChild(container);
                 });
-            }, 500);
+            }, 1000); // Increased timeout to ensure images load
         }
         
         function downloadShareImage() {
@@ -1476,7 +1397,10 @@
         }
         
         function generateShareImageForDownload() {
-            if (!currentPostForShare) return;
+            if (!currentPostForShare) {
+                showToast('No post selected', 'error');
+                return;
+            }
             
             const content = currentPostForShare.content || '';
             const contentLength = content.length;
@@ -1501,6 +1425,7 @@
                 left: -9999px;
                 top: -9999px;
                 box-sizing: border-box;
+                overflow: hidden;
             `;
             
             // Use proper images
@@ -1509,26 +1434,30 @@
                 display: flex;
                 align-items: center;
                 margin-bottom: 20px;
+                flex-shrink: 0;
             `;
             
             const avatarImg = document.createElement('img');
             avatarImg.src = 'images/Logo.png';
             avatarImg.alt = 'Trulune Logo';
-            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px;';
+            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px; flex-shrink: 0;';
             
             const verifiedImg = document.createElement('img');
             verifiedImg.src = 'images/verified.svg';
             verifiedImg.alt = 'Verified';
-            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 5px;';
+            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 8px; vertical-align: middle; flex-shrink: 0;';
             
             const headerText = document.createElement('div');
             const nameDiv = document.createElement('div');
-            nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px;';
-            nameDiv.textContent = 'Trulune Malaysia ';
+            nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px; flex-shrink: 0;';
+            
+            // Create text node and append
+            const nameText = document.createTextNode('Trulune Malaysia');
+            nameDiv.appendChild(nameText);
             nameDiv.appendChild(verifiedImg);
             
             const tagline = document.createElement('div');
-            tagline.style.cssText = 'font-size: 14px; color: #d3ced7;';
+            tagline.style.cssText = 'font-size: 14px; color: #d3ced7; flex-shrink: 0;';
             tagline.textContent = 'Everyday scents. Timeless allure.';
             
             headerText.appendChild(nameDiv);
@@ -1536,7 +1465,6 @@
             header.appendChild(avatarImg);
             header.appendChild(headerText);
             
-            // FIX 1 & 5: No spacing, align left
             const contentDiv = document.createElement('div');
             contentDiv.style.cssText = `
                 flex: 1;
@@ -1544,6 +1472,8 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 text-align: left;
+                overflow: hidden;
+                min-height: 0;
             `;
             
             const contentText = document.createElement('div');
@@ -1555,8 +1485,12 @@
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100%;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                overflow: hidden;
             `;
             
+            // Handle line breaks
             const lines = content.split('\\n');
             lines.forEach((line, index) => {
                 if (line.trim()) {
@@ -1575,6 +1509,8 @@
                 text-align: center;
                 padding-top: 15px;
                 border-top: 1px solid rgba(14, 54, 89, 0.3);
+                margin-top: auto;
+                flex-shrink: 0;
             `;
             
             const dateText = document.createElement('div');
@@ -1587,25 +1523,62 @@
             container.appendChild(footer);
             document.body.appendChild(container);
             
-            setTimeout(() => {
-                html2canvas(container, {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: null,
-                    logging: false
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'trulune-post.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    document.body.removeChild(container);
-                    showToast('Image downloaded!');
-                }).catch(error => {
-                    console.error("Error generating download image:", error);
-                    showToast("Error generating image", 'error');
-                    document.body.removeChild(container);
-                });
-            }, 500);
+            // Wait for images to load
+            const images = container.querySelectorAll('img');
+            let imagesLoaded = 0;
+            const totalImages = images.length;
+            
+            if (totalImages === 0) {
+                captureAndDownload();
+                return;
+            }
+            
+            images.forEach(img => {
+                if (img.complete) {
+                    imagesLoaded++;
+                    if (imagesLoaded === totalImages) {
+                        captureAndDownload();
+                    }
+                } else {
+                    img.onload = () => {
+                        imagesLoaded++;
+                        if (imagesLoaded === totalImages) {
+                            captureAndDownload();
+                        }
+                    };
+                    img.onerror = () => {
+                        imagesLoaded++;
+                        if (imagesLoaded === totalImages) {
+                            captureAndDownload();
+                        }
+                    };
+                }
+            });
+            
+            function captureAndDownload() {
+                setTimeout(() => {
+                    html2canvas(container, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: null,
+                        logging: false,
+                        allowTaint: true,
+                        width: 800,
+                        height: containerHeight
+                    }).then(canvas => {
+                        const link = document.createElement('a');
+                        link.download = 'trulune-post.png';
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                        document.body.removeChild(container);
+                        showToast('Image downloaded!');
+                    }).catch(error => {
+                        console.error("Error generating download image:", error);
+                        showToast("Error generating image", 'error');
+                        document.body.removeChild(container);
+                    });
+                }, 1000);
+            }
         }
         
         // === LIKE FUNCTIONALITY ===
@@ -1680,7 +1653,7 @@
                         console.log("Error formatting date:", e);
                     }
                     
-                    // Clean post content - FIX 1 & 5: No spacing, align left
+                    // Clean post content - KEEP ORIGINAL
                     let postContent = post.content ? post.content.trim() : '';
                     
                     // Remove leading/trailing whitespace and normalize line breaks
@@ -1695,7 +1668,7 @@
                     const urlRegex = /(https?:\/\/[^\s]+)/g;
                     postContent = postContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener">$1</a>');
                     
-                    // Escape quotes for the share function - FIX 4: Handle quotes properly
+                    // Escape quotes for the share function
                     const escapedContent = encodeURIComponent(post.content || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     
                     // Get likes count
@@ -1713,7 +1686,7 @@
                                         <span class="verified-badge" onclick="openVerifiedTooltip()" 
                                               oncontextmenu="return false" 
                                               ondragstart="return false">
-                                            <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                                            <img src="images/verified.svg" style="width: 20px; height: 20px;" alt="Verified">
                                         </span>
                                     </div>
                                     <div class="post-time">${timeAgo}</div>
@@ -1730,7 +1703,7 @@
                                     <button class="post-like-button" 
                                             data-post-id="${postId}" 
                                             onclick="likePost('${postId}')">
-                                        ❤
+                                        ♥️
                                     </button>
                                     <span class="post-like-count" 
                                           data-post-id="${postId}"
@@ -1801,7 +1774,7 @@
             });
         }
         
-        // === FIX 4: Disable right click and long press on verified badges ===
+        // === Disable right click and long press on verified badges ===
         function disableVerifiedBadgeActions() {
             // Disable context menu (right click) on verified badges
             document.addEventListener('contextmenu', function(e) {
@@ -1889,7 +1862,7 @@
             // Load posts immediately
             loadPosts();
             
-            // FIX 4: Apply verified badge protection
+            // Apply verified badge protection
             disableVerifiedBadgeActions();
             
             // Modal close handlers
