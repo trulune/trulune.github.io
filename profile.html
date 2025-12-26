@@ -205,7 +205,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* No animation */
         }
         
         .profile-info {
@@ -222,7 +221,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            /* No animation */
         }
         
         .profile-bio {
@@ -237,7 +235,6 @@
             width: 24px;
             height: 24px;
             cursor: pointer;
-            /* No animation */
             vertical-align: middle;
             align-items: center;
             justify-content: center;
@@ -1083,16 +1080,16 @@
         <div class="share-container">
             <h3 style="color: #FFFFFF; margin-bottom: 1rem;">Share this Post</h3>
             
-            <!-- Share preview section -->
-            <div class="share-preview" id="sharePreview">
+            <!-- Share preview section - ID CHANGED for cloning -->
+            <div class="share-preview" id="sharePreview" style="transform: scale(1);">
                 <div class="share-header">
-                    <img src="images/Logo.png" alt="Trulune Malaysia" class="share-avatar">
+                    <img src="images/Logo.png" alt="Trulune Malaysia" class="share-avatar" id="shareAvatarClone">
                     <div class="share-user-info">
                         <div class="share-username">
                             Trulune Malaysia
-                            <img src="images/verified.svg" alt="Verified" class="share-verified-badge">
+                            <img src="images/verified.svg" alt="Verified" class="share-verified-badge" id="shareVerifiedClone">
                         </div>
-                        <div style="color: #d3ced7; font-size: 0.9rem;">@trulune</div>
+                        <div style="color: #d3ced7; font-size: 0.9rem;" id="shareUsernameClone">@trulune</div>
                     </div>
                 </div>
                 <div class="share-content" id="sharePreviewContent">
@@ -1189,7 +1186,7 @@
             document.getElementById('verifiedTooltipModal').classList.remove('active');
         }
         
-        // === SHARE FUNCTIONALITY - FIXED VERSION ===
+        // === SHARE FUNCTIONALITY - FIXED TO MATCH EXACTLY ===
         let currentPostForShare = null;
         
         // Make sure ALL posts can click the share button
@@ -1219,10 +1216,6 @@
                 // Ensure modal opens
                 document.getElementById('shareModal').classList.add('active');
                 
-                // Generate share image in background
-                setTimeout(() => {
-                    generateShareImage();
-                }, 100);
             } catch (error) {
                 console.error("Error opening share modal:", error);
                 showToast("Error opening share", 'error');
@@ -1234,351 +1227,288 @@
             currentPostForShare = null;
         }
         
-        function generateShareImage() {
-            if (!currentPostForShare) return;
-            
-            const content = currentPostForShare.content || '';
-            // Adjust container size based on content length
-            const contentLength = content.length;
-            let containerHeight = 350;
-            
-            if (contentLength > 100) containerHeight = 400;
-            if (contentLength > 200) containerHeight = 450;
-            if (contentLength > 300) containerHeight = 500;
-            if (contentLength > 400) containerHeight = 550;
-            
-            const container = document.createElement('div');
-            container.style.cssText = `
-                width: 800px;
-                height: ${containerHeight}px;
-                background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-                padding: 30px;
-                color: white;
-                font-family: 'Lato', sans-serif;
-                display: flex;
-                flex-direction: column;
-                position: fixed;
-                left: -9999px;
-                top: -9999px;
-                box-sizing: border-box;
-            `;
-            
-            // Use images/Logo.png and images/verified.svg
-            const header = document.createElement('div');
-            header.style.cssText = `
-                display: flex;
-                align-items: center;
-                margin-bottom: 20px;
-            `;
-            
-            // Avatar image
-            const avatarImg = document.createElement('img');
-            avatarImg.src = 'images/Logo.png';
-            avatarImg.alt = 'Trulune Logo';
-            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px;';
-            
-            // Verified badge - FIXED SIZE
-            const verifiedImg = document.createElement('img');
-            verifiedImg.src = 'images/verified.svg';
-            verifiedImg.alt = 'Verified';
-            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 8px; vertical-align: middle;';
-            
-            // Header text
-            const headerText = document.createElement('div');
-            const nameDiv = document.createElement('div');
-            nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px;';
-            
-            // Create text node and append
-            const nameText = document.createTextNode('Trulune Malaysia');
-            nameDiv.appendChild(nameText);
-            nameDiv.appendChild(verifiedImg);
-            
-            const tagline = document.createElement('div');
-            tagline.style.cssText = 'font-size: 14px; color: #d3ced7;';
-            tagline.textContent = 'Everyday scents. Timeless allure.';
-            
-            headerText.appendChild(nameDiv);
-            headerText.appendChild(tagline);
-            
-            header.appendChild(avatarImg);
-            header.appendChild(headerText);
-            
-            // Content section
-            const contentDiv = document.createElement('div');
-            contentDiv.style.cssText = `
-                flex: 1;
-                display: block;
-                padding: 0 !important;
-                margin: 0 !important;
-                text-align: left;
-                overflow: hidden;
-            `;
-            
-            const contentText = document.createElement('div');
-            contentText.style.cssText = `
-                font-size: ${contentLength > 200 ? '24px' : '28px'};
-                line-height: 1.4;
-                text-align: left;
-                max-width: 650px;
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            `;
-            
-            // Handle line breaks
-            const lines = content.split('\\n');
-            lines.forEach((line, index) => {
-                if (line.trim()) {
-                    contentText.appendChild(document.createTextNode(line));
-                    if (index < lines.length - 1 && lines[index + 1].trim()) {
-                        contentText.appendChild(document.createElement('br'));
-                        contentText.appendChild(document.createElement('br'));
-                    }
-                }
-            });
-            
-            contentDiv.appendChild(contentText);
-            
-            // Footer
-            const footer = document.createElement('div');
-            footer.style.cssText = `
-                text-align: center;
-                padding-top: 15px;
-                border-top: 1px solid rgba(14, 54, 89, 0.3);
-                margin-top: auto;
-            `;
-            
-            const dateText = document.createElement('div');
-            dateText.style.cssText = 'font-size: 16px; color: #d3ced7;';
-            dateText.textContent = currentPostForShare.date;
-            
-            footer.appendChild(dateText);
-            
-            container.appendChild(header);
-            container.appendChild(contentDiv);
-            container.appendChild(footer);
-            document.body.appendChild(container);
-            
-            // Generate image with proper image loading
-            setTimeout(() => {
-                html2canvas(container, {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: null,
-                    logging: false,
-                    onclone: function(clonedDoc, element) {
-                        // Handle images in clone
-                        const images = element.querySelectorAll('img');
-                        images.forEach(img => {
-                            img.crossOrigin = 'anonymous';
-                        });
-                    }
-                }).then(canvas => {
-                    document.body.removeChild(container);
-                    showToast('Share image ready!');
-                }).catch(error => {
-                    console.error("Error generating share image:", error);
-                    showToast("Error generating image", 'error');
-                    document.body.removeChild(container);
-                });
-            }, 1000); // Increased timeout to ensure images load
-        }
-        
         function downloadShareImage() {
             try {
-                // Generate the share image for download
-                generateShareImageForDownload();
+                if (!currentPostForShare) {
+                    showToast('No post selected', 'error');
+                    return;
+                }
+                
+                showToast('Generating image...', 'success');
+                
+                // Get the EXACT preview element
+                const sharePreview = document.getElementById('sharePreview');
+                
+                // Create a clone of the preview with all styles preserved
+                const clone = sharePreview.cloneNode(true);
+                
+                // Apply styles to ensure it renders correctly
+                clone.style.cssText = `
+                    position: absolute !important;
+                    left: 0 !important;
+                    top: 0 !important;
+                    width: 500px !important;
+                    background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%) !important;
+                    border-radius: 8px !important;
+                    padding: 1.5rem !important;
+                    margin: 0 !important;
+                    border: 1px solid rgba(14, 54, 89, 0.3) !important;
+                    box-shadow: none !important;
+                    transform: scale(1) !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    z-index: 99999 !important;
+                    box-sizing: border-box !important;
+                `;
+                
+                // Apply specific styles to child elements
+                const shareHeader = clone.querySelector('.share-header');
+                if (shareHeader) {
+                    shareHeader.style.cssText = `
+                        display: flex !important;
+                        align-items: center !important;
+                        margin-bottom: 1rem !important;
+                    `;
+                }
+                
+                const shareAvatar = clone.querySelector('.share-avatar');
+                if (shareAvatar) {
+                    shareAvatar.style.cssText = `
+                        width: 50px !important;
+                        height: 50px !important;
+                        border-radius: 8px !important;
+                        margin-right: 1rem !important;
+                        border: 2px solid rgba(211, 206, 215, 0.3) !important;
+                        object-fit: cover !important;
+                    `;
+                }
+                
+                const shareContent = clone.querySelector('.share-content');
+                if (shareContent) {
+                    shareContent.style.cssText = `
+                        color: #FFFFFF !important;
+                        line-height: 1.5 !important;
+                        margin-bottom: 1rem !important;
+                        font-size: 16px !important;
+                        max-height: none !important;
+                        overflow: visible !important;
+                    `;
+                }
+                
+                const shareFooter = clone.querySelector('.share-footer');
+                if (shareFooter) {
+                    shareFooter.style.cssText = `
+                        color: #d3ced7 !important;
+                        font-size: 0.9rem !important;
+                        border-top: 1px solid rgba(14, 54, 89, 0.3) !important;
+                        padding-top: 0.8rem !important;
+                    `;
+                }
+                
+                // Create a container for the clone
+                const container = document.createElement('div');
+                container.style.cssText = `
+                    position: fixed !important;
+                    left: 0 !important;
+                    top: 0 !important;
+                    width: 500px !important;
+                    height: auto !important;
+                    background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%) !important;
+                    border-radius: 8px !important;
+                    padding: 0 !important;
+                    margin: 0 !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    transform: scale(1) !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    z-index: 99999 !important;
+                    box-sizing: border-box !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                `;
+                
+                // Add the clone to container
+                container.appendChild(clone);
+                
+                // Add container to body
+                document.body.appendChild(container);
+                
+                // Wait a moment for rendering
+                setTimeout(() => {
+                    html2canvas(container, {
+                        scale: 3, // High resolution
+                        backgroundColor: null,
+                        logging: true,
+                        useCORS: true,
+                        allowTaint: false,
+                        width: 500,
+                        height: container.offsetHeight,
+                        onclone: function(clonedDoc, element) {
+                            // Ensure all styles are applied in the clone
+                            const clonedContainer = element;
+                            clonedContainer.style.cssText = `
+                                position: absolute !important;
+                                left: 0 !important;
+                                top: 0 !important;
+                                width: 500px !important;
+                                height: auto !important;
+                                background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%) !important;
+                                border-radius: 8px !important;
+                                padding: 0 !important;
+                                margin: 0 !important;
+                                border: none !important;
+                                box-shadow: none !important;
+                                transform: scale(1) !important;
+                                opacity: 1 !important;
+                                visibility: visible !important;
+                                z-index: 99999 !important;
+                                box-sizing: border-box !important;
+                                display: flex !important;
+                                flex-direction: column !important;
+                            `;
+                            
+                            // Fix images in the clone
+                            const images = clonedContainer.querySelectorAll('img');
+                            images.forEach(img => {
+                                img.style.cssText = `
+                                    width: ${img.getAttribute('width') || '50px'} !important;
+                                    height: ${img.getAttribute('height') || '50px'} !important;
+                                    border-radius: 8px !important;
+                                    border: 2px solid rgba(211, 206, 215, 0.3) !important;
+                                    object-fit: cover !important;
+                                `;
+                            });
+                        }
+                    }).then(canvas => {
+                        // Create download link
+                        const link = document.createElement('a');
+                        link.download = `trulune-post-${currentPostForShare.id || Date.now()}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                        
+                        // Clean up
+                        document.body.removeChild(container);
+                        
+                        showToast('Image downloaded successfully!');
+                    }).catch(error => {
+                        console.error("Error generating image:", error);
+                        
+                        // Fallback: Try alternative method
+                        tryFallbackImageGeneration();
+                        
+                        document.body.removeChild(container);
+                    });
+                }, 500);
+                
             } catch (error) {
                 console.error("Error downloading image:", error);
-                showToast('Error downloading image', 'error');
+                showToast('Error downloading image. Try using a web server.', 'error');
             }
         }
         
-        function generateShareImageForDownload() {
-            if (!currentPostForShare) {
-                showToast('No post selected', 'error');
-                return;
-            }
+        // Alternative method if the main one fails
+        function tryFallbackImageGeneration() {
+            if (!currentPostForShare) return;
             
+            showToast('Using alternative method...', 'success');
+            
+            // Create a simplified version
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = 600;
+            
+            // Calculate height based on content
             const content = currentPostForShare.content || '';
-            const contentLength = content.length;
-            let containerHeight = 350;
+            const lineHeight = 24;
+            const lines = Math.ceil(content.length / 50);
+            const contentHeight = Math.max(lines * lineHeight, 100);
+            canvas.height = 200 + contentHeight;
             
-            if (contentLength > 100) containerHeight = 400;
-            if (contentLength > 200) containerHeight = 450;
-            if (contentLength > 300) containerHeight = 500;
-            if (contentLength > 400) containerHeight = 550;
+            // Draw background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#0c1d2f');
+            gradient.addColorStop(0.5, '#182D40');
+            gradient.addColorStop(1, '#0E3659');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            const container = document.createElement('div');
-            container.style.cssText = `
-                width: 800px;
-                height: ${containerHeight}px;
-                background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-                padding: 30px;
-                color: white;
-                font-family: 'Lato', sans-serif;
-                display: flex;
-                flex-direction: column;
-                position: fixed;
-                left: -9999px;
-                top: -9999px;
-                box-sizing: border-box;
-                overflow: hidden;
-            `;
+            // Draw border
+            ctx.strokeStyle = 'rgba(14, 54, 89, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
             
-            // Use proper images
-            const header = document.createElement('div');
-            header.style.cssText = `
-                display: flex;
-                align-items: center;
-                margin-bottom: 20px;
-                flex-shrink: 0;
-            `;
+            // Draw avatar placeholder
+            ctx.fillStyle = 'rgba(12, 29, 47, 0.8)';
+            ctx.fillRect(30, 30, 50, 50);
+            ctx.strokeStyle = 'rgba(211, 206, 215, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(30, 30, 50, 50);
             
-            const avatarImg = document.createElement('img');
-            avatarImg.src = 'images/Logo.png';
-            avatarImg.alt = 'Trulune Logo';
-            avatarImg.style.cssText = 'width: 70px; height: 70px; border-radius: 8px; object-fit: cover; border: 3px solid rgba(211, 206, 215, 0.3); margin-right: 15px; flex-shrink: 0;';
+            // Draw username
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 20px Lato';
+            ctx.fillText('Trulune Malaysia', 100, 50);
             
-            const verifiedImg = document.createElement('img');
-            verifiedImg.src = 'images/verified.svg';
-            verifiedImg.alt = 'Verified';
-            verifiedImg.style.cssText = 'width: 20px; height: 20px; margin-left: 8px; vertical-align: middle; flex-shrink: 0;';
+            // Draw verified badge
+            ctx.fillStyle = '#4dabf7';
+            ctx.beginPath();
+            ctx.arc(250, 45, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 12px Arial';
+            ctx.fillText('✓', 247, 50);
             
-            const headerText = document.createElement('div');
-            const nameDiv = document.createElement('div');
-            nameDiv.style.cssText = 'font-size: 24px; font-weight: bold; display: flex; align-items: center; margin-bottom: 5px; flex-shrink: 0;';
+            // Draw username tag
+            ctx.fillStyle = '#d3ced7';
+            ctx.font = '14px Lato';
+            ctx.fillText('@trulune', 100, 75);
             
-            // Create text node and append
-            const nameText = document.createTextNode('Trulune Malaysia');
-            nameDiv.appendChild(nameText);
-            nameDiv.appendChild(verifiedImg);
+            // Draw content
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '16px Lato';
+            const wrappedLines = wrapText(ctx, content, 30, 120, canvas.width - 60, 24);
             
-            const tagline = document.createElement('div');
-            tagline.style.cssText = 'font-size: 14px; color: #d3ced7; flex-shrink: 0;';
-            tagline.textContent = 'Everyday scents. Timeless allure.';
+            // Draw date
+            ctx.fillStyle = '#d3ced7';
+            ctx.font = '14px Lato';
+            ctx.fillText(currentPostForShare.date, 30, canvas.height - 40);
             
-            headerText.appendChild(nameDiv);
-            headerText.appendChild(tagline);
-            header.appendChild(avatarImg);
-            header.appendChild(headerText);
+            // Create download
+            const link = document.createElement('a');
+            link.download = `trulune-post-fallback-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
             
-            const contentDiv = document.createElement('div');
-            contentDiv.style.cssText = `
-                flex: 1;
-                display: block;
-                padding: 0 !important;
-                margin: 0 !important;
-                text-align: left;
-                overflow: hidden;
-                min-height: 0;
-            `;
+            showToast('Fallback image downloaded');
+        }
+        
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            const lines = [];
             
-            const contentText = document.createElement('div');
-            contentText.style.cssText = `
-                font-size: ${contentLength > 200 ? '24px' : '28px'};
-                line-height: 1.4;
-                text-align: left;
-                max-width: 650px;
-                padding: 0 !important;
-                margin: 0 !important;
-                width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                overflow: hidden;
-            `;
-            
-            // Handle line breaks
-            const lines = content.split('\\n');
-            lines.forEach((line, index) => {
-                if (line.trim()) {
-                    contentText.appendChild(document.createTextNode(line));
-                    if (index < lines.length - 1 && lines[index + 1].trim()) {
-                        contentText.appendChild(document.createElement('br'));
-                        contentText.appendChild(document.createElement('br'));
-                    }
-                }
-            });
-            
-            contentDiv.appendChild(contentText);
-            
-            const footer = document.createElement('div');
-            footer.style.cssText = `
-                text-align: center;
-                padding-top: 15px;
-                border-top: 1px solid rgba(14, 54, 89, 0.3);
-                margin-top: auto;
-                flex-shrink: 0;
-            `;
-            
-            const dateText = document.createElement('div');
-            dateText.style.cssText = 'font-size: 16px; color: #d3ced7;';
-            dateText.textContent = currentPostForShare.date;
-            
-            footer.appendChild(dateText);
-            container.appendChild(header);
-            container.appendChild(contentDiv);
-            container.appendChild(footer);
-            document.body.appendChild(container);
-            
-            // Wait for images to load
-            const images = container.querySelectorAll('img');
-            let imagesLoaded = 0;
-            const totalImages = images.length;
-            
-            if (totalImages === 0) {
-                captureAndDownload();
-                return;
-            }
-            
-            images.forEach(img => {
-                if (img.complete) {
-                    imagesLoaded++;
-                    if (imagesLoaded === totalImages) {
-                        captureAndDownload();
-                    }
+            for(let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                const metrics = context.measureText(testLine);
+                const testWidth = metrics.width;
+                
+                if (testWidth > maxWidth && n > 0) {
+                    lines.push(line);
+                    line = words[n] + ' ';
                 } else {
-                    img.onload = () => {
-                        imagesLoaded++;
-                        if (imagesLoaded === totalImages) {
-                            captureAndDownload();
-                        }
-                    };
-                    img.onerror = () => {
-                        imagesLoaded++;
-                        if (imagesLoaded === totalImages) {
-                            captureAndDownload();
-                        }
-                    };
+                    line = testLine;
                 }
-            });
-            
-            function captureAndDownload() {
-                setTimeout(() => {
-                    html2canvas(container, {
-                        scale: 2,
-                        useCORS: true,
-                        backgroundColor: null,
-                        logging: false,
-                        allowTaint: true,
-                        width: 800,
-                        height: containerHeight
-                    }).then(canvas => {
-                        const link = document.createElement('a');
-                        link.download = 'trulune-post.png';
-                        link.href = canvas.toDataURL('image/png');
-                        link.click();
-                        document.body.removeChild(container);
-                        showToast('Image downloaded!');
-                    }).catch(error => {
-                        console.error("Error generating download image:", error);
-                        showToast("Error generating image", 'error');
-                        document.body.removeChild(container);
-                    });
-                }, 1000);
             }
+            lines.push(line);
+            
+            for(let i = 0; i < lines.length; i++) {
+                context.fillText(lines[i], x, y + (i * lineHeight));
+            }
+            
+            return lines;
         }
         
         // === LIKE FUNCTIONALITY ===
