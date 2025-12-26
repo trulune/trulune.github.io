@@ -481,33 +481,48 @@
             transform: scale(1.1);
         }
         
-        /* Like button */
+        /* NEW: Like button - minimalist like share button */
         .post-like-button {
-            background: transparent;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #FFFFFF;
             border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
             font-size: 1.2rem;
             transition: all 0.3s;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
         }
         
         .post-like-button:hover {
-            color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: scale(1.1);
         }
         
         .post-like-button.liked {
-            color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            color: #FFFFFF;
+        }
+        
+        .post-like-button.liked:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #ff6b6b 100%);
         }
         
         .post-like-count {
             font-size: 0.95rem;
             color: #d3ced7;
+            margin-left: 0.5rem;
+        }
+        
+        .like-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         /* Tooltip for verified badge - CLICKABLE MODAL */
@@ -613,36 +628,33 @@
             text-align: center;
         }
         
-        /* Notification button styles - REMOVED the annoying button */
-        
-        /* Simple notification status indicator */
-        .notification-status {
+        /* Notification button - Clean and simple */
+        #notificationPrompt {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(24, 45, 64, 0.9);
-            border-radius: 8px;
-            padding: 0.8rem 1.2rem;
+            z-index: 1000;
+            animation: slideInUp 0.5s ease;
+        }
+        
+        #notificationPrompt button {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
             font-size: 0.9rem;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-            animation: slideInUp 0.3s ease;
+            transition: all 0.3s;
         }
         
-        .notification-status i {
-            color: #4CAF50;
-        }
-        
-        .notification-status.error i {
-            color: #f44336;
-        }
-        
-        .notification-status.info i {
-            color: #2196F3;
+        #notificationPrompt button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
         }
         
         @keyframes slideInUp {
@@ -692,10 +704,14 @@
                 font-size: 2rem;
             }
             
-            .notification-status {
+            #notificationPrompt {
                 bottom: 10px;
                 right: 10px;
                 left: 10px;
+            }
+            
+            #notificationPrompt button {
+                width: 100%;
                 justify-content: center;
             }
         }
@@ -831,11 +847,6 @@
             .post-time {
                 font-size: 0.8rem;
             }
-            
-            .post-like-button {
-                font-size: 1.1rem;
-                padding: 0.3rem 0.6rem;
-            }
         }
         
         /* Small Mobile View (max-width: 480px) */
@@ -898,6 +909,12 @@
                 width: 32px;
                 height: 32px;
                 font-size: 0.8rem;
+            }
+            
+            .post-like-button {
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
             }
             
             .post-actions {
@@ -1071,7 +1088,7 @@
         // === INITIALIZE FIREBASE ===
         let db = null;
         let messaging = null;
-        let notificationPermission = Notification.permission;
+        let likedPosts = JSON.parse(localStorage.getItem('trulune_liked_posts') || '{}');
 
         // Initialize Firebase immediately
         try {
@@ -1201,7 +1218,7 @@
             link.click();
         }
         
-        // === LIKE FUNCTIONALITY ===
+        // === LIKE FUNCTIONALITY (UNLIMITED LIKES) ===
         async function likePost(postId, currentLikes) {
             if (!db) {
                 console.error("Firebase not initialized");
@@ -1209,7 +1226,21 @@
             }
             
             try {
-                const newLikes = (currentLikes || 0) + 1;
+                // Check if already liked in this session
+                const isLiked = likedPosts[postId] || false;
+                
+                // Calculate new likes count
+                let newLikes = currentLikes || 0;
+                if (!isLiked) {
+                    newLikes += 1;
+                    likedPosts[postId] = true;
+                } else {
+                    newLikes -= 1;
+                    likedPosts[postId] = false;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('trulune_liked_posts', JSON.stringify(likedPosts));
                 
                 // Update in Firebase
                 await db.collection('posts').doc(postId).update({
@@ -1217,15 +1248,7 @@
                 });
                 
                 // Update UI immediately
-                const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
-                const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
-                
-                if (likeButton && likeCountElement) {
-                    likeButton.classList.add('liked');
-                    likeCountElement.textContent = newLikes;
-                    likeButton.innerHTML = '🤍 <span class="post-like-count">' + newLikes + '</span>';
-                    likeButton.style.color = '#ff6b6b';
-                }
+                updateLikeUI(postId, newLikes, !isLiked);
                 
                 return newLikes;
             } catch (error) {
@@ -1234,7 +1257,23 @@
             }
         }
         
-        // === LOAD POSTS (SIMPLIFIED) ===
+        function updateLikeUI(postId, likes, liked) {
+            const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
+            const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
+            
+            if (likeButton && likeCountElement) {
+                if (liked) {
+                    likeButton.classList.add('liked');
+                    likeButton.innerHTML = '♡';
+                } else {
+                    likeButton.classList.remove('liked');
+                    likeButton.innerHTML = '♡';
+                }
+                likeCountElement.textContent = likes;
+            }
+        }
+        
+        // === LOAD POSTS ===
         async function loadPosts() {
             const postsContainer = document.getElementById('posts-container');
             
@@ -1279,6 +1318,9 @@
                     // Escape quotes for the share function
                     const escapedContent = post.content ? post.content.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n') : '';
                     
+                    // Check if this post was liked before
+                    const isLiked = likedPosts[postId] || false;
+                    
                     postsHTML += `
                         <div class="post">
                             <div class="post-header">
@@ -1302,10 +1344,14 @@
                                 ${postContent}
                             </div>
                             <div class="post-actions">
-                                <button class="post-like-button" data-post-id="${postId}" onclick="likePost('${postId}', ${post.likes || 0})">
-                                    🤍
+                                <div class="like-container">
+                                    <button class="post-like-button ${isLiked ? 'liked' : ''}" 
+                                            data-post-id="${postId}" 
+                                            onclick="likePost('${postId}', ${post.likes || 0})">
+                                        ♡
+                                    </button>
                                     <span class="post-like-count" data-post-id="${postId}">${post.likes || 0}</span>
-                                </button>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -1342,22 +1388,65 @@
             });
         }
         
-        // === NOTIFICATION SYSTEM (SIMPLIFIED) ===
+        // === NOTIFICATION SYSTEM (FIXED) ===
         async function initializeNotifications() {
-            if (!messaging) return;
+            if (!messaging) {
+                console.log("Messaging not supported");
+                return;
+            }
             
             // Check current permission
-            notificationPermission = Notification.permission;
+            const permission = Notification.permission;
             
-            if (notificationPermission === 'granted') {
+            if (permission === 'granted') {
                 // Already granted - setup silently
                 await setupGrantedNotifications();
-                showNotificationStatus('Notifications are enabled', 'success');
-            } else if (notificationPermission === 'default') {
-                // Not asked yet - ask once and remember
-                showNotificationStatus('Click to enable notifications', 'info', true);
+                console.log("Notifications already granted and set up");
+            } else if (permission === 'default') {
+                // Not asked yet - show button
+                showNotificationButton();
             }
-            // If 'denied', do nothing - user said no
+            // If 'denied', do nothing
+        }
+        
+        function showNotificationButton() {
+            // Remove existing button
+            const existing = document.getElementById('notificationPrompt');
+            if (existing) existing.remove();
+            
+            // Create notification button
+            const buttonHTML = `
+                <div id="notificationPrompt">
+                    <button onclick="requestNotificationPermission()">
+                        <i class="fas fa-bell"></i> Get Post Notifications
+                    </button>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', buttonHTML);
+        }
+        
+        async function requestNotificationPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+                
+                if (permission === 'granted') {
+                    // Remove button
+                    const prompt = document.getElementById('notificationPrompt');
+                    if (prompt) prompt.remove();
+                    
+                    // Setup notifications
+                    await setupGrantedNotifications();
+                    
+                    // Show success message
+                    alert('✅ Notifications enabled! You will receive alerts for new posts.');
+                } else if (permission === 'denied') {
+                    alert('Notifications blocked. You can enable them later in browser settings.');
+                }
+            } catch (error) {
+                console.error('Permission request error:', error);
+                alert('Error requesting notification permission. Please try again.');
+            }
         }
         
         async function setupGrantedNotifications() {
@@ -1370,12 +1459,16 @@
                 const token = await messaging.getToken({ vapidKey: VAPID_KEY });
                 
                 if (token) {
+                    console.log('FCM Token obtained:', token.substring(0, 20) + '...');
+                    
                     // Save token to Firestore
                     await saveTokenToServer(token);
-                    console.log('Notifications setup complete');
                     
                     // Listen for new posts
                     setupPostNotificationsListener();
+                    
+                    // Send test notification
+                    sendTestNotification();
                 }
             } catch (error) {
                 console.error('Notification setup error:', error);
@@ -1399,65 +1492,10 @@
                         platform: 'web',
                         subscribed: true
                     });
+                    console.log('Token saved to Firestore');
                 }
             } catch (error) {
                 console.error('Error saving token:', error);
-            }
-        }
-        
-        // Simple notification status display
-        function showNotificationStatus(message, type = 'info', clickable = false) {
-            // Remove existing status
-            const existing = document.querySelector('.notification-status');
-            if (existing) existing.remove();
-            
-            const status = document.createElement('div');
-            status.className = `notification-status ${type}`;
-            
-            const icon = type === 'success' ? 'fa-bell' : 
-                        type === 'error' ? 'fa-bell-slash' : 'fa-bell';
-            
-            status.innerHTML = `
-                <i class="fas ${icon}"></i>
-                <span>${message}</span>
-            `;
-            
-            if (clickable) {
-                status.style.cursor = 'pointer';
-                status.onclick = requestNotificationPermission;
-            }
-            
-            document.body.appendChild(status);
-            
-            // Auto remove after 5 seconds (except for clickable prompts)
-            if (!clickable) {
-                setTimeout(() => {
-                    if (status.parentNode) {
-                        status.remove();
-                    }
-                }, 5000);
-            }
-        }
-        
-        async function requestNotificationPermission() {
-            try {
-                const permission = await Notification.requestPermission();
-                notificationPermission = permission;
-                
-                if (permission === 'granted') {
-                    // Remove status prompt
-                    const status = document.querySelector('.notification-status');
-                    if (status) status.remove();
-                    
-                    // Setup notifications
-                    await setupGrantedNotifications();
-                    showNotificationStatus('Notifications enabled!', 'success');
-                } else if (permission === 'denied') {
-                    showNotificationStatus('Notifications blocked', 'error');
-                }
-            } catch (error) {
-                console.error('Permission request error:', error);
-                showNotificationStatus('Permission error', 'error');
             }
         }
         
@@ -1472,9 +1510,12 @@
                     snapshot.docChanges().forEach((change) => {
                         if (change.type === 'added') {
                             const newPost = change.doc.data();
+                            console.log('New post detected, showing notification...');
                             showNewPostNotification(newPost);
                         }
                     });
+                }, (error) => {
+                    console.error('Error listening for new posts:', error);
                 });
         }
         
@@ -1491,6 +1532,24 @@
                 window.focus();
                 this.close();
             };
+        }
+        
+        function sendTestNotification() {
+            if (Notification.permission !== 'granted') return;
+            
+            // Send a test notification after 2 seconds
+            setTimeout(() => {
+                const notification = new Notification("🎉 Trulune Notifications Enabled!", {
+                    body: "You'll now receive notifications when we post new content!",
+                    icon: "./images/Logo.png",
+                    tag: 'test-notification'
+                });
+                
+                notification.onclick = function() {
+                    window.focus();
+                    this.close();
+                };
+            }, 2000);
         }
         
         // === UTILITY FUNCTIONS ===
