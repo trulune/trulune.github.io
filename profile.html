@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trulune Malaysia - Profile</title>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- HTML2Canvas for share feature -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lato', sans-serif;
+        }
+        
+        body {
+            color: #FFFFFF;
+            min-height: 100vh;
+            background: 
+                radial-gradient(ellipse at 20% 10%, rgba(14, 54, 89, 0.8) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(24, 45, 64, 0.8) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 40%, rgba(12, 29, 47, 0.9) 0%, transparent 60%),
+                radial-gradient(ellipse at 60% 60%, rgba(14, 54, 89, 0.6) 0%, transparent 55%),
+                radial-gradient(ellipse at 10% 70%, rgba(28, 65, 100, 0.5) 0%, transparent 45%),
+                radial-gradient(ellipse at 90% 30%, rgba(20, 40, 60, 0.6) 0%, transparent 45%),
+                linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* Header - Transparent initially, sticky on scroll */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background-color: transparent;
+            backdrop-filter: blur(0px);
+            transition: all 0.4s ease;
+        }
+        
+        .header.scrolled {
+            background-color: rgba(12, 29, 47, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            padding: 0.7rem 0;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Logo with image */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(211, 206, 215, 0.3);
+        }
+        
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            color: #d3ced7;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        /* Mobile Menu Toggle - PLAIN */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1002;
+        }
+        
+        /* Menu header - PLAIN */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            padding: 0.5rem 0;
+            font-weight: 400;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #d3ced7;
+        }
+        
+        .nav-links .active {
+            color: #d3ced7;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .nav-links .active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #0E3659, #d3ced7);
+            border-radius: 2px;
+        }
+        
+        /* Main Content */
+        .container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 1.5rem;
+        }
+        
+        /* Footer with Social Media INLINE */
+        .footer {
+            padding: 1.5rem 0;
+            margin-top: 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 1.5rem;
+        }
+        
+        /* Social section - INLINE with text and icons */
+        .social-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-text {
+            color: #d3ced7;
+            font-size: 1.2rem;
+            white-space: nowrap;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #FFFFFF;
+            transition: all 0.3s;
+            border: 2px solid rgba(14, 54, 89, 0.5);
+        }
+        
+        .social-icon:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            color: #FFFFFF;
+            border-color: #d3ced7;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1rem;
+            color: #d3ced7;
+            width: 100%;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
+        /* PROFILE PAGE HEADER FIXES */
+        .profile-hero-section {
+            position: relative;
+            max-width: 1150px;
+            width: 100%;
+            height: 300px;
+            margin: 100px auto 0 auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
+        .profile-header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            border-radius: 12px;
+        }
+        
+        /* PROFILE HEADER - Fixed centering */
+        .profile-header {
+            position: relative;
+            background: rgba(24, 45, 64, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: -110px auto 1rem auto;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            min-height: 140px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: #FFFFFF;
+            border: 4px solid rgba(12, 29, 47, 0.8);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        /* Profile name - LEFT ALIGNED FOR DESKTOP ONLY */
+        .profile-name {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* VERIFIED BADGE - CLICKABLE TOOLTIP */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            color: #FFFFFF;
+            flex-shrink: 0;
+            position: relative;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        
+        .profile-name .verified-badge {
+            width: 26px;
+            height: 26px;
+        }
+        
+        .post-user .verified-badge {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .profile-bio {
+            color: #d3ced7;
+            line-height: 1.6;
+            margin-bottom: 0;
+            font-size: 1rem;
+            text-align: left;
+            max-width: 100%;
+        }
+        
+        .posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Post box - Fixed height */
+        .post {
+            background: rgba(24, 45, 64, 0.5);
+            border-radius: 12px;
+            padding: 1.2rem;
+            position: relative;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            height: auto;
+            min-height: auto;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-right: 40px;
+        }
+        
+        .post-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .post-user-info {
+            flex: 1;
+        }
+        
+        /* Post user name aligned properly */
+        .post-user {
+            font-weight: 600;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.2rem;
+            font-size: 1rem;
+        }
+        
+        .post-time {
+            color: #d3ced7;
+            font-size: 0.85rem;
+        }
+        
+        /* Post content - Fixed alignment */
+        .post-content {
+            line-height: 1.6;
+            color: #FFFFFF;
+            font-size: 1rem;
+            white-space: pre-wrap;
+            text-align: left;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            margin: 0.5rem 0 0.8rem 0;
+            padding: 0;
+        }
+        
+        /* Style for links in posts - UNDERLINE */
+        .post-content a {
+            color: #4dabf7;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+        
+        .post-content a:hover {
+            color: #74c0fc;
+        }
+        
+        .post-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.2);
+        }
+        
+        /* Share button positioned top right */
+        .post-share-button {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+        }
+        
+        .post-share-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: scale(1.1);
+        }
+        
+        /* Like button */
+        .post-like-button {
+            background: transparent;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+        }
+        
+        .post-like-button:hover {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+        
+        .post-like-button.liked {
+            color: #ff6b6b;
+        }
+        
+        .post-like-count {
+            font-size: 0.95rem;
+            color: #d3ced7;
+        }
+        
+        /* Tooltip for verified badge - CLICKABLE MODAL */
+        .verified-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .verified-tooltip-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .verified-tooltip-modal.active {
+            display: flex;
+        }
+        
+        .verified-tooltip-content {
+            background: rgba(24, 45, 64, 0.95);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            position: relative;
+        }
+        
+        .verified-tooltip-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #d3ced7;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Share modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .share-modal.active {
+            display: flex;
+        }
+        
+        .share-container {
+            background: rgba(24, 45, 64, 0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            text-align: center;
+        }
+        
+        .share-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+        }
+        
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        /* Section title */
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+            color: #FFFFFF;
+            text-align: center;
+        }
+        
+        /* Notification button styles - REMOVED the annoying button */
+        
+        /* Simple notification status indicator */
+        .notification-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(24, 45, 64, 0.9);
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            animation: slideInUp 0.3s ease;
+        }
+        
+        .notification-status i {
+            color: #4CAF50;
+        }
+        
+        .notification-status.error i {
+            color: #f44336;
+        }
+        
+        .notification-status.info i {
+            color: #2196F3;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* ========== RESPONSIVE DESIGN ========== */
+        
+        /* Tablet View (768px - 991px) */
+        @media (max-width: 991px) {
+            /* Header adjustments */
+            .header-container {
+                padding: 0 1.2rem;
+            }
+            
+            /* Profile header adjustments */
+            .profile-hero-section {
+                max-width: 100%;
+                width: 100%;
+                height: 300px;
+                margin: 100px auto 0 auto;
+            }
+            
+            .profile-header {
+                margin: -50px auto 1rem auto;
+                padding: 1.2rem;
+                gap: 1.2rem;
+            }
+            
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-name {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .notification-status {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+            }
+        }
+        
+        /* Mobile View (max-width: 767px) */
+        @media (max-width: 767px) {
+            /* Mobile Header */
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(12, 29, 47, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
+                z-index: 1001;
+                padding: 1.5rem;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.3rem;
+            }
+            
+            .logo-text {
+                font-size: 1.1rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.8rem;
+            }
+            
+            /* Profile hero section mobile */
+            .profile-hero-section {
+                max-width: 90%;
+                width: 100%;
+                height: 250px;
+                border-radius: 0px;
+                margin: 100px auto 0 auto;
+            }
+            
+            /* Section titles mobile */
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            /* Profile header mobile */
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.2rem;
+                gap: 1rem;
+                max-width: 80%;
+                margin: -110px auto 1rem auto;
+            }
+            
+            .profile-info {
+                min-width: 100%;
+                align-items: center;
+            }
+            
+            .profile-name {
+                justify-content: center;
+                font-size: 1.4rem;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .profile-bio {
+                text-align: center;
+                font-size: 0.95rem;
+            }
+            
+            .profile-avatar {
+                width: 90px;
+                height: 90px;
+                margin-top: 0;
+            }
+            
+            /* Social section mobile */
+            .social-section {
+                flex-direction: column;
+                gap: 0.8rem;
+                text-align: center;
+            }
+            
+            .social-text {
+                font-size: 1.1rem;
+            }
+            
+            .social-icons {
+                gap: 0.8rem;
+            }
+            
+            .social-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+            
+            /* Posts mobile */
+            .post {
+                padding: 1rem;
+            }
+            
+            .post-content {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+            
+            .post-avatar {
+                width: 40px;
+                height: 40px;
+                margin-right: 0.8rem;
+            }
+            
+            .post-user {
+                font-size: 0.95rem;
+            }
+            
+            .post-time {
+                font-size: 0.8rem;
+            }
+            
+            .post-like-button {
+                font-size: 1.1rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
+        
+        /* Small Mobile View (max-width: 480px) */
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .profile-hero-section {
+                height: 220px;
+                margin: 70px auto 0 auto;
+            }
+            
+            .profile-section {
+                margin: 1rem 0;
+            }
+            
+            .footer {
+                padding: 1.2rem 0;
+                margin-top: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .profile-header {
+                padding: 1rem;
+                gap: 0.8rem;
+                margin: -30px auto 0.8rem auto;
+            }
+            
+            .profile-avatar {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .profile-name {
+                font-size: 1.2rem;
+            }
+            
+            .profile-bio {
+                font-size: 0.9rem;
+            }
+            
+            .post {
+                padding: 0.8rem;
+            }
+            
+            .post-header {
+                margin-bottom: 0.6rem;
+                padding-right: 35px;
+            }
+            
+            .post-share-button {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+            
+            .post-actions {
+                margin-top: 0.6rem;
+                padding-top: 0.6rem;
+            }
+        }
+        
+        /* Very Small Screens (max-width: 360px) */
+        @media (max-width: 360px) {
+            .logo-container {
+                gap: 0.7rem;
+            }
+            
+            .logo-image {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.75rem;
+            }
+            
+            .profile-name {
+                font-size: 1.1rem;
+            }
+            
+            .profile-avatar {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .social-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Profile Page Header -->
+    <header class="header" id="main-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="images/Logo.png" alt="Trulune Malaysia Logo" class="logo-image">
+                <div class="logo-text">Trulune Malaysia <span>Everyday scents. Timeless allure.</span></div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-home">Home</a></li>
+                <li><a href="profile.html" class="nav-profile active">Profile</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Profile Page Header with Background Image -->
+    <div class="profile-hero-section">
+        <div class="profile-header-image"></div>
+    </div>
+
+    <!-- Profile Page Content -->
+    <main class="container">
+        <section class="profile-section">
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-avatar">
+                    <img src="images/Logo.png" alt="Trulune Malaysia Logo">
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">
+                        Trulune Malaysia 
+                        <span class="verified-badge" onclick="openVerifiedTooltip()">
+                            <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                        </span>
+                    </h1>
+                    <p class="profile-bio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
+                </div>
+            </section>
+            
+            <!-- Updates Feed -->
+            <h2 class="section-title" style="text-align: center; margin-top: 1rem;">Updates</h2>
+            <div class="posts" id="posts-container">
+                <!-- Posts will load here automatically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer with Social Icons INLINE -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="social-section">
+                <p class="social-text">Follow us on social media</p>
+                <div class="social-icons">
+                    <a href="https:t.me/trulune" class="social-icon">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="https://tiktok.com/@trulunemalaysia" class="social-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://instagram.com/trulune" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://facebook.com/trulune" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; <span id="current-year"></span> Trulune Malaysia. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Verified Tooltip Modal -->
+    <div class="verified-tooltip-modal" id="verifiedTooltipModal">
+        <div class="verified-tooltip-content">
+            <button class="verified-tooltip-close" onclick="closeVerifiedTooltip()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div style="margin-bottom: 1rem;">
+                <span class="verified-badge" style="width: 40px; height: 40px; margin-bottom: 0.5rem;">
+                    <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                </span>
+            </div>
+            <h3 style="color: #FFFFFF; margin-bottom: 0.5rem;">Verified Account</h3>
+            <p style="color: #d3ced7; font-size: 0.9rem;">
+                This is the official presence of Trulune Malaysia on this platform.
+            </p>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-container">
+            <h3 style="color: #FFFFFF; margin-bottom: 1rem;">Share this Post</h3>
+            <img id="shareImage" class="share-image" alt="Shareable Post">
+            <div class="share-buttons">
+                <button class="buy-button" onclick="downloadShareImage()">
+                    <i class="fas fa-download"></i> Download Image
+                </button>
+                <button class="buy-button" style="background: rgba(12, 29, 47, 0.8);" onclick="closeShareModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === FIREBASE CONFIG ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
+            authDomain: "post-58eb6.firebaseapp.com",
+            projectId: "post-58eb6",
+            storageBucket: "post-58eb6.appspot.com",
+            messagingSenderId: "448356917822",
+            appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
+        };
+
+        // === VAPID KEY ===
+        const VAPID_KEY = "BDVVFmrQCB5MNEsdvxz8Gu66BTqk-7hRioCj_YHa7ItYyV8Q-o0S_4yy3kn5CcgEfbJF8rhz0Mp2Mewp-Ptq51c";
+
+        // === INITIALIZE FIREBASE ===
+        let db = null;
+        let messaging = null;
+        let notificationPermission = Notification.permission;
+
+        // Initialize Firebase immediately
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            console.log("Firebase initialized successfully!");
+            
+            // Initialize messaging if supported
+            if (firebase.messaging.isSupported()) {
+                messaging = firebase.messaging();
+                initializeNotifications();
+            }
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
+        // === CORE FUNCTIONS ===
+        function openVerifiedTooltip() {
+            document.getElementById('verifiedTooltipModal').classList.add('active');
+        }
+        
+        function closeVerifiedTooltip() {
+            document.getElementById('verifiedTooltipModal').classList.remove('active');
+        }
+        
+        // === SHARE FUNCTIONALITY ===
+        let currentPostForShare = null;
+        
+        function openShareModal(postContent, postDate, postId) {
+            currentPostForShare = { 
+                content: postContent, 
+                date: postDate,
+                id: postId
+            };
+            document.getElementById('shareModal').classList.add('active');
+            generateShareImage();
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.remove('active');
+            currentPostForShare = null;
+        }
+        
+        function generateShareImage() {
+            if (!currentPostForShare) return;
+            
+            const content = currentPostForShare.content || '';
+            const contentLength = content.length;
+            let containerHeight = 400;
+            
+            if (contentLength > 100) containerHeight = 500;
+            if (contentLength > 200) containerHeight = 600;
+            if (contentLength > 300) containerHeight = 700;
+            if (contentLength > 400) containerHeight = 800;
+            
+            const container = document.createElement('div');
+            container.style.cssText = `
+                width: 800px;
+                height: ${containerHeight}px;
+                background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+                padding: 40px;
+                color: white;
+                font-family: 'Lato', sans-serif;
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                left: -9999px;
+            `;
+            
+            const logoUrl = 'images/Logo.png';
+            const verifiedUrl = 'images/verified.svg';
+            
+            const header = `
+                <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0E3659 0%, #182D40 100%); display: flex; align-items: center; justify-content: center; margin-right: 20px; border: 3px solid rgba(211, 206, 215, 0.3); overflow: hidden;">
+                        <img src="${logoUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Trulune Logo" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span style=\\'color:white; font-size:24px;\\'>TL</span>';">
+                    </div>
+                    <div>
+                        <div style="font-size: 28px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
+                            Trulune Malaysia 
+                            <span style="background: linear-gradient(135deg, #0E3659 0%, #182D40 100%); width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px;">
+                                <img src="${verifiedUrl}" style="width: 70%; height: 70%;" alt="Verified" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span style=\\'color:white;\\'>✓</span>';">
+                            </span>
+                        </div>
+                        <div style="font-size: 16px; color: #d3ced7; margin-top: 5px;">Everyday scents. Timeless allure.</div>
+                    </div>
+                </div>
+            `;
+            
+            const contentDiv = `
+                <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px 0;">
+                    <div style="font-size: ${contentLength > 200 ? '28px' : '32px'}; line-height: 1.5; text-align: center; max-width: 600px; padding: 20px;">
+                        "${content}"
+                    </div>
+                </div>
+            `;
+            
+            const footer = `
+                <div style="text-align: center; padding-top: 20px; border-top: 2px solid rgba(14, 54, 89, 0.3);">
+                    <div style="font-size: 18px; color: #d3ced7;">${currentPostForShare.date}</div>
+                </div>
+            `;
+            
+            container.innerHTML = header + contentDiv + footer;
+            document.body.appendChild(container);
+            
+            // Generate the image
+            html2canvas(container, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null
+            }).then(canvas => {
+                document.getElementById('shareImage').src = canvas.toDataURL('image/png');
+                document.body.removeChild(container);
+            }).catch(error => {
+                console.error("Error generating share image:", error);
+                alert("Error generating image. Please try again.");
+                document.body.removeChild(container);
+            });
+        }
+        
+        function downloadShareImage() {
+            const link = document.createElement('a');
+            link.download = 'trulune-post.png';
+            link.href = document.getElementById('shareImage').src;
+            link.click();
+        }
+        
+        // === LIKE FUNCTIONALITY ===
+        async function likePost(postId, currentLikes) {
+            if (!db) {
+                console.error("Firebase not initialized");
+                return;
+            }
+            
+            try {
+                const newLikes = (currentLikes || 0) + 1;
+                
+                // Update in Firebase
+                await db.collection('posts').doc(postId).update({
+                    likes: newLikes
+                });
+                
+                // Update UI immediately
+                const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
+                const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
+                
+                if (likeButton && likeCountElement) {
+                    likeButton.classList.add('liked');
+                    likeCountElement.textContent = newLikes;
+                    likeButton.innerHTML = '🤍 <span class="post-like-count">' + newLikes + '</span>';
+                    likeButton.style.color = '#ff6b6b';
+                }
+                
+                return newLikes;
+            } catch (error) {
+                console.error("Error liking post:", error);
+                return currentLikes;
+            }
+        }
+        
+        // === LOAD POSTS (SIMPLIFIED) ===
+        async function loadPosts() {
+            const postsContainer = document.getElementById('posts-container');
+            
+            if (!db) {
+                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">Loading posts...</p>';
+                return;
+            }
+            
+            try {
+                const querySnapshot = await db.collection('posts')
+                    .orderBy('createdAt', 'desc')
+                    .limit(20)
+                    .get();
+                
+                if (querySnapshot.empty) {
+                    postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">No updates yet. Check back soon!</p>';
+                    return;
+                }
+                
+                let postsHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postId = doc.id;
+                    
+                    let timeAgo = "Recently";
+                    try {
+                        if (post.createdAt) {
+                            const postDate = post.createdAt.toDate();
+                            timeAgo = formatTimeAgo(postDate);
+                        }
+                    } catch (e) {
+                        console.log("Error formatting date:", e);
+                    }
+                    
+                    // Clean post content
+                    let postContent = post.content ? post.content.trim() : '';
+                    
+                    // Detect and underline links in post content
+                    const urlRegex = /(https?:\/\/[^\s]+)/g;
+                    postContent = postContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+                    
+                    // Escape quotes for the share function
+                    const escapedContent = post.content ? post.content.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n') : '';
+                    
+                    postsHTML += `
+                        <div class="post">
+                            <div class="post-header">
+                                <div class="post-avatar">
+                                    <img src="images/Logo.png" alt="Trulune Malaysia">
+                                </div>
+                                <div class="post-user-info">
+                                    <div class="post-user">
+                                        Trulune Malaysia 
+                                        <span class="verified-badge" onclick="openVerifiedTooltip()">
+                                            <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                                        </span>
+                                    </div>
+                                    <div class="post-time">${timeAgo}</div>
+                                </div>
+                                <button class="post-share-button" onclick="openShareModal('${escapedContent}', '${timeAgo}', '${postId}')">
+                                    <i class="fas fa-share"></i>
+                                </button>
+                            </div>
+                            <div class="post-content">
+                                ${postContent}
+                            </div>
+                            <div class="post-actions">
+                                <button class="post-like-button" data-post-id="${postId}" onclick="likePost('${postId}', ${post.likes || 0})">
+                                    🤍
+                                    <span class="post-like-count" data-post-id="${postId}">${post.likes || 0}</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                postsContainer.innerHTML = postsHTML;
+                
+            } catch (error) {
+                console.error("Error loading posts:", error);
+                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">Error loading posts. Please refresh.</p>';
+            }
+        }
+        
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            
+            if (seconds < 60) return "Just now";
+            
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+            
+            return date.toLocaleDateString('en-MY', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        // === NOTIFICATION SYSTEM (SIMPLIFIED) ===
+        async function initializeNotifications() {
+            if (!messaging) return;
+            
+            // Check current permission
+            notificationPermission = Notification.permission;
+            
+            if (notificationPermission === 'granted') {
+                // Already granted - setup silently
+                await setupGrantedNotifications();
+                showNotificationStatus('Notifications are enabled', 'success');
+            } else if (notificationPermission === 'default') {
+                // Not asked yet - ask once and remember
+                showNotificationStatus('Click to enable notifications', 'info', true);
+            }
+            // If 'denied', do nothing - user said no
+        }
+        
+        async function setupGrantedNotifications() {
+            try {
+                // Register service worker
+                const registration = await navigator.serviceWorker.register('firebase-messaging-sw.js');
+                messaging.useServiceWorker(registration);
+                
+                // Get token
+                const token = await messaging.getToken({ vapidKey: VAPID_KEY });
+                
+                if (token) {
+                    // Save token to Firestore
+                    await saveTokenToServer(token);
+                    console.log('Notifications setup complete');
+                    
+                    // Listen for new posts
+                    setupPostNotificationsListener();
+                }
+            } catch (error) {
+                console.error('Notification setup error:', error);
+            }
+        }
+        
+        async function saveTokenToServer(token) {
+            if (!db) return;
+            
+            try {
+                // Check if token already exists
+                const tokensRef = db.collection('notification_tokens');
+                const querySnapshot = await tokensRef.where('token', '==', token).get();
+                
+                if (querySnapshot.empty) {
+                    // Save new token
+                    await tokensRef.add({
+                        token: token,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        userAgent: navigator.userAgent,
+                        platform: 'web',
+                        subscribed: true
+                    });
+                }
+            } catch (error) {
+                console.error('Error saving token:', error);
+            }
+        }
+        
+        // Simple notification status display
+        function showNotificationStatus(message, type = 'info', clickable = false) {
+            // Remove existing status
+            const existing = document.querySelector('.notification-status');
+            if (existing) existing.remove();
+            
+            const status = document.createElement('div');
+            status.className = `notification-status ${type}`;
+            
+            const icon = type === 'success' ? 'fa-bell' : 
+                        type === 'error' ? 'fa-bell-slash' : 'fa-bell';
+            
+            status.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            if (clickable) {
+                status.style.cursor = 'pointer';
+                status.onclick = requestNotificationPermission;
+            }
+            
+            document.body.appendChild(status);
+            
+            // Auto remove after 5 seconds (except for clickable prompts)
+            if (!clickable) {
+                setTimeout(() => {
+                    if (status.parentNode) {
+                        status.remove();
+                    }
+                }, 5000);
+            }
+        }
+        
+        async function requestNotificationPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+                notificationPermission = permission;
+                
+                if (permission === 'granted') {
+                    // Remove status prompt
+                    const status = document.querySelector('.notification-status');
+                    if (status) status.remove();
+                    
+                    // Setup notifications
+                    await setupGrantedNotifications();
+                    showNotificationStatus('Notifications enabled!', 'success');
+                } else if (permission === 'denied') {
+                    showNotificationStatus('Notifications blocked', 'error');
+                }
+            } catch (error) {
+                console.error('Permission request error:', error);
+                showNotificationStatus('Permission error', 'error');
+            }
+        }
+        
+        // Listen for new posts
+        function setupPostNotificationsListener() {
+            if (!db) return;
+            
+            db.collection('posts')
+                .orderBy('createdAt', 'desc')
+                .limit(1)
+                .onSnapshot((snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const newPost = change.doc.data();
+                            showNewPostNotification(newPost);
+                        }
+                    });
+                });
+        }
+        
+        function showNewPostNotification(post) {
+            if (Notification.permission !== 'granted') return;
+            
+            const notification = new Notification("📢 New Post from Trulune", {
+                body: post.content ? (post.content.substring(0, 100) + (post.content.length > 100 ? '...' : '')) : 'New update from Trulune!',
+                icon: "./images/Logo.png",
+                tag: 'new-post'
+            });
+            
+            notification.onclick = function() {
+                window.focus();
+                this.close();
+            };
+        }
+        
+        // === UTILITY FUNCTIONS ===
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            document.getElementById('navLinks').classList.remove('active');
+        }
+        
+        function handleScroll() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+        
+        // === INITIALIZE PAGE ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Mobile menu
+            document.getElementById('mobileMenuToggle').addEventListener('click', toggleMobileMenu);
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const navLinks = document.getElementById('navLinks');
+                const mobileToggle = document.getElementById('mobileMenuToggle');
+                
+                if (navLinks.classList.contains('active') && 
+                    !navLinks.contains(event.target) && 
+                    !mobileToggle.contains(event.target)) {
+                    closeMobileMenu();
+                }
+            });
+            
+            // Scroll handler
+            window.addEventListener('scroll', handleScroll);
+            
+            // Load posts immediately
+            if (typeof loadPosts === 'function') {
+                loadPosts();
+            }
+            
+            // Initialize notifications
+            if (typeof initializeNotifications === 'function') {
+                setTimeout(initializeNotifications, 1000);
+            }
+            
+            // Modal close handlers
+            document.getElementById('verifiedTooltipModal').addEventListener('click', function(e) {
+                if (e.target === this) closeVerifiedTooltip();
+            });
+            
+            document.getElementById('shareModal').addEventListener('click', function(e) {
+                if (e.target === this) closeShareModal();
+            });
+            
+            // Escape key handlers
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeVerifiedTooltip();
+                    closeShareModal();
+                }
+            });
+            
+            // Initial scroll check
+            handleScroll();
+        });
+    </script>
+</body>
+</html>
