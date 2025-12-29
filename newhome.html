@@ -105,25 +105,65 @@
             letter-spacing: -0.5px;
         }
 
-        /* Navigation - MASALAH #1: Menu paling kanan */
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-            margin-left: auto; /* Ini push menu ke kanan */
-        }
+/* ============== NAVIGATION ============== */
+.nav-links {
+    display: flex;
+    align-items: center; /* Ini penting untuk vertical alignment */
+    gap: 40px;
+    list-style: none;
+    margin-left: auto;
+}
 
-        .nav-links a {
-            text-decoration: none;
-            color: #000000;
-            font-size: 20px;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
+/* Styling untuk SEMUA nav links */
+.nav-links > li > a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 18px; /* Samakan font size */
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 8px 0; /* Padding konsisten untuk semua */
+}
 
-        .nav-links a:hover {
-            color: #666;
-        }
+.nav-links > li > a:hover {
+    color: #666;
+}
+
+/* Khusus untuk "Get Fast Update" dengan badge */
+.nav-badge-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px !important; /* Force padding sama */
+    background: var(--secondary);
+    border: 1px solid var(--gray-200);
+    border-radius: 100px;
+    font-size: 18px !important; /* Samakan font size dengan yang lain */
+    font-weight: 500;
+    color: var(--gray-600);
+    height: auto;
+    min-height: 40px; /* Tinggi minimum untuk alignment */
+}
+
+.nav-badge-link:hover {
+    background: var(--gray-200);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* Navigation Badge */
+.nav-badge-link .nav-badge {
+    background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 100px;
+    line-height: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
         .header-actions {
             display: flex;
@@ -131,7 +171,6 @@
             gap: 20px;
 
         }
-
         .mobile-menu-toggle {
             display: none;
             background: none;
@@ -859,7 +898,7 @@
                 align-items: flex-start;
                 gap: 25px;
                 z-index: 999;
-                padding: 100px 30px 40px;
+                padding: 100px 20px 40px;
                 height: auto;
                 max-height: 100vh;
                 overflow-y: auto;
@@ -881,6 +920,23 @@
             .mobile-menu-toggle {
                 display: block;
             }
+
+    .nav-links > li > a {
+        font-size: 18px;
+        padding: 8px 0;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    .nav-badge-link {
+        padding: 8px 16px !important;
+        width: auto;
+        justify-content: center;
+    }
+    
+    .nav-badge-link .nav-badge {
+        margin: 0;
+    }
 
             /* Hero mobile */
             .hero-content {
@@ -977,7 +1033,7 @@
             }
             
             .product-card-info {
-                padding: 16px;
+                padding: 15px;
             }
 
             .product-card-name {
@@ -1068,11 +1124,11 @@
                 gap: 16px;
                 max-width: 100%;
             }
+
         .product-card {
             border-radius: 8px;
         }
 
-            
         .product-card-info {
             padding: 10px;
         }
@@ -1086,7 +1142,7 @@
             font-size: 15px;d;
             margin-bottom: 8px;
         }
-            
+
             .product-badge {
                 padding: 4px 10px;
                 font-size: 11px;
@@ -1127,8 +1183,11 @@
 
             <!-- Navigation Menu paling kanan -->
             <ul class="nav-links" id="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="newhome.html">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="https://t.me/trulune" class="nav-badge-link">
+                Get Fast Update<span class="nav-badge">🔔</span></a>
+                </li>
             </ul>
             
             <div class="header-actions">
@@ -1650,6 +1709,3 @@
     </script>
 </body>
 </html>
-
-
-
