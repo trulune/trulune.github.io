@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Lato';
+            font-family: 'Lato', sans-serif;
         }
         
         :root {
@@ -41,7 +41,6 @@
         }
 
         /* ============== HEADER ============== */
-        /* MASALAH #1: Header dari hujung ke hujung */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -81,6 +80,7 @@
             color: #000000;
             flex-shrink: 0;
             z-index: 1001;
+            transition: color 0.3s ease;
         }
 
         .logo-icon {
@@ -103,74 +103,72 @@
             font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            transition: color 0.3s ease;
         }
 
-/* ============== NAVIGATION ============== */
-.nav-links {
-    display: flex;
-    align-items: center; /* Ini penting untuk vertical alignment */
-    gap: 40px;
-    list-style: none;
-    margin-left: auto;
-}
+        /* ============== NAVIGATION ============== */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin-left: auto;
+        }
 
-/* Styling untuk SEMUA nav links */
-.nav-links > li > a {
-    text-decoration: none;
-    color: #000000;
-    font-size: 18px; /* Samakan font size */
-    font-weight: 500;
-    transition: color 0.2s ease;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 8px 0; /* Padding konsisten untuk semua */
-}
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 8px 0;
+        }
 
-.nav-links > li > a:hover {
-    color: #666;
-}
+        .nav-links > li > a:hover {
+            color: #666;
+        }
 
-/* Khusus untuk "Get Fast Update" dengan badge */
-.nav-badge-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px !important; /* Force padding sama */
-    background: var(--secondary);
-    border: 1px solid var(--gray-200);
-    border-radius: 100px;
-    font-size: 18px !important; /* Samakan font size dengan yang lain */
-    font-weight: 500;
-    color: var(--gray-600);
-    height: auto;
-    min-height: 40px; /* Tinggi minimum untuk alignment */
-}
+        .nav-badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px !important;
+            background: var(--secondary);
+            border: 1px solid var(--gray-200);
+            border-radius: 100px;
+            font-size: 18px !important;
+            font-weight: 500;
+            color: var(--gray-600);
+            height: auto;
+            min-height: 40px;
+        }
 
-.nav-badge-link:hover {
-    background: var(--gray-200);
-    color: var(--primary);
-    transform: translateY(-1px);
-}
+        .nav-badge-link:hover {
+            background: var(--gray-200);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
 
-/* Navigation Badge */
-.nav-badge-link .nav-badge {
-    background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 100px;
-    line-height: 1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+        .nav-badge-link .nav-badge {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 100px;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
         .header-actions {
             display: flex;
             align-items: center;
             gap: 20px;
-
         }
+        
         .mobile-menu-toggle {
             display: none;
             background: none;
@@ -181,16 +179,50 @@
             z-index: 1002;
         }
 
-        /* ============== HERO ============== */
+        /* ============== HERO SLIDER ============== */
         .hero {
+            background: #fafafa;
+            position: relative;
+            overflow: hidden;
+            height: 600px;
+        }
+
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Slide 1 - Original Hero Content */
+        .slide-1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: #fafafa;
         }
 
         .hero-content {
             text-align: center;
             max-width: 800px;
-            margin: 0 auto;
-            padding: 120px var(--mobile-padding) 50px;
+            padding: 0 var(--mobile-padding);
         }
 
         .hero-badge {
@@ -222,6 +254,7 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
         }
 
         .btn {
@@ -246,8 +279,90 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
+        /* Slide 2 - Image Background with Overlay */
+        .slide-2 {
+            background: url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+        }
+
+        .slide-2-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 var(--mobile-padding);
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide-2-title {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .slide-2-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Slider Arrow - PLAIN ARROW SAHAJA (NO CIRCLE) */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: #000000;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+            opacity: 0.7;
+            padding: 10px;
+        }
+
+        .slider-arrow:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-arrow-left {
+            left: 30px;
+            display: none; /* HIDE LEFT ARROW SEPERTI PERMINTAAN */
+        }
+
+        .slider-arrow-right {
+            right: 30px;
+        }
+
+        /* Arrow untuk slide 2 - PUTIH SAHAJA */
+        .slide-2 .slider-arrow {
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
         /* ============== SECTION TITLES ============== */
-        /* MASALAH #2: Buang css title general, buat asing-asing */
         .first-collection-title {
             font-size: 28px;
             font-weight: 700;
@@ -281,7 +396,6 @@
             margin: 0 auto;
         }
 
-        /* Book container */
         .book-container {
             position: relative;
             width: 100%;
@@ -379,7 +493,6 @@
             box-shadow: 0 5px 15px rgba(58, 94, 208, 0.3);
         }
         
-        /* Fullscreen button */
         .fullscreen-btn {
             position: absolute;
             top: 20px;
@@ -405,7 +518,6 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        /* Navigation controls */
         .nav-controls {
             position: absolute;
             top: 50%;
@@ -448,14 +560,12 @@
         
         .nav-btn:hover {
             background-color: #0E3659;
-
             color: white;
             border-color: #0E3659;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(74, 110, 224, 0.2);
         }
         
-        /* Fullscreen modal */
         .fullscreen-modal {
             display: none;
             position: fixed;
@@ -567,7 +677,6 @@
             pointer-events: none;
         }
         
-        /* Thumbnails */
         .thumbnails {
             display: flex;
             justify-content: center;
@@ -603,7 +712,6 @@
             object-fit: cover;
         }
         
-        /* Cover page */
         .cover {
             background: url('images/bookcover.jpeg') no-repeat center center fixed;
             color: white;
@@ -626,6 +734,240 @@
             font-size: 1.4rem;
             opacity: 0.9;
             font-weight: 300;
+        }
+
+        /* ============== PRODUCT MODAL ============== */
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .product-modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 1000px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            cursor: default;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+        
+        /* FIXED: 1:1 Aspect Ratio for ALL DEVICES */
+        .modal-image-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        /* 1:1 Aspect Ratio Container */
+        .modal-image-container::before {
+            content: '';
+            display: block;
+            padding-top: 100%; /* This creates 1:1 aspect ratio */
+        }
+        
+        .modal-product-img-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .modal-carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .modal-carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .modal-carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .modal-carousel-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal-carousel-arrow-left {
+            left: 15px;
+        }
+        
+        .modal-carousel-arrow-right {
+            right: 15px;
+        }
+        
+        .modal-carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .modal-carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-carousel-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        /* Desktop: Horizontal layout */
+        @media (min-width: 769px) {
+            .modal-image-container {
+                width: 50%;
+                float: left;
+                border-radius: 12px 0 0 12px;
+            }
+            
+            .modal-product-info {
+                width: 50%;
+                padding: 40px;
+                float: left;
+                height: 500px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        
+        /* Mobile: Vertical layout */
+        @media (max-width: 768px) {
+            .modal-image-container {
+                border-radius: 12px 12px 0 0;
+            }
+            
+            .modal-product-info {
+                width: 100%;
+                padding: 25px;
+                float: none;
+                height: auto;
+            }
+        }
+        
+        .modal-product-name {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .modal-product-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        
+        .modal-product-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: red;
+            margin-bottom: 30px;
+        }
+        
+        .modal-buy-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .modal-buy-btn:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.3);
+        }
+        
+        .product-modal-content::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         /* ============== PRODUCT GRID ============== */
@@ -651,6 +993,7 @@
             border: 1px solid rgba(229, 229, 229, 0.8);
             backdrop-filter: blur(10px);
             position: relative;
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -683,6 +1026,7 @@
         }
 
         .product-card-btn {
+            display: block;
             width: 100%;
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #ffffff;
@@ -692,13 +1036,14 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
         }
 
         .product-card-btn:hover {
             background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
         }
 
-        /* Product badge */
         .product-badge {
             position: absolute;
             top: 20px;
@@ -828,11 +1173,25 @@
         }
 
         /* ==================== RESPONSIVE ==================== */
-        /* MASALAH #3: Mobile tidak terjejas 190px */
         @media (max-width: 1200px) {
-            /* Untuk tablet/small desktop */
             :root {
                 --desktop-padding: 40px;
+            }
+            
+            .hero-title {
+                font-size: 40px;
+            }
+            
+            .slide-2-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .slide-2-subtitle {
+                font-size: 16px;
             }
             
             .product-container {
@@ -852,13 +1211,26 @@
             .cover-title {
                 font-size: 2.8rem;
             }
-            
-            .hero-title {
-                font-size: 40px;
-            }
 
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-product-info {
+                padding: 30px;
+                height: auto;
+            }
+            
+            .modal-product-name {
+                font-size: 28px;
+            }
+            
+            .modal-product-price {
+                font-size: 32px;
+            }
+            
+            .slider-arrow {
+                font-size: 2.2rem;
             }
         }
 
@@ -868,7 +1240,6 @@
                 --desktop-padding: var(--mobile-padding);
             }
             
-            /* Header mobile */
             .header {
                 padding: 0.5rem var(--mobile-padding);
             }
@@ -882,10 +1253,9 @@
             }
 
             .header-actions {
-                 margin-left: auto; /* Push menu icon ke kanan di mobile */
+                 margin-left: auto;
             }
 
-            /* Mobile menu */
             .nav-links {
                 display: none;
                 position: fixed;
@@ -921,26 +1291,25 @@
                 display: block;
             }
 
-    .nav-links > li > a {
-        font-size: 18px;
-        padding: 8px 0;
-        width: 100%;
-        justify-content: flex-start;
-    }
-    
-    .nav-badge-link {
-        padding: 8px 16px !important;
-        width: auto;
-        justify-content: center;
-    }
-    
-    .nav-badge-link .nav-badge {
-        margin: 0;
-    }
+            .nav-links > li > a {
+                font-size: 18px;
+                padding: 8px 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .nav-badge-link {
+                padding: 8px 16px !important;
+                width: auto;
+                justify-content: center;
+            }
+            
+            .nav-badge-link .nav-badge {
+                margin: 0;
+            }
 
-            /* Hero mobile */
-            .hero-content {
-                padding: 120px var(--mobile-padding) 80px;
+            .hero {
+                height: 500px;
             }
             
             .hero-title {
@@ -949,26 +1318,37 @@
             
             .hero-subtitle {
                 font-size: 16px;
+                margin-bottom: 30px; /* KURANGKAN UNTUK MOBILE */
+                padding-right: 50px; /* TAMBAH PADDING KANAN UNTUK ELAK BERTINDIH */
             }
             
-            /* Titles mobile */
-            .title-container {
-                padding: 30px var(--mobile-padding) 20px;
+            .slide-2-title {
+                font-size: 28px;
+            }
+            
+            .slide-2-subtitle {
+                font-size: 15px;
+                margin-bottom: 30px; /* KURANGKAN UNTUK MOBILE */
+                padding-right: 50px; /* TAMBAH PADDING KANAN UNTUK ELAK BERTINDIH */
+            }
+            
+            .slider-arrow {
+                font-size: 1.8rem;
+                right: 15px;
             }
             
             .first-collection-title,
             .all-products-title {
                 font-size: 24px;
+                padding: 25px 0 25px;
             }
             
-            /* Product Book mobile - MASALAH #2: 1:1 aspect ratio */
             .product-book-section,
             .products-section,
             .footer {
                 padding: 0 var(--mobile-padding);
             }
             
-            /* MASALAH #2: Book collection 1:1 aspect ratio */
             .book-container {
                 height: 400px;
                 aspect-ratio: 1 / 1;
@@ -1018,7 +1398,6 @@
                 font-size: 1rem;
             }
             
-            /* Product grid mobile */
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
@@ -1044,7 +1423,6 @@
                 font-size: 18px;
             }
             
-            /* Footer mobile */
             .footer {
                 padding: 40px var(--mobile-padding) 20px;
             }
@@ -1061,10 +1439,68 @@
                 width: 36px;
                 height: 36px;
             }
+
+            .modal-product-info {
+                padding: 25px;
+            }
+            
+            .modal-product-name {
+                font-size: 24px;
+                margin-bottom: 12px;
+            }
+            
+            .modal-product-desc {
+                font-size: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .modal-product-price {
+                font-size: 28px;
+                margin-bottom: 25px;
+            }
+            
+            .modal-buy-btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+            
+            .modal-carousel-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
         }
 
-        /* Small mobile (576px) */
         @media (max-width: 480px) {
+            .hero {
+                height: 450px;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .hero-subtitle {
+                font-size: 14px;
+                margin-bottom: 25px;
+                padding-right: 40px;
+            }
+            
+            .slide-2-title {
+                font-size: 24px;
+            }
+            
+            .slide-2-subtitle {
+                font-size: 13px;
+                margin-bottom: 25px;
+                padding-right: 40px;
+            }
+            
+            .slider-arrow {
+                font-size: 1.5rem;
+                right: 10px;
+            }
+            
             .book-container {
                 height: 400px;
                 aspect-ratio: 1 / 1.2;
@@ -1118,62 +1554,78 @@
                 height: 45px;
             }
 
-            /* Product grid small mobile */
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
                 max-width: 100%;
             }
 
-        .product-card {
-            border-radius: 8px;
-        }
+            .product-card {
+                border-radius: 8px;
+            }
 
-        .product-card-info {
-            padding: 10px;
-        }
+            .product-card-info {
+                padding: 12px;
+            }
 
-        .product-card-name {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
+            .product-card-name {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
 
-        .product-card-price {
-            font-size: 15px;d;
-            margin-bottom: 8px;
-        }
+            .product-card-price {
+                font-size: 17px;
+                margin-bottom: 12px;
+            }
+
+            .product-card-btn {
+                padding: 10px;
+                font-size: 14px;
+            }
 
             .product-badge {
                 padding: 4px 10px;
                 font-size: 11px;
                 top: 12px;
-                right: 10px;
-            }
-
-            .title-container {
-                padding: 25px var(--mobile-padding) 15px;
+                right: 12px;
             }
 
             .first-collection-title,
             .all-products-title {
                 font-size: 22px;
+                padding: 20px 0 20px;
             }
 
-            .hero-content {
-                padding: 100px var(--mobile-padding) 60px;
+            .modal-product-info {
+                padding: 20px;
             }
             
-            .hero-title {
-                font-size: 28px;
+            .modal-product-name {
+                font-size: 20px;
+                margin-bottom: 10px;
             }
-
+            
+            .modal-product-desc {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            .modal-product-price {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .modal-buy-btn {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-container">
-            <!-- Logo paling kiri -->
             <a href="#" class="logo">
                 <div class="logo-icon">
                     <img src="images/Logo.png" alt="Trulune Logo">
@@ -1181,7 +1633,6 @@
                 <span class="logo-text">Trulune Malaysia</span>
             </a>
 
-            <!-- Navigation Menu paling kanan -->
             <ul class="nav-links" id="nav-links">
                 <li><a href="newhome.html">Home</a></li>
                 <li><a href="profile.html">Profile</a></li>
@@ -1198,19 +1649,38 @@
         </div>
     </header>
 
-    <!-- Mobile menu overlay -->
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
-    <!-- Hero -->
+    <!-- Hero Section with Slider -->
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">
-                    <span>✨</span> Trulune
+        <div class="hero-slider">
+            <!-- Slide 1 - Original Content -->
+            <div class="slide slide-1 active">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span>✨</span> Trulune
+                    </div>
+                    <h1 class="hero-title">Welcome!<br>To our World.</h1>
+                    <p class="hero-subtitle">Discover our first collection of fruity scents, chosen to elevate your day.</p>
+                    <a href="#products" class="btn" id="shop-collection-btn">Shop Collection</a>
                 </div>
-                <h1 class="hero-title">Welcome!<br>To our World.</h1>
-                <p class="hero-subtitle">Discover our first collection of fruity scents, chosen to elevate your day.</p>
-                <a href="#products" class="btn" id="shop-collection-btn">Shop Collection</a>
+                <!-- Right arrow only - PLAIN ARROW -->
+                <button class="slider-arrow slider-arrow-right" id="sliderNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <!-- Slide 2 - New Image Background -->
+            <div class="slide slide-2">
+                <div class="slide-2-content">
+                    <h2 class="slide-2-title">Premium Fragrances<br>For Everyday Moments</h2>
+                    <p class="slide-2-subtitle">Experience the perfect blend of nature's finest fruits in our signature scents collection. Each fragrance is crafted to create lasting impressions.</p>
+                    <a href="#products" class="btn">Explore Collection</a>
+                </div>
+                <!-- Right arrow only - PLAIN ARROW -->
+                <button class="slider-arrow slider-arrow-right" id="sliderNext2">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -1218,13 +1688,10 @@
     <!-- Product Book -->
     <section class="product-book-section" id="products">
         <div class="container">
-            <!-- MASALAH #2: Title khusus untuk Our First Collection -->
             <h2 class="first-collection-title">Our First Collection</h2>
             
-            <!-- Book Container -->
             <div class="book-container">
                 <div class="book-slides">
-                    <!-- Cover -->
                     <div class="product-container cover">
                         <div class="cover-content">
                             <h2 class="cover-title">Fruitee</h2>
@@ -1232,7 +1699,6 @@
                         </div>
                     </div>
                     
-                    <!-- Product 1 -->
                     <div class="product-container">
                         <img src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee HoneyDew" class="product-image">
                         <button class="fullscreen-btn" data-product="honeydew">
@@ -1248,7 +1714,6 @@
                         </div>
                     </div>
                     
-                    <!-- Product 2 -->
                     <div class="product-container">
                         <img src="https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee Apple" class="product-image">
                         <button class="fullscreen-btn" data-product="apple">
@@ -1264,7 +1729,6 @@
                         </div>
                     </div>
                     
-                    <!-- Product 3 -->
                     <div class="product-container">
                         <img src="https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee Strawberry" class="product-image">
                         <button class="fullscreen-btn" data-product="strawberry">
@@ -1281,7 +1745,6 @@
                     </div>
                 </div>
                 
-                <!-- Navigation Controls -->
                 <div class="nav-controls first-page">
                     <button class="nav-btn prev-btn">
                         <i class="fas fa-chevron-left"></i>
@@ -1293,7 +1756,6 @@
             </div>
         </div>
         
-        <!-- Fullscreen Modal -->
         <div class="fullscreen-modal" id="fullscreen-modal">
             <div class="modal-content">
                 <div class="image-container">
@@ -1318,12 +1780,10 @@
     <!-- Product Grid -->
     <section class="products-section">
         <div class="container">
-            <!-- MASALAH #2: Title khusus untuk All Products -->
             <h2 class="all-products-title">All Products</h2>
             <div class="products-grid">
                 <!-- Product 1 -->
-                <div class="product-card">
-                    <!-- Product badge - MASALAH #4: Tidak buka mobile menu -->
+                <div class="product-card" data-product="1">
                     <a href="#products" class="product-badge" id="product-badge-1">Fruitee Collection</a>
                     <img src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
                          alt="Fruitee Honey Dew" class="product-card-image">
@@ -1335,7 +1795,7 @@
                 </div>
                 
                 <!-- Product 2 -->
-                <div class="product-card">
+                <div class="product-card" data-product="2">
                     <a href="#products" class="product-badge" id="product-badge-2">Fruitee Collection</a>
                     <img src="https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
                          alt="Fruitee Apple" class="product-card-image">
@@ -1347,7 +1807,7 @@
                 </div>
                 
                 <!-- Product 3 -->
-                <div class="product-card">
+                <div class="product-card" data-product="3">
                     <a href="#products" class="product-badge" id="product-badge-3">Fruitee Collection</a>
                     <img src="https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
                          alt="Fruitee Strawberry" class="product-card-image">
@@ -1386,6 +1846,37 @@
         </div>
     </footer>
 
+    <!-- Product Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content">
+            <button class="modal-close" id="modalCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-image-container">
+                <div class="modal-product-img-carousel" id="modalCarousel">
+                    <!-- Slides will be added dynamically -->
+                </div>
+                
+                <button class="modal-carousel-arrow modal-carousel-arrow-left" id="modalPrevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="modal-carousel-arrow modal-carousel-arrow-right" id="modalNextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <div class="modal-carousel-dots" id="modalDots">
+                    <!-- Dots will be added dynamically -->
+                </div>
+            </div>
+            <div class="modal-product-info">
+                <h3 id="modalProductName" class="modal-product-name"></h3>
+                <p id="modalProductDesc" class="modal-product-desc"></p>
+                <div id="modalProductPrice" class="modal-product-price"></div>
+                <a id="modalBuyBtn" href="#" target="_blank" class="modal-buy-btn">Get it Now</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
@@ -1402,7 +1893,7 @@
                 }
             });
             
-            // Mobile menu toggle - FIXED for MASALAH #4
+            // Mobile menu toggle
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const navLinks = document.getElementById('nav-links');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -1413,47 +1904,63 @@
                 document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
             }
             
-            // Hanya buka mobile menu bila klik toggle button
             mobileMenuToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 toggleMobileMenu();
             });
             
-            // Tutup mobile menu bila klik overlay
             mobileMenuOverlay.addEventListener('click', function() {
                 toggleMobileMenu();
             });
             
-            // Link dalam nav menu tetap buka mobile menu (untuk navigation biasa)
             navLinks.querySelectorAll('a').forEach(link => {
-                // Hanya link yang bukan anchor links (#) yang close menu
                 link.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
                     if (href === '#' || href.startsWith('#')) {
-                        // Anchor links - jangan close menu
                         return;
                     }
                     toggleMobileMenu();
                 });
             });
 
-            // Product Book Slider
+            // ============== HERO SLIDER ==============
+            let currentHeroSlide = 0;
+            const heroSlides = document.querySelectorAll('.hero-slider .slide');
+            const sliderNext = document.getElementById('sliderNext');
+            const sliderNext2 = document.getElementById('sliderNext2');
+            
+            // Function to go to next slide with SMOOTH transition
+            function nextHeroSlide() {
+                heroSlides[currentHeroSlide].classList.remove('active');
+                currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+                heroSlides[currentHeroSlide].classList.add('active');
+            }
+            
+            // Initialize hero slider
+            function initHeroSlider() {
+                if (heroSlides.length === 0) return;
+                
+                // Arrow buttons event listeners - SAMA untuk semua slides
+                if (sliderNext) {
+                    sliderNext.addEventListener('click', function() {
+                        nextHeroSlide();
+                    });
+                }
+                
+                if (sliderNext2) {
+                    sliderNext2.addEventListener('click', function() {
+                        nextHeroSlide();
+                    });
+                }
+            }
+
+            // ============== PRODUCT BOOK SLIDER ==============
             const bookSlides = document.querySelector('.book-slides');
             const prevBtn = document.querySelector('.prev-btn');
             const nextBtn = document.querySelector('.next-btn');
             const navControls = document.querySelector('.nav-controls');
-            const fullscreenBtns = document.querySelectorAll('.fullscreen-btn');
-            const fullscreenModal = document.getElementById('fullscreen-modal');
-            const modalImage = document.getElementById('modal-image');
-            const closeModal = document.getElementById('close-modal');
-            const prevGalleryBtn = document.querySelector('.prev-gallery-btn');
-            const nextGalleryBtn = document.querySelector('.next-gallery-btn');
-            const thumbnailsContainer = document.getElementById('thumbnails');
-            const imageContainer = document.querySelector('.image-container');
             
             let currentPage = 0;
-            let currentGallery = null;
-            let currentImageIndex = 0;
             const totalSlides = document.querySelectorAll('.product-container').length;
             
             function isMobileView() {
@@ -1504,6 +2011,206 @@
                     updateSlide();
                 }
             });
+
+            // ============== PRODUCT MODAL ==============
+            const productModal = document.getElementById('productModal');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const modalCarousel = document.getElementById('modalCarousel');
+            const modalDots = document.getElementById('modalDots');
+            const modalPrevBtn = document.getElementById('modalPrevBtn');
+            const modalNextBtn = document.getElementById('modalNextBtn');
+            const modalProductName = document.getElementById('modalProductName');
+            const modalProductDesc = document.getElementById('modalProductDesc');
+            const modalProductPrice = document.getElementById('modalProductPrice');
+            const modalBuyBtn = document.getElementById('modalBuyBtn');
+            
+            let modalCurrentSlide = 0;
+            let modalTotalSlides = 0;
+            let modalImages = [];
+            
+            // Product descriptions
+            const productDescriptions = {
+                1: "Fruitee Honey Dew - A refreshing and sweet scent that captures the essence of fresh honey dew melon. Perfect for everyday wear to keep you feeling fresh and vibrant all day long.",
+                2: "Fruitee Apple - Crisp and clean apple fragrance that brings a fresh, fruity aroma to your day. This uplifting scent will boost your mood and leave you feeling energized.",
+                3: "Fruitee Strawberry - Sweet and juicy strawberry scent that's both delightful and long-lasting. Experience the joy of fresh strawberries with this irresistible fragrance."
+            };
+            
+            // Product images for modal - FIXED to 1:1 aspect ratio images
+            const productModalImages = {
+                1: [
+                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
+                    "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
+                ],
+                2: [
+                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
+                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
+                    "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
+                ],
+                3: [
+                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
+                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
+                ]
+            };
+            
+            // Open product modal
+            function openProductModal(productId) {
+                const productCard = document.querySelector(`[data-product="${productId}"]`);
+                if (!productCard) return;
+                
+                const productName = productCard.querySelector('.product-card-name').textContent;
+                const productPrice = productCard.querySelector('.product-card-price').textContent;
+                const productDesc = productDescriptions[productId] || "No description available.";
+                
+                // Set modal content
+                modalProductName.textContent = productName;
+                modalProductDesc.textContent = productDesc;
+                modalProductPrice.textContent = productPrice;
+                modalBuyBtn.setAttribute('href', '#');
+                modalBuyBtn.setAttribute('target', '_blank');
+                
+                // Set images for carousel
+                modalImages = productModalImages[productId] || [];
+                modalTotalSlides = modalImages.length;
+                modalCurrentSlide = 0;
+                
+                // Initialize carousel
+                initModalCarousel();
+                
+                // Show modal
+                productModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Initialize modal carousel
+            function initModalCarousel() {
+                modalCarousel.innerHTML = '';
+                modalDots.innerHTML = '';
+                
+                modalImages.forEach((imgSrc, index) => {
+                    // Create slide
+                    const slide = document.createElement('div');
+                    slide.className = 'modal-carousel-slide';
+                    slide.innerHTML = `<img src="${imgSrc}" alt="Product Image ${index + 1}">`;
+                    modalCarousel.appendChild(slide);
+                    
+                    // Create dot
+                    const dot = document.createElement('div');
+                    dot.className = `modal-carousel-dot ${index === 0 ? 'active' : ''}`;
+                    dot.setAttribute('data-slide', index);
+                    dot.addEventListener('click', () => goToModalSlide(index));
+                    modalDots.appendChild(dot);
+                });
+                
+                goToModalSlide(0);
+            }
+            
+            // Go to specific slide
+            function goToModalSlide(slideIndex) {
+                if (modalTotalSlides === 0) return;
+                
+                if (slideIndex < 0) slideIndex = modalTotalSlides - 1;
+                if (slideIndex >= modalTotalSlides) slideIndex = 0;
+                
+                modalCarousel.style.transform = `translateX(-${slideIndex * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.modal-carousel-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === slideIndex);
+                });
+                
+                modalCurrentSlide = slideIndex;
+            }
+            
+            // Next slide
+            function nextModalSlide() {
+                goToModalSlide(modalCurrentSlide + 1);
+            }
+            
+            // Previous slide
+            function prevModalSlide() {
+                goToModalSlide(modalCurrentSlide - 1);
+            }
+            
+            // Close modal
+            function closeProductModal() {
+                productModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+            
+            // Event listeners for modal
+            modalPrevBtn.addEventListener('click', prevModalSlide);
+            modalNextBtn.addEventListener('click', nextModalSlide);
+            modalCloseBtn.addEventListener('click', closeProductModal);
+            
+            // Close modal when clicking outside
+            productModal.addEventListener('click', function(e) {
+                if (e.target === productModal) {
+                    closeProductModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && productModal.classList.contains('active')) {
+                    closeProductModal();
+                }
+                // Keyboard navigation for carousel
+                if (productModal.classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') {
+                        prevModalSlide();
+                    } else if (e.key === 'ArrowRight') {
+                        nextModalSlide();
+                    }
+                }
+            });
+            
+            // Product card click events
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('.product-card-btn') || 
+                        e.target.closest('.product-badge')) {
+                        return;
+                    }
+                    
+                    const productId = this.getAttribute('data-product');
+                    openProductModal(productId);
+                });
+            });
+
+            // ============== FULLSCREEN GALLERY ==============
+            const fullscreenBtns = document.querySelectorAll('.fullscreen-btn');
+            const fullscreenModal = document.getElementById('fullscreen-modal');
+            const modalImage = document.getElementById('modal-image');
+            const closeModal = document.getElementById('close-modal');
+            const prevGalleryBtn = document.querySelector('.prev-gallery-btn');
+            const nextGalleryBtn = document.querySelector('.next-gallery-btn');
+            const thumbnailsContainer = document.getElementById('thumbnails');
+            
+            let currentGallery = null;
+            let currentImageIndex = 0;
+            
+            const productGalleries = {
+                honeydew: [
+                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                ],
+                apple: [
+                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                ],
+                strawberry: [
+                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                ]
+            };
             
             fullscreenBtns.forEach(btn => {
                 btn.addEventListener('click', function(e) {
@@ -1598,14 +2305,6 @@
                 }
             });
             
-            imageContainer.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-            
-            thumbnailsContainer.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-            
             function closeGallery() {
                 fullscreenModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
@@ -1614,54 +2313,7 @@
                 thumbnailsContainer.innerHTML = '';
             }
             
-            document.addEventListener('keydown', function(e) {
-                if (fullscreenModal.classList.contains('active')) {
-                    if (e.key === 'Escape') {
-                        closeGallery();
-                    } else if (e.key === 'ArrowLeft' && currentGallery) {
-                        if (currentImageIndex > 0) {
-                            currentImageIndex--;
-                            modalImage.src = currentGallery[currentImageIndex];
-                            updateThumbnails();
-                            updateGalleryButtons();
-                        }
-                    } else if (e.key === 'ArrowRight' && currentGallery) {
-                        if (currentImageIndex < currentGallery.length - 1) {
-                            currentImageIndex++;
-                            modalImage.src = currentGallery[currentImageIndex];
-                            updateThumbnails();
-                            updateGalleryButtons();
-                        }
-                    }
-                } else {
-                    if (e.key === 'ArrowLeft') {
-                        if (currentPage > 0) {
-                            currentPage--;
-                            updateSlide();
-                        }
-                    } else if (e.key === 'ArrowRight') {
-                        const maxPage = getMaxPage();
-                        if (currentPage < maxPage) {
-                            currentPage++;
-                            updateSlide();
-                        }
-                    }
-                }
-            });
-            
-            let resizeTimeout;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(function() {
-                    const maxPage = getMaxPage();
-                    if (currentPage > maxPage) {
-                        currentPage = maxPage;
-                    }
-                    updateSlide();
-                }, 250);
-            });
-            
-            // Smooth scroll for anchor links - FIXED for MASALAH #4
+            // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -1674,41 +2326,23 @@
                             top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
-                        
-                        // MASALAH #4: Jangan close mobile menu untuk anchor links
-                        // Biarkan smooth scroll berlaku tanpa buka menu
                     }
                 });
             });
             
-            // Initialize
+            // Initialize everything
+            initHeroSlider();
             updateSlide();
+            
+            // Resize handler for book slider
+            window.addEventListener('resize', function() {
+                const maxPage = getMaxPage();
+                if (currentPage > maxPage) {
+                    currentPage = maxPage;
+                }
+                updateSlide();
+            });
         });
-
-        // Product image galleries
-        const productGalleries = {
-            honeydew: [
-                "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            ],
-            apple: [
-                "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            ],
-            strawberry: [
-                "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            ]
-        };
     </script>
 </body>
 </html>
-
-
-
