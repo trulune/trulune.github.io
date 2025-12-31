@@ -17,30 +17,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* RESET AND BASE STYLES */
+        /* ========== RESET & BASE STYLES ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Lato', sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
-
+        
         html {
-            background-color: #0c1d2f;
             scroll-behavior: smooth;
         }
-
+        
         body {
             color: #FFFFFF;
             min-height: 100vh;
             background: url('images/background.png') no-repeat center center fixed;
             background-size: cover;
+            background-attachment: fixed;
             display: flex;
             flex-direction: column;
-            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-
+        
         body::before {
             content: '';
             position: fixed;
@@ -48,165 +48,117 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(12, 29, 47, 0.9);
             z-index: -1;
         }
-
+        
         a {
             text-decoration: none;
             color: inherit;
+            transition: all 0.3s ease;
         }
-
-        /* LOADING SPINNER */
-        .loading-spinner {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(12, 29, 47, 0.95);
-            z-index: 9999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(211, 206, 215, 0.3);
-            border-radius: 50%;
-            border-top-color: #d3ced7;
-            animation: spin 1s ease-in-out infinite;
+        
+        /* ========== STANDARDIZED CONTAINER PADDING ========== */
+        .container-padding {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        #loadingText {
-            margin-top: 1rem;
-            color: #d3ced7;
-            font-size: 1.1rem;
-        }
-
-        /* TOAST NOTIFICATION */
-        .toast {
-            display: none;
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: rgba(24, 45, 64, 0.95);
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            border-radius: 8px;
-            padding: 1rem 1.5rem;
-            z-index: 9998;
-            align-items: center;
-            gap: 0.8rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            animation: slideInRight 0.3s ease;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .toast.error {
-            border-left: 4px solid #e74c3c;
-        }
-
-        .toast i {
-            color: #2ecc71;
-            font-size: 1.2rem;
-        }
-
-        .toast.error i {
-            color: #e74c3c;
-        }
-
-        /* HEADER - Matching Homepage */
+        
+        /* ========== HEADER ========== */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 1.5rem 0;
-            z-index: 1000;
-            transition: all 0.4s ease;
-            background: transparent;
-        }
-
-        .header.scrolled {
-            background: rgba(12, 29, 47, 0.98);
-            backdrop-filter: blur(10px);
             padding: 1rem 0;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            background-color: transparent;
+            backdrop-filter: blur(0px);
+            transition: all 0.4s ease;
         }
-
+        
+        .header.scrolled {
+            background-color: rgba(12, 29, 47, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            padding: 0.7rem 0;
+        }
+        
         .header-container {
             max-width: 1200px;
-            width: 90%;
+            width: 100%;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .logo-container {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
+        
         .logo-image {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 8px;
             object-fit: cover;
             border: 2px solid rgba(211, 206, 215, 0.3);
         }
-
+        
         .logo-text {
             font-size: 1.3rem;
             font-weight: 700;
             color: #FFFFFF;
             line-height: 1.2;
         }
-
+        
         .logo-text span {
             color: #d3ced7;
             display: block;
             font-size: 0.9rem;
             font-weight: 400;
         }
-
-        /* NAVIGATION */
+        
+        .mobile-menu-toggle {
+            display: none;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            z-index: 1002;
+        }
+        
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
+            gap: 2rem;
         }
-
+        
         .nav-links a {
             padding: 0.5rem 0;
-            font-weight: 500;
+            font-weight: 400;
             color: #FFFFFF;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-            position: relative;
         }
-
+        
         .nav-links a:hover {
             color: #d3ced7;
         }
-
+        
         .nav-links .active {
             color: #d3ced7;
-            font-weight: 600;
+            font-weight: 700;
+            position: relative;
         }
-
+        
         .nav-links .active::after {
             content: '';
             position: absolute;
@@ -217,369 +169,394 @@
             background: linear-gradient(90deg, #0E3659, #d3ced7);
             border-radius: 2px;
         }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: rgba(12, 29, 47, 0.8);
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            color: #FFFFFF;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            z-index: 1002;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-toggle:hover {
-            background: rgba(12, 29, 47, 0.9);
-            border-color: rgba(211, 206, 215, 0.3);
-        }
-
-        /* PROFILE HERO SECTION */
+        
+        /* ========== PROFILE HERO SECTION ========== */
         .profile-hero-section {
             width: 100%;
-            margin-top: 120px;
-            padding: 0;
+            margin-top: 100px;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
         }
-
+        
         .profile-header {
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto 2rem auto;
+            max-width: 1150px;
+            width: 100%;
+            padding: 2rem 1.5rem;
             display: flex;
             align-items: center;
             gap: 2rem;
-            padding: 2rem;
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            justify-content: center;
         }
-
+        
         .profile-avatar {
             width: 120px;
             height: 120px;
-            border-radius: 50%;
+            border-radius: 8px;
             overflow: hidden;
             border: 3px solid rgba(211, 206, 215, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
+            background: rgba(12, 29, 47, 0.3);
         }
-
+        
         .profile-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
+        
         .profile-info {
             flex: 1;
+            max-width: 600px;
+            text-align: left;
         }
-
+        
         .profile-name {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
             color: #FFFFFF;
-            margin-bottom: 0.8rem;
+            font-weight: 700;
             display: flex;
-            align-items: baseline;
+            align-items: center;
             gap: 0.5rem;
-            line-height: 1;
         }
-
+        
         .profile-bio {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #d3ced7;
-            line-height: 1.6;
-            max-width: 800px;
+            line-height: 1.5;
+            width: 100%;
         }
-
-        /* VERIFIED BADGE */
+        
         .verified-badge {
             display: inline-flex;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            vertical-align: middle;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            vertical-align: baseline;
-            position: relative;
-            top: 0.15em;
-            flex-shrink: 0;
         }
-
-        /* Profile header badge specific */
-        .profile-header .verified-badge {
-            width: 28px;
-            height: 28px;
-            top: 0.2em;
-        }
-
-        .verified-badge:hover {
-            transform: scale(1.1);
-        }
-
-        /* Post verified badge - no tooltip */
-        .post .verified-badge {
-            cursor: default;
-            width: 18px;
-            height: 18px;
-            top: 0.15em;
-        }
-
-        .post .verified-badge:hover {
-            transform: none;
-        }
-
-        /* MAIN CONTAINER */
+        
+        /* ========== MAIN CONTENT ========== */
         .main-container {
             flex: 1;
             max-width: 1200px;
-            width: 90%;
-            margin: 0 auto 2rem auto;
+            width: 100%;
+            margin: 0 auto;
         }
-
+        
         .profile-section {
-            padding: 1rem 0;
+            padding: 2rem 1.5rem;
+            margin: 30px 0 0 0;
         }
-
+        
         .section-title {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             margin-bottom: 1.5rem;
             color: #FFFFFF;
             text-align: center;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFFFFF, #d3ced7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            padding: 0 1.5rem;
         }
-
-        /* POSTS STYLES */
+        
+        /* ========== POSTS ========== */
         .posts {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
-
+        
         .post {
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            padding: 1.5rem;
+            background: rgba(24, 45, 64, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(14, 54, 89, 0.3);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
         }
-
+        
         .post:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border-color: rgba(14, 54, 89, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(14, 54, 89, 0.6);
         }
-
+        
+        .post::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0E3659, #182D40);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .post:hover::after {
+            transform: scaleX(1);
+        }
+        
         .post-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
+            position: relative;
         }
-
+        
         .post-avatar {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 8px;
             overflow: hidden;
             border: 2px solid rgba(211, 206, 215, 0.3);
             margin-right: 1rem;
             flex-shrink: 0;
         }
-
+        
         .post-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
+        
         .post-user-info {
             flex: 1;
         }
-
+        
         .post-user {
+            font-size: 1.1rem;
             font-weight: 600;
             color: #FFFFFF;
-            display: flex;
-            align-items: baseline;
-            gap: 0.4rem;
             margin-bottom: 0.3rem;
-            line-height: 1.2;
-            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-
+        
         .post-time {
-            color: #d3ced7;
             font-size: 0.9rem;
-        }
-
-        .post-share-button {
-            background: transparent;
-            border: 1px solid rgba(211, 206, 215, 0.3);
             color: #d3ced7;
-            width: 40px;
-            height: 40px;
+        }
+        
+        .post-share-button {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
             cursor: pointer;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            border: 1px solid rgba(211, 206, 215, 0.2);
+            flex-shrink: 0;
         }
-
+        
         .post-share-button:hover {
-            background: rgba(14, 54, 89, 0.3);
-            color: #FFFFFF;
-            transform: scale(1.05);
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.4);
         }
-
+        
         .post-content {
+            padding: 1.2rem;
             color: #FFFFFF;
-            line-height: 1.7;
-            margin-bottom: 1.2rem;
-            font-size: 1.1rem;
+            line-height: 1.6;
+            font-size: 1rem;
         }
-
+        
         .post-content a {
-            color: #0E3659;
+            color: #4dabf7;
             text-decoration: underline;
         }
-
+        
+        .post-content a:hover {
+            text-decoration: none;
+        }
+        
         .post-actions {
+            padding: 0.8rem 1.2rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
             display: flex;
             align-items: center;
         }
-
+        
         .like-container {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-
-        /* FIXED MOBILE LIKE BUTTON - NEW DESIGN */
+        
         .post-like-button {
-            background: transparent;
-            border: 1px solid rgba(211, 206, 215, 0.3);
-            color: #e74c3c;
-            width: 44px;
-            height: 44px;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: none;
+            width: 36px;
+            height: 36px;
             border-radius: 8px;
             cursor: pointer;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
-            position: relative;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-            touch-action: manipulation;
+            transition: all 0.3s;
+            border: 1px solid rgba(211, 206, 215, 0.2);
         }
-
-        /* FIX FOR MOBILE TAP */
-        .post-like-button:active {
-            transform: scale(0.92);
-            background: rgba(231, 76, 60, 0.15);
+        
+        .post-like-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: scale(1.1);
         }
-
-        .post-like-button:hover:not(:active) {
-            background: rgba(231, 76, 60, 0.1);
-            transform: scale(1.05);
-        }
-
-        /* Animation for like */
-        .post-like-button.liked {
-            animation: likePop 0.4s ease;
-        }
-
-        @keyframes likePop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-
+        
         .post-like-count {
             color: #d3ced7;
+            font-size: 0.95rem;
             font-weight: 600;
-            font-size: 1rem;
-            min-width: 40px;
         }
-
-        /* FOOTER */
+        
+        /* ========== FOOTER ========== */
         .footer {
-            padding: 1rem 0;
-            margin-top: auto;
-            width: 100%;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            padding: 1.5rem 0;
+            margin-top: 2rem;
         }
-
+        
         .footer-content {
             max-width: 1200px;
-            width: 90%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            padding: 0 1.5rem;
         }
-
+        
         .social-section {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(14, 54, 89, 0.2);
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
-
+        
         .social-text {
             color: #d3ced7;
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 1.2rem;
+            white-space: nowrap;
         }
-
+        
         .social-icons {
             display: flex;
-            gap: 0.7rem;
+            gap: 1rem;
         }
-
+        
         .social-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 100px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1rem;
-            color: #d3ced7;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background: rgba(14, 54, 89, 0.3);
+            font-size: 1.2rem;
             color: #FFFFFF;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 2px solid rgba(14, 54, 89, 0.5);
         }
-
+        
+        .social-icon:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            color: #FFFFFF;
+            border-color: #d3ced7;
+            transform: translateY(-3px);
+        }
+        
         .copyright {
             text-align: center;
+            padding-top: 1rem;
             color: #d3ced7;
-            font-size: 0.8rem;
-            opacity: 0.8;
-            padding-top: 0.5rem;
+            width: 100%;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(14, 54, 89, 0.3);
         }
-
-        /* MODAL STYLES */
+        
+        /* ========== LOADING & TOAST ========== */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 29, 47, 0.95);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(211, 206, 215, 0.3);
+            border-top: 5px solid #0E3659;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .toast {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 9998;
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .toast.error {
+            background: linear-gradient(135deg, #9b2c2c 0%, #c53030 100%);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* ========== VERIFIED TOOLTIP - FIXED FOR MOBILE ========== */
         .verified-tooltip-modal {
             display: none;
             position: fixed;
@@ -587,28 +564,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             padding: 1rem;
-            animation: fadeIn 0.3s ease;
+            touch-action: manipulation;
         }
-
+        
         .verified-tooltip-modal.active {
             display: flex;
         }
-
+        
         .verified-tooltip-content {
-            background: rgba(24, 45, 64, 0.95);
-            border-radius: 12px;
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-radius: 8px;
             padding: 2rem;
             max-width: 400px;
             width: 100%;
             border: 1px solid rgba(14, 54, 89, 0.5);
             position: relative;
+            margin: 1rem;
         }
-
+        
         .verified-tooltip-close {
             position: absolute;
             top: 15px;
@@ -619,19 +597,14 @@
             height: 36px;
             border-radius: 8px;
             color: white;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
         }
-
-        .verified-tooltip-close:hover {
-            background: rgba(12, 29, 47, 0.9);
-            transform: rotate(90deg);
-        }
-
+        
+        /* ========== SHARE MODAL - LINK BASED ========== */
         .share-modal {
             display: none;
             position: fixed;
@@ -639,113 +612,152 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2001;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
             justify-content: center;
             align-items: center;
             padding: 1rem;
         }
-
+        
         .share-modal.active {
             display: flex;
         }
-
+        
         .share-container {
-            background: rgba(24, 45, 64, 0.95);
-            border-radius: 12px;
+            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
+            border-radius: 8px;
             padding: 2rem;
             max-width: 500px;
             width: 100%;
             border: 1px solid rgba(14, 54, 89, 0.5);
+            margin: 1rem;
         }
-
+        
         .share-container h3 {
             color: #FFFFFF;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             text-align: center;
-            font-size: 1.5rem;
         }
-
+        
         .share-url-container {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .share-url {
-            flex: 1;
-            background: rgba(12, 29, 47, 0.6);
-            border: 1px solid rgba(14, 54, 89, 0.5);
+            background: rgba(12, 29, 47, 0.5);
             border-radius: 8px;
-            padding: 0.8rem 1rem;
-            color: #d3ced7;
-            font-size: 0.9rem;
-            word-break: break-all;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+            text-align: center;
         }
-
+        
+        .share-url {
+            color: #4dabf7;
+            font-size: 1rem;
+            word-break: break-all;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: rgba(12, 29, 47, 0.3);
+            border-radius: 4px;
+            border: 1px solid rgba(14, 54, 89, 0.3);
+        }
+        
         .copy-button {
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #FFFFFF;
             border: none;
-            padding: 0 1.5rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s;
-            white-space: nowrap;
+            border: 1px solid rgba(211, 206, 215, 0.2);
+            width: 100%;
         }
-
+        
         .copy-button:hover {
             background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.4);
         }
-
+        
         .copy-button.copied {
-            background: #27ae60;
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
         }
-
+        
         .share-buttons {
             display: flex;
-            justify-content: center;
             gap: 1rem;
         }
-
-        /* RESPONSIVE DESIGN */
+        
+        .share-buttons .buy-button {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #FFFFFF;
+            border: 1px solid rgba(211, 206, 215, 0.2);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .share-buttons .buy-button:hover {
+            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            transform: translateY(-2px);
+        }
+        
+        /* ========== RESPONSIVE DESIGN ========== */
+        
+        /* Tablet View (768px - 991px) */
         @media (max-width: 991px) {
-            .header-container {
-                width: 95%;
+            .container-padding {
+                padding-left: 1.2rem;
+                padding-right: 1.2rem;
+            }
+            
+            .profile-hero-section {
+                min-height: 200px;
             }
             
             .profile-header {
-                width: 95%;
+                padding: 1.5rem;
+                gap: 1.5rem;
             }
             
-            .main-container {
-                width: 95%;
-            }
-            
-            .section-title {
-                font-size: 2.4rem;
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
             }
             
             .profile-name {
-                font-size: 2rem;
+                font-size: 1.6rem;
             }
             
             .profile-bio {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             
-            /* MOBILE FIX: Larger tap area for like button */
-            .post-like-button {
-                width: 48px;
-                height: 48px;
-                min-height: 48px;
+            .section-title {
+                font-size: 2rem;
+                padding: 0 1.2rem;
+            }
+            
+            .posts {
+                padding: 0 1.2rem;
+            }
+            
+            .profile-section {
+                padding: 2rem 1.2rem;
             }
         }
-
+        
+        /* Mobile View (max-width: 767px) */
         @media (max-width: 767px) {
+            .container-padding {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
             .mobile-menu-toggle {
                 display: block;
             }
@@ -757,14 +769,13 @@
                 width: 70%;
                 height: 100vh;
                 background: rgba(12, 29, 47, 0.98);
-                backdrop-filter: blur(10px);
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                gap: 2rem;
-                transition: right 0.4s ease;
+                gap: 1.5rem;
+                transition: right 0.3s ease;
                 z-index: 1001;
-                padding: 2rem;
+                padding: 1.5rem;
             }
             
             .nav-links.active {
@@ -772,27 +783,136 @@
             }
             
             .nav-links a {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
             }
             
             .logo-text {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .logo-text span {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
             
-            /* Profile header adjustments */
             .profile-hero-section {
-                margin-top: 100px;
+                margin: 100px 0 30px 0;
+                min-height: 180px;
+                width: 100%;
             }
             
             .profile-header {
                 flex-direction: column;
+                align-items: center;
                 text-align: center;
-                gap: 1.5rem;
                 padding: 1.5rem;
+                gap: 1rem;
+            }
+            
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+                justify-content: center;
+            }
+            
+            .profile-bio {
+                font-size: 1rem;
+                text-align: center;
+            }
+            
+            .profile-section {
+                padding: 1.5rem 1rem;
+                margin: 30px 0 0 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .posts {
+                padding: 0 1rem;
+                gap: 1rem;
+            }
+            
+            .post-header {
+                padding: 1rem;
+            }
+            
+            .post-avatar {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .post-user {
+                font-size: 1rem;
+            }
+            
+            .post-content {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+            
+            .social-section {
+                flex-direction: column;
+                gap: 0.8rem;
+                text-align: center;
+            }
+            
+            .social-text {
+                font-size: 1.1rem;
+            }
+            
+            .social-icons {
+                gap: 0.8rem;
+            }
+            
+            .social-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.1rem;
+            }
+            
+            .share-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .share-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .share-url-container {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+            
+            /* Mobile tooltip fix */
+            .verified-tooltip-content {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+        
+        /* Small Mobile View (max-width: 480px) */
+        @media (max-width: 480px) {
+            .container-padding {
+                padding-left: 0.8rem;
+                padding-right: 0.8rem;
+            }
+            
+            .profile-hero-section {
+                margin: 100px 0 30px 0;
+                min-height: 150px;
+            }
+            
+            .profile-header {
+                padding: 1rem;
             }
             
             .profile-avatar {
@@ -801,105 +921,72 @@
             }
             
             .profile-name {
-                font-size: 1.8rem;
-                justify-content: center;
-            }
-            
-            .profile-bio {
-                font-size: 1rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .post {
-                padding: 1.2rem;
-            }
-            
-            .social-section {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .social-text {
-                font-size: 1.2rem;
-            }
-            
-            /* MOBILE FIX: Even larger tap area for small screens */
-            .post-like-button {
-                width: 52px;
-                height: 52px;
-                min-height: 52px;
-                font-size: 1.3rem;
-            }
-            
-            .post-like-count {
-                font-size: 1.1rem;
-                min-width: 45px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .profile-name {
-                font-size: 1.6rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
             }
             
             .profile-bio {
                 font-size: 0.95rem;
             }
             
-            .post-header {
-                flex-wrap: wrap;
+            .section-title {
+                font-size: 1.6rem;
+                padding: 0 0.8rem;
             }
             
-            .post-share-button {
-                margin-left: auto;
+            .profile-section {
+                padding: 1.5rem 0.8rem;
             }
             
-            .share-url-container {
-                flex-direction: column;
+            .posts {
+                padding: 0 0.8rem;
             }
             
-            .copy-button {
-                padding: 0.8rem;
+            .footer {
+                padding: 1.2rem 0;
             }
             
-            /* MOBILE FIX: Maximum tap area for very small screens */
-            .post-like-button {
-                width: 56px;
-                height: 56px;
-                min-height: 56px;
-                font-size: 1.4rem;
+            .footer-content {
+                padding: 0 0.8rem;
             }
-            
-            .post-like-count {
-                font-size: 1.2rem;
-                min-width: 50px;
-            }
-        }
-
-        /* No posts message */
-        .no-posts {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #d3ced7;
-            font-size: 1.1rem;
-            background: rgba(24, 45, 64, 0.3);
-            border-radius: 12px;
-            border: 1px dashed rgba(14, 54, 89, 0.3);
         }
         
-        /* Loading posts message */
-        .loading-posts {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #d3ced7;
-            font-size: 1.1rem;
+        /* Very Small Screens (max-width: 360px) */
+        @media (max-width: 360px) {
+            .logo-container {
+                gap: 0.7rem;
+            }
+            
+            .logo-image {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.75rem;
+            }
+            
+            .profile-avatar {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .profile-name {
+                font-size: 1.3rem;
+            }
+            
+            .profile-bio {
+                font-size: 0.9rem;
+            }
+            
+            .social-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -918,7 +1005,7 @@
 
     <!-- Profile Page Header -->
     <header class="header" id="main-header">
-        <div class="header-container">
+        <div class="header-container container-padding">
             <div class="logo-container">
                 <img src="images/Logo.png" alt="Trulune Malaysia Logo" class="logo-image">
                 <div class="logo-text">Trulune Malaysia <span>Everyday scents. Timeless allure.</span></div>
@@ -935,19 +1022,20 @@
         </div>
     </header>
 
-    <!-- Profile Page Header -->
+    <!-- Profile Page Header - FULL WIDTH -->
     <div class="profile-hero-section">
+        <!-- Profile Header -->
         <section class="profile-header">
             <div class="profile-avatar">
                 <img src="images/Logo.png" alt="Trulune Malaysia Logo">
             </div>
             <div class="profile-info">
                 <h1 class="profile-name">
-                    <span style="display: inline;">Trulune Malaysia</span>
+                    Trulune Malaysia
                     <span class="verified-badge" onclick="openVerifiedTooltip(event)" 
                           oncontextmenu="return false" 
                           ondragstart="return false">
-                        <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                        <img src="images/verified.svg" style="width: 20px; height: 20px;" alt="Verified">
                     </span>
                 </h1>
                 <p class="profile-bio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
@@ -958,6 +1046,7 @@
     <!-- Profile Page Content -->
     <main class="main-container">
         <section class="profile-section">
+            <!-- Updates Feed -->
             <h2 class="section-title">Updates</h2>
             <div class="posts" id="posts-container">
                 <!-- Posts will load here automatically -->
@@ -965,7 +1054,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer with Social Icons INLINE -->
     <footer class="footer">
         <div class="footer-content">
             <div class="social-section">
@@ -1009,7 +1098,7 @@
         </div>
     </div>
 
-    <!-- Share Modal -->
+    <!-- Share Modal - LINK BASED -->
     <div class="share-modal" id="shareModal">
         <div class="share-container">
             <h3>Share this Post</h3>
@@ -1022,7 +1111,7 @@
             </div>
             
             <div class="share-buttons">
-                <button class="copy-button" style="background: rgba(12, 29, 47, 0.8);" onclick="closeShareModal()">
+                <button class="buy-button" style="background: rgba(12, 29, 47, 0.8);" onclick="closeShareModal()">
                     <i class="fas fa-times"></i> Close
                 </button>
             </div>
@@ -1043,7 +1132,6 @@
         // === INITIALIZE FIREBASE ===
         let db = null;
         let postsListener = null;
-        let isLiking = false; // Flag to prevent multiple simultaneous likes
 
         try {
             firebase.initializeApp(firebaseConfig);
@@ -1095,19 +1183,20 @@
         }
 
         // === CORE FUNCTIONS ===
+        // FIXED: Mobile tooltip opening
         function openVerifiedTooltip(event) {
-            if (event && event.target.closest('.profile-header')) {
+            if (event) {
                 event.preventDefault();
                 event.stopPropagation();
-                document.getElementById('verifiedTooltipModal').classList.add('active');
             }
+            document.getElementById('verifiedTooltipModal').classList.add('active');
         }
         
         function closeVerifiedTooltip() {
             document.getElementById('verifiedTooltipModal').classList.remove('active');
         }
         
-        // === SHARE FUNCTIONALITY ===
+        // === SHARE FUNCTIONALITY - LINK BASED ===
         let currentPostForShare = null;
         
         function openShareModal(postContent, postDate, postId) {
@@ -1118,10 +1207,14 @@
                     id: postId
                 };
                 
+                // Generate share link - using current URL + post ID
                 const baseUrl = window.location.origin + window.location.pathname;
                 const shareLink = `${baseUrl}?post=${postId}`;
                 
+                // Display the share link
                 document.getElementById('shareUrl').textContent = shareLink;
+                
+                // Open modal
                 document.getElementById('shareModal').classList.add('active');
                 
             } catch (error) {
@@ -1133,6 +1226,7 @@
         function closeShareModal() {
             document.getElementById('shareModal').classList.remove('active');
             currentPostForShare = null;
+            // Reset copy button
             const copyBtn = document.getElementById('copyButton');
             copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
             copyBtn.classList.remove('copied');
@@ -1142,6 +1236,7 @@
             const shareUrl = document.getElementById('shareUrl').textContent;
             const copyBtn = document.getElementById('copyButton');
             
+            // Use modern clipboard API
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(shareUrl)
                     .then(() => {
@@ -1149,6 +1244,7 @@
                         copyBtn.classList.add('copied');
                         showToast('Link copied to clipboard!');
                         
+                        // Reset button after 2 seconds
                         setTimeout(() => {
                             copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
                             copyBtn.classList.remove('copied');
@@ -1159,6 +1255,7 @@
                         fallbackCopy(shareUrl, copyBtn);
                     });
             } else {
+                // Fallback for older browsers
                 fallbackCopy(shareUrl, copyBtn);
             }
         }
@@ -1195,66 +1292,22 @@
             document.body.removeChild(textArea);
         }
         
-        // === FIXED LIKE FUNCTION - COMPLETE MOBILE FIX ===
+        // === LIKE FUNCTIONALITY ===
         async function likePost(postId) {
-            // Prevent multiple clicks during processing
-            if (isLiking) {
-                return;
-            }
-            
             if (!db) {
                 showToast('Database not connected', 'error');
                 return;
             }
             
-            isLiking = true;
-            
             try {
-                // Get current elements
-                const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
-                const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
-                
-                if (!likeButton || !likeCountElement) {
-                    showToast('Error finding post', 'error');
-                    isLiking = false;
-                    return;
-                }
-                
-                // Get current like count
-                const currentLikes = parseInt(likeCountElement.getAttribute('data-actual-likes') || '0');
-                const newLikes = currentLikes + 1;
-                
-                // IMMEDIATE VISUAL FEEDBACK (Optimistic update)
-                likeButton.classList.add('liked');
-                likeCountElement.textContent = formatNumber(newLikes);
-                likeCountElement.setAttribute('data-actual-likes', newLikes);
-                
-                // Update Firebase
                 const postRef = db.collection('posts').doc(postId);
                 await postRef.update({
                     likes: firebase.firestore.FieldValue.increment(1)
                 });
-                
-                console.log(`Successfully liked post ${postId}`);
-                
-                // Brief delay to show animation
-                setTimeout(() => {
-                    likeButton.classList.remove('liked');
-                    isLiking = false;
-                }, 400);
-                
+                console.log(`Liked post ${postId}`);
             } catch (error) {
                 console.error("Error liking post:", error);
-                
-                // Revert optimistic update on error
-                const likeCountElement = document.querySelector(`.post-like-count[data-post-id="${postId}"]`);
-                if (likeCountElement) {
-                    const currentLikes = parseInt(likeCountElement.getAttribute('data-actual-likes') || '0');
-                    likeCountElement.textContent = formatNumber(Math.max(0, currentLikes - 1));
-                }
-                
                 showToast('Error liking post', 'error');
-                isLiking = false;
             }
         }
         
@@ -1263,6 +1316,13 @@
             if (likeCountElement) {
                 likeCountElement.setAttribute('data-actual-likes', likes);
                 likeCountElement.textContent = formatNumber(likes);
+                const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
+                if (likeButton) {
+                    likeButton.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        likeButton.style.transform = 'scale(1)';
+                    }, 100);
+                }
             }
         }
         
@@ -1271,7 +1331,7 @@
             const postsContainer = document.getElementById('posts-container');
             
             if (!db) {
-                postsContainer.innerHTML = '<div class="no-posts">Loading posts...</div>';
+                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">Loading posts...</p>';
                 return;
             }
             
@@ -1284,7 +1344,7 @@
                     .get();
                 
                 if (querySnapshot.empty) {
-                    postsContainer.innerHTML = '<div class="no-posts">No updates yet. Check back soon!</div>';
+                    postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">No updates yet. Check back soon!</p>';
                     hideLoading();
                     return;
                 }
@@ -1312,7 +1372,7 @@
                     }
                     
                     const urlRegex = /(https?:\/\/[^\s]+)/g;
-                    postContent = postContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener" style="color: #4a90e2;">$1</a>');
+                    postContent = postContent.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener">$1</a>');
                     
                     const escapedContent = encodeURIComponent(post.content || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     
@@ -1326,9 +1386,11 @@
                                 </div>
                                 <div class="post-user-info">
                                     <div class="post-user">
-                                        <span style="display: inline;">Trulune Malaysia</span>
-                                        <span class="verified-badge">
-                                            <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
+                                        Trulune Malaysia 
+                                        <span class="verified-badge" onclick="openVerifiedTooltip(event)" 
+                                              oncontextmenu="return false" 
+                                              ondragstart="return false">
+                                            <img src="images/verified.svg" style="width: 20px; height: 20px;" alt="Verified">
                                         </span>
                                     </div>
                                     <div class="post-time">${timeAgo}</div>
@@ -1344,9 +1406,7 @@
                                 <div class="like-container">
                                     <button class="post-like-button" 
                                             data-post-id="${postId}" 
-                                            onclick="likePost('${postId}')"
-                                            ontouchstart=""
-                                            ontouchend="">
+                                            onclick="likePost('${postId}')">
                                         ♥️
                                     </button>
                                     <span class="post-like-count" 
@@ -1363,11 +1423,12 @@
                 postsContainer.innerHTML = postsHTML;
                 hideLoading();
                 
+                // Setup real-time listener for likes
                 setupRealtimeListener();
                 
             } catch (error) {
                 console.error("Error loading posts:", error);
-                postsContainer.innerHTML = '<div class="no-posts">Error loading posts. Please refresh.</div>';
+                postsContainer.innerHTML = '<p style="text-align:center;color:#d3ced7;padding:2rem;">Error loading posts. Please refresh.</p>';
                 hideLoading();
                 showToast('Error loading posts', 'error');
             }
@@ -1414,40 +1475,97 @@
             });
         }
         
+        // === Disable right click and long press on verified badges ===
+        function disableVerifiedBadgeActions() {
+            // Disable context menu (right click)
+            document.addEventListener('contextmenu', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Disable drag and drop
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Disable text selection
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // FIXED: Mobile touch events for tooltip
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.closest('.verified-badge')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openVerifiedTooltip(e);
+                }
+            }, { passive: false });
+            
+            document.addEventListener('mousedown', function(e) {
+                if (e.target.closest('.verified-badge img')) {
+                    if (e.button === 2) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
+        }
+        
+        // === UTILITY FUNCTIONS ===
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            document.getElementById('navLinks').classList.remove('active');
+        }
+        
+        function handleScroll() {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+        
         // === INITIALIZE PAGE ===
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
             // Mobile menu
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const navLinks = document.getElementById('navLinks');
-            
-            mobileMenuToggle.addEventListener('click', function() {
-                navLinks.classList.toggle('active');
-            });
+            document.getElementById('mobileMenuToggle').addEventListener('click', toggleMobileMenu);
             
             // Close mobile menu when clicking outside
             document.addEventListener('click', function(event) {
+                const navLinks = document.getElementById('navLinks');
+                const mobileToggle = document.getElementById('mobileMenuToggle');
+                
                 if (navLinks.classList.contains('active') && 
                     !navLinks.contains(event.target) && 
-                    !mobileMenuToggle.contains(event.target)) {
-                    navLinks.classList.remove('active');
+                    !mobileToggle.contains(event.target)) {
+                    closeMobileMenu();
                 }
             });
             
             // Scroll handler
-            const header = document.getElementById('main-header');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
+            window.addEventListener('scroll', handleScroll);
             
             // Load posts immediately
             loadPosts();
+            
+            // Apply verified badge protection
+            disableVerifiedBadgeActions();
             
             // Modal close handlers
             document.getElementById('verifiedTooltipModal').addEventListener('click', function(e) {
@@ -1466,28 +1584,11 @@
                 }
             });
             
+            // FIXED: Close modals when clicking on close buttons
+            document.querySelector('.verified-tooltip-close').addEventListener('click', closeVerifiedTooltip);
+            
             // Initial scroll check
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            }
-            
-            // MOBILE TOUCH FIXES
-            // Prevent zoom on double tap
-            let lastTouchEnd = 0;
-            document.addEventListener('touchend', function(event) {
-                const now = (new Date()).getTime();
-                if (now - lastTouchEnd <= 300) {
-                    event.preventDefault();
-                }
-                lastTouchEnd = now;
-            }, false);
-            
-            // Better touch handling for like buttons
-            document.addEventListener('touchstart', function(e) {
-                if (e.target.classList.contains('post-like-button')) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
+            handleScroll();
         });
     </script>
 </body>
