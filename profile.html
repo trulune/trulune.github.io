@@ -10,14 +10,12 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ========== RESET & BASE STYLES ========== */
+        /* ============== GLOBAL STYLES ============== */
         * {
             margin: 0;
             padding: 0;
@@ -25,538 +23,537 @@
             font-family: 'Lato', sans-serif;
         }
         
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --primary: #000000;
+            --secondary: #ffffff;
+            --gray-200: #e5e5e5;
+            --gray-600: #525252;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --desktop-padding: 190px;
+            --mobile-padding: 20px;
         }
-        
+
         body {
-            color: #FFFFFF;
+            background: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
             min-height: 100vh;
-            background: url('images/background.png') no-repeat center center fixed;
-            background-size: cover;
-            background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        button {
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-family: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        /* ========== STANDARDIZED CONTAINER PADDING ========== */
-        .container-padding {
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
-        
-        /* ========== HEADER ========== */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1rem 0;
-            z-index: 1000;
-            background-color: transparent;
-            backdrop-filter: blur(0px);
-            transition: all 0.4s ease;
-        }
-        
-        .header.scrolled {
-            background-color: rgba(12, 29, 47, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            padding: 0.7rem 0;
-        }
-        
-        .header-container {
-            max-width: 1200px;
-            width: 100%;
+
+        /* Container untuk pusatkan content */
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ============== HEADER - EXACTLY LIKE HOMEPAGE ============== */
+        .header {
+            padding: 0.5rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: transparent;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        /* Header container untuk padding desktop & mobile */
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 20px var(--desktop-padding);
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
-        .logo-container {
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header.scrolled .header-container {
+            padding: 15px var(--desktop-padding);
+        }
+
+        /* Logo paling kiri */
+        .logo {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            flex-shrink: 0;
+            z-index: 1001;
+            transition: color 0.3s ease;
         }
-        
-        .logo-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 2px solid rgba(211, 206, 215, 0.3);
+
+        .header.scrolled .logo {
+            color: #000000;
         }
-        
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
         .logo-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            line-height: 1.2;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            transition: color 0.3s ease;
         }
-        
-        .logo-text span {
-            color: #d3ced7;
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 400;
+
+        /* ============== NAVIGATION ============== */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin-left: auto;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 8px 0;
+        }
+
+        .header.scrolled .nav-links > li > a {
+            color: #000000;
+        }
+
+        .nav-links > li > a:hover {
+            color: #666;
+        }
+
+        .nav-badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px !important;
+            background: var(--secondary);
+            border: 1px solid var(--gray-200);
+            border-radius: 100px;
+            font-size: 18px !important;
+            font-weight: 500;
+            color: var(--gray-600);
+            height: auto;
+            min-height: 40px;
+        }
+
+        .header.scrolled .nav-badge-link {
+            background: var(--secondary);
+            color: var(--gray-600);
+        }
+
+        .nav-badge-link:hover {
+            background: var(--gray-200);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .nav-badge-link .nav-badge {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 100px;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
         
         .mobile-menu-toggle {
             display: none;
-            color: #FFFFFF;
-            font-size: 1.5rem;
-            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
             z-index: 1002;
         }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
+
+        .header.scrolled .mobile-menu-toggle {
+            color: #000000;
         }
-        
-        .nav-links a {
-            padding: 0.5rem 0;
-            font-weight: 400;
-            color: #FFFFFF;
-            font-size: 1.1rem;
-        }
-        
-        .nav-links a:hover {
-            color: #d3ced7;
-        }
-        
-        .nav-links .active {
-            color: #d3ced7;
-            font-weight: 700;
-            position: relative;
-        }
-        
-        .nav-links .active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, #0E3659, #d3ced7);
-            border-radius: 2px;
-        }
-        
-        /* ========== PROFILE HERO SECTION ========== */
+
+        /* ============== PROFILE HERO SECTION ============== */
         .profile-hero-section {
             width: 100%;
-            margin-top: 100px;
-            min-height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
+            margin-top: 120px;
+            padding: 0;
         }
-        
+
         .profile-header {
-            max-width: 1150px;
-            width: 100%;
-            padding: 2rem 1.5rem;
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto 2rem auto;
             display: flex;
             align-items: center;
             gap: 2rem;
-            position: relative;
-            z-index: 2;
-            justify-content: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
-        
+
         .profile-avatar {
             width: 120px;
             height: 120px;
-            border-radius: 8px;
+            border-radius: 50%;
             overflow: hidden;
-            border: 3px solid rgba(211, 206, 215, 0.3);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.3);
             flex-shrink: 0;
-            background: rgba(12, 29, 47, 0.3);
         }
-        
+
         .profile-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .profile-info {
             flex: 1;
-            max-width: 600px;
-            text-align: left;
         }
-        
+
         .profile-name {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            color: #FFFFFF;
+            font-size: 2.5rem;
             font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: 0.5rem;
+            line-height: 1;
         }
-        
+
         .profile-bio {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #d3ced7;
-            line-height: 1.5;
-            width: 100%;
+            line-height: 1.6;
+            max-width: 800px;
         }
-        
+
+        /* VERIFIED BADGE */
         .verified-badge {
             display: inline-flex;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            vertical-align: middle;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            vertical-align: baseline;
+            position: relative;
+            top: 0.15em;
+            flex-shrink: 0;
         }
-        
-        /* ========== MAIN CONTENT ========== */
+
+        /* Profile header badge specific */
+        .profile-header .verified-badge {
+            width: 28px;
+            height: 28px;
+            top: 0.2em;
+        }
+
+        .verified-badge:hover {
+            transform: scale(1.1);
+        }
+
+        /* Post verified badge - no tooltip */
+        .post .verified-badge {
+            cursor: default;
+            width: 18px;
+            height: 18px;
+            top: 0.15em;
+        }
+
+        .post .verified-badge:hover {
+            transform: none;
+        }
+
+        /* ============== MAIN CONTENT ============== */
         .main-container {
             flex: 1;
             max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
+            width: 90%;
+            margin: 0 auto 2rem auto;
         }
-        
+
         .profile-section {
-            padding: 2rem 1.5rem;
-            margin: 30px 0 0 0;
+            padding: 1rem 0;
         }
-        
+
         .section-title {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             margin-bottom: 1.5rem;
-            color: #FFFFFF;
+            color: #ffffff;
             text-align: center;
-            padding: 0 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #d3ced7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        /* ========== POSTS ========== */
+
+        /* ============== POSTS STYLES ============== */
         .posts {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
         }
-        
+
         .post {
-            background: rgba(24, 45, 64, 0.3);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .post:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(14, 54, 89, 0.6);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
         }
-        
-        .post::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #0E3659, #182D40);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        
-        .post:hover::after {
-            transform: scaleX(1);
-        }
-        
+
         .post-header {
             display: flex;
             align-items: center;
-            padding: 1.2rem;
-            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
-            position: relative;
+            margin-bottom: 1rem;
         }
-        
+
         .post-avatar {
             width: 50px;
             height: 50px;
-            border-radius: 8px;
+            border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(211, 206, 215, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             margin-right: 1rem;
             flex-shrink: 0;
         }
-        
+
         .post-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .post-user-info {
             flex: 1;
         }
-        
+
         .post-user {
-            font-size: 1.1rem;
             font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 0.3rem;
+            color: #ffffff;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            align-items: baseline;
+            gap: 0.4rem;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+            font-size: 1rem;
         }
-        
+
         .post-time {
-            font-size: 0.9rem;
             color: #d3ced7;
+            font-size: 0.9rem;
         }
-        
+
         .post-share-button {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: none;
-            width: 36px;
-            height: 36px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #d3ced7;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(211, 206, 215, 0.2);
-            flex-shrink: 0;
+            transition: all 0.3s ease;
         }
-        
+
         .post-share-button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: scale(1.05);
         }
-        
+
         .post-content {
-            padding: 1.2rem;
-            color: #FFFFFF;
-            line-height: 1.6;
-            font-size: 1rem;
+            color: #ffffff;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
         }
-        
+
         .post-content a {
-            color: #4dabf7;
+            color: #0E3659;
             text-decoration: underline;
         }
-        
-        .post-content a:hover {
-            text-decoration: none;
-        }
-        
+
         .post-actions {
-            padding: 0.8rem 1.2rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.3);
             display: flex;
             align-items: center;
         }
-        
+
         .like-container {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        
+
+        /* FIXED: Mobile-friendly like button */
         .post-like-button {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: none;
-            width: 36px;
-            height: 36px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e74c3c;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(211, 206, 215, 0.2);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
         }
-        
+
+        .post-like-button:active {
+            transform: scale(0.95);
+        }
+
         .post-like-button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: scale(1.1);
+            background: rgba(231, 76, 60, 0.1);
+            transform: scale(1.05);
         }
-        
+
         .post-like-count {
             color: #d3ced7;
-            font-size: 0.95rem;
             font-weight: 600;
+            font-size: 1rem;
+            user-select: none;
         }
-        
-        /* ========== FOOTER ========== */
+
+        /* ============== FOOTER - EXACTLY LIKE HOMEPAGE ============== */
         .footer {
-            padding: 1.5rem 0;
-            margin-top: 2rem;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
+            background: transparent;
+            color: #ffffff;
+            text-align: center;
+            padding: 50px var(--desktop-padding) 20px;
+            max-width: 1400px;
             margin: 0 auto;
+        }
+
+        .footer-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0 1.5rem;
+            gap: 32px;
+            margin-bottom: 20px;
         }
-        
-        .social-section {
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
         }
-        
-        .social-text {
-            color: #d3ced7;
-            font-size: 1.2rem;
-            white-space: nowrap;
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .social-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            color: #FFFFFF;
-            transition: all 0.3s;
-            border: 2px solid rgba(14, 54, 89, 0.5);
-        }
-        
-        .social-icon:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            color: #FFFFFF;
-            border-color: #d3ced7;
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 1rem;
-            color: #d3ced7;
-            width: 100%;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.3);
-        }
-        
-        /* ========== LOADING & TOAST ========== */
-        .loading-spinner {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+
+        .footer-logo-icon img {
             width: 100%;
             height: 100%;
-            background: rgba(12, 29, 47, 0.95);
-            z-index: 9999;
+            object-fit: contain;
+        }
+
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
             justify-content: center;
-            align-items: center;
-            flex-direction: column;
         }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(211, 206, 215, 0.3);
-            border-top: 5px solid #0E3659;
+
+        .social-link {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 1rem;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .toast {
-            display: none;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
             align-items: center;
-            gap: 0.8rem;
-            z-index: 9998;
-            border: 1px solid rgba(14, 54, 89, 0.5);
-            animation: slideIn 0.3s ease;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
-        
-        .toast.error {
-            background: linear-gradient(135deg, #9b2c2c 0%, #c53030 100%);
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
-        /* ========== VERIFIED TOOLTIP - FIXED FOR MOBILE ========== */
+
+        /* ============== MODALS ============== */
         .verified-tooltip-modal {
             display: none;
             position: fixed;
@@ -564,29 +561,28 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             padding: 1rem;
-            touch-action: manipulation;
+            animation: fadeIn 0.3s ease;
         }
-        
+
         .verified-tooltip-modal.active {
             display: flex;
         }
-        
+
         .verified-tooltip-content {
-            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-            border-radius: 8px;
+            background: rgba(24, 45, 64, 0.95);
+            border-radius: 12px;
             padding: 2rem;
             max-width: 400px;
             width: 100%;
             border: 1px solid rgba(14, 54, 89, 0.5);
             position: relative;
-            margin: 1rem;
         }
-        
+
         .verified-tooltip-close {
             position: absolute;
             top: 15px;
@@ -597,14 +593,19 @@
             height: 36px;
             border-radius: 8px;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s;
         }
-        
-        /* ========== SHARE MODAL - LINK BASED ========== */
+
+        .verified-tooltip-close:hover {
+            background: rgba(12, 29, 47, 0.9);
+            transform: rotate(90deg);
+        }
+
         .share-modal {
             display: none;
             position: fixed;
@@ -612,116 +613,257 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2001;
             justify-content: center;
             align-items: center;
             padding: 1rem;
         }
-        
+
         .share-modal.active {
             display: flex;
         }
-        
+
         .share-container {
-            background: linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
-            border-radius: 8px;
+            background: rgba(24, 45, 64, 0.95);
+            border-radius: 12px;
             padding: 2rem;
             max-width: 500px;
             width: 100%;
             border: 1px solid rgba(14, 54, 89, 0.5);
-            margin: 1rem;
         }
-        
+
         .share-container h3 {
-            color: #FFFFFF;
-            margin-bottom: 1rem;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
             text-align: center;
+            font-size: 1.5rem;
         }
-        
+
         .share-url-container {
-            background: rgba(12, 29, 47, 0.5);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            text-align: center;
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
         }
-        
+
         .share-url {
-            color: #4dabf7;
-            font-size: 1rem;
+            flex: 1;
+            background: rgba(12, 29, 47, 0.6);
+            border: 1px solid rgba(14, 54, 89, 0.5);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            color: #d3ced7;
+            font-size: 0.9rem;
             word-break: break-all;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: rgba(12, 29, 47, 0.3);
-            border-radius: 4px;
-            border: 1px solid rgba(14, 54, 89, 0.3);
         }
-        
+
         .copy-button {
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
+            color: #ffffff;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0 1.5rem;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
             transition: all 0.3s;
-            border: 1px solid rgba(211, 206, 215, 0.2);
-            width: 100%;
+            white-space: nowrap;
         }
-        
+
         .copy-button:hover {
             background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.4);
         }
-        
+
         .copy-button.copied {
-            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            background: #27ae60;
         }
-        
+
         .share-buttons {
             display: flex;
+            justify-content: center;
             gap: 1rem;
         }
-        
-        .share-buttons .buy-button {
-            flex: 1;
-            padding: 0.8rem;
+
+        /* ============== LOADING & TOAST ============== */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #loadingText {
+            margin-top: 1rem;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .toast {
+            display: none;
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(24, 45, 64, 0.95);
+            border: 1px solid rgba(14, 54, 89, 0.5);
             border-radius: 8px;
-            text-align: center;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: 1px solid rgba(211, 206, 215, 0.2);
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
+            padding: 1rem 1.5rem;
+            z-index: 9998;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            animation: slideInRight 0.3s ease;
         }
-        
-        .share-buttons .buy-button:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-        
-        /* ========== RESPONSIVE DESIGN ========== */
-        
-        /* Tablet View (768px - 991px) */
-        @media (max-width: 991px) {
-            .container-padding {
-                padding-left: 1.2rem;
-                padding-right: 1.2rem;
+
+        .toast.error {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .toast i {
+            color: #2ecc71;
+            font-size: 1.2rem;
+        }
+
+        .toast.error i {
+            color: #e74c3c;
+        }
+
+        /* ============== RESPONSIVE DESIGN ============== */
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 1200px) {
+            :root {
+                --desktop-padding: 40px;
             }
             
+            .profile-name {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --desktop-padding: var(--mobile-padding);
+            }
+            
+            .header {
+                padding: 0.5rem var(--mobile-padding);
+            }
+            
+            .header-container {
+                padding: 15px 0;
+            }
+            
+            .header.scrolled .header-container {
+                padding: 10px 0;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 25px;
+                z-index: 999;
+                padding: 100px 20px 40px;
+                height: auto;
+                max-height: 100vh;
+                overflow-y: auto;
+                margin-left: 0;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                font-size: 18px;
+                color: #000000 !important;
+                padding: 8px 0;
+                width: 100%;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links > li > a {
+                font-size: 18px;
+                padding: 8px 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .nav-badge-link {
+                padding: 8px 16px !important;
+                width: auto;
+                justify-content: center;
+                color: #000000 !important;
+            }
+            
+            .nav-badge-link .nav-badge {
+                margin: 0;
+            }
+
+            /* Profile header adjustments */
             .profile-hero-section {
-                min-height: 200px;
+                margin-top: 100px;
             }
             
             .profile-header {
-                padding: 1.5rem;
+                flex-direction: column;
+                text-align: center;
                 gap: 1.5rem;
+                padding: 1.5rem;
             }
             
             .profile-avatar {
@@ -730,7 +872,8 @@
             }
             
             .profile-name {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
+                justify-content: center;
             }
             
             .profile-bio {
@@ -739,253 +882,65 @@
             
             .section-title {
                 font-size: 2rem;
-                padding: 0 1.2rem;
             }
             
-            .posts {
-                padding: 0 1.2rem;
+            .post {
+                padding: 1.2rem;
             }
             
-            .profile-section {
-                padding: 2rem 1.2rem;
+            .footer {
+                padding: 40px var(--mobile-padding) 20px;
+            }
+            
+            .footer-content {
+                gap: 24px;
+            }
+            
+            .social-links {
+                gap: 12px;
+            }
+            
+            .social-link {
+                width: 36px;
+                height: 36px;
+            }
+
+            /* FIXED: Better mobile touch handling for like button */
+            .post-like-button {
+                min-width: 44px;
+                min-height: 44px;
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
             }
         }
-        
-        /* Mobile View (max-width: 767px) */
-        @media (max-width: 767px) {
-            .container-padding {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            .mobile-menu-toggle {
-                display: block;
-            }
-            
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 70%;
-                height: 100vh;
-                background: rgba(12, 29, 47, 0.98);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 1.5rem;
-                transition: right 0.3s ease;
-                z-index: 1001;
-                padding: 1.5rem;
-            }
-            
-            .nav-links.active {
-                right: 0;
-            }
-            
-            .nav-links a {
-                font-size: 1.3rem;
-            }
-            
-            .logo-text {
-                font-size: 1.1rem;
-            }
-            
-            .logo-text span {
-                font-size: 0.8rem;
-            }
-            
-            .profile-hero-section {
-                margin: 100px 0 30px 0;
-                min-height: 180px;
-                width: 100%;
-            }
-            
-            .profile-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding: 1.5rem;
-                gap: 1rem;
-            }
-            
-            .profile-avatar {
-                width: 120px;
-                height: 120px;
-            }
-            
+
+        @media (max-width: 480px) {
             .profile-name {
                 font-size: 1.6rem;
-                justify-content: center;
-            }
-            
-            .profile-bio {
-                font-size: 1rem;
-                text-align: center;
-            }
-            
-            .profile-section {
-                padding: 1.5rem 1rem;
-                margin: 30px 0 0 0;
             }
             
             .section-title {
                 font-size: 1.8rem;
-                margin-bottom: 1rem;
-                padding: 0 1rem;
             }
             
-            .posts {
-                padding: 0 1rem;
-                gap: 1rem;
+            .profile-bio {
+                font-size: 0.95rem;
             }
             
             .post-header {
-                padding: 1rem;
+                flex-wrap: wrap;
             }
             
-            .post-avatar {
-                width: 45px;
-                height: 45px;
-            }
-            
-            .post-user {
-                font-size: 1rem;
-            }
-            
-            .post-content {
-                padding: 1rem;
-                font-size: 0.95rem;
-            }
-            
-            .social-section {
-                flex-direction: column;
-                gap: 0.8rem;
-                text-align: center;
-            }
-            
-            .social-text {
-                font-size: 1.1rem;
-            }
-            
-            .social-icons {
-                gap: 0.8rem;
-            }
-            
-            .social-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 1.1rem;
-            }
-            
-            .share-buttons {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-            
-            .share-container {
-                padding: 1.5rem;
-                margin: 1rem;
+            .post-share-button {
+                margin-left: auto;
             }
             
             .share-url-container {
-                padding: 1rem;
-                margin: 1rem 0;
+                flex-direction: column;
             }
             
-            /* Mobile tooltip fix */
-            .verified-tooltip-content {
-                padding: 1.5rem;
-                margin: 1rem;
-            }
-        }
-        
-        /* Small Mobile View (max-width: 480px) */
-        @media (max-width: 480px) {
-            .container-padding {
-                padding-left: 0.8rem;
-                padding-right: 0.8rem;
-            }
-            
-            .profile-hero-section {
-                margin: 100px 0 30px 0;
-                min-height: 150px;
-            }
-            
-            .profile-header {
-                padding: 1rem;
-            }
-            
-            .profile-avatar {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .profile-name {
-                font-size: 1.4rem;
-            }
-            
-            .profile-bio {
-                font-size: 0.95rem;
-            }
-            
-            .section-title {
-                font-size: 1.6rem;
-                padding: 0 0.8rem;
-            }
-            
-            .profile-section {
-                padding: 1.5rem 0.8rem;
-            }
-            
-            .posts {
-                padding: 0 0.8rem;
-            }
-            
-            .footer {
-                padding: 1.2rem 0;
-            }
-            
-            .footer-content {
-                padding: 0 0.8rem;
-            }
-        }
-        
-        /* Very Small Screens (max-width: 360px) */
-        @media (max-width: 360px) {
-            .logo-container {
-                gap: 0.7rem;
-            }
-            
-            .logo-image {
-                width: 45px;
-                height: 45px;
-            }
-            
-            .logo-text {
-                font-size: 1rem;
-            }
-            
-            .logo-text span {
-                font-size: 0.75rem;
-            }
-            
-            .profile-avatar {
-                width: 90px;
-                height: 90px;
-            }
-            
-            .profile-name {
-                font-size: 1.3rem;
-            }
-            
-            .profile-bio {
-                font-size: 0.9rem;
-            }
-            
-            .social-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 1rem;
+            .copy-button {
+                padding: 0.8rem;
             }
         }
     </style>
@@ -1003,39 +958,47 @@
         <span id="toastMessage">Success!</span>
     </div>
 
-    <!-- Profile Page Header -->
-    <header class="header" id="main-header">
-        <div class="header-container container-padding">
-            <div class="logo-container">
-                <img src="images/Logo.png" alt="Trulune Malaysia Logo" class="logo-image">
-                <div class="logo-text">Trulune Malaysia <span>Everyday scents. Timeless allure.</span></div>
-            </div>
-            
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="nav-home">Home</a></li>
-                <li><a href="profile.html" class="nav-profile active">Profile</a></li>
+    <!-- Header - Exactly like homepage -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <img src="images/Logo.png" alt="Trulune Logo">
+                </div>
+                <span class="logo-text">Trulune Malaysia</span>
+            </a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="profile.html" class="active">Profile</a></li>
+                <li><a href="https://t.me/trulune" class="nav-badge-link">
+                Get Fast Update<span class="nav-badge">🔔</span></a>
+                </li>
             </ul>
+            
+            <div class="header-actions">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Profile Page Header - FULL WIDTH -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <!-- Profile Page Header -->
     <div class="profile-hero-section">
-        <!-- Profile Header -->
         <section class="profile-header">
             <div class="profile-avatar">
                 <img src="images/Logo.png" alt="Trulune Malaysia Logo">
             </div>
             <div class="profile-info">
                 <h1 class="profile-name">
-                    Trulune Malaysia
+                    <span style="display: inline;">Trulune Malaysia</span>
                     <span class="verified-badge" onclick="openVerifiedTooltip(event)" 
                           oncontextmenu="return false" 
                           ondragstart="return false">
-                        <img src="images/verified.svg" style="width: 20px; height: 20px;" alt="Verified">
+                        <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
                     </span>
                 </h1>
                 <p class="profile-bio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
@@ -1046,7 +1009,6 @@
     <!-- Profile Page Content -->
     <main class="main-container">
         <section class="profile-section">
-            <!-- Updates Feed -->
             <h2 class="section-title">Updates</h2>
             <div class="posts" id="posts-container">
                 <!-- Posts will load here automatically -->
@@ -1054,29 +1016,28 @@
         </section>
     </main>
 
-    <!-- Footer with Social Icons INLINE -->
+    <!-- Footer - Exactly like homepage -->
     <footer class="footer">
         <div class="footer-content">
-            <div class="social-section">
-                <p class="social-text">Follow us on social media</p>
-                <div class="social-icons">
-                    <a href="https:t.me/trulune" class="social-icon" target="_blank">
-                        <i class="fab fa-telegram"></i>
-                    </a>
-                    <a href="https://tiktok.com/@trulunemalaysia" class="social-icon" target="_blank">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
-                    <a href="https://instagram.com/trulune" class="social-icon" target="_blank">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://facebook.com/trulune" class="social-icon" target="_blank">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <img src="images/Logo.png" alt="Trulune Logo">
+                    </div>
+                    <span class="footer-logo-text">Trulune Malaysia</span>
+                </a>
+                <p>Everyday scents. Timeless allure.</p>
+                <div class="social-links">
+                    <a href="https://t.me/trulune" class="social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="https://tiktok.com/@trulunemalaysia" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://instagram.com/trulune" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/trulune" class="social-link"><i class="fab fa-facebook-f"></i></a>
                 </div>
             </div>
-            <div class="copyright">
-                &copy; <span id="current-year"></span> Trulune Malaysia. All rights reserved.
-            </div>
+        </div>
+        
+        <div class="footer-copyright">
+            <p>&copy; <span id="current-year"></span> Trulune Malaysia. All rights reserved.</p>
         </div>
     </footer>
 
@@ -1098,7 +1059,7 @@
         </div>
     </div>
 
-    <!-- Share Modal - LINK BASED -->
+    <!-- Share Modal -->
     <div class="share-modal" id="shareModal">
         <div class="share-container">
             <h3>Share this Post</h3>
@@ -1111,7 +1072,7 @@
             </div>
             
             <div class="share-buttons">
-                <button class="buy-button" style="background: rgba(12, 29, 47, 0.8);" onclick="closeShareModal()">
+                <button class="copy-button" style="background: rgba(12, 29, 47, 0.8);" onclick="closeShareModal()">
                     <i class="fas fa-times"></i> Close
                 </button>
             </div>
@@ -1183,20 +1144,19 @@
         }
 
         // === CORE FUNCTIONS ===
-        // FIXED: Mobile tooltip opening
         function openVerifiedTooltip(event) {
-            if (event) {
+            if (event && event.target.closest('.profile-header')) {
                 event.preventDefault();
                 event.stopPropagation();
+                document.getElementById('verifiedTooltipModal').classList.add('active');
             }
-            document.getElementById('verifiedTooltipModal').classList.add('active');
         }
         
         function closeVerifiedTooltip() {
             document.getElementById('verifiedTooltipModal').classList.remove('active');
         }
         
-        // === SHARE FUNCTIONALITY - LINK BASED ===
+        // === SHARE FUNCTIONALITY ===
         let currentPostForShare = null;
         
         function openShareModal(postContent, postDate, postId) {
@@ -1207,14 +1167,10 @@
                     id: postId
                 };
                 
-                // Generate share link - using current URL + post ID
                 const baseUrl = window.location.origin + window.location.pathname;
                 const shareLink = `${baseUrl}?post=${postId}`;
                 
-                // Display the share link
                 document.getElementById('shareUrl').textContent = shareLink;
-                
-                // Open modal
                 document.getElementById('shareModal').classList.add('active');
                 
             } catch (error) {
@@ -1226,7 +1182,6 @@
         function closeShareModal() {
             document.getElementById('shareModal').classList.remove('active');
             currentPostForShare = null;
-            // Reset copy button
             const copyBtn = document.getElementById('copyButton');
             copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
             copyBtn.classList.remove('copied');
@@ -1236,7 +1191,6 @@
             const shareUrl = document.getElementById('shareUrl').textContent;
             const copyBtn = document.getElementById('copyButton');
             
-            // Use modern clipboard API
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(shareUrl)
                     .then(() => {
@@ -1244,7 +1198,6 @@
                         copyBtn.classList.add('copied');
                         showToast('Link copied to clipboard!');
                         
-                        // Reset button after 2 seconds
                         setTimeout(() => {
                             copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
                             copyBtn.classList.remove('copied');
@@ -1255,7 +1208,6 @@
                         fallbackCopy(shareUrl, copyBtn);
                     });
             } else {
-                // Fallback for older browsers
                 fallbackCopy(shareUrl, copyBtn);
             }
         }
@@ -1292,7 +1244,7 @@
             document.body.removeChild(textArea);
         }
         
-        // === LIKE FUNCTIONALITY ===
+        // === FIXED LIKE FUNCTIONALITY ===
         async function likePost(postId) {
             if (!db) {
                 showToast('Database not connected', 'error');
@@ -1300,10 +1252,23 @@
             }
             
             try {
+                // FIXED: Add click prevention for mobile
+                const likeButton = document.querySelector(`.post-like-button[data-post-id="${postId}"]`);
+                if (likeButton) {
+                    likeButton.disabled = true;
+                    likeButton.style.opacity = '0.7';
+                    
+                    setTimeout(() => {
+                        likeButton.disabled = false;
+                        likeButton.style.opacity = '1';
+                    }, 1000);
+                }
+                
                 const postRef = db.collection('posts').doc(postId);
                 await postRef.update({
                     likes: firebase.firestore.FieldValue.increment(1)
                 });
+                
                 console.log(`Liked post ${postId}`);
             } catch (error) {
                 console.error("Error liking post:", error);
@@ -1386,11 +1351,9 @@
                                 </div>
                                 <div class="post-user-info">
                                     <div class="post-user">
-                                        Trulune Malaysia 
-                                        <span class="verified-badge" onclick="openVerifiedTooltip(event)" 
-                                              oncontextmenu="return false" 
-                                              ondragstart="return false">
-                                            <img src="images/verified.svg" style="width: 20px; height: 20px;" alt="Verified">
+                                        <span style="display: inline;">Trulune Malaysia</span>
+                                        <span class="verified-badge">
+                                            <img src="images/verified.svg" style="width: 100%; height: 100%;" alt="Verified">
                                         </span>
                                     </div>
                                     <div class="post-time">${timeAgo}</div>
@@ -1406,7 +1369,9 @@
                                 <div class="like-container">
                                     <button class="post-like-button" 
                                             data-post-id="${postId}" 
-                                            onclick="likePost('${postId}')">
+                                            onclick="likePost('${postId}')"
+                                            ontouchstart="this.style.transform='scale(0.95)'"
+                                            ontouchend="this.style.transform='scale(1)'">
                                         ♥️
                                     </button>
                                     <span class="post-like-count" 
@@ -1423,7 +1388,6 @@
                 postsContainer.innerHTML = postsHTML;
                 hideLoading();
                 
-                // Setup real-time listener for likes
                 setupRealtimeListener();
                 
             } catch (error) {
@@ -1475,66 +1439,37 @@
             });
         }
         
-        // === Disable right click and long press on verified badges ===
+        // === Disable right click on profile header badge ===
         function disableVerifiedBadgeActions() {
-            // Disable context menu (right click)
-            document.addEventListener('contextmenu', function(e) {
-                if (e.target.closest('.verified-badge')) {
+            const profileBadge = document.querySelector('.profile-header .verified-badge');
+            if (profileBadge) {
+                profileBadge.addEventListener('contextmenu', function(e) {
                     e.preventDefault();
                     return false;
-                }
-            });
-            
-            // Disable drag and drop
-            document.addEventListener('dragstart', function(e) {
-                if (e.target.closest('.verified-badge')) {
+                });
+                
+                profileBadge.addEventListener('dragstart', function(e) {
                     e.preventDefault();
                     return false;
-                }
-            });
-            
-            // Disable text selection
-            document.addEventListener('selectstart', function(e) {
-                if (e.target.closest('.verified-badge')) {
+                });
+                
+                profileBadge.addEventListener('selectstart', function(e) {
                     e.preventDefault();
                     return false;
-                }
-            });
-            
-            // FIXED: Mobile touch events for tooltip
-            document.addEventListener('touchstart', function(e) {
-                if (e.target.closest('.verified-badge')) {
+                });
+                
+                profileBadge.addEventListener('touchstart', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     openVerifiedTooltip(e);
-                }
-            }, { passive: false });
-            
-            document.addEventListener('mousedown', function(e) {
-                if (e.target.closest('.verified-badge img')) {
+                }, { passive: false });
+                
+                profileBadge.addEventListener('mousedown', function(e) {
                     if (e.button === 2) {
                         e.preventDefault();
                         return false;
                     }
-                }
-            });
-        }
-        
-        // === UTILITY FUNCTIONS ===
-        function toggleMobileMenu() {
-            document.getElementById('navLinks').classList.toggle('active');
-        }
-        
-        function closeMobileMenu() {
-            document.getElementById('navLinks').classList.remove('active');
-        }
-        
-        function handleScroll() {
-            const header = document.getElementById('main-header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+                });
             }
         }
         
@@ -1543,23 +1478,46 @@
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Mobile menu
-            document.getElementById('mobileMenuToggle').addEventListener('click', toggleMobileMenu);
+            // Header scroll effect
+            const header = document.getElementById('header');
             
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function(event) {
-                const navLinks = document.getElementById('navLinks');
-                const mobileToggle = document.getElementById('mobileMenuToggle');
-                
-                if (navLinks.classList.contains('active') && 
-                    !navLinks.contains(event.target) && 
-                    !mobileToggle.contains(event.target)) {
-                    closeMobileMenu();
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
                 }
             });
             
-            // Scroll handler
-            window.addEventListener('scroll', handleScroll);
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            
+            function toggleMobileMenu() {
+                navLinks.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+            }
+            
+            mobileMenuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+            
+            mobileMenuOverlay.addEventListener('click', function() {
+                toggleMobileMenu();
+            });
+            
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href.startsWith('#')) {
+                        return;
+                    }
+                    toggleMobileMenu();
+                });
+            });
             
             // Load posts immediately
             loadPosts();
@@ -1584,11 +1542,8 @@
                 }
             });
             
-            // FIXED: Close modals when clicking on close buttons
+            // Close modals when clicking on close buttons
             document.querySelector('.verified-tooltip-close').addEventListener('click', closeVerifiedTooltip);
-            
-            // Initial scroll check
-            handleScroll();
         });
     </script>
 </body>
