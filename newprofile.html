@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Trulune Malaysia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Lato';
+        }
+        
+        :root {
+            --primary: #000000;
+            --secondary: #ffffff;
+            --gray-200: #e5e5e5;
+            --gray-600: #525252;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --desktop-padding: 190px;
+            --mobile-padding: 20px;
+        }
+
+        body {
+            background: #fafafa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ============== HEADER ============== */
+        .header {
+            padding: 0.5rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: transparent;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px var(--desktop-padding);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header.scrolled .header-container {
+            padding: 15px var(--desktop-padding);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #000000;
+            flex-shrink: 0;
+            z-index: 1001;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        /* ============== NAVIGATION ============== */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin-left: auto;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 8px 0;
+        }
+
+        .nav-links > li > a:hover {
+            color: #666;
+        }
+
+        .nav-badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px !important;
+            background: var(--secondary);
+            border: 1px solid var(--gray-200);
+            border-radius: 100px;
+            font-size: 18px !important;
+            font-weight: 500;
+            color: var(--gray-600);
+            height: auto;
+            min-height: 40px;
+        }
+
+        .nav-badge-link:hover {
+            background: var(--gray-200);
+            color: black;
+            transform: translateY(-1px);
+        }
+
+        .nav-badge-link .nav-badge {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 100px;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #000000;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        /* ============== PROFILE HEADER ============== */
+        .profile-header {
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            margin-top: 80px;
+            padding: 60px var(--desktop-padding);
+            color: white;
+            position: relative;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-avatar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .profile-name {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .verified-badge {
+            background: #1DA1F2;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: help;
+            position: relative;
+        }
+
+        .verified-badge .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+            pointer-events: none;
+        }
+
+        .verified-badge .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .verified-badge:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .profile-username {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 600px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ============== POSTS FEED ============== */
+        .posts-feed {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 var(--desktop-padding);
+        }
+
+        .post-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-user-info {
+            flex: 1;
+        }
+
+        .post-username {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .post-date {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .post-content {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .post-content a {
+            color: #0E3659;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .post-content a:hover {
+            color: #182D40;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid var(--gray-200);
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 16px;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+
+        .post-action:hover {
+            color: var(--primary);
+        }
+
+        .post-action.liked {
+            color: #E0245E;
+        }
+
+        .share-container {
+            position: relative;
+        }
+
+        .share-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            min-width: 250px;
+            z-index: 100;
+        }
+
+        .share-dropdown.active {
+            display: block;
+        }
+
+        .share-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 8px;
+            background: var(--gray-200);
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .copy-btn:hover {
+            background: #333;
+        }
+
+        /* ============== LOADING & TOAST ============== */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--gray-200);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .no-posts {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-600);
+            font-size: 18px;
+        }
+
+        /* ============== FOOTER ============== */
+        .footer {
+            background: transparent;
+            color: black;
+            text-align: center;
+            padding: 50px var(--desktop-padding) 20px;
+            max-width: 1400px;
+            margin: 40px auto 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: black;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .footer-copyright {
+            text-align: center;
+            padding-top: 15px;
+            color: black;
+            font-size: 14px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1200px) {
+            :root {
+                --desktop-padding: 40px;
+            }
+            
+            .profile-header-content {
+                gap: 30px;
+            }
+            
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-name {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --desktop-padding: var(--mobile-padding);
+            }
+            
+            .header-container {
+                padding: 15px 0;
+            }
+            
+            .header.scrolled .header-container {
+                padding: 10px 0;
+            }
+
+            .header-actions {
+                 margin-left: auto;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 25px;
+                z-index: 999;
+                padding: 100px 20px 40px;
+                height: auto;
+                max-height: 100vh;
+                overflow-y: auto;
+                margin-left: 0;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .profile-header {
+                margin-top: 70px;
+                padding: 40px var(--mobile-padding);
+            }
+            
+            .profile-header-content {
+                flex-direction: column;
+                gap: 25px;
+                text-align: center;
+            }
+            
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-name {
+                font-size: 28px;
+            }
+            
+            .profile-username {
+                font-size: 16px;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .posts-feed {
+                padding: 0 var(--mobile-padding);
+                margin: 30px auto;
+            }
+            
+            .post-card {
+                padding: 20px;
+            }
+            
+            .post-image {
+                max-height: 250px;
+            }
+            
+            .footer {
+                padding: 40px var(--mobile-padding) 20px;
+            }
+            
+            .toast {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-header {
+                padding: 30px var(--mobile-padding);
+            }
+            
+            .profile-img {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .profile-name {
+                font-size: 24px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+            
+            .post-content {
+                font-size: 15px;
+            }
+            
+            .post-actions {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <a href="newhome.html" class="logo">
+                <div class="logo-icon">
+                    <img src="images/Logo.png" alt="Trulune Logo">
+                </div>
+                <span class="logo-text">Trulune Malaysia</span>
+            </a>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="newhome.html">Home</a></li>
+                <li><a href="profile.html" style="color: #0E3659; font-weight: 600;">Profile</a></li>
+                <li><a href="https://t.me/trulune" class="nav-badge-link">
+                Get Fast Update<span class="nav-badge">🔔</span></a>
+                </li>
+            </ul>
+            
+            <div class="header-actions">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Profile Header -->
+    <div class="profile-header" id="profileHeader">
+        <div class="profile-header-content">
+            <div class="profile-avatar">
+                <img src="images/Logo.png" alt="Profile Picture" class="profile-img" id="profileImg">
+            </div>
+            <div class="profile-info">
+                <div class="profile-name-container">
+                    <h1 class="profile-name" id="profileName">Trulune Malaysia</h1>
+                    <div class="verified-badge" id="verifiedBadge" style="display: none;">
+                        <i class="fas fa-check"></i>
+                        <div class="tooltip">Verified Brand</div>
+                    </div>
+                </div>
+                <p class="profile-username" id="profileUsername">@trulune</p>
+                <p class="profile-bio" id="profileBio">Premium fragrances for everyday moments. Discover our collection of fruity scents.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posts Feed -->
+    <div class="posts-feed" id="postsFeed">
+        <div class="no-posts" id="noPostsMessage">
+            <i class="fas fa-newspaper" style="font-size: 48px; color: var(--gray-200); margin-bottom: 20px;"></i>
+            <p>No posts yet. Check back soon!</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <img src="images/Logo.png" alt="Trulune Logo">
+                    </div>
+                    <span class="footer-logo-text">Trulune Malaysia</span>
+                </a>
+                <p>Everyday scents. Timeless allure.</p>
+                <div class="social-links">
+                    <a href="https://t.me/trulune" class="social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="https://tiktok.com/@trulunemalaysia" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://instagram.com/trulune" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/trulune" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-copyright">
+            <p>&copy; <span id="current-year"></span> Trulune Malaysia. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
+            authDomain: "post-58eb6.firebaseapp.com",
+            projectId: "post-58eb6",
+            storageBucket: "post-58eb6.firebasestorage.app",
+            messagingSenderId: "448356917822",
+            appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Header scroll effect
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            
+            function toggleMobileMenu() {
+                navLinks.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+            }
+            
+            mobileMenuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+            
+            mobileMenuOverlay.addEventListener('click', function() {
+                toggleMobileMenu();
+            });
+            
+            // Toast notification
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Auto-detect and format links in text
+            function formatLinks(text) {
+                if (!text) return '';
+                
+                // Regular expression to detect URLs
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                
+                // Replace URLs with anchor tags
+                return text.replace(urlRegex, function(url) {
+                    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+                });
+            }
+            
+            // Load profile data
+            async function loadProfile() {
+                try {
+                    const profileDoc = await db.collection('profile').doc('main').get();
+                    if (profileDoc.exists) {
+                        const data = profileDoc.data();
+                        
+                        // Set profile data with fallbacks
+                        document.getElementById('profileName').textContent = data.name || 'Trulune Malaysia';
+                        document.getElementById('profileUsername').textContent = `@${data.username || 'trulune'}`;
+                        document.getElementById('profileBio').textContent = data.bio || 'Premium fragrances for everyday moments. Discover our collection of fruity scents.';
+                        
+                        // Profile image
+                        const profileImg = document.getElementById('profileImg');
+                        if (data.profileImage) {
+                            profileImg.src = data.profileImage;
+                        } else {
+                            profileImg.src = 'images/Logo.png';
+                        }
+                        
+                        // Verified badge
+                        if (data.verified === true) {
+                            document.getElementById('verifiedBadge').style.display = 'flex';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading profile:', error);
+                    showToast('Error loading profile');
+                }
+            }
+            
+            // Load posts
+            async function loadPosts() {
+                const loadingSpinner = document.getElementById('loadingSpinner');
+                const noPostsMessage = document.getElementById('noPostsMessage');
+                loadingSpinner.style.display = 'block';
+                noPostsMessage.style.display = 'none';
+                
+                try {
+                    console.log('Loading posts from Firestore...');
+                    const postsSnapshot = await db.collection('posts')
+                        .orderBy('timestamp', 'desc')
+                        .get();
+                    
+                    console.log(`Found ${postsSnapshot.size} posts`);
+                    
+                    const postsFeed = document.getElementById('postsFeed');
+                    postsFeed.innerHTML = '';
+                    
+                    if (postsSnapshot.size === 0) {
+                        noPostsMessage.style.display = 'block';
+                        postsFeed.appendChild(noPostsMessage);
+                    } else {
+                        postsSnapshot.forEach((doc) => {
+                            const post = doc.data();
+                            const postId = doc.id;
+                            
+                            console.log('Post data:', post);
+                            
+                            // Format date
+                            let dateText = 'Recently';
+                            if (post.timestamp) {
+                                try {
+                                    const postDate = post.timestamp.toDate();
+                                    dateText = postDate.toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    });
+                                } catch (e) {
+                                    console.log('Error formatting date:', e);
+                                }
+                            }
+                            
+                            // Create post element
+                            const postElement = document.createElement('div');
+                            postElement.className = 'post-card';
+                            postElement.id = `post-${postId}`;
+                            
+                            // Format content with links
+                            const formattedContent = formatLinks(post.content || '');
+                            
+                            // Build post HTML
+                            postElement.innerHTML = `
+                                <div class="post-header">
+                                    <img src="${post.authorAvatar || 'images/Logo.png'}" alt="Author" class="post-avatar">
+                                    <div class="post-user-info">
+                                        <div class="post-username">${post.authorName || 'Trulune Malaysia'}</div>
+                                        <div class="post-date">${dateText}</div>
+                                    </div>
+                                </div>
+                                <div class="post-content">${formattedContent}</div>
+                                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post image" class="post-image" style="display: block;">` : ''}
+                                <div class="post-actions">
+                                    <button class="post-action like-btn ${post.userLiked ? 'liked' : ''}" data-post-id="${postId}">
+                                        <i class="fas fa-heart"></i>
+                                        <span class="like-count">${post.likes || 0}</span>
+                                    </button>
+                                    <div class="share-container">
+                                        <button class="post-action share-btn" data-post-id="${postId}">
+                                            <i class="fas fa-share"></i>
+                                            Share
+                                        </button>
+                                        <div class="share-dropdown" id="share-dropdown-${postId}">
+                                            <input type="text" readonly class="share-input" value="${window.location.origin}${window.location.pathname}#post-${postId}">
+                                            <button class="copy-btn" data-url="${window.location.origin}${window.location.pathname}#post-${postId}">
+                                                Copy Link
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            postsFeed.appendChild(postElement);
+                        });
+                        
+                        // Add event listeners
+                        setupPostEventListeners();
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading posts:', error);
+                    showToast('Error loading posts');
+                    noPostsMessage.style.display = 'block';
+                    noPostsMessage.innerHTML = `
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #dc2626; margin-bottom: 20px;"></i>
+                        <p>Unable to load posts. Please try again later.</p>
+                    `;
+                } finally {
+                    loadingSpinner.style.display = 'none';
+                }
+            }
+            
+            // Setup post event listeners
+            function setupPostEventListeners() {
+                // Like buttons
+                document.querySelectorAll('.like-btn').forEach(button => {
+                    button.addEventListener('click', handleLike);
+                });
+                
+                // Share buttons
+                document.querySelectorAll('.share-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const postId = this.getAttribute('data-post-id');
+                        const dropdown = document.getElementById(`share-dropdown-${postId}`);
+                        dropdown.classList.toggle('active');
+                    });
+                });
+                
+                // Copy buttons
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const url = this.getAttribute('data-url');
+                        navigator.clipboard.writeText(url).then(() => {
+                            showToast('Link copied to clipboard!');
+                        }).catch(err => {
+                            console.error('Failed to copy:', err);
+                            showToast('Failed to copy link');
+                        });
+                    });
+                });
+            }
+            
+            // Handle like functionality
+            async function handleLike(e) {
+                const button = e.currentTarget;
+                const postId = button.getAttribute('data-post-id');
+                const likeCountElement = button.querySelector('.like-count');
+                let currentLikes = parseInt(likeCountElement.textContent);
+                
+                if (button.classList.contains('liked')) {
+                    // Unlike
+                    currentLikes = Math.max(0, currentLikes - 1);
+                    button.classList.remove('liked');
+                    await db.collection('posts').doc(postId).update({
+                        likes: firebase.firestore.FieldValue.increment(-1)
+                    });
+                } else {
+                    // Like
+                    currentLikes += 1;
+                    button.classList.add('liked');
+                    await db.collection('posts').doc(postId).update({
+                        likes: firebase.firestore.FieldValue.increment(1)
+                    });
+                }
+                
+                likeCountElement.textContent = currentLikes;
+            }
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.share-container')) {
+                    document.querySelectorAll('.share-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+            
+            // Real-time listeners
+            db.collection('profile').doc('main')
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        document.getElementById('profileName').textContent = data.name || 'Trulune Malaysia';
+                        document.getElementById('profileUsername').textContent = `@${data.username || 'trulune'}`;
+                        document.getElementById('profileBio').textContent = data.bio || 'Premium fragrances for everyday moments. Discover our collection of fruity scents.';
+                        
+                        const profileImg = document.getElementById('profileImg');
+                        if (data.profileImage) {
+                            profileImg.src = data.profileImage;
+                        }
+                        
+                        if (data.verified === true) {
+                            document.getElementById('verifiedBadge').style.display = 'flex';
+                        } else {
+                            document.getElementById('verifiedBadge').style.display = 'none';
+                        }
+                    }
+                });
+            
+            // Real-time posts listener
+            db.collection('posts')
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    console.log('Posts updated, reloading...');
+                    loadPosts();
+                });
+            
+            // Initial load
+            loadProfile();
+            loadPosts();
+        });
+    </script>
+</body>
+</html>
