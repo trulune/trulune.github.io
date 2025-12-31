@@ -4,1253 +4,1977 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Trulune Malaysia</title>
-    <link rel="icon" type="image/png" href="images/Logo.png">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <style>
-        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Lato', sans-serif;
+            font-family: 'Lato';
         }
         
+        :root {
+            --primary: #000000;
+            --secondary: #ffffff;
+            --gray-200: #e5e5e5;
+            --gray-600: #525252;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --desktop-padding: 40px;
+            --mobile-padding: 20px;
+        }
+
         body {
-            color: #FFFFFF;
+            background: #fafafa;
+            color: #333;
+            line-height: 1.6;
             min-height: 100vh;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(14, 54, 89, 0.7) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(24, 45, 64, 0.7) 0%, transparent 50%),
-                linear-gradient(135deg, #0c1d2f 0%, #182D40 50%, #0E3659 100%);
         }
-        
-        /* LOGIN PAGE - Works on ALL screens */
-        #loginPage {
+
+        /* ============== LOGIN PAGE ============== */
+        .login-page {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 1rem;
+            padding: 20px;
+            background: white;
         }
-        
-        .login-box {
-            background: rgba(24, 45, 64, 0.6);
+
+        .login-container {
+            background: white;
+            padding: 50px 40px;
             border-radius: 16px;
-            padding: 2rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            border: 1px solid var(--gray-200);
         }
-        
-        .login-header {
+
+        .login-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
             text-align: center;
-            margin-bottom: 2rem;
+            color: var(--primary);
         }
-        
-        .login-header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+
+        .login-subtitle {
+            color: var(--gray-600);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: #333;
+        }
+
+        .login-btn:disabled {
+            background: var(--gray-600);
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+            text-align: center;
+            padding: 10px;
+            background: rgba(220, 38, 38, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        /* ============== ADMIN PANEL ============== */
+        .admin-panel {
+            display: none;
+            min-height: 100vh;
+            background: white;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: white;
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px var(--desktop-padding);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .admin-logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
         }
-        
-        .login-header p {
-            color: #d3ced7;
-            font-size: 0.9rem;
-        }
-        
-        .login-input {
+
+        .admin-logo-icon img {
             width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: rgba(12, 29, 47, 0.8);
-            border: 1px solid #0E3659;
-            border-radius: 8px;
-            color: #FFFFFF;
-            font-size: 1rem;
-            font-family: inherit;
+            height: 100%;
+            object-fit: contain;
         }
-        
-        .login-input:focus {
-            outline: none;
-            border-color: #d3ced7;
-            box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
+
+        .admin-logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
-        
-        .btn {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #FFFFFF;
-            border: none;
-            padding: 1rem 1.5rem;
+
+        .admin-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--gray-600);
+            margin-left: 30px;
+            flex: 1;
+        }
+
+        .logout-btn {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--gray-200);
+            padding: 10px 24px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-weight: 500;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: #f8f9fa;
+            border-color: var(--gray-600);
+        }
+
+        /* Admin Content */
+        .admin-content {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            padding: 120px var(--desktop-padding) 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .admin-sidebar {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 24px;
+            color: var(--gray-600);
             text-decoration: none;
+            border-radius: 0;
+            transition: all 0.2s;
+            font-size: 16px;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background: #f8f9fa;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #f8f9fa;
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sidebar-link i {
+            width: 20px;
             text-align: center;
-            width: 100%;
+            font-size: 18px;
         }
-        
-        .btn:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
+
+        /* Main Content */
+        .admin-main {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            min-height: 600px;
         }
-        
-        .btn-danger {
-            background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
-        }
-        
-        .btn-danger:hover {
-            background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-        }
-        
-        .btn-success:hover {
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-        }
-        
-        .error-message {
-            color: #ff6b6b;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            text-align: center;
-            min-height: 20px;
-        }
-        
-        /* ADMIN PANEL - Hidden until login */
-        #adminPanel {
-            display: none;
-            min-height: 100vh;
-        }
-        
-        /* DESKTOP LAYOUT */
-        .desktop-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        /* Desktop Sidebar */
-        .desktop-sidebar {
-            width: 250px;
-            background: rgba(12, 29, 47, 0.95);
-            border-right: 1px solid rgba(14, 54, 89, 0.5);
-            padding: 1.5rem 1rem;
-            display: none;
-            flex-direction: column;
-        }
-        
-        .desktop-sidebar .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
-        }
-        
-        .desktop-sidebar .logo i {
-            font-size: 1.5rem;
-            color: #4dabf7;
-        }
-        
-        .desktop-sidebar .logo h1 {
-            font-size: 1.2rem;
+
+        .section-title {
+            font-size: 28px;
             font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--primary);
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f3f4f6;
         }
-        
-        .desktop-nav {
+
+        /* Profile Settings */
+        .profile-settings-form {
+            max-width: 700px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .image-upload {
+            margin-bottom: 40px;
+        }
+
+        .image-preview-container {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            flex: 1;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 20px;
         }
-        
-        .desktop-nav-item {
+
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gray-200);
+            display: block;
+            flex-shrink: 0;
+        }
+
+        .image-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            background: white;
+        }
+
+        .image-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-help {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 8px;
+            display: block;
+            line-height: 1.5;
+        }
+
+        .toggle-switch {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.9rem 1rem;
-            color: #d3ced7;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 54px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .save-btn {
+            padding: 16px 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .save-btn:hover {
+            background: #333;
+        }
+
+        .save-btn:disabled {
+            background: var(--gray-600);
+            cursor: not-allowed;
+        }
+
+        /* Account Info */
+        .account-info {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 40px 0;
+            border: 1px solid var(--gray-200);
+        }
+
+        .account-info h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .account-info p {
+            margin-bottom: 12px;
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .account-info strong {
+            color: var(--primary);
             font-weight: 600;
         }
-        
-        .desktop-nav-item i {
-            font-size: 1.1rem;
-            width: 24px;
+
+        /* Tooltip for Verified Badge */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
         }
-        
-        .desktop-nav-item:hover {
-            background: rgba(14, 54, 89, 0.3);
-            color: #FFFFFF;
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
         }
-        
-        .desktop-nav-item.active {
-            background: rgba(14, 54, 89, 0.6);
-            color: #FFFFFF;
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
-        
-        .sidebar-footer {
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.3);
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
         }
-        
-        /* Desktop Main Content */
-        .desktop-main {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
+
+        /* Verified Tooltip Editor */
+        .tooltip-editor {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
         }
-        
-        .desktop-header {
+
+        .tooltip-editor label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .tooltip-editor textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Lato';
+            line-height: 1.4;
+        }
+
+        .tooltip-editor textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* ============== CREATE POST ENHANCED ============== */
+        .post-form textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 24px;
+            font-family: 'Lato';
+            line-height: 1.6;
+            background: white;
+        }
+
+        .post-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-input-group {
+            margin-bottom: 30px;
+        }
+
+        .post-image-preview {
+            max-width: 300px;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid var(--gray-200);
+            padding: 10px;
+            background: #f8fafc;
+            display: none;
+        }
+
+        /* Color Picker for Post Background */
+        .color-picker-container {
+            margin: 24px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .color-picker-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .color-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            background: white;
+        }
+
+        .color-input {
+            width: 120px;
+            padding: 8px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .color-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .color-label {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        /* ============== MANAGE POSTS ENHANCED ============== */
+        .posts-list {
+            margin-top: 40px;
+        }
+
+        .post-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
-        }
-        
-        .desktop-header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .user-info-desktop {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .user-email {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #d3ced7;
-        }
-        
-        /* Mobile Header (Hidden on Desktop) - FIXED: Simple, clean layout */
-        .mobile-header {
-            background: rgba(12, 29, 47, 0.95);
-            padding: 1rem;
-            border-bottom: 1px solid rgba(14, 54, 89, 0.5);
-            display: block;
+            align-items: flex-start;
+            padding: 24px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            background: white;
+            transition: all 0.2s;
             position: relative;
         }
-        
-        .mobile-header h1 {
-            font-size: 1.5rem;
-            text-align: center;
-            margin: 0;
+
+        .post-item.pinned {
+            border-left: 4px solid #ffd700;
+            background: linear-gradient(to right, rgba(255, 215, 0, 0.05), white);
         }
-        
-        .mobile-header-icon {
+
+        .pin-badge {
             position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
-            color: #4dabf7;
+            top: -10px;
+            right: 20px;
+            background: #ffd700;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
         }
-        
-        /* Bottom Navigation - Mobile only */
-        .bottom-nav {
+
+        .post-item:hover {
+            border-color: var(--gray-600);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .post-content-preview {
+            flex: 1;
+            margin-right: 30px;
+            min-width: 0;
+        }
+
+        .post-content-preview p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .post-content-preview a {
+            color: #0E3659;
+            text-decoration: underline;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .post-image-small {
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid var(--gray-200);
+            display: block;
+        }
+
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .post-date {
+            font-size: 14px;
+            color: var(--gray-600);
+            background: #f8f9fa;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .post-action-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .pin-btn {
+            color: #d97706;
+            border-color: #d97706;
+        }
+
+        .pin-btn:hover {
+            background: #d97706;
+            color: white;
+        }
+
+        .pin-btn.pinned {
+            background: #ffd700;
+            color: #333;
+            border-color: #ffd700;
+        }
+
+        .pin-btn.pinned:hover {
+            background: #e6c300;
+        }
+
+        .delete-btn {
+            color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: var(--primary);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            font-weight: 500;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #postsLoading {
+            text-align: center;
+            padding: 60px;
+        }
+
+        .posts-loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        #noPostsMessage {
+            display: none;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray-600);
+            font-size: 18px;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(12, 29, 47, 0.95);
-            padding: 0.8rem 1rem;
-            border-top: 1px solid rgba(14, 54, 89, 0.5);
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            padding: 12px;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .mobile-nav-list {
             display: flex;
             justify-content: space-around;
-            z-index: 1000;
+            list-style: none;
         }
-        
-        .nav-item {
+
+        .mobile-nav-link {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #d3ced7;
+            color: var(--gray-600);
             text-decoration: none;
-            font-size: 0.75rem;
-            gap: 0.3rem;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s;
+            font-size: 12px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            transition: all 0.2s;
             min-width: 70px;
         }
-        
-        .nav-item i {
-            font-size: 1.2rem;
+
+        .mobile-nav-link.active {
+            color: var(--primary);
+            background: #f8f9fa;
+            font-weight: 600;
         }
-        
-        .nav-item.active {
-            color: #FFFFFF;
-            background: rgba(14, 54, 89, 0.6);
+
+        .mobile-nav-link i {
+            font-size: 22px;
+            margin-bottom: 6px;
         }
-        
-        /* Main Content */
-        .main-content {
-            padding: 1rem;
-            padding-bottom: 80px; /* Space for bottom nav on mobile */
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1200px) {
+            .admin-content {
+                padding: 120px 30px 40px;
+            }
         }
-        
-        /* User Info Mobile */
-        .user-info-mobile {
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            padding: 1.2rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            margin-bottom: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        
-        /* Tabs Content */
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* Create Post */
-        .create-post-container {
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            margin-bottom: 1.5rem;
-            max-width: 100%;
-            overflow: hidden; /* Prevent overflow */
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        textarea {
-            width: 100%;
-            background: rgba(12, 29, 47, 0.8);
-            border: 1px solid #0E3659;
-            border-radius: 8px;
-            padding: 1rem;
-            color: #FFFFFF;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 120px;
-            font-family: inherit;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #d3ced7;
-            box-shadow: 0 0 10px rgba(211, 206, 215, 0.2);
-        }
-        
-        /* Posts List */
-        .posts-container {
-            display: grid;
-            gap: 1rem;
-        }
-        
-        .post-card {
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            padding: 1.2rem;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            transition: transform 0.3s;
-        }
-        
-        .post-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .post-header {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(14, 54, 89, 0.3);
-        }
-        
-        .post-meta {
-            font-size: 0.8rem;
-            color: #d3ced7;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .post-content {
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        /* Post Footer - Inline on ALL screens */
-        .post-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .post-likes {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #d3ced7;
-        }
-        
-        .post-likes i {
-            color: #ff6b6b;
-        }
-        
-        .delete-btn {
-            background: linear-gradient(135deg, #8B0000 0%, #B22222 100%);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            min-width: 100px;
-        }
-        
-        .delete-btn:hover {
-            background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
-            transform: translateY(-2px);
-        }
-        
-        .publish-btn {
-            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            min-width: 100px;
-        }
-        
-        .publish-btn:hover {
-            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
-            transform: translateY(-2px);
-        }
-        
-        /* Loading States */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: #d3ced7;
-            font-size: 1.1rem;
-        }
-        
-        .no-posts {
-            text-align: center;
-            padding: 3rem;
-            background: rgba(24, 45, 64, 0.4);
-            border-radius: 12px;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            margin-top: 1rem;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: rgba(24, 45, 64, 0.95);
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 100%;
-            border: 1px solid rgba(14, 54, 89, 0.3);
-            box-sizing: border-box;
-        }
-        
-        .modal h3 {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .modal p {
-            color: #d3ced7;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-        }
-        
-        .modal-preview {
-            background: rgba(12, 29, 47, 0.8);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            max-height: 200px;
-            overflow-y: auto;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        /* Message Toast - ADDED: For notifications */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: rgba(46, 125, 50, 0.95);
-            color: white;
-            border-radius: 8px;
-            z-index: 2000;
-            animation: slideIn 0.3s ease;
-            max-width: 400px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .toast.error {
-            background: rgba(211, 47, 47, 0.95);
-        }
-        
-        .toast.warning {
-            background: rgba(245, 124, 0, 0.95);
-        }
-        
-        .toast.info {
-            background: rgba(30, 136, 229, 0.95);
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        
-        /* RESPONSIVE DESIGN */
-        
-        /* Mobile (default) - Show mobile layout */
-        .desktop-container {
-            display: block;
-        }
-        
-        .desktop-sidebar {
-            display: none;
-        }
-        
-        .desktop-main {
-            padding: 0;
-        }
-        
-        .desktop-header {
-            display: none;
-        }
-        
-        .user-info-desktop {
-            display: none;
-        }
-        
-        .mobile-header {
-            display: block;
-        }
-        
-        .bottom-nav {
-            display: flex;
-        }
-        
-        .user-info-mobile {
-            display: flex;
-        }
-        
-        .posts-container {
-            grid-template-columns: 1fr;
-        }
-        
-        /* Tablet (768px and up) */
-        @media (min-width: 768px) {
-            .mobile-header {
+
+        @media (max-width: 1024px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 100px 20px 100px;
+            }
+            
+            .admin-sidebar {
                 display: none;
             }
             
-            .bottom-nav {
+            .mobile-nav {
+                display: block;
+            }
+            
+            .admin-title {
                 display: none;
             }
             
-            .user-info-mobile {
-                display: none;
-            }
-            
-            .main-content {
-                padding: 1.5rem;
-                padding-bottom: 1.5rem;
-            }
-            
-            .posts-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-            }
-            
-            .post-card {
-                padding: 1.5rem;
-            }
-            
-            .btn {
-                width: auto;
-                min-width: 140px;
+            .admin-header-content {
+                padding: 15px 20px;
             }
         }
-        
-        /* Desktop (1024px and up) - Show desktop layout */
-        @media (min-width: 1024px) {
-            .desktop-container {
-                display: flex;
+
+        @media (max-width: 768px) {
+            :root {
+                --desktop-padding: var(--mobile-padding);
             }
             
-            .desktop-sidebar {
-                display: flex;
+            .admin-header-content {
+                padding: 15px;
             }
             
-            .desktop-main {
-                padding: 1.5rem;
+            .admin-content {
+                padding: 90px 15px 100px;
             }
             
-            .desktop-header {
-                display: flex;
+            .admin-main {
+                padding: 30px;
             }
             
-            .user-info-desktop {
-                display: flex;
+            .login-container {
+                padding: 40px 25px;
             }
             
-            .mobile-header {
-                display: none;
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
             
-            .bottom-nav {
-                display: none;
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 30px;
             }
             
-            .user-info-mobile {
-                display: none;
+            .post-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 20px;
+                padding: 20px;
             }
             
-            .main-content {
-                padding: 0;
-                padding-bottom: 0;
+            .post-content-preview {
+                margin-right: 0;
+                width: 100%;
             }
             
-            .posts-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
+            .post-actions {
+                align-self: flex-end;
+                width: 100%;
+                justify-content: flex-end;
             }
             
-            .create-post-container {
-                max-width: 800px;
-                margin: 0 auto 2rem auto;
+            .image-preview-container {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+            
+            .toast {
+                bottom: 90px;
+                right: 20px;
+                left: 20px;
+                text-align: center;
+            }
+            
+            .color-picker-row {
+                flex-wrap: wrap;
             }
         }
-        
-        /* Large Desktop (1200px and up) */
-        @media (min-width: 1200px) {
-            .posts-container {
-                grid-template-columns: repeat(3, 1fr);
+
+        @media (max-width: 480px) {
+            .admin-main {
+                padding: 25px 20px;
             }
             
-            .desktop-sidebar {
-                width: 280px;
+            .logout-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .save-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .section-title {
+                font-size: 22px;
+            }
+            
+            .post-stats {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .post-image-preview {
+                max-width: 100%;
+            }
+            
+            .mobile-nav-link {
+                min-width: 60px;
+                padding: 8px;
+            }
+            
+            .mobile-nav-link i {
+                font-size: 20px;
+            }
+            
+            .mobile-nav {
+                padding: 10px;
+            }
+            
+            .post-action-btn {
+                padding: 8px 16px;
+                font-size: 13px;
             }
         }
-        
-        /* Extra Large Desktop (1600px and up) */
-        @media (min-width: 1600px) {
-            .posts-container {
-                grid-template-columns: repeat(4, 1fr);
+
+        @media (max-width: 360px) {
+            .admin-main {
+                padding: 20px 15px;
+            }
+            
+            .post-item {
+                padding: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- LOGIN PAGE -->
-    <div id="loginPage">
-        <div class="login-box">
-            <div class="login-header">
-                <h1><i class="fas fa-lock"></i> Admin Login</h1>
-                <p>Manage Trulune Malaysia posts</p>
-            </div>
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="login-container">
+            <h2 class="login-title">Admin Login</h2>
+            <p class="login-subtitle">Access your admin panel</p>
             
-            <input type="email" class="login-input" id="loginEmail" placeholder="Email Address">
-            <input type="password" class="login-input" id="loginPassword" placeholder="Password">
-            
-            <button class="btn" onclick="login()">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-            
-            <div class="error-message" id="loginError"></div>
-            
-            <a href="newhome.html" class="btn" style="margin-top: 1rem; background: rgba(12, 29, 47, 0.8);">
-                <i class="fas fa-arrow-left"></i> Back to Homepage
-            </a>
-        </div>
-    </div>
-    
-    <!-- ADMIN PANEL -->
-    <div id="adminPanel">
-        <!-- Desktop Layout Container -->
-        <div class="desktop-container">
-            <!-- Desktop Sidebar (Hidden on Mobile) -->
-            <div class="desktop-sidebar">
-                <div class="logo">
-                    <i class="fas fa-cogs"></i>
-                    <h1>Admin Panel</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="email" required placeholder="admin@example.com">
                 </div>
                 
-                <div class="desktop-nav">
-                    <a href="#" class="desktop-nav-item active" onclick="switchTab('create')">
-                        <i class="fas fa-plus"></i>
-                        <span>Create Post</span>
-                    </a>
-                    <a href="#" class="desktop-nav-item" onclick="switchTab('manage')">
-                        <i class="fas fa-list"></i>
-                        <span>Manage Posts</span>
-                    </a>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="password" required placeholder="••••••••">
                 </div>
                 
-                <div class="sidebar-footer">
-                    <div class="user-info-desktop" id="userInfoDesktop">
-                        <!-- User info will be inserted here -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Desktop Main Content -->
-            <div class="desktop-main">
-                <!-- Desktop Header -->
-                <div class="desktop-header">
-                    <h2 id="desktopTitle">Create Post</h2>
-                    <div class="user-info-desktop" id="userInfoDesktopHeader">
-                        <!-- User info will be inserted here -->
-                    </div>
-                </div>
+                <div class="error-message" id="errorMessage"></div>
                 
-                <!-- Mobile Header (Hidden on Desktop) -->
-                <div class="mobile-header">
-                    <i class="fas fa-cogs mobile-header-icon"></i>
-                    <h1>Admin Panel</h1>
-                </div>
-                
-                <!-- Main Content -->
-                <div class="main-content">
-                    <!-- User Info Mobile -->
-                    <div class="user-info-mobile" id="userInfoMobile">
-                        <!-- User info will be inserted here -->
-                    </div>
-                    
-                    <!-- Create Post Tab -->
-                    <div id="createTab" class="tab-content active">
-                        <div class="create-post-container">
-                            <div class="form-group">
-                                <textarea id="post-content" placeholder="What's new at Trulune? Share updates here..."></textarea>
-                            </div>
-                            
-                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                                <button class="btn btn-success" onclick="createPost()">
-                                    <i class="fas fa-paper-plane"></i> Publish
-                                </button>
-                                <button class="btn" onclick="clearForm()">
-                                    <i class="fas fa-times"></i> Clear
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Manage Posts Tab -->
-                    <div id="manageTab" class="tab-content">
-                        <div class="posts-container" id="postsList">
-                            <div class="loading">
-                                <i class="fas fa-spinner fa-spin"></i> Loading posts...
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Bottom Navigation (Mobile Only) - Only Create and Manage tabs -->
-        <div class="bottom-nav">
-            <a href="#" class="nav-item active" onclick="switchTab('create')">
-                <i class="fas fa-plus"></i>
-                <span>Create</span>
-            </a>
-            <a href="#" class="nav-item" onclick="switchTab('manage')">
-                <i class="fas fa-list"></i>
-                <span>Manage</span>
-            </a>
-        </div>
-    </div>
-    
-    <!-- Delete Modal -->
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <h3><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
-            <p>Are you sure you want to delete this post? This action cannot be undone.</p>
-            <div id="deletePostPreview" class="modal-preview"></div>
-            <div class="modal-buttons">
-                <button id="confirmDeleteBtn" class="btn btn-danger">Delete Post</button>
-                <button class="btn" onclick="closeDeleteModal()">Cancel</button>
-            </div>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="loginBtnText">Sign In</span>
+                    <span class="loading" id="loginLoading" style="display: none;"></span>
+                </button>
+            </form>
         </div>
     </div>
 
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="admin-header-content">
+                <a href="newhome.html" class="admin-logo">
+                    <div class="admin-logo-icon">
+                        <img src="images/Logo.png" alt="Trulune Logo">
+                    </div>
+                    <span class="admin-logo-text">Trulune Malaysia</span>
+                </a>
+                
+                <div class="admin-title">Admin Panel</div>
+                
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Desktop Sidebar -->
+        <div class="admin-content">
+            <nav class="admin-sidebar">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a href="#profile" class="sidebar-link active" data-section="profile">
+                            <i class="fas fa-user-cog"></i>
+                            <span>Profile Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#create-post" class="sidebar-link" data-section="create-post">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Create Post</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#manage-posts" class="sidebar-link" data-section="manage-posts">
+                            <i class="fas fa-list-alt"></i>
+                            <span>Manage Posts</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="admin-main" id="adminMain">
+                <!-- Profile Settings Section -->
+                <section id="profile-section" class="admin-section">
+                    <h2 class="section-title">Profile Settings</h2>
+                    
+                    <div class="account-info">
+                        <h3>Account Information</h3>
+                        <p><strong>Email:</strong> <span id="currentEmail">Loading...</span></p>
+                        <p><strong>Last Login:</strong> <span id="lastLogin">Just now</span></p>
+                        <button id="changePasswordBtn" class="save-btn" style="margin-top: 15px; padding: 12px 24px; background: transparent; color: var(--primary); border: 1px solid var(--gray-200);">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                    </div>
+                    
+                    <form id="profileForm" class="profile-settings-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Brand Name *</label>
+                                <input type="text" class="form-input" id="profileName" required placeholder="Trulune Malaysia">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Username *</label>
+                                <input type="text" class="form-input" id="profileUsername" required placeholder="trulune">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Biography</label>
+                            <textarea class="form-input" id="profileBio" rows="4" placeholder="Tell your brand story..."></textarea>
+                        </div>
+                        
+                        <div class="form-group image-upload">
+                            <label class="form-label">Profile Picture URL</label>
+                            <input type="text" class="image-input" id="profileImageUrl" 
+                                   placeholder="e.g., images/Logo.png or https://example.com/image.jpg">
+                            <small class="image-help">Enter local path (images/Logo.png) or full URL. This image will be used for both profile and posts.</small>
+                            <div class="image-preview-container">
+                                <img src="images/Logo.png" alt="Profile Preview" class="image-preview" id="profileImagePreview">
+                                <div>
+                                    <p style="font-size: 14px; color: var(--gray-600); margin-bottom: 10px;"><strong>Preview:</strong> This image will appear on:</p>
+                                    <ul style="font-size: 14px; color: var(--gray-600); padding-left: 20px;">
+                                        <li>Profile page avatar</li>
+                                        <li>All posts as author avatar</li>
+                                        <li>Post headers as author image</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="toggle-switch">
+                                <label class="form-label" style="font-weight: 600;">
+                                    Verified Badge 
+                                    <span class="tooltip">
+                                        <i class="fas fa-question-circle" style="color: var(--gray-600); font-size: 14px;"></i>
+                                        <span class="tooltiptext" id="verifiedTooltipText">Official presence of Trulune Malaysia</span>
+                                    </span>
+                                </label>
+                                <label class="switch">
+                                    <input type="checkbox" id="verifiedToggle">
+                                    <span class="slider"></span>
+                                </label>
+                                <span style="font-size: 14px; color: var(--gray-600);">Show verified badge on profile and posts</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Verified Badge Tooltip Editor -->
+                        <div class="tooltip-editor">
+                            <label for="verifiedTooltipInput">Verified Badge Tooltip Text *</label>
+                            <textarea id="verifiedTooltipInput" placeholder="Official presence of Trulune Malaysia">Official presence of Trulune Malaysia</textarea>
+                            <small style="color: var(--gray-600); font-size: 12px; margin-top: 5px; display: block;">This text will appear when users hover over the verified badge on the profile page.</small>
+                        </div>
+                        
+                        <button type="submit" class="save-btn" id="saveProfileBtn">
+                            <i class="fas fa-save"></i>
+                            <span id="saveProfileText">Save Profile Changes</span>
+                            <span class="loading" id="profileLoading" style="display: none;"></span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Create Post Section -->
+                <section id="create-post-section" class="admin-section" style="display: none;">
+                    <h2 class="section-title">Create New Post</h2>
+                    <form id="createPostForm" class="post-form">
+                        <div class="form-group">
+                            <label class="form-label">Post Content *</label>
+                            <textarea id="postContent" placeholder="Share updates with your followers... 
+Links will automatically be clickable: https://example.com"></textarea>
+                        </div>
+                        
+                        <!-- Color Picker for Post Background -->
+                        <div class="color-picker-container">
+                            <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Post Background Color (Optional)</h3>
+                            <div class="color-picker-row">
+                                <div class="color-preview" id="colorPreview" style="background: #ffffff;"></div>
+                                <input type="text" class="color-input" id="postColor" placeholder="#FFFFFF" maxlength="7" value="#FFFFFF">
+                                <button type="button" class="post-action-btn" id="resetColorBtn" style="padding: 8px 16px;">
+                                    <i class="fas fa-undo"></i> Reset to White
+                                </button>
+                            </div>
+                            <p class="color-label">Enter hex color code (e.g., #FF5733) or leave as #FFFFFF for white background</p>
+                        </div>
+                        
+                        <div class="form-group image-input-group">
+                            <label class="form-label">Image URL (Optional)</label>
+                            <input type="text" class="image-input" id="postImageUrl" 
+                                   placeholder="e.g., images/bookcover.png or https://example.com/image.jpg">
+                            <small class="image-help">Local path or URL. Image will be displayed in posts and clickable to view full size.</small>
+                            <img id="postImagePreview" class="post-image-preview" alt="Image Preview">
+                        </div>
+                        
+                        <button type="submit" class="save-btn" id="publishPostBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span id="publishPostText">Publish Post</span>
+                            <span class="loading" id="postLoading" style="display: none;"></span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Manage Posts Section -->
+                <section id="manage-posts-section" class="admin-section" style="display: none;">
+                    <h2 class="section-title">Manage Posts</h2>
+                    <div id="postsLoading" style="text-align: center; padding: 60px;">
+                        <div class="posts-loading"></div>
+                        <p>Loading posts...</p>
+                    </div>
+                    <div class="posts-list" id="postsList" style="display: none;">
+                        <!-- Posts will be loaded here -->
+                    </div>
+                    <div id="noPostsMessage" style="display: none; text-align: center; padding: 80px 20px; color: var(--gray-600);">
+                        <i class="fas fa-newspaper" style="font-size: 48px; color: var(--gray-200); margin-bottom: 20px;"></i>
+                        <p style="font-size: 18px; margin-bottom: 10px;">No posts yet</p>
+                        <p style="color: var(--gray-600); font-size: 15px;">Create your first post to get started!</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-list">
+                <li class="mobile-nav-item">
+                    <a href="#profile" class="mobile-nav-link active" data-section="profile">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="#create-post" class="mobile-nav-link" data-section="create-post">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Create</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="#manage-posts" class="mobile-nav-link" data-section="manage-posts">
+                        <i class="fas fa-list-alt"></i>
+                        <span>Posts</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
     <script>
-        // === FIREBASE CONFIG ===
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
             authDomain: "post-58eb6.firebaseapp.com",
             projectId: "post-58eb6",
-            storageBucket: "post-58eb6.appspot.com",
+            storageBucket: "post-58eb6.firebasestorage.app",
             messagingSenderId: "448356917822",
             appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
         };
 
-        // Firebase instances
-        let db = null;
-        let auth = null;
-        let postsListener = null;
-        let currentPostToDelete = null;
-
         // Initialize Firebase
-        if (typeof firebase !== 'undefined') {
-            try {
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.firestore();
-                auth = firebase.auth();
-                
-                auth.onAuthStateChanged(handleAuthStateChange);
-            } catch (error) {
-                console.error("Firebase init error:", error);
-                showNotification('Firebase initialization failed', 'error');
-            }
-        }
-
-        // === AUTH HANDLER ===
-        function handleAuthStateChange(user) {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        
+        // Store last login time
+        let lastLoginTime = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
             const loginPage = document.getElementById('loginPage');
             const adminPanel = document.getElementById('adminPanel');
+            const loginForm = document.getElementById('loginForm');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const currentEmail = document.getElementById('currentEmail');
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const lastLogin = document.getElementById('lastLogin');
             
-            if (user) {
-                loginPage.style.display = 'none';
-                adminPanel.style.display = 'block';
-                
-                // Update user info in all places
-                updateUserInfo(user.email);
-                
-                // Load initial content
-                loadPosts();
-                
-                // Show login success notification
-                showNotification('Login successful!', 'success');
-                
-            } else {
-                loginPage.style.display = 'flex';
-                adminPanel.style.display = 'none';
-                document.getElementById('loginError').textContent = '';
-            }
-        }
-
-        // Update user info in all locations
-        function updateUserInfo(email) {
-            // Desktop sidebar
-            document.getElementById('userInfoDesktop').innerHTML = `
-                <div class="user-email">
-                    <i class="fas fa-user"></i> ${email}
-                </div>
-                <button onclick="logout()" class="btn btn-danger" style="margin-top: 1rem; width: 100%;">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            `;
+            // Color picker elements
+            const colorPreview = document.getElementById('colorPreview');
+            const postColorInput = document.getElementById('postColor');
+            const resetColorBtn = document.getElementById('resetColorBtn');
             
-            // Desktop header
-            document.getElementById('userInfoDesktopHeader').innerHTML = `
-                <div class="user-email">
-                    <i class="fas fa-user"></i> ${email}
-                </div>
-                <button onclick="logout()" class="btn btn-danger" style="margin-left: 1rem;">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            `;
+            // Verified badge tooltip input
+            const verifiedTooltipInput = document.getElementById('verifiedTooltipInput');
             
-            // Mobile
-            document.getElementById('userInfoMobile').innerHTML = `
-                <div class="user-email">
-                    <i class="fas fa-user"></i> ${email}
-                </div>
-                <div class="action-buttons">
-                    <button onclick="logout()" class="btn btn-danger">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
-                </div>
-            `;
-        }
-
-        // === LOGIN ===
-        async function login() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const errorElement = document.getElementById('loginError');
-            
-            errorElement.textContent = '';
-            
-            if (!email || !password) {
-                errorElement.textContent = 'Please enter both email and password';
-                return;
-            }
-            
-            try {
-                await auth.signInWithEmailAndPassword(email, password);
-                document.getElementById('loginPassword').value = '';
-                // Login success notification is shown in handleAuthStateChange
-            } catch (error) {
-                console.error("Login error:", error);
-                
-                let message = 'Login failed. Please try again.';
-                
-                switch (error.code) {
-                    case 'auth/invalid-email':
-                        message = 'Invalid email address';
-                        break;
-                    case 'auth/user-disabled':
-                        message = 'This account has been disabled';
-                        break;
-                    case 'auth/user-not-found':
-                        message = 'No account found with this email';
-                        break;
-                    case 'auth/wrong-password':
-                        message = 'Incorrect password';
-                        break;
-                    default:
-                        message = 'Login failed. Please try again.';
+            // Initialize color picker
+            postColorInput.addEventListener('input', function() {
+                let color = this.value.trim();
+                if (color.startsWith('#')) {
+                    // Validate hex color
+                    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                    if (hexRegex.test(color)) {
+                        colorPreview.style.background = color;
+                    }
                 }
-                
-                errorElement.textContent = message;
-                showNotification(message, 'error');
-            }
-        }
-
-        function logout() {
-            auth.signOut().then(() => {
-                showNotification('Logged out successfully', 'success');
-            }).catch((error) => {
-                console.error("Logout error:", error);
-                showNotification('Logout failed. Please try again.', 'error');
-            });
-        }
-
-        // === TAB MANAGEMENT ===
-        function switchTab(tabName) {
-            // Update mobile nav
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
             });
             
-            // Update desktop nav
-            document.querySelectorAll('.desktop-nav-item').forEach(item => {
-                item.classList.remove('active');
+            resetColorBtn.addEventListener('click', function() {
+                postColorInput.value = '#FFFFFF';
+                colorPreview.style.background = '#FFFFFF';
             });
             
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Update desktop title
-            const titleMap = {
-                'create': 'Create Post',
-                'manage': 'Manage Posts'
+            // Check if already logged in
+            const checkAuth = () => {
+                const user = auth.currentUser;
+                if (user) {
+                    loginPage.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    currentEmail.textContent = user.email;
+                    
+                    // Update last login display
+                    updateLastLoginDisplay();
+                    
+                    loadProfileData();
+                    loadPosts();
+                } else {
+                    loginPage.style.display = 'flex';
+                    adminPanel.style.display = 'none';
+                }
             };
             
-            document.getElementById('desktopTitle').textContent = titleMap[tabName] || 'Admin Panel';
-            
-            // Activate selected tab
-            if (tabName === 'create') {
-                document.querySelector('.nav-item:nth-child(1)').classList.add('active');
-                document.querySelector('.desktop-nav-item:nth-child(1)').classList.add('active');
-                document.getElementById('createTab').classList.add('active');
-            } else if (tabName === 'manage') {
-                document.querySelector('.nav-item:nth-child(2)').classList.add('active');
-                document.querySelector('.desktop-nav-item:nth-child(2)').classList.add('active');
-                document.getElementById('manageTab').classList.add('active');
-                loadPosts();
-            }
-        }
-
-        function clearForm() {
-            document.getElementById('post-content').value = '';
-            showNotification('Form cleared', 'info');
-        }
-
-        async function createPost() {
-            const content = document.getElementById('post-content').value.trim();
-            
-            if (!content) {
-                showNotification('Please enter post content', 'warning');
-                return;
+            // Update last login display
+            function updateLastLoginDisplay() {
+                if (lastLoginTime) {
+                    const now = new Date();
+                    const diff = now - lastLoginTime;
+                    const minutes = Math.floor(diff / 60000);
+                    
+                    if (minutes < 1) {
+                        lastLogin.textContent = 'Just now';
+                    } else if (minutes < 60) {
+                        lastLogin.textContent = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+                    } else if (minutes < 1440) {
+                        const hours = Math.floor(minutes / 60);
+                        lastLogin.textContent = `${hours} hour${hours > 1 ? 's' : ''} ago`;
+                    } else {
+                        const days = Math.floor(minutes / 1440);
+                        lastLogin.textContent = `${days} day${days > 1 ? 's' : ''} ago`;
+                    }
+                } else {
+                    lastLogin.textContent = 'Just now';
+                }
             }
             
-            if (!auth.currentUser) {
-                showNotification('Please login first', 'error');
-                return;
+            // Auth state listener
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    // Record login time
+                    lastLoginTime = new Date();
+                    localStorage.setItem('trulune_last_login', lastLoginTime.toISOString());
+                    
+                    loginPage.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    currentEmail.textContent = user.email;
+                    
+                    // Update last login display
+                    updateLastLoginDisplay();
+                    
+                    loadProfileData();
+                    loadPosts();
+                } else {
+                    loginPage.style.display = 'flex';
+                    adminPanel.style.display = 'none';
+                }
+            });
+            
+            // Initial check
+            checkAuth();
+            
+            // Restore last login time from localStorage
+            const storedLastLogin = localStorage.getItem('trulune_last_login');
+            if (storedLastLogin) {
+                lastLoginTime = new Date(storedLastLogin);
             }
             
-            try {
-                const user = auth.currentUser;
-                let postData = {
-                    content: content,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    likes: 0,
-                    status: "published",
-                    postedBy: user.email,
-                    userId: user.uid,
-                    timestamp: new Date().toISOString()
-                };
+            // Login form submission
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
                 
-                await db.collection('posts').add(postData);
-                showNotification('Post published successfully!', 'success');
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const loginBtn = document.getElementById('loginBtn');
+                const loginBtnText = document.getElementById('loginBtnText');
+                const loginLoading = document.getElementById('loginLoading');
                 
-                // Clear form
-                clearForm();
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtnText.style.display = 'none';
+                loginLoading.style.display = 'inline-block';
+                errorMessage.style.display = 'none';
                 
-                // Switch to manage tab
-                switchTab('manage');
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    showToast('Login successful!');
+                } catch (error) {
+                    errorMessage.textContent = error.message;
+                    errorMessage.style.display = 'block';
+                } finally {
+                    // Reset loading state
+                    loginBtn.disabled = false;
+                    loginBtnText.style.display = 'inline';
+                    loginLoading.style.display = 'none';
+                }
+            });
+            
+            // Change Password
+            changePasswordBtn.addEventListener('click', async () => {
+                const newPassword = prompt('Enter new password (min 6 characters):');
+                if (!newPassword) return;
                 
-            } catch (error) {
-                console.error("Error creating post:", error);
-                showNotification('Error: ' + error.message, 'error');
+                if (newPassword.length < 6) {
+                    alert('Password must be at least 6 characters long');
+                    return;
+                }
+                
+                const confirmPassword = prompt('Confirm new password:');
+                if (newPassword !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+                
+                try {
+                    const user = auth.currentUser;
+                    await user.updatePassword(newPassword);
+                    showToast('Password changed successfully!');
+                } catch (error) {
+                    console.error('Error changing password:', error);
+                    showToast('Error changing password: ' + error.message);
+                }
+            });
+            
+            // Logout
+            logoutBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to logout?')) {
+                    auth.signOut();
+                    showToast('Logged out successfully');
+                }
+            });
+            
+            // Navigation
+            function setupNavigation() {
+                // Desktop sidebar
+                const sidebarLinks = document.querySelectorAll('.sidebar-link');
+                sidebarLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const section = link.getAttribute('data-section');
+                        navigateToSection(section);
+                    });
+                });
+                
+                // Mobile navigation
+                const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const section = link.getAttribute('data-section');
+                        navigateToSection(section);
+                    });
+                });
             }
-        }
-
-        // === POSTS MANAGEMENT ===
-        function loadPosts() {
-            if (!db || !auth.currentUser) return;
             
-            const postsList = document.getElementById('postsList');
-            postsList.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading posts...</div>';
+            function navigateToSection(section) {
+                // Update active state for desktop
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === section) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Update active state for mobile
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === section) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Show section
+                showSection(section);
+            }
             
-            if (postsListener) postsListener();
+            function showSection(section) {
+                // Hide all sections
+                document.querySelectorAll('.admin-section').forEach(sec => {
+                    sec.style.display = 'none';
+                });
+                
+                // Show selected section
+                document.getElementById(`${section}-section`).style.display = 'block';
+                
+                // If showing manage posts, reload them
+                if (section === 'manage-posts') {
+                    loadPosts();
+                }
+            }
             
-            postsListener = db.collection('posts')
-                .orderBy('createdAt', 'desc')
-                .onSnapshot(snapshot => {
-                    if (snapshot.empty) {
-                        postsList.innerHTML = `
-                            <div class="no-posts">
-                                <i class="fas fa-newspaper fa-2x" style="margin-bottom: 1rem; color: #d3ced7;"></i>
-                                <h3 style="margin-bottom: 0.5rem;">No Posts Yet</h3>
-                                <p style="margin: 1rem 0; color: #d3ced7;">Create your first post!</p>
-                                <button onclick="switchTab('create')" class="btn">Create Post</button>
-                            </div>
-                        `;
+            // Load profile data
+            async function loadProfileData() {
+                try {
+                    const profileDoc = await db.collection('profile').doc('main').get();
+                    if (profileDoc.exists) {
+                        const data = profileDoc.data();
+                        
+                        // Fill form fields
+                        document.getElementById('profileName').value = data.name || '';
+                        document.getElementById('profileUsername').value = data.username || '';
+                        document.getElementById('profileBio').value = data.bio || '';
+                        document.getElementById('verifiedToggle').checked = data.verified || false;
+                        
+                        // Verified badge tooltip text
+                        if (data.verifiedTooltip) {
+                            verifiedTooltipInput.value = data.verifiedTooltip;
+                        }
+                        
+                        // Update verified badge tooltip text
+                        const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                        if (verifiedTooltip) {
+                            verifiedTooltip.textContent = data.verifiedTooltip || 'Official presence of Trulune Malaysia';
+                        }
+                        
+                        // Profile image
+                        const profileImageUrl = document.getElementById('profileImageUrl');
+                        const profileImagePreview = document.getElementById('profileImagePreview');
+                        
+                        if (data.profileImage) {
+                            profileImageUrl.value = data.profileImage;
+                            profileImagePreview.src = data.profileImage;
+                        } else {
+                            profileImageUrl.value = 'images/Logo.png';
+                            profileImagePreview.src = 'images/Logo.png';
+                        }
+                        
+                        // Update preview when URL changes
+                        profileImageUrl.addEventListener('input', function() {
+                            if (this.value.trim()) {
+                                profileImagePreview.src = this.value;
+                            }
+                        });
+                        
+                        // Update verified toggle tooltip on change
+                        document.getElementById('verifiedToggle').addEventListener('change', function() {
+                            const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                            if (verifiedTooltip) {
+                                verifiedTooltip.textContent = this.checked ? 
+                                    (verifiedTooltipInput.value || 'Official presence of Trulune Malaysia') : 
+                                    'Verified badge will be hidden on profile and posts';
+                            }
+                        });
+                        
+                        // Update tooltip text when input changes
+                        verifiedTooltipInput.addEventListener('input', function() {
+                            const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                            if (verifiedTooltip) {
+                                verifiedTooltip.textContent = this.value || 'Official presence of Trulune Malaysia';
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error loading profile:', error);
+                    showToast('Error loading profile data');
+                }
+            }
+            
+            // Post image preview
+            document.getElementById('postImageUrl').addEventListener('input', function() {
+                const preview = document.getElementById('postImagePreview');
+                if (this.value.trim()) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+            
+            // Format timestamp for admin
+            function formatTimestamp(timestamp) {
+                if (!timestamp) return 'Just now';
+                
+                try {
+                    let postDate;
+                    
+                    if (timestamp.toDate && typeof timestamp.toDate === 'function') {
+                        postDate = timestamp.toDate();
+                    } else if (timestamp instanceof Date) {
+                        postDate = timestamp;
+                    } else if (typeof timestamp === 'string' || typeof timestamp === 'number') {
+                        postDate = new Date(timestamp);
+                    } else if (timestamp.seconds && typeof timestamp.seconds === 'number') {
+                        postDate = new Date(timestamp.seconds * 1000 + (timestamp.nanoseconds || 0) / 1000000);
+                    } else {
+                        return 'Just now';
+                    }
+                    
+                    if (isNaN(postDate.getTime())) {
+                        return 'Just now';
+                    }
+                    
+                    return postDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } catch (e) {
+                    console.log('Error formatting date:', e);
+                    return 'Just now';
+                }
+            }
+            
+            // Save profile changes
+            document.getElementById('profileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const saveProfileBtn = document.getElementById('saveProfileBtn');
+                const saveProfileText = document.getElementById('saveProfileText');
+                const profileLoading = document.getElementById('profileLoading');
+                
+                // Show loading state
+                saveProfileBtn.disabled = true;
+                saveProfileText.style.display = 'none';
+                profileLoading.style.display = 'inline-block';
+                
+                try {
+                    const profileData = {
+                        name: document.getElementById('profileName').value.trim(),
+                        username: document.getElementById('profileUsername').value.trim().replace('@', ''),
+                        bio: document.getElementById('profileBio').value.trim(),
+                        verified: document.getElementById('verifiedToggle').checked,
+                        verifiedTooltip: verifiedTooltipInput.value.trim() || 'Official presence of Trulune Malaysia',
+                        profileImage: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    await db.collection('profile').doc('main').set(profileData, { merge: true });
+                    
+                    // Update existing posts with new profile info
+                    await updateExistingPostsWithProfileInfo(profileData);
+                    
+                    // Update tooltip text
+                    const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                    if (verifiedTooltip) {
+                        verifiedTooltip.textContent = profileData.verifiedTooltip;
+                    }
+                    
+                    showToast('Profile updated successfully! All existing posts have been updated.');
+                    
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    showToast('Error updating profile: ' + error.message);
+                } finally {
+                    // Reset loading state
+                    saveProfileBtn.disabled = false;
+                    saveProfileText.style.display = 'inline';
+                    profileLoading.style.display = 'none';
+                }
+            });
+            
+            // Update existing posts with new profile info
+            async function updateExistingPostsWithProfileInfo(profileData) {
+                try {
+                    const postsSnapshot = await db.collection('posts').get();
+                    
+                    const updatePromises = [];
+                    postsSnapshot.forEach((doc) => {
+                        updatePromises.push(
+                            db.collection('posts').doc(doc.id).update({
+                                authorName: profileData.name,
+                                authorAvatar: profileData.profileImage,
+                                verified: profileData.verified || false
+                            })
+                        );
+                    });
+                    
+                    await Promise.all(updatePromises);
+                    console.log(`Updated ${updatePromises.length} posts with new profile info`);
+                } catch (error) {
+                    console.error('Error updating posts:', error);
+                }
+            }
+            
+            // Create new post with color option
+            document.getElementById('createPostForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const publishPostBtn = document.getElementById('publishPostBtn');
+                const publishPostText = document.getElementById('publishPostText');
+                const postLoading = document.getElementById('postLoading');
+                
+                // Show loading state
+                publishPostBtn.disabled = true;
+                publishPostText.style.display = 'none';
+                postLoading.style.display = 'inline-block';
+                
+                try {
+                    const content = document.getElementById('postContent').value.trim();
+                    if (!content) {
+                        showToast('Please enter post content');
+                        publishPostBtn.disabled = false;
+                        publishPostText.style.display = 'inline';
+                        postLoading.style.display = 'none';
                         return;
                     }
                     
-                    let postsHTML = '';
-                    snapshot.forEach(doc => {
-                        const post = doc.data();
-                        const postId = doc.id;
-                        const date = post.createdAt ? new Date(post.createdAt.toDate()).toLocaleDateString('en-MY', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }) : 'Date not available';
+                    // Get current profile data for author info
+                    const profileDoc = await db.collection('profile').doc('main').get();
+                    const profileData = profileDoc.exists ? profileDoc.data() : {
+                        name: 'Trulune Malaysia',
+                        profileImage: 'images/Logo.png',
+                        verified: false,
+                        verifiedTooltip: 'Official presence of Trulune Malaysia'
+                    };
+                    
+                    // Get post color (default to white)
+                    let postColor = postColorInput.value.trim();
+                    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                    if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
+                        postColor = '#FFFFFF'; // Default to white
+                    }
+                    
+                    const postData = {
+                        content: content,
+                        authorName: profileData.name,
+                        authorAvatar: profileData.profileImage,
+                        verified: profileData.verified || false,
+                        backgroundColor: postColor,
+                        timestamp: new Date().toISOString(),
+                        createdAt: new Date().toISOString(),
+                        likes: 0,
+                        likedBy: [],
+                        pinned: false
+                    };
+                    
+                    // Add image if provided
+                    const imageUrl = document.getElementById('postImageUrl').value.trim();
+                    if (imageUrl) {
+                        postData.imageUrl = imageUrl;
+                    }
+                    
+                    await db.collection('posts').add(postData);
+                    
+                    // Reset form
+                    document.getElementById('postContent').value = '';
+                    document.getElementById('postImageUrl').value = '';
+                    document.getElementById('postImagePreview').style.display = 'none';
+                    postColorInput.value = '#FFFFFF';
+                    colorPreview.style.background = '#FFFFFF';
+                    
+                    showToast('Post published successfully!');
+                    
+                    // Switch to manage posts section
+                    navigateToSection('manage-posts');
+                    
+                } catch (error) {
+                    console.error('Error creating post:', error);
+                    showToast('Error creating post: ' + error.message);
+                } finally {
+                    // Reset loading state
+                    publishPostBtn.disabled = false;
+                    publishPostText.style.display = 'inline';
+                    postLoading.style.display = 'none';
+                }
+            });
+            
+            // Load and manage posts with pin feature
+            async function loadPosts() {
+                const postsLoading = document.getElementById('postsLoading');
+                const postsList = document.getElementById('postsList');
+                const noPostsMessage = document.getElementById('noPostsMessage');
+                
+                // Check if elements exist
+                if (!postsLoading || !postsList || !noPostsMessage) {
+                    console.error('Required DOM elements not found');
+                    return;
+                }
+                
+                postsLoading.style.display = 'block';
+                postsList.style.display = 'none';
+                noPostsMessage.style.display = 'none';
+                
+                try {
+                    let postsSnapshot;
+                    
+                    try {
+                        // Try to get posts ordered by timestamp
+                        postsSnapshot = await db.collection('posts')
+                            .orderBy('timestamp', 'desc')
+                            .get();
+                    } catch (indexError) {
+                        console.log('Index error, trying without order:', indexError);
+                        // If index error, get all posts and sort manually
+                        postsSnapshot = await db.collection('posts').get();
+                    }
+                    
+                    console.log(`Loaded ${postsSnapshot.size} posts from Firestore`);
+                    
+                    postsList.innerHTML = '';
+                    
+                    if (postsSnapshot.empty) {
+                        postsLoading.style.display = 'none';
+                        noPostsMessage.style.display = 'block';
+                    } else {
+                        let postsArray = [];
                         
-                        postsHTML += `
-                            <div class="post-card">
-                                <div class="post-header">
-                                    <div class="post-meta">
-                                        <i class="far fa-calendar"></i> ${date}
+                        // Convert snapshot to array
+                        postsSnapshot.forEach((doc) => {
+                            const post = doc.data();
+                            post.id = doc.id;
+                            postsArray.push(post);
+                        });
+                        
+                        // Sort: pinned posts first, then by date
+                        postsArray.sort((a, b) => {
+                            // Pinned posts go first
+                            if (a.pinned && !b.pinned) return -1;
+                            if (!a.pinned && b.pinned) return 1;
+                            
+                            // Then sort by timestamp
+                            const timeA = getTimestampValue(a.timestamp || a.createdAt);
+                            const timeB = getTimestampValue(b.timestamp || b.createdAt);
+                            return timeB - timeA; // Descending order
+                        });
+                        
+                        // Create post elements
+                        postsArray.forEach((post) => {
+                            const postId = post.id;
+                            
+                            // Format date
+                            const dateText = formatTimestamp(post.timestamp || post.createdAt);
+                            
+                            // Format content with clickable links
+                            const formattedContent = post.content ? 
+                                post.content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #0E3659; text-decoration: underline; font-weight: 500;">$1</a>') : 
+                                '';
+                            
+                            const postItem = document.createElement('div');
+                            postItem.className = `post-item ${post.pinned ? 'pinned' : ''}`;
+                            postItem.innerHTML = `
+                                ${post.pinned ? '<div class="pin-badge"><i class="fas fa-thumbtack"></i> PINNED</div>' : ''}
+                                <div class="post-content-preview">
+                                    <p>${formattedContent || 'No content'}</p>
+                                    ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post image" class="post-image-small">` : ''}
+                                    <div class="post-stats">
+                                        <span><i class="fas fa-heart"></i> ${post.likes || 0} likes</span>
+                                        <span class="post-date">${dateText}</span>
                                     </div>
-                                    ${post.postedBy ? `<div class="post-meta"><i class="fas fa-user"></i> ${post.postedBy}</div>` : ''}
                                 </div>
-                                <div class="post-content">
-                                    ${post.content.replace(/\n/g, '<br>')}
-                                </div>
-                                <div class="post-footer">
-                                    <div class="post-likes">
-                                        <i class="fas fa-heart"></i> ${post.likes || 0} likes
-                                    </div>
-                                    <button onclick="confirmDelete('${postId}', \`${post.content.substring(0, 100)}${post.content.length > 100 ? '...' : ''}\`)" 
-                                            class="delete-btn">
+                                <div class="post-actions">
+                                    <button class="post-action-btn pin-btn ${post.pinned ? 'pinned' : ''}" data-post-id="${postId}">
+                                        <i class="fas fa-thumbtack"></i> ${post.pinned ? 'Unpin' : 'Pin'}
+                                    </button>
+                                    <button class="post-action-btn delete-btn" data-post-id="${postId}">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
-                            </div>
-                        `;
-                    });
-                    
-                    postsList.innerHTML = postsHTML;
-                }, error => {
-                    console.error("Error loading posts:", error);
-                    postsList.innerHTML = `<div class="no-posts">Error loading posts. Please refresh.</div>`;
-                    showNotification('Error loading posts', 'error');
-                });
-        }
-
-        // === DELETE FUNCTIONS ===
-        function confirmDelete(postId, preview) {
-            currentPostToDelete = postId;
-            const modal = document.getElementById('deleteModal');
-            const previewDiv = document.getElementById('deletePostPreview');
-            
-            previewDiv.textContent = preview;
-            modal.classList.add('active');
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').classList.remove('active');
-            currentPostToDelete = null;
-        }
-
-        async function deletePost() {
-            if (!currentPostToDelete) return;
-            
-            try {
-                await db.collection('posts').doc(currentPostToDelete).delete();
-                closeDeleteModal();
-                showNotification('Post deleted successfully!', 'success');
-                loadPosts();
-            } catch (error) {
-                console.error("Error deleting post:", error);
-                showNotification('Error deleting post', 'error');
-            }
-        }
-
-        // === NOTIFICATION SYSTEM ===
-        function showNotification(message, type = 'success') {
-            // Remove existing notification
-            const existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-            
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            
-            const icon = type === 'success' ? 'fa-check-circle' : 
-                        type === 'error' ? 'fa-exclamation-circle' : 
-                        type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle';
-            
-            toast.innerHTML = `
-                <i class="fas ${icon}"></i>
-                <span>${message}</span>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Auto remove after 3 seconds
-            setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.remove();
+                            `;
+                            
+                            postsList.appendChild(postItem);
+                        });
+                        
+                        // Add event listeners for pin and delete buttons
+                        document.querySelectorAll('.pin-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const isPinned = e.currentTarget.classList.contains('pinned');
+                                
+                                try {
+                                    await db.collection('posts').doc(postId).update({
+                                        pinned: !isPinned
+                                    });
+                                    
+                                    showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
+                                    loadPosts(); // Reload posts to re-sort
+                                } catch (error) {
+                                    console.error('Error toggling pin:', error);
+                                    showToast('Error updating post');
+                                }
+                            });
+                        });
+                        
+                        document.querySelectorAll('.delete-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+                                    try {
+                                        await db.collection('posts').doc(postId).delete();
+                                        showToast('Post deleted successfully');
+                                        loadPosts(); // Reload posts
+                                    } catch (error) {
+                                        console.error('Error deleting post:', error);
+                                        showToast('Error deleting post');
+                                    }
+                                }
+                            });
+                        });
+                        
+                        postsLoading.style.display = 'none';
+                        postsList.style.display = 'block';
                     }
-                }, 300);
-            }, 3000);
-        }
-
-        // === INITIALIZE ===
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set up button handlers
-            document.getElementById('confirmDeleteBtn').onclick = deletePost;
-            
-            // Login with Enter key
-            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') login();
-            });
-            
-            // Close modals with Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeDeleteModal();
+                } catch (error) {
+                    console.error('Error loading posts:', error);
+                    postsLoading.style.display = 'none';
+                    showToast('Error loading posts: ' + error.message);
                 }
-            });
+            }
+            
+            // Helper function to get timestamp value
+            function getTimestampValue(timestamp) {
+                if (!timestamp) return 0;
+                
+                try {
+                    if (timestamp.toDate && typeof timestamp.toDate === 'function') {
+                        return timestamp.toDate().getTime();
+                    } else if (timestamp instanceof Date) {
+                        return timestamp.getTime();
+                    } else if (typeof timestamp === 'string') {
+                        return new Date(timestamp).getTime();
+                    } else if (typeof timestamp === 'number') {
+                        return timestamp;
+                    } else if (timestamp.seconds && typeof timestamp.seconds === 'number') {
+                        return timestamp.seconds * 1000 + (timestamp.nanoseconds || 0) / 1000000;
+                    }
+                } catch (e) {
+                    console.log('Error getting timestamp value:', e);
+                }
+                return 0;
+            }
+            
+            // Toast notification
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                if (!toast) return;
+                
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Initialize navigation
+            setupNavigation();
+            
+            // Check for hash in URL
+            if (window.location.hash) {
+                const section = window.location.hash.substring(1);
+                if (section && document.getElementById(`${section}-section`)) {
+                    setTimeout(() => {
+                        navigateToSection(section);
+                    }, 100);
+                }
+            }
+            
+            // Update last login every minute
+            setInterval(updateLastLoginDisplay, 60000);
         });
     </script>
 </body>
