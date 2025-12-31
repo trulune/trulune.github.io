@@ -38,10 +38,17 @@
         body {
             background: url('images/background.png') no-repeat center center fixed;
             background-size: cover;
-            color: white;
+            color: #333;
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+        }
+
+        /* Container untuk pusatkan content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
         }
         
         /* === LOADING SPINNER === */
@@ -104,7 +111,7 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        /* === HEADER (Same as Homepage) === */
+        /* ============== HEADER ============== */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -115,7 +122,8 @@
             z-index: 1000;
             transition: all 0.3s ease;
         }
-        
+
+        /* Header container untuk padding desktop & mobile */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -124,16 +132,17 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         .header.scrolled {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
         }
-        
+
         .header.scrolled .header-container {
             padding: 15px var(--desktop-padding);
         }
-        
+
+        /* Logo paling kiri */
         .logo {
             display: flex;
             align-items: center;
@@ -144,7 +153,7 @@
             z-index: 1001;
             transition: color 0.3s ease;
         }
-        
+
         .logo-icon {
             width: 32px;
             height: 32px;
@@ -154,20 +163,21 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .logo-icon img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
-        
+
         .logo-text {
             font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.5px;
             transition: color 0.3s ease;
         }
-        
+
+        /* ============== NAVIGATION ============== */
         .nav-links {
             display: flex;
             align-items: center;
@@ -175,7 +185,7 @@
             list-style: none;
             margin-left: auto;
         }
-        
+
         .nav-links > li > a {
             text-decoration: none;
             color: #000000;
@@ -187,12 +197,11 @@
             height: 100%;
             padding: 8px 0;
         }
-        
-        .nav-links > li > a:hover,
-        .nav-links > li > a.active {
+
+        .nav-links > li > a:hover {
             color: #666;
         }
-        
+
         .nav-badge-link {
             display: inline-flex;
             align-items: center;
@@ -207,13 +216,13 @@
             height: auto;
             min-height: 40px;
         }
-        
+
         .nav-badge-link:hover {
             background: var(--gray-200);
             color: var(--primary);
             transform: translateY(-1px);
         }
-        
+
         .nav-badge-link .nav-badge {
             background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
             color: #ffffff;
@@ -224,7 +233,7 @@
             line-height: 1;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        
+
         .header-actions {
             display: flex;
             align-items: center;
@@ -241,24 +250,9 @@
             z-index: 1002;
         }
         
-        .mobile-menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 998;
-        }
-        
-        .mobile-menu-overlay.active {
-            display: block;
-        }
-        
         /* === PROFILE HERO SECTION === */
         .profile-hero-section {
-            margin-top: 70px;
+            margin-top: 0;
             min-height: 400px;
             display: flex;
             align-items: center;
@@ -320,20 +314,34 @@
             min-width: 300px;
         }
         
+        .profile-name-container {
+            margin-bottom: 10px;
+        }
+        
         .profile-name {
             font-size: 32px;
             color: white;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .profile-username {
+            color: #b0b0b0;
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 5px;
+        }
+        
+        .profile-username i {
+            margin-right: 5px;
+            color: #4dabf7;
         }
         
         .verified-badge {
             cursor: pointer;
             display: inline-flex;
             align-items: center;
+            vertical-align: middle;
         }
         
         .profile-bio {
@@ -439,6 +447,13 @@
             align-items: center;
             gap: 5px;
             flex-wrap: wrap;
+        }
+        
+        .post-username {
+            color: #b0b0b0;
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 2px;
         }
         
         .post-time {
@@ -623,16 +638,16 @@
             background: #4CAF50;
         }
         
-        /* === FOOTER (Same as Homepage) === */
+        /* ============== FOOTER ============== */
         .footer {
             background: transparent;
             color: #ffffff;
             text-align: center;
             padding: 50px var(--desktop-padding) 20px;
             max-width: 1400px;
-            margin: 60px auto 0;
+            margin: 0 auto;
         }
-        
+
         .footer-content {
             display: flex;
             flex-direction: column;
@@ -640,14 +655,14 @@
             gap: 32px;
             margin-bottom: 20px;
         }
-        
+
         .footer-brand {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
         }
-        
+
         .footer-logo {
             display: flex;
             align-items: center;
@@ -655,7 +670,7 @@
             text-decoration: none;
             color: #ffffff;
         }
-        
+
         .footer-logo-icon {
             width: 32px;
             height: 32px;
@@ -665,26 +680,26 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .footer-logo-icon img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
-        
+
         .footer-logo-text {
             font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.5px;
         }
-        
+
         .social-links {
             display: flex;
             gap: 16px;
             margin-top: 10px;
             justify-content: center;
         }
-        
+
         .social-link {
             width: 40px;
             height: 40px;
@@ -697,12 +712,12 @@
             text-decoration: none;
             transition: all 0.2s ease;
         }
-        
+
         .social-link:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
-        
+
         .footer-copyright {
             text-align: center;
             padding-top: 15px;
@@ -710,7 +725,6 @@
             font-size: 14px;
             max-width: 1400px;
             margin: 0 auto;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         /* === RESPONSIVE === */
@@ -738,7 +752,7 @@
             }
             
             .header-container {
-                padding: 15px 0;
+                padding: 10px 0;
             }
             
             .header.scrolled .header-container {
@@ -798,7 +812,7 @@
             }
             
             .profile-hero-section {
-                margin-top: 60px;
+                margin-top: 0;
             }
             
             .profile-header-wrapper {
@@ -817,6 +831,10 @@
             
             .profile-name {
                 justify-content: center;
+            }
+            
+            .profile-username {
+                text-align: center;
             }
             
             .profile-stats {
@@ -847,8 +865,16 @@
         }
         
         @media (max-width: 480px) {
+        .profile-header-wrapper {
+            padding: 80px var(--mobile-padding);
+        }
+
             .profile-name {
                 font-size: 24px;
+            }
+            
+            .profile-username {
+                font-size: 14px;
             }
             
             .profile-bio {
@@ -922,12 +948,17 @@
                     <img id="profileAvatar" src="images/Logo.png" alt="Profile Avatar">
                 </div>
                 <div class="profile-info">
-                    <h1 class="profile-name" id="profileName">
-                        Trulune Malaysia
-                        <span class="verified-badge" id="profileVerifiedBadge" style="display: none;">
-                            <img src="images/verified.svg" style="width: 28px; height: 28px;" alt="Verified">
-                        </span>
-                    </h1>
+                    <div class="profile-name-container">
+                        <h1 class="profile-name" id="profileName">
+                            Trulune Malaysia
+                            <span class="verified-badge" id="profileVerifiedBadge" style="display: none;">
+                                <img src="images/verified.svg" style="width: 28px; height: 28px;" alt="Verified">
+                            </span>
+                        </h1>
+                        <div class="profile-username" id="profileUsername">
+                            <i class="fas fa-at"></i>@trulune
+                        </div>
+                    </div>
                     <p class="profile-bio" id="profileBio">Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.</p>
                     <div class="profile-stats">
                         <div class="stat-item">
@@ -958,14 +989,14 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <a href="newhome.html" class="footer-logo">
+                <a href="#" class="footer-logo">
                     <div class="footer-logo-icon">
                         <img src="images/Logo.png" alt="Trulune Logo">
                     </div>
-                    <span class="footer-logo-text" id="footerLogoText">Trulune Malaysia</span>
+                    <span class="footer-logo-text">Trulune Malaysia</span>
                 </a>
-                <p id="footerBio">Everyday scents. Timeless allure.</p>
-                <div class="social-links" id="socialLinks">
+                <p>Everyday scents. Timeless allure.</p>
+                <div class="social-links">
                     <a href="https://t.me/trulune" class="social-link"><i class="fab fa-telegram"></i></a>
                     <a href="https://tiktok.com/@trulunemalaysia" class="social-link"><i class="fab fa-tiktok"></i></a>
                     <a href="https://instagram.com/trulune" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -1035,6 +1066,7 @@
         let profileListener = null;
         let currentProfile = {
             name: "Trulune Malaysia",
+            username: "@trulune",
             bio: "Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.",
             avatar: "images/Logo.png",
             verified: true,
@@ -1112,21 +1144,29 @@
         function updateAllProfileElements(profileData) {
             if (!profileData) return;
             
+            // Update current profile with new data
             currentProfile = {
                 ...currentProfile,
                 ...profileData
             };
             
-            // Update name
+            console.log("🔄 Updating profile with:", currentProfile);
+            
+            // 1. Update name
             const name = currentProfile.name || "Trulune Malaysia";
             document.getElementById('profileName').innerHTML = name;
             document.getElementById('footerLogoText').textContent = name;
             
-            // Update verified badge
+            // 2. Update username (NEW FEATURE)
+            const username = currentProfile.username || "@trulune";
+            document.getElementById('profileUsername').innerHTML = 
+                `<i class="fas fa-at"></i>${username}`;
+            
+            // 3. Update verified badge
             const verifiedBadge = document.getElementById('profileVerifiedBadge');
             if (currentProfile.verified !== false) {
-                document.getElementById('profileName').innerHTML += 
-                    ' <span class="verified-badge" onclick="openVerifiedTooltip(event)">' +
+                document.getElementById('profileName').innerHTML = 
+                    name + ' <span class="verified-badge" onclick="openVerifiedTooltip(event)">' +
                     '<img src="images/verified.svg" style="width: 28px; height: 28px;" alt="Verified">' +
                     '</span>';
                 verifiedBadge.style.display = 'inline-flex';
@@ -1134,44 +1174,61 @@
                 verifiedBadge.style.display = 'none';
             }
             
-            // Update bio
+            // 4. Update bio (FIXED)
             const bio = currentProfile.bio || "Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.";
             document.getElementById('profileBio').textContent = bio;
             document.getElementById('footerBio').textContent = bio;
             
-            // Update avatar
+            // 5. Update avatar (FIXED - SYNC BETWEEN HEADER AND POSTS)
             const avatar = currentProfile.avatar || "images/Logo.png";
             document.getElementById('profileAvatar').src = avatar;
             
-            // Update header image
+            // 6. Update header image
             const headerImage = document.getElementById('profileHeaderImage');
-            if (currentProfile.headerImage) {
+            if (currentProfile.headerImage && currentProfile.headerImage.trim() !== "") {
                 headerImage.src = currentProfile.headerImage;
                 headerImage.style.display = 'block';
             } else {
                 headerImage.style.display = 'none';
             }
             
-            // Update social links
-            const socialLinks = document.getElementById('socialLinks');
-            const links = currentProfile.socialLinks || {};
-            socialLinks.innerHTML = '';
+            // 7. Update social links (FIXED)
+            updateSocialLinks(currentProfile.socialLinks);
             
-            if (links.telegram) {
-                socialLinks.innerHTML += `<a href="${links.telegram}" class="social-link"><i class="fab fa-telegram"></i></a>`;
-            }
-            if (links.tiktok) {
-                socialLinks.innerHTML += `<a href="${links.tiktok}" class="social-link"><i class="fab fa-tiktok"></i></a>`;
-            }
-            if (links.instagram) {
-                socialLinks.innerHTML += `<a href="${links.instagram}" class="social-link"><i class="fab fa-instagram"></i></a>`;
-            }
-            if (links.facebook) {
-                socialLinks.innerHTML += `<a href="${links.facebook}" class="social-link"><i class="fab fa-facebook-f"></i></a>`;
-            }
-            
-            // Update posts with new profile
+            // 8. Update posts with new profile
             updatePostsWithCurrentProfile();
+        }
+
+        function updateSocialLinks(socialLinks) {
+            const socialLinksContainer = document.getElementById('socialLinks');
+            
+            if (!socialLinks || Object.keys(socialLinks).length === 0) {
+                // Default social links
+                socialLinksContainer.innerHTML = `
+                    <a href="https://t.me/trulune" class="social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="https://tiktok.com/@trulunemalaysia" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://instagram.com/trulune" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/trulune" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                `;
+                return;
+            }
+            
+            let socialHTML = '';
+            
+            if (socialLinks.telegram) {
+                socialHTML += `<a href="${socialLinks.telegram}" class="social-link" target="_blank"><i class="fab fa-telegram"></i></a>`;
+            }
+            if (socialLinks.tiktok) {
+                socialHTML += `<a href="${socialLinks.tiktok}" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>`;
+            }
+            if (socialLinks.instagram) {
+                socialHTML += `<a href="${socialLinks.instagram}" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>`;
+            }
+            if (socialLinks.facebook) {
+                socialHTML += `<a href="${socialLinks.facebook}" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>`;
+            }
+            
+            socialLinksContainer.innerHTML = socialHTML;
         }
 
         async function loadProfileSettings() {
@@ -1182,9 +1239,38 @@
                 
                 if (profileDoc.exists) {
                     updateAllProfileElements(profileDoc.data());
+                } else {
+                    console.log("ℹ️ No profile found, creating default...");
+                    // Create default profile if doesn't exist
+                    await createDefaultProfile();
                 }
             } catch (error) {
                 console.error("❌ Profile load error:", error);
+            }
+        }
+
+        async function createDefaultProfile() {
+            const defaultProfile = {
+                name: "Trulune Malaysia",
+                username: "@trulune",
+                bio: "Trulune starts with a simple idea, a small collection of scents chosen for comfort and everyday wear.",
+                avatar: "images/Logo.png",
+                verified: true,
+                headerImage: "",
+                socialLinks: {
+                    telegram: "https://t.me/trulune",
+                    tiktok: "https://tiktok.com/@trulunemalaysia",
+                    instagram: "https://instagram.com/trulune",
+                    facebook: "https://facebook.com/trulune"
+                },
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            try {
+                await db.collection('profile').doc('settings').set(defaultProfile);
+                updateAllProfileElements(defaultProfile);
+            } catch (error) {
+                console.error("❌ Create default profile error:", error);
             }
         }
 
@@ -1194,6 +1280,7 @@
             profileListener = db.collection('profile').doc('settings')
                 .onSnapshot((doc) => {
                     if (doc.exists) {
+                        console.log("🔄 Profile updated in real-time");
                         updateAllProfileElements(doc.data());
                     }
                 }, (error) => {
@@ -1278,6 +1365,9 @@
                                             ${currentProfile.verified !== false ? 
                                                 '<span class="verified-badge"><img src="images/verified.svg" style="width: 18px; height: 18px;" alt="Verified"></span>' : ''}
                                         </div>
+                                        <div class="post-username">
+                                            <i class="fas fa-at"></i>${currentProfile.username || "@trulune"}
+                                        </div>
                                         <div class="post-time">
                                             <i class="far fa-clock"></i> ${timeAgo}
                                         </div>
@@ -1322,7 +1412,7 @@
         function updatePostsWithCurrentProfile() {
             const posts = document.querySelectorAll('.post-card');
             posts.forEach(post => {
-                // Update avatar
+                // Update avatar (FIXED - SYNC WITH HEADER)
                 const avatar = post.querySelector('.post-avatar img');
                 if (avatar) {
                     avatar.src = currentProfile.avatar || "images/Logo.png";
@@ -1336,6 +1426,12 @@
                     if (currentProfile.verified !== false) {
                         nameElement.innerHTML += ' <span class="verified-badge"><img src="images/verified.svg" style="width: 18px; height: 18px;" alt="Verified"></span>';
                     }
+                }
+                
+                // Update username (NEW FEATURE)
+                const usernameElement = post.querySelector('.post-username');
+                if (usernameElement) {
+                    usernameElement.innerHTML = `<i class="fas fa-at"></i>${currentProfile.username || "@trulune"}`;
                 }
             });
         }
