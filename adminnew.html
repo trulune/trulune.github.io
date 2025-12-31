@@ -34,12 +34,6 @@
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
         /* ============== LOGIN PAGE ============== */
         .login-page {
             display: flex;
@@ -47,99 +41,122 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            background: white;
         }
 
         .login-container {
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            border: 1px solid var(--gray-200);
         }
 
         .login-title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
             margin-bottom: 10px;
             text-align: center;
+            color: var(--primary);
         }
 
         .login-subtitle {
             color: var(--gray-600);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            font-size: 16px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 500;
+            color: var(--primary);
+            font-size: 15px;
         }
 
         .form-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            transition: border 0.2s;
+            transition: all 0.2s;
+            background: white;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         .login-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+            margin-top: 10px;
         }
 
         .login-btn:hover {
             background: #333;
         }
 
+        .login-btn:disabled {
+            background: var(--gray-600);
+            cursor: not-allowed;
+        }
+
         .error-message {
             color: #dc2626;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 12px;
             display: none;
+            text-align: center;
+            padding: 10px;
+            background: rgba(220, 38, 38, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
         /* ============== ADMIN PANEL ============== */
         .admin-panel {
             display: none;
-            padding-top: 20px;
-            padding-bottom: 80px;
+            min-height: 100vh;
+            background: white;
         }
 
+        /* Admin Header */
         .admin-header {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: white;
-            padding: 20px var(--desktop-padding);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: white;
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .admin-header-content {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            padding: 18px var(--desktop-padding);
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
@@ -150,7 +167,7 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            color: white;
+            color: var(--primary);
         }
 
         .admin-logo-icon {
@@ -178,41 +195,51 @@
         .admin-title {
             font-size: 18px;
             font-weight: 500;
-            margin-left: auto;
-            margin-right: 20px;
+            color: var(--gray-600);
+            margin-left: 30px;
+            flex: 1;
         }
 
         .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 20px;
-            border-radius: 6px;
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--gray-200);
+            padding: 10px 24px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: #f8f9fa;
+            border-color: var(--gray-600);
         }
 
+        /* Admin Content */
         .admin-content {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             gap: 30px;
-            padding: 30px var(--desktop-padding);
+            padding: 120px var(--desktop-padding) 40px;
             max-width: 1400px;
             margin: 0 auto;
+            min-height: calc(100vh - 80px);
         }
 
         /* Sidebar */
         .admin-sidebar {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            padding: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
             height: fit-content;
+            position: sticky;
+            top: 100px;
         }
 
         .sidebar-nav {
@@ -220,58 +247,80 @@
         }
 
         .sidebar-item {
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .sidebar-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 14px;
+            padding: 16px 24px;
             color: var(--gray-600);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 0;
             transition: all 0.2s;
+            font-size: 16px;
+            border-left: 4px solid transparent;
         }
 
-        .sidebar-link:hover,
-        .sidebar-link.active {
-            background: #f3f4f6;
+        .sidebar-link:hover {
+            background: #f8f9fa;
             color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #f8f9fa;
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
         }
 
         /* Main Content */
         .admin-main {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-            min-height: 500px;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            min-height: 600px;
         }
 
         .section-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             color: var(--primary);
-            padding-bottom: 15px;
+            padding-bottom: 20px;
             border-bottom: 2px solid #f3f4f6;
         }
 
         /* Profile Settings */
         .profile-settings-form {
-            max-width: 600px;
+            max-width: 700px;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 24px;
+            margin-bottom: 24px;
         }
 
         .image-upload {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .image-preview-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-top: 20px;
         }
 
         .image-preview {
@@ -280,43 +329,49 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--gray-200);
-            margin-bottom: 15px;
             display: block;
+            flex-shrink: 0;
         }
 
         .image-input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            background: white;
         }
 
         .image-input:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         .image-help {
             font-size: 14px;
             color: var(--gray-600);
-            margin-top: 5px;
+            margin-top: 8px;
             display: block;
+            line-height: 1.5;
         }
 
         .toggle-switch {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
+            width: 54px;
+            height: 28px;
         }
 
         .switch input {
@@ -340,8 +395,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 16px;
-            width: 16px;
+            height: 20px;
+            width: 20px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -358,166 +413,323 @@
         }
 
         .save-btn {
-            padding: 12px 30px;
+            padding: 16px 40px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
-            margin-top: 20px;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .save-btn:hover {
             background: #333;
         }
 
+        .save-btn:disabled {
+            background: var(--gray-600);
+            cursor: not-allowed;
+        }
+
         /* Account Info */
         .account-info {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 30px 0;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 40px 0;
+            border: 1px solid var(--gray-200);
         }
 
         .account-info h3 {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             color: var(--primary);
+            font-size: 20px;
         }
 
         .account-info p {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .account-info strong {
+            color: var(--primary);
+            font-weight: 600;
         }
 
         /* Create Post */
         .post-form textarea {
             width: 100%;
-            min-height: 150px;
-            padding: 16px;
+            min-height: 200px;
+            padding: 20px;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             resize: vertical;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             font-family: 'Lato';
+            line-height: 1.6;
+            background: white;
         }
 
         .post-form textarea:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         .image-input-group {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .post-image-preview {
             max-width: 300px;
             max-height: 300px;
             object-fit: contain;
-            border-radius: 8px;
-            margin: 15px 0;
+            border-radius: 12px;
+            margin: 20px 0;
             border: 1px solid var(--gray-200);
             padding: 10px;
             background: #f8fafc;
             display: none;
         }
 
+        /* Color Picker */
+        .color-picker {
+            margin-bottom: 30px;
+        }
+
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+        }
+
+        .color-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: monospace;
+        }
+
+        .color-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         /* Posts List */
         .posts-list {
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .post-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 20px;
+            padding: 24px;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            background: white;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .post-item.pinned {
+            border-left: 4px solid #0E3659;
             background: #f8fafc;
+        }
+
+        .post-pin-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #0E3659;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .post-item:hover {
+            border-color: var(--gray-600);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .post-content-preview {
             flex: 1;
-            margin-right: 20px;
+            margin-right: 30px;
+            min-width: 0;
         }
 
         .post-content-preview p {
-            margin-bottom: 10px;
-            line-height: 1.5;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .post-content-preview a {
             color: #0E3659;
             text-decoration: underline;
             font-weight: 500;
+            word-break: break-all;
         }
 
         .post-image-small {
-            max-width: 100px;
-            max-height: 100px;
+            max-width: 120px;
+            max-height: 120px;
             object-fit: cover;
-            border-radius: 6px;
-            margin-top: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
             border: 1px solid var(--gray-200);
+            display: block;
         }
 
         .post-stats {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             color: var(--gray-600);
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
+            align-items: center;
         }
 
         .post-date {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--gray-600);
+            background: #f8f9fa;
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
         }
 
         .post-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .pin-btn {
+            background: white;
+            color: #0E3659;
+            border-color: #0E3659;
+        }
+
+        .pin-btn:hover {
+            background: #0E3659;
+            color: white;
+        }
+
+        .pin-btn.pinned {
+            background: #0E3659;
+            color: white;
         }
 
         .delete-btn {
-            padding: 8px 16px;
-            background: #dc2626;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
+            background: white;
+            color: #dc2626;
+            border-color: #dc2626;
         }
 
         .delete-btn:hover {
-            background: #b91c1c;
+            background: #dc2626;
+            color: white;
         }
 
         /* Toast */
         .toast {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 40px;
+            right: 40px;
             background: var(--primary);
             color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 16px 28px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 2000;
+            font-weight: 500;
+            max-width: 400px;
         }
 
         .toast.show {
             transform: translateY(0);
             opacity: 1;
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #postsLoading {
+            text-align: center;
+            padding: 60px;
+        }
+
+        .posts-loading {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        #noPostsMessage {
+            display: none;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray-600);
+            font-size: 18px;
         }
 
         /* Mobile Navigation */
@@ -529,8 +741,9 @@
             right: 0;
             background: white;
             border-top: 1px solid var(--gray-200);
-            padding: 10px;
+            padding: 12px;
             z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .mobile-nav-list {
@@ -546,26 +759,35 @@
             color: var(--gray-600);
             text-decoration: none;
             font-size: 12px;
-            padding: 8px;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border-radius: 10px;
             transition: all 0.2s;
+            min-width: 70px;
         }
 
         .mobile-nav-link.active {
             color: var(--primary);
-            background: #f3f4f6;
+            background: #f8f9fa;
+            font-weight: 600;
         }
 
         .mobile-nav-link i {
-            font-size: 20px;
-            margin-bottom: 4px;
+            font-size: 22px;
+            margin-bottom: 6px;
         }
 
         /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1200px) {
+            .admin-content {
+                padding: 120px 30px 40px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .admin-content {
                 grid-template-columns: 1fr;
                 gap: 20px;
+                padding: 100px 20px 100px;
             }
             
             .admin-sidebar {
@@ -576,8 +798,12 @@
                 display: block;
             }
             
-            .admin-panel {
-                padding-bottom: 120px;
+            .admin-title {
+                display: none;
+            }
+            
+            .admin-header-content {
+                padding: 15px 20px;
             }
         }
 
@@ -586,27 +812,37 @@
                 --desktop-padding: var(--mobile-padding);
             }
             
-            .admin-header {
-                padding: 15px var(--mobile-padding);
+            .admin-header-content {
+                padding: 15px;
             }
             
             .admin-content {
-                padding: 20px var(--mobile-padding);
+                padding: 90px 15px 100px;
             }
             
             .admin-main {
-                padding: 20px;
+                padding: 30px;
+            }
+            
+            .login-container {
+                padding: 40px 25px;
             }
             
             .form-row {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 20px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 30px;
             }
             
             .post-item {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+                align-items: stretch;
+                gap: 20px;
+                padding: 20px;
             }
             
             .post-content-preview {
@@ -620,32 +856,75 @@
                 justify-content: flex-end;
             }
             
-            .login-container {
-                padding: 30px 20px;
+            .image-preview-container {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
             }
             
-            .admin-title {
-                display: none;
+            .toast {
+                bottom: 90px;
+                right: 20px;
+                left: 20px;
+                text-align: center;
             }
         }
 
         @media (max-width: 480px) {
+            .admin-main {
+                padding: 25px 20px;
+            }
+            
             .logout-btn {
-                padding: 6px 12px;
+                padding: 8px 16px;
                 font-size: 14px;
             }
             
+            .save-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
             .section-title {
-                font-size: 20px;
+                font-size: 22px;
             }
             
             .post-stats {
                 flex-direction: column;
-                gap: 5px;
+                align-items: flex-start;
+                gap: 10px;
             }
             
             .post-image-preview {
                 max-width: 100%;
+            }
+            
+            .mobile-nav-link {
+                min-width: 60px;
+                padding: 8px;
+            }
+            
+            .mobile-nav-link i {
+                font-size: 20px;
+            }
+            
+            .mobile-nav {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .admin-main {
+                padding: 20px 15px;
+            }
+            
+            .post-item {
+                padding: 16px;
+            }
+            
+            .action-btn {
+                padding: 8px 16px;
+                font-size: 13px;
             }
         }
     </style>
@@ -660,17 +939,20 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-input" id="email" required>
+                    <input type="email" class="form-input" id="email" required placeholder="admin@example.com">
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="password" required>
+                    <input type="password" class="form-input" id="password" required placeholder="••••••••">
                 </div>
                 
                 <div class="error-message" id="errorMessage"></div>
                 
-                <button type="submit" class="login-btn">Sign In</button>
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="loginBtnText">Sign In</span>
+                    <span class="loading" id="loginLoading" style="display: none;"></span>
+                </button>
             </form>
         </div>
     </div>
@@ -701,7 +983,7 @@
                 <ul class="sidebar-nav">
                     <li class="sidebar-item">
                         <a href="#profile" class="sidebar-link active" data-section="profile">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user-cog"></i>
                             <span>Profile Settings</span>
                         </a>
                     </li>
@@ -713,7 +995,7 @@
                     </li>
                     <li class="sidebar-item">
                         <a href="#manage-posts" class="sidebar-link" data-section="manage-posts">
-                            <i class="fas fa-list"></i>
+                            <i class="fas fa-list-alt"></i>
                             <span>Manage Posts</span>
                         </a>
                     </li>
@@ -729,7 +1011,8 @@
                     <div class="account-info">
                         <h3>Account Information</h3>
                         <p><strong>Email:</strong> <span id="currentEmail">Loading...</span></p>
-                        <button id="changePasswordBtn" class="save-btn" style="margin-top: 10px; padding: 8px 16px; font-size: 14px;">
+                        <p><strong>Last Login:</strong> <span id="lastLogin">Just now</span></p>
+                        <button id="changePasswordBtn" class="save-btn" style="margin-top: 15px; padding: 12px 24px; background: transparent; color: var(--primary); border: 1px solid var(--gray-200);">
                             <i class="fas fa-key"></i> Change Password
                         </button>
                     </div>
@@ -738,11 +1021,11 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Brand Name *</label>
-                                <input type="text" class="form-input" id="profileName" required>
+                                <input type="text" class="form-input" id="profileName" required placeholder="Trulune Malaysia">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Username *</label>
-                                <input type="text" class="form-input" id="profileUsername" required>
+                                <input type="text" class="form-input" id="profileUsername" required placeholder="trulune">
                             </div>
                         </div>
                         
@@ -755,21 +1038,36 @@
                             <label class="form-label">Profile Picture URL</label>
                             <input type="text" class="image-input" id="profileImageUrl" 
                                    placeholder="e.g., images/Logo.png or https://example.com/image.jpg">
-                            <small class="image-help">Enter local path (images/Logo.png) or full URL</small>
-                            <img src="" alt="Profile Preview" class="image-preview" id="profileImagePreview">
+                            <small class="image-help">Enter local path (images/Logo.png) or full URL. This image will be used for both profile and posts.</small>
+                            <div class="image-preview-container">
+                                <img src="images/Logo.png" alt="Profile Preview" class="image-preview" id="profileImagePreview">
+                                <div>
+                                    <p style="font-size: 14px; color: var(--gray-600); margin-bottom: 10px;"><strong>Preview:</strong> This image will appear on:</p>
+                                    <ul style="font-size: 14px; color: var(--gray-600); padding-left: 20px;">
+                                        <li>Profile page avatar</li>
+                                        <li>All posts as author avatar</li>
+                                        <li>Post headers as author image</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="form-group">
                             <div class="toggle-switch">
-                                <label class="form-label">Verified Badge</label>
+                                <label class="form-label" style="font-weight: 600;">Verified Badge</label>
                                 <label class="switch">
                                     <input type="checkbox" id="verifiedToggle">
                                     <span class="slider"></span>
                                 </label>
+                                <span style="font-size: 14px; color: var(--gray-600);">Show verified badge on profile</span>
                             </div>
                         </div>
                         
-                        <button type="submit" class="save-btn">Save Profile Changes</button>
+                        <button type="submit" class="save-btn" id="saveProfileBtn">
+                            <i class="fas fa-save"></i>
+                            <span id="saveProfileText">Save Profile Changes</span>
+                            <span class="loading" id="profileLoading" style="display: none;"></span>
+                        </button>
                     </form>
                 </section>
 
@@ -787,27 +1085,41 @@ Links will automatically be clickable: https://example.com"></textarea>
                             <label class="form-label">Image URL (Optional)</label>
                             <input type="text" class="image-input" id="postImageUrl" 
                                    placeholder="e.g., images/bookcover.png or https://example.com/image.jpg">
-                            <small class="image-help">Local path or URL. Image will be displayed at max 300px height in posts.</small>
+                            <small class="image-help">Local path or URL. Image will be displayed in posts and clickable to view full size.</small>
                             <img id="postImagePreview" class="post-image-preview" alt="Image Preview">
                         </div>
                         
-                        <button type="submit" class="save-btn">Publish Post</button>
+                        <div class="form-group color-picker">
+                            <label class="form-label">Text Color (Optional)</label>
+                            <small class="image-help">Enter hex color code (e.g., #0E3659 for blue, #FF0000 for red)</small>
+                            <div class="color-input-group">
+                                <div class="color-preview" id="colorPreview" style="background-color: #000000;"></div>
+                                <input type="text" class="color-input" id="postColor" placeholder="#000000" maxlength="7" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="save-btn" id="publishPostBtn">
+                            <i class="fas fa-paper-plane"></i>
+                            <span id="publishPostText">Publish Post</span>
+                            <span class="loading" id="postLoading" style="display: none;"></span>
+                        </button>
                     </form>
                 </section>
 
                 <!-- Manage Posts Section -->
                 <section id="manage-posts-section" class="admin-section" style="display: none;">
                     <h2 class="section-title">Manage Posts</h2>
-                    <div id="postsLoading" style="text-align: center; padding: 40px;">
-                        <div style="width: 40px; height: 40px; border: 3px solid #f3f4f6; border-top: 3px solid #0E3659; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <div id="postsLoading" style="text-align: center; padding: 60px;">
+                        <div class="posts-loading"></div>
                         <p>Loading posts...</p>
                     </div>
                     <div class="posts-list" id="postsList" style="display: none;">
                         <!-- Posts will be loaded here -->
                     </div>
-                    <div id="noPostsMessage" style="display: none; text-align: center; padding: 60px 20px; color: var(--gray-600);">
+                    <div id="noPostsMessage" style="display: none; text-align: center; padding: 80px 20px; color: var(--gray-600);">
                         <i class="fas fa-newspaper" style="font-size: 48px; color: var(--gray-200); margin-bottom: 20px;"></i>
-                        <p>No posts yet. Create your first post!</p>
+                        <p style="font-size: 18px; margin-bottom: 10px;">No posts yet</p>
+                        <p style="color: var(--gray-600); font-size: 15px;">Create your first post to get started!</p>
                     </div>
                 </section>
             </main>
@@ -818,7 +1130,7 @@ Links will automatically be clickable: https://example.com"></textarea>
             <ul class="mobile-nav-list">
                 <li class="mobile-nav-item">
                     <a href="#profile" class="mobile-nav-link active" data-section="profile">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-user-cog"></i>
                         <span>Profile</span>
                     </a>
                 </li>
@@ -830,7 +1142,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 </li>
                 <li class="mobile-nav-item">
                     <a href="#manage-posts" class="mobile-nav-link" data-section="manage-posts">
-                        <i class="fas fa-list"></i>
+                        <i class="fas fa-list-alt"></i>
                         <span>Posts</span>
                     </a>
                 </li>
@@ -866,22 +1178,53 @@ Links will automatically be clickable: https://example.com"></textarea>
             const errorMessage = document.getElementById('errorMessage');
             const currentEmail = document.getElementById('currentEmail');
             const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const lastLogin = document.getElementById('lastLogin');
+            
+            // Color picker elements
+            const colorPreview = document.getElementById('colorPreview');
+            const postColorInput = document.getElementById('postColor');
+            
+            // Color picker functionality
+            postColorInput.addEventListener('input', function() {
+                const color = this.value;
+                if (color.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) {
+                    colorPreview.style.backgroundColor = color;
+                }
+            });
+            
+            // Check if already logged in
+            const checkAuth = () => {
+                const user = auth.currentUser;
+                if (user) {
+                    loginPage.style.display = 'none';
+                    adminPanel.style.display = 'block';
+                    currentEmail.textContent = user.email;
+                    lastLogin.textContent = new Date(user.metadata.lastSignInTime || Date.now()).toLocaleString();
+                    loadProfileData();
+                    loadPosts();
+                } else {
+                    loginPage.style.display = 'flex';
+                    adminPanel.style.display = 'none';
+                }
+            };
             
             // Auth state listener
             auth.onAuthStateChanged((user) => {
                 if (user) {
-                    // User is signed in
                     loginPage.style.display = 'none';
                     adminPanel.style.display = 'block';
                     currentEmail.textContent = user.email;
+                    lastLogin.textContent = new Date(user.metadata.lastSignInTime || Date.now()).toLocaleString();
                     loadProfileData();
                     loadPosts();
                 } else {
-                    // User is signed out
                     loginPage.style.display = 'flex';
                     adminPanel.style.display = 'none';
                 }
             });
+            
+            // Initial check
+            checkAuth();
             
             // Login form submission
             loginForm.addEventListener('submit', async (e) => {
@@ -889,6 +1232,15 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
+                const loginBtn = document.getElementById('loginBtn');
+                const loginBtnText = document.getElementById('loginBtnText');
+                const loginLoading = document.getElementById('loginLoading');
+                
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtnText.style.display = 'none';
+                loginLoading.style.display = 'inline-block';
+                errorMessage.style.display = 'none';
                 
                 try {
                     await auth.signInWithEmailAndPassword(email, password);
@@ -896,6 +1248,11 @@ Links will automatically be clickable: https://example.com"></textarea>
                 } catch (error) {
                     errorMessage.textContent = error.message;
                     errorMessage.style.display = 'block';
+                } finally {
+                    // Reset loading state
+                    loginBtn.disabled = false;
+                    loginBtnText.style.display = 'inline';
+                    loginLoading.style.display = 'none';
                 }
             });
             
@@ -906,6 +1263,12 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 if (newPassword.length < 6) {
                     alert('Password must be at least 6 characters long');
+                    return;
+                }
+                
+                const confirmPassword = prompt('Confirm new password:');
+                if (newPassword !== confirmPassword) {
+                    alert('Passwords do not match');
                     return;
                 }
                 
@@ -921,8 +1284,10 @@ Links will automatically be clickable: https://example.com"></textarea>
             
             // Logout
             logoutBtn.addEventListener('click', () => {
-                auth.signOut();
-                showToast('Logged out successfully');
+                if (confirm('Are you sure you want to logout?')) {
+                    auth.signOut();
+                    showToast('Logged out successfully');
+                }
             });
             
             // Navigation
@@ -933,21 +1298,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
                         const section = link.getAttribute('data-section');
-                        
-                        // Update active state
-                        sidebarLinks.forEach(l => l.classList.remove('active'));
-                        link.classList.add('active');
-                        
-                        // Mobile nav
-                        document.querySelectorAll('.mobile-nav-link').forEach(mobileLink => {
-                            mobileLink.classList.remove('active');
-                            if (mobileLink.getAttribute('data-section') === section) {
-                                mobileLink.classList.add('active');
-                            }
-                        });
-                        
-                        // Show section
-                        showSection(section);
+                        navigateToSection(section);
                     });
                 });
                 
@@ -957,23 +1308,30 @@ Links will automatically be clickable: https://example.com"></textarea>
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
                         const section = link.getAttribute('data-section');
-                        
-                        // Update active state
-                        mobileLinks.forEach(l => l.classList.remove('active'));
-                        link.classList.add('active');
-                        
-                        // Desktop sidebar
-                        sidebarLinks.forEach(desktopLink => {
-                            desktopLink.classList.remove('active');
-                            if (desktopLink.getAttribute('data-section') === section) {
-                                desktopLink.classList.add('active');
-                            }
-                        });
-                        
-                        // Show section
-                        showSection(section);
+                        navigateToSection(section);
                     });
                 });
+            }
+            
+            function navigateToSection(section) {
+                // Update active state for desktop
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === section) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Update active state for mobile
+                document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-section') === section) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Show section
+                showSection(section);
             }
             
             function showSection(section) {
@@ -1011,20 +1369,15 @@ Links will automatically be clickable: https://example.com"></textarea>
                         if (data.profileImage) {
                             profileImageUrl.value = data.profileImage;
                             profileImagePreview.src = data.profileImage;
-                            profileImagePreview.style.display = 'block';
                         } else {
                             profileImageUrl.value = 'images/Logo.png';
                             profileImagePreview.src = 'images/Logo.png';
-                            profileImagePreview.style.display = 'block';
                         }
                         
                         // Update preview when URL changes
                         profileImageUrl.addEventListener('input', function() {
                             if (this.value.trim()) {
                                 profileImagePreview.src = this.value;
-                                profileImagePreview.style.display = 'block';
-                            } else {
-                                profileImagePreview.style.display = 'none';
                             }
                         });
                     }
@@ -1049,10 +1402,23 @@ Links will automatically be clickable: https://example.com"></textarea>
             document.getElementById('profileForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
+                const saveProfileBtn = document.getElementById('saveProfileBtn');
+                const saveProfileText = document.getElementById('saveProfileText');
+                const profileLoading = document.getElementById('profileLoading');
+                
+                // Show loading state
+                saveProfileBtn.disabled = true;
+                saveProfileText.style.display = 'none';
+                profileLoading.style.display = 'inline-block';
+                
                 try {
+                    // Get current profile data first to include verified status
+                    const profileDoc = await db.collection('profile').doc('main').get();
+                    const currentData = profileDoc.exists ? profileDoc.data() : {};
+                    
                     const profileData = {
                         name: document.getElementById('profileName').value.trim(),
-                        username: document.getElementById('profileUsername').value.trim(),
+                        username: document.getElementById('profileUsername').value.trim().replace('@', ''),
                         bio: document.getElementById('profileBio').value.trim(),
                         verified: document.getElementById('verifiedToggle').checked,
                         profileImage: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
@@ -1060,10 +1426,32 @@ Links will automatically be clickable: https://example.com"></textarea>
                     };
                     
                     await db.collection('profile').doc('main').set(profileData, { merge: true });
-                    showToast('Profile updated successfully!');
+                    
+                    // Update all posts with new author info
+                    const postsSnapshot = await db.collection('posts').get();
+                    const batch = db.batch();
+                    
+                    postsSnapshot.forEach((doc) => {
+                        const postRef = db.collection('posts').doc(doc.id);
+                        batch.update(postRef, {
+                            authorName: profileData.name,
+                            authorAvatar: profileData.profileImage,
+                            verified: profileData.verified
+                        });
+                    });
+                    
+                    await batch.commit();
+                    
+                    showToast('Profile updated successfully! All posts updated.');
+                    
                 } catch (error) {
                     console.error('Error updating profile:', error);
-                    showToast('Error updating profile');
+                    showToast('Error updating profile: ' + error.message);
+                } finally {
+                    // Reset loading state
+                    saveProfileBtn.disabled = false;
+                    saveProfileText.style.display = 'inline';
+                    profileLoading.style.display = 'none';
                 }
             });
             
@@ -1071,19 +1459,42 @@ Links will automatically be clickable: https://example.com"></textarea>
             document.getElementById('createPostForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
+                const publishPostBtn = document.getElementById('publishPostBtn');
+                const publishPostText = document.getElementById('publishPostText');
+                const postLoading = document.getElementById('postLoading');
+                
+                // Show loading state
+                publishPostBtn.disabled = true;
+                publishPostText.style.display = 'none';
+                postLoading.style.display = 'inline-block';
+                
                 try {
                     const content = document.getElementById('postContent').value.trim();
                     if (!content) {
                         showToast('Please enter post content');
+                        publishPostBtn.disabled = false;
+                        publishPostText.style.display = 'inline';
+                        postLoading.style.display = 'none';
                         return;
                     }
                     
+                    // Get current profile data for author info
+                    const profileDoc = await db.collection('profile').doc('main').get();
+                    const profileData = profileDoc.exists ? profileDoc.data() : {
+                        name: 'Trulune Malaysia',
+                        profileImage: 'images/Logo.png',
+                        verified: false
+                    };
+                    
                     const postData = {
                         content: content,
-                        authorName: 'Trulune Malaysia',
-                        authorAvatar: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
+                        authorName: profileData.name,
+                        authorAvatar: profileData.profileImage,
+                        verified: profileData.verified || false,
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        likes: 0
+                        likes: 0,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(), // Use server timestamp
+                        pinned: false // Default not pinned
                     };
                     
                     // Add image if provided
@@ -1092,32 +1503,34 @@ Links will automatically be clickable: https://example.com"></textarea>
                         postData.imageUrl = imageUrl;
                     }
                     
+                    // Add color if provided and valid
+                    const postColor = document.getElementById('postColor').value.trim();
+                    if (postColor && postColor.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)) {
+                        postData.postColor = postColor;
+                    }
+                    
                     await db.collection('posts').add(postData);
                     
                     // Reset form
                     document.getElementById('postContent').value = '';
                     document.getElementById('postImageUrl').value = '';
+                    document.getElementById('postColor').value = '';
+                    colorPreview.style.backgroundColor = '#000000';
                     document.getElementById('postImagePreview').style.display = 'none';
                     
                     showToast('Post published successfully!');
                     
                     // Switch to manage posts section
-                    showSection('manage-posts');
-                    document.querySelectorAll('.sidebar-link').forEach(l => {
-                        l.classList.remove('active');
-                        if (l.getAttribute('data-section') === 'manage-posts') {
-                            l.classList.add('active');
-                        }
-                    });
-                    document.querySelectorAll('.mobile-nav-link').forEach(l => {
-                        l.classList.remove('active');
-                        if (l.getAttribute('data-section') === 'manage-posts') {
-                            l.classList.add('active');
-                        }
-                    });
+                    navigateToSection('manage-posts');
+                    
                 } catch (error) {
                     console.error('Error creating post:', error);
                     showToast('Error creating post: ' + error.message);
+                } finally {
+                    // Reset loading state
+                    publishPostBtn.disabled = false;
+                    publishPostText.style.display = 'inline';
+                    postLoading.style.display = 'none';
                 }
             });
             
@@ -1136,8 +1549,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                         .orderBy('timestamp', 'desc')
                         .get();
                     
-                    console.log(`Loaded ${postsSnapshot.size} posts from Firestore`);
-                    
                     postsList.innerHTML = '';
                     
                     if (postsSnapshot.size === 0) {
@@ -1148,8 +1559,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                             const post = doc.data();
                             const postId = doc.id;
                             
-                            // Format date
-                            let dateText = 'Recently';
+                            // Format date accurately
+                            let dateText = 'Just now';
                             if (post.timestamp) {
                                 try {
                                     const postDate = post.timestamp.toDate();
@@ -1171,10 +1582,11 @@ Links will automatically be clickable: https://example.com"></textarea>
                                 '';
                             
                             const postItem = document.createElement('div');
-                            postItem.className = 'post-item';
+                            postItem.className = `post-item ${post.pinned ? 'pinned' : ''}`;
                             postItem.innerHTML = `
+                                ${post.pinned ? '<div class="post-pin-badge"><i class="fas fa-thumbtack"></i> Pinned</div>' : ''}
                                 <div class="post-content-preview">
-                                    <p>${formattedContent || 'No content'}</p>
+                                    <p ${post.postColor ? `style="color: ${post.postColor};"` : ''}>${formattedContent || 'No content'}</p>
                                     ${post.imageUrl ? `<img src="${post.imageUrl}" alt="Post image" class="post-image-small">` : ''}
                                     <div class="post-stats">
                                         <span><i class="fas fa-heart"></i> ${post.likes || 0} likes</span>
@@ -1182,7 +1594,10 @@ Links will automatically be clickable: https://example.com"></textarea>
                                     </div>
                                 </div>
                                 <div class="post-actions">
-                                    <button class="delete-btn" data-post-id="${postId}">
+                                    <button class="action-btn pin-btn ${post.pinned ? 'pinned' : ''}" data-post-id="${postId}" data-pinned="${post.pinned || false}">
+                                        <i class="fas fa-thumbtack"></i> ${post.pinned ? 'Unpin' : 'Pin'}
+                                    </button>
+                                    <button class="action-btn delete-btn" data-post-id="${postId}">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
@@ -1191,11 +1606,30 @@ Links will automatically be clickable: https://example.com"></textarea>
                             postsList.appendChild(postItem);
                         });
                         
-                        // Add delete event listeners
+                        // Add event listeners
+                        document.querySelectorAll('.pin-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const isPinned = e.currentTarget.getAttribute('data-pinned') === 'true';
+                                
+                                try {
+                                    await db.collection('posts').doc(postId).update({
+                                        pinned: !isPinned
+                                    });
+                                    
+                                    showToast(isPinned ? 'Post unpinned successfully' : 'Post pinned successfully');
+                                    loadPosts(); // Reload posts
+                                } catch (error) {
+                                    console.error('Error updating pin status:', error);
+                                    showToast('Error updating pin status');
+                                }
+                            });
+                        });
+                        
                         document.querySelectorAll('.delete-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
-                                if (confirm('Are you sure you want to delete this post?')) {
+                                if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
                                     try {
                                         await db.collection('posts').doc(postId).delete();
                                         showToast('Post deleted successfully');
@@ -1214,7 +1648,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 } catch (error) {
                     console.error('Error loading posts:', error);
                     postsLoading.style.display = 'none';
-                    showToast('Error loading posts');
+                    showToast('Error loading posts: ' + error.message);
                 }
             }
             
@@ -1231,6 +1665,16 @@ Links will automatically be clickable: https://example.com"></textarea>
             
             // Initialize navigation
             setupNavigation();
+            
+            // Check for hash in URL
+            if (window.location.hash) {
+                const section = window.location.hash.substring(1);
+                if (section && document.getElementById(`${section}-section`)) {
+                    setTimeout(() => {
+                        navigateToSection(section);
+                    }, 100);
+                }
+            }
         });
     </script>
 </body>
