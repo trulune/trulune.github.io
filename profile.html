@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -33,16 +32,10 @@
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        /* Container untuk pusatkan content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
             width: 100%;
         }
 
-        /* ============== HEADER ============== */
+        /* Header */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -52,9 +45,10 @@
             background: transparent;
             z-index: 1000;
             transition: all 0.3s ease;
+            width: 100%;
+            overflow: hidden;
         }
 
-        /* Header container untuk padding desktop & mobile */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -62,6 +56,8 @@
             padding: 20px var(--desktop-padding);
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .header.scrolled {
@@ -69,11 +65,6 @@
             backdrop-filter: blur(10px);
         }
 
-        .header.scrolled .header-container {
-            padding: 15px var(--desktop-padding);
-        }
-
-        /* Logo paling kiri */
         .logo {
             display: flex;
             align-items: center;
@@ -83,6 +74,7 @@
             flex-shrink: 0;
             z-index: 1001;
             transition: color 0.3s ease;
+            max-width: 200px;
         }
 
         .logo-icon {
@@ -93,6 +85,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .logo-icon img {
@@ -106,9 +99,12 @@
             font-weight: 600;
             letter-spacing: -0.5px;
             transition: color 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* ============== NAVIGATION ============== */
+        /* Navigation */
         .nav-links {
             display: flex;
             align-items: center;
@@ -146,6 +142,7 @@
             color: var(--gray-600);
             height: auto;
             min-height: 40px;
+            white-space: nowrap;
         }
 
         .nav-badge-link:hover {
@@ -179,9 +176,10 @@
             font-size: 20px;
             cursor: pointer;
             z-index: 1002;
+            flex-shrink: 0;
         }
 
-        /* ============== PROFILE PAGE ============== */
+        /* Profile Page */
         .profile-page {
             margin-top: 100px;
             padding: 0 var(--desktop-padding);
@@ -189,12 +187,28 @@
             margin-left: auto;
             margin-right: auto;
             padding-bottom: 80px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Profile Header */
+        /* FIXED: Profile Header Layout */
         .profile-header {
-            text-align: center;
-            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+            width: 100%;
+            align-items: start;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .profile-header {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 20px;
+                padding: 0;
+            }
         }
 
         .profile-avatar {
@@ -204,76 +218,133 @@
             object-fit: cover;
             border: 4px solid white;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin: 0 auto 20px;
-            display: block;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                margin: 0 auto;
+            }
+        }
+
+        .profile-info {
+            flex: 1;
         }
 
         .profile-name-container {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
             margin-bottom: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .profile-name-container {
+                justify-content: center;
+            }
         }
 
         .profile-name {
-            font-size: 32px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary);
-            position: relative;
+            line-height: 1.2;
         }
 
-        .profile-name:hover {
-            text-decoration: none !important;
-        }
-
+        /* FIXED: Verified Badge with SVG */
         .verified-badge {
-            background: #0E3659;
-            color: white;
+            background: transparent;
             width: 24px;
             height: 24px;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            cursor: help;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .verified-badge img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        /* FIXED: Verified Badge Modal */
+        .verified-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2001;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .verified-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .verified-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
         }
 
-        /* Tooltip for Verified Badge */
-        .verified-badge-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
+        .verified-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .verified-modal-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .verified-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .verified-modal-text {
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .verified-modal-close {
+            background: var(--primary);
             color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            white-space: nowrap;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
-            margin-bottom: 8px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
         }
 
-        .verified-badge-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 6px;
-            border-style: solid;
-            border-color: #333 transparent transparent transparent;
-        }
-
-        .verified-badge:hover .verified-badge-tooltip {
-            opacity: 1;
-            visibility: visible;
+        .verified-modal-close:hover {
+            background: #333;
         }
 
         .profile-username {
@@ -286,25 +357,30 @@
             font-size: 16px;
             color: var(--gray-600);
             line-height: 1.6;
+            margin-bottom: 20px;
             max-width: 600px;
-            margin: 0 auto 24px;
         }
 
         .profile-stats {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 24px;
+            gap: 30px;
+            margin-top: 10px;
         }
 
         .stat-item {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item {
+                align-items: center;
+            }
         }
 
         .stat-number {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--primary);
         }
@@ -314,7 +390,7 @@
             color: var(--gray-600);
         }
 
-        /* Posts Feed - Full width */
+        /* Posts Feed */
         .posts-feed {
             width: 100%;
             margin: 0 auto;
@@ -328,18 +404,19 @@
             margin-bottom: 30px;
             padding: 24px;
             transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .post-card.pinned {
-            border-left: 4px solid #ffd700;
-            background: linear-gradient(to right, rgba(255, 215, 0, 0.05), white);
+            border-left: 4px solid #000000;
         }
 
         .pin-indicator {
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #d97706;
+            color: #000000;
             font-size: 14px;
             font-weight: 500;
             margin-bottom: 15px;
@@ -360,6 +437,7 @@
             object-fit: cover;
             cursor: pointer;
             transition: transform 0.2s;
+            flex-shrink: 0;
         }
 
         .post-avatar:hover {
@@ -392,53 +470,70 @@
 
         /* Post Content */
         .post-content {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            width: 100%;
         }
 
         .post-text {
             color: var(--primary);
             font-size: 16px;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            width: 100%;
         }
 
         .post-text a {
             color: #0E3659;
             text-decoration: underline;
             font-weight: 500;
+            word-break: break-all;
         }
 
+        /* FIXED: Post Image - Small, Left, Fixed Size */
         .post-image-container {
-            width: 100%;
-            margin: 20px 0;
+            margin: 15px 0;
             border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
+            width: auto;
+            max-width: 300px;
+            text-align: left;
+            display: block;
         }
 
-        /* Medium size images for better layout */
         .post-image {
             width: 100%;
             height: auto;
-            max-height: 300px;
+            max-width: 300px;
+            max-height: 200px;
             object-fit: cover;
-            display: block;
+            border-radius: 8px;
             transition: transform 0.3s ease;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .post-image-container {
+                max-width: 100%;
+            }
+            .post-image {
+                max-width: 100%;
+                max-height: 250px;
+            }
         }
 
         .post-image:hover {
             transform: scale(1.02);
         }
 
-        /* Post Actions */
+        /* FIXED: Post Actions - NO LINE */
         .post-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 20px;
-            border-top: 1px solid var(--gray-200);
+            padding-top: 10px;
         }
 
         .post-interaction {
@@ -454,19 +549,19 @@
             background: none;
             border: none;
             color: var(--gray-600);
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer;
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 6px;
             transition: all 0.2s ease;
             position: relative;
         }
 
         .post-button:hover {
-            background: #f8f9fa;
-            color: var(--primary);
+            background: rgba(0, 0, 0, 0.05);
         }
 
+        /* FIXED: Like Button System */
         .like-button {
             position: relative;
         }
@@ -477,6 +572,7 @@
 
         .like-button.liked i {
             animation: heartbeat 0.5s ease-in-out;
+            color: #dc2626 !important;
         }
 
         @keyframes heartbeat {
@@ -487,38 +583,55 @@
             100% { transform: scale(1); }
         }
 
+        /* FIXED: Mobile Like Count Visible */
         .like-count {
             margin-left: 5px;
             font-weight: 600;
             color: var(--gray-600);
+            display: inline-block !important;
+            visibility: visible !important;
         }
 
         .like-button.liked .like-count {
             color: #dc2626;
         }
 
-        .share-button {
-            position: relative;
-        }
-
+        /* FIXED: Share Modal - Better Position & Text */
         .share-options {
             position: absolute;
             bottom: 100%;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             background: white;
             border: 1px solid var(--gray-200);
             border-radius: 8px;
-            padding: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             display: none;
             z-index: 100;
             min-width: 200px;
             animation: fadeIn 0.2s ease;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .share-options {
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 200px;
+                position: fixed;
+                bottom: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 90vw;
+            }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translate(-50%, 10px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
         }
 
         .share-options.show {
@@ -528,19 +641,27 @@
         .share-option {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
+            gap: 12px;
+            padding: 12px 16px;
             width: 100%;
             background: none;
             border: none;
             text-align: left;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 0;
             transition: background 0.2s;
+            font-size: 14px;
+            box-sizing: border-box;
+            color: var(--gray-600);
         }
 
         .share-option:hover {
             background: #f8f9fa;
+        }
+
+        .share-option i {
+            width: 20px;
+            text-align: center;
         }
 
         /* Image Modal */
@@ -557,6 +678,8 @@
             align-items: center;
             opacity: 0;
             transition: opacity 0.3s ease;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .image-modal.active {
@@ -568,6 +691,11 @@
             position: relative;
             max-width: 90%;
             max-height: 90%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-image {
@@ -580,8 +708,8 @@
 
         .close-modal {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 20px;
+            right: 20px;
             font-size: 1.5rem;
             color: white;
             background: rgba(0, 0, 0, 0.6);
@@ -606,6 +734,7 @@
         .loading-posts {
             text-align: center;
             padding: 60px;
+            width: 100%;
         }
 
         .loading-spinner {
@@ -627,6 +756,7 @@
             text-align: center;
             padding: 80px 20px;
             color: var(--gray-600);
+            width: 100%;
         }
 
         .no-posts i {
@@ -646,7 +776,42 @@
             color: var(--gray-600);
         }
 
-        /* ============== FOOTER ============== */
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            font-weight: 500;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .toast {
+                right: 30px;
+                left: auto;
+                text-align: left;
+            }
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
         .footer {
             background: transparent;
             color: black;
@@ -654,6 +819,8 @@
             padding: 50px var(--desktop-padding) 20px;
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .footer-content {
@@ -662,6 +829,7 @@
             align-items: center;
             gap: 32px;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .footer-brand {
@@ -669,6 +837,7 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            width: 100%;
         }
 
         .footer-logo {
@@ -706,6 +875,7 @@
             gap: 16px;
             margin-top: 10px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .social-link {
@@ -719,6 +889,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .social-link:hover {
@@ -734,6 +905,7 @@
             font-size: 14px;
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
 
         /* Mobile menu overlay */
@@ -752,7 +924,7 @@
             display: block;
         }
 
-        /* ==================== RESPONSIVE ==================== */
+        /* Responsive */
         @media (max-width: 1200px) {
             :root {
                 --desktop-padding: 40px;
@@ -763,16 +935,22 @@
             }
             
             .profile-name {
-                font-size: 28px;
-            }
-            
-            .profile-avatar {
-                width: 100px;
-                height: 100px;
+                font-size: 24px;
             }
             
             .post-image {
-                max-height: 280px;
+                max-width: 280px;
+                max-height: 180px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .header-container {
+                padding: 15px var(--desktop-padding);
+            }
+            
+            .header.scrolled .header-container {
+                padding: 10px var(--desktop-padding);
             }
         }
 
@@ -794,7 +972,7 @@
             }
 
             .header-actions {
-                 margin-left: auto;
+                margin-left: auto;
             }
 
             .nav-links {
@@ -815,17 +993,12 @@
                 overflow-y: auto;
                 margin-left: 0;
                 backdrop-filter: blur(10px);
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .nav-links.active {
                 display: flex;
-            }
-            
-            .nav-links a {
-                font-size: 18px;
-                color: #000000;
-                padding: 8px 0;
-                width: 100%;
             }
             
             .mobile-menu-toggle {
@@ -844,10 +1017,6 @@
                 width: auto;
                 justify-content: center;
             }
-            
-            .nav-badge-link .nav-badge {
-                margin: 0;
-            }
 
             .profile-page {
                 margin-top: 80px;
@@ -855,12 +1024,7 @@
             }
             
             .profile-name {
-                font-size: 24px;
-            }
-            
-            .profile-avatar {
-                width: 80px;
-                height: 80px;
+                font-size: 22px;
             }
             
             .profile-username {
@@ -869,11 +1033,12 @@
             
             .profile-bio {
                 font-size: 15px;
-                padding: 0 10px;
+                text-align: center;
             }
             
             .profile-stats {
                 gap: 30px;
+                justify-content: center;
             }
             
             .stat-number {
@@ -902,12 +1067,19 @@
             }
             
             .post-image {
+                max-width: 100%;
                 max-height: 250px;
             }
             
             .post-button {
-                padding: 6px 12px;
-                font-size: 13px;
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+            
+            /* FIXED: Mobile like count visible */
+            .like-count {
+                display: inline !important;
+                visibility: visible !important;
             }
             
             .footer {
@@ -934,8 +1106,8 @@
             }
             
             .profile-avatar {
-                width: 70px;
-                height: 70px;
+                width: 80px;
+                height: 80px;
             }
             
             .profile-username {
@@ -951,7 +1123,7 @@
             }
             
             .stat-number {
-                font-size: 18px;
+                font-size: 16px;
             }
             
             .post-card {
@@ -980,16 +1152,30 @@
             }
             
             .post-button {
-                padding: 6px 10px;
-                font-size: 12px;
+                font-size: 13px;
+                padding: 6px 8px;
             }
             
             .post-button span {
-                display: none;
+                display: inline !important;
             }
             
-            .post-button i {
-                margin-right: 0;
+            .logo-text {
+                font-size: 18px;
+            }
+            
+            .logo {
+                gap: 8px;
+            }
+            
+            .verified-badge {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .verified-badge img {
+                width: 20px;
+                height: 20px;
             }
         }
     </style>
@@ -1028,23 +1214,24 @@
         <!-- Profile Header -->
         <div class="profile-header">
             <img src="images/Logo.png" alt="Profile" class="profile-avatar" id="profileAvatar">
-            <div class="profile-name-container">
-                <h1 class="profile-name" id="profileName">Trulune Malaysia</h1>
-                <div class="verified-badge" id="verifiedBadge" style="display: none;">
-                    <i class="fas fa-check"></i>
-                    <div class="verified-badge-tooltip" id="verifiedTooltip">Official presence of Trulune Malaysia</div>
+            <div class="profile-info">
+                <div class="profile-name-container">
+                    <h1 class="profile-name" id="profileName">Trulune Malaysia</h1>
+                    <div class="verified-badge" id="verifiedBadge" style="display: none;">
+                        <img src="images/verified.svg" alt="Verified">
+                    </div>
                 </div>
-            </div>
-            <p class="profile-username" id="profileUsername">@trulune</p>
-            <p class="profile-bio" id="profileBio">Everyday scents. Timeless allure.</p>
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="totalPosts">0</span>
-                    <span class="stat-label">Posts</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="totalLikes">0</span>
-                    <span class="stat-label">Likes</span>
+                <p class="profile-username" id="profileUsername">@trulune</p>
+                <p class="profile-bio" id="profileBio">Everyday scents. Timeless allure.</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalPosts">0</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalLikes">0</span>
+                        <span class="stat-label">Likes</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1076,6 +1263,18 @@
         </div>
     </div>
 
+    <!-- FIXED: Verified Badge Modal -->
+    <div class="verified-modal" id="verifiedModal">
+        <div class="verified-modal-content">
+            <div class="verified-modal-header">
+                <img src="images/verified.svg" alt="Verified" class="verified-modal-icon">
+                <h3 class="verified-modal-title">Verified Account</h3>
+            </div>
+            <p class="verified-modal-text" id="verifiedModalText">Official presence of Trulune Malaysia</p>
+            <button class="verified-modal-close" id="verifiedModalClose">Close</button>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
@@ -1100,6 +1299,9 @@
             <p>&copy; <span id="current-year"></span> Trulune Malaysia. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <script>
         // Firebase Configuration
@@ -1168,6 +1370,39 @@
                 });
             });
             
+            // FIXED: Verified Badge Modal Setup
+            const verifiedBadge = document.getElementById('verifiedBadge');
+            const verifiedModal = document.getElementById('verifiedModal');
+            const verifiedModalText = document.getElementById('verifiedModalText');
+            const verifiedModalClose = document.getElementById('verifiedModalClose');
+
+            if (verifiedBadge) {
+                verifiedBadge.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    verifiedModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            verifiedModalClose.addEventListener('click', function() {
+                verifiedModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            verifiedModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && verifiedModal.classList.contains('active')) {
+                    verifiedModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
             // Load profile data
             async function loadProfileData() {
                 try {
@@ -1186,15 +1421,14 @@
                             profileAvatar.src = data.profileImage;
                         }
                         
-                        // Verified badge and tooltip
+                        // FIXED: Verified badge with SVG
                         const verifiedBadge = document.getElementById('verifiedBadge');
-                        const verifiedTooltip = document.getElementById('verifiedTooltip');
                         if (data.verified) {
                             verifiedBadge.style.display = 'flex';
+                            
+                            // Update modal text
                             if (data.verifiedTooltip) {
-                                verifiedTooltip.textContent = data.verifiedTooltip;
-                            } else {
-                                verifiedTooltip.textContent = 'Official presence of Trulune Malaysia';
+                                verifiedModalText.textContent = data.verifiedTooltip;
                             }
                         } else {
                             verifiedBadge.style.display = 'none';
@@ -1348,6 +1582,7 @@
                             const postCard = document.createElement('div');
                             postCard.className = `post-card ${post.pinned ? 'pinned' : ''}`;
                             postCard.style.backgroundColor = backgroundColor;
+                            postCard.id = `post-${postId}`;
                             postCard.innerHTML = `
                                 ${post.pinned ? '<div class="pin-indicator"><i class="fas fa-thumbtack"></i> Pinned Post</div>' : ''}
                                 
@@ -1357,9 +1592,8 @@
                                         <div class="post-author-name">
                                             ${post.authorName || profileData.name}
                                             ${(post.verified || profileData.verified) ? `
-                                                <div class="verified-badge" style="display: flex; width: 18px; height: 18px; font-size: 10px; cursor: help;">
-                                                    <i class="fas fa-check"></i>
-                                                    <div class="verified-badge-tooltip">${profileData.verifiedTooltip || 'Official presence of Trulune Malaysia'}</div>
+                                                <div class="verified-badge" style="display: flex; width: 18px; height: 18px; cursor: pointer;">
+                                                    <img src="images/verified.svg" alt="Verified">
                                                 </div>
                                             ` : ''}
                                         </div>
@@ -1394,22 +1628,10 @@
                         });
                         
                         // Add event listeners for like buttons
-                        document.querySelectorAll('.like-button').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                e.stopPropagation();
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                await toggleLike(postId);
-                            });
-                        });
+                        setupLikeButtons();
                         
                         // Add event listeners for share buttons
-                        document.querySelectorAll('.share-button').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                e.stopPropagation();
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                openShareOptions(postId, button);
-                            });
-                        });
+                        setupShareButtons();
                         
                         // Update stats
                         updateStats(postsArray.length, totalLikes);
@@ -1421,8 +1643,30 @@
                 }
             }
             
-            // Toggle like on post
-            async function toggleLike(postId) {
+            // Setup like buttons event listeners
+            function setupLikeButtons() {
+                document.querySelectorAll('.like-button').forEach(button => {
+                    button.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        const postId = e.currentTarget.getAttribute('data-post-id');
+                        await toggleLike(postId, button);
+                    });
+                });
+            }
+            
+            // Setup share buttons event listeners
+            function setupShareButtons() {
+                document.querySelectorAll('.share-button').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const postId = this.getAttribute('data-post-id');
+                        openShareOptions(postId, this);
+                    });
+                });
+            }
+            
+            // FIXED: Toggle like on post - Multiple likes per user
+            async function toggleLike(postId, likeButton) {
                 try {
                     const postRef = db.collection('posts').doc(postId);
                     const postDoc = await postRef.get();
@@ -1434,47 +1678,50 @@
                     
                     const post = postDoc.data();
                     const likedBy = post.likedBy || [];
-                    const isLiked = likedBy.includes(userId);
                     
-                    if (isLiked) {
-                        // Unlike the post
-                        const newLikedBy = likedBy.filter(id => id !== userId);
-                        await postRef.update({
-                            likes: (post.likes || 0) - 1,
-                            likedBy: newLikedBy
-                        });
-                    } else {
-                        // Like the post
-                        likedBy.push(userId);
-                        await postRef.update({
-                            likes: (post.likes || 0) + 1,
-                            likedBy: likedBy
-                        });
-                        
-                        // Add heartbeat animation
-                        const likeBtn = document.querySelector(`.like-button[data-post-id="${postId}"]`);
-                        if (likeBtn) {
-                            likeBtn.classList.add('liked');
-                            
-                            // Add animation
-                            const heartIcon = likeBtn.querySelector('i');
-                            heartIcon.style.animation = 'heartbeat 0.5s ease-in-out';
-                            setTimeout(() => {
-                                heartIcon.style.animation = '';
-                            }, 500);
-                        }
+                    // FIXED: User can like multiple times
+                    const newLikedBy = [...likedBy, userId]; // Always add user
+                    const newLikes = (post.likes || 0) + 1; // Always increment
+                    
+                    // Update in Firebase
+                    await postRef.update({
+                        likes: newLikes,
+                        likedBy: newLikedBy
+                    });
+                    
+                    // FIXED: Update UI with smooth animation
+                    const likeCountSpan = likeButton.querySelector('.like-count');
+                    if (likeCountSpan) {
+                        likeCountSpan.textContent = newLikes;
                     }
                     
-                    // Reload posts to update counts
-                    loadProfilePosts();
+                    // FIXED: Add heartbeat animation
+                    likeButton.classList.add('liked');
+                    const heartIcon = likeButton.querySelector('i');
+                    heartIcon.style.animation = 'heartbeat 0.5s ease-in-out';
+                    setTimeout(() => {
+                        heartIcon.style.animation = '';
+                    }, 500);
+                    
+                    // Update total likes
+                    updateTotalLikes();
                     
                 } catch (error) {
                     console.error('Error toggling like:', error);
-                    showToast('Error updating like');
+                    showToast('Error updating like: ' + error.message);
                 }
             }
             
-            // Open share options
+            // Update total likes count
+            function updateTotalLikes() {
+                let total = 0;
+                document.querySelectorAll('.like-count').forEach(countSpan => {
+                    total += parseInt(countSpan.textContent) || 0;
+                });
+                document.getElementById('totalLikes').textContent = total;
+            }
+            
+            // FIXED: Open share options - Better positioning
             function openShareOptions(postId, button) {
                 // Remove any existing share options
                 document.querySelectorAll('.share-options').forEach(el => el.remove());
@@ -1483,8 +1730,8 @@
                 const optionsDiv = document.createElement('div');
                 optionsDiv.className = 'share-options';
                 
-                // Get current post URL with correct anchor
-                const currentUrl = window.location.href.split('?')[0];
+                // Get current URL with post anchor
+                const currentUrl = window.location.href.split('#')[0];
                 const postUrl = `${currentUrl}#post-${postId}`;
                 
                 optionsDiv.innerHTML = `
@@ -1503,31 +1750,24 @@
                 `;
                 
                 // Position the share options
-                const rect = button.getBoundingClientRect();
-                optionsDiv.style.position = 'absolute';
-                optionsDiv.style.bottom = '100%';
-                optionsDiv.style.left = '0';
-                optionsDiv.style.zIndex = '1000';
-                
                 button.appendChild(optionsDiv);
                 optionsDiv.classList.add('show');
                 
                 // Close when clicking outside
-                const closeShareOptions = (e) => {
-                    if (!optionsDiv.contains(e.target) && e.target !== button) {
-                        optionsDiv.remove();
-                        document.removeEventListener('click', closeShareOptions);
-                    }
-                };
-                
                 setTimeout(() => {
-                    document.addEventListener('click', closeShareOptions);
+                    const closeHandler = (e) => {
+                        if (!optionsDiv.contains(e.target) && e.target !== button) {
+                            optionsDiv.remove();
+                            document.removeEventListener('click', closeHandler);
+                        }
+                    };
+                    document.addEventListener('click', closeHandler);
                 }, 100);
             }
             
             // Copy post link to clipboard
             window.copyPostLink = async function(postId) {
-                const currentUrl = window.location.href.split('?')[0];
+                const currentUrl = window.location.href.split('#')[0];
                 const postUrl = `${currentUrl}#post-${postId}`;
                 try {
                     await navigator.clipboard.writeText(postUrl);
@@ -1545,7 +1785,7 @@
             
             // Share to Telegram
             window.shareToTelegram = function(postId) {
-                const currentUrl = window.location.href.split('?')[0];
+                const currentUrl = window.location.href.split('#')[0];
                 const postUrl = `${currentUrl}#post-${postId}`;
                 const message = `Check out this post from Trulune Malaysia! ${postUrl}`;
                 const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(message)}`;
@@ -1559,7 +1799,7 @@
             
             // Share to WhatsApp
             window.shareToWhatsApp = function(postId) {
-                const currentUrl = window.location.href.split('?')[0];
+                const currentUrl = window.location.href.split('#')[0];
                 const postUrl = `${currentUrl}#post-${postId}`;
                 const message = `Check out this post from Trulune Malaysia! ${postUrl}`;
                 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -1605,6 +1845,13 @@
                         document.body.style.overflow = 'auto';
                     }
                     
+                    // Close verified modal
+                    const verifiedModal = document.getElementById('verifiedModal');
+                    if (verifiedModal.classList.contains('active')) {
+                        verifiedModal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                    
                     // Also close any open share options
                     document.querySelectorAll('.share-options').forEach(options => {
                         options.remove();
@@ -1642,45 +1889,12 @@
             
             // Show toast notification
             function showToast(message) {
-                // Create toast element if it doesn't exist
-                let toast = document.getElementById('toast');
-                if (!toast) {
-                    toast = document.createElement('div');
-                    toast.id = 'toast';
-                    toast.style.cssText = `
-                        position: fixed;
-                        bottom: 40px;
-                        right: 40px;
-                        background: var(--primary);
-                        color: white;
-                        padding: 16px 28px;
-                        border-radius: 12px;
-                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                        transform: translateY(100px);
-                        opacity: 0;
-                        transition: all 0.3s ease;
-                        z-index: 2000;
-                        font-weight: 500;
-                        max-width: 400px;
-                    `;
-                    document.body.appendChild(toast);
-                }
-                
+                const toast = document.getElementById('toast');
                 toast.textContent = message;
-                toast.style.display = 'block';
-                
-                // Force reflow
-                toast.offsetHeight;
-                
-                toast.style.transform = 'translateY(0)';
-                toast.style.opacity = '1';
+                toast.classList.add('show');
                 
                 setTimeout(() => {
-                    toast.style.transform = 'translateY(100px)';
-                    toast.style.opacity = '0';
-                    setTimeout(() => {
-                        toast.style.display = 'none';
-                    }, 300);
+                    toast.classList.remove('show');
                 }, 3000);
             }
             
@@ -1688,31 +1902,52 @@
             loadProfileData();
             loadProfilePosts();
             
-            // Check for post anchor in URL
+            // Check for post anchor in URL and scroll to it
             function scrollToPost() {
                 const hash = window.location.hash;
                 if (hash && hash.startsWith('#post-')) {
                     const postId = hash.replace('#post-', '');
                     
-                    // Wait for posts to load
-                    setTimeout(() => {
-                        const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+                    // Wait for posts to load and DOM to be ready
+                    const checkInterval = setInterval(() => {
+                        const postElement = document.getElementById(`post-${postId}`);
                         if (postElement) {
-                            postElement.scrollIntoView({ behavior: 'smooth' });
+                            clearInterval(checkInterval);
+                            
+                            // Calculate position to center the post
+                            const postRect = postElement.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            const scrollPosition = window.pageYOffset + postRect.top - (viewportHeight / 2) + (postRect.height / 2);
+                            
+                            // Smooth scroll to center the post
+                            window.scrollTo({
+                                top: scrollPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Highlight the post
                             postElement.style.boxShadow = '0 0 0 3px rgba(14, 54, 89, 0.3)';
                             setTimeout(() => {
                                 postElement.style.boxShadow = '';
                             }, 3000);
                         }
-                    }, 1000);
+                    }, 100);
+                    
+                    // Stop checking after 5 seconds
+                    setTimeout(() => {
+                        clearInterval(checkInterval);
+                    }, 5000);
                 }
             }
             
             // Initial scroll to post if needed
-            scrollToPost();
+            setTimeout(scrollToPost, 1000);
             
             // Listen for hash changes
             window.addEventListener('hashchange', scrollToPost);
+            
+            // Also check for hash when page loads (for direct links)
+            window.addEventListener('load', scrollToPost);
         });
     </script>
 </body>
