@@ -32,6 +32,8 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+            width: 100%;
         }
 
         /* ============== LOGIN PAGE ============== */
@@ -42,20 +44,23 @@
             min-height: 100vh;
             padding: 20px;
             background: white;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         .login-container {
             background: white;
-            padding: 50px 40px;
+            padding: 40px 30px;
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             border: 1px solid var(--gray-200);
+            margin: 0 auto;
         }
 
         .login-title {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
             margin-bottom: 10px;
             text-align: center;
@@ -65,30 +70,31 @@
         .login-subtitle {
             color: var(--gray-600);
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 16px;
+            margin-bottom: 30px;
+            font-size: 15px;
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 500;
             color: var(--primary);
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .form-input {
             width: 100%;
-            padding: 14px 18px;
+            padding: 14px 16px;
             border: 1px solid var(--gray-200);
             border-radius: 10px;
             font-size: 16px;
             transition: all 0.2s;
             background: white;
+            box-sizing: border-box;
         }
 
         .form-input:focus {
@@ -137,6 +143,8 @@
             display: none;
             min-height: 100vh;
             background: white;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         /* Admin Header */
@@ -150,34 +158,40 @@
             z-index: 1000;
             border-bottom: 1px solid var(--gray-200);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            overflow: hidden;
         }
 
         .admin-header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px var(--desktop-padding);
+            padding: 15px var(--desktop-padding);
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .admin-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
             color: var(--primary);
+            flex-shrink: 0;
+            max-width: 200px;
         }
 
         .admin-logo-icon {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 6px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .admin-logo-icon img {
@@ -187,31 +201,37 @@
         }
 
         .admin-logo-text {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .admin-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
             color: var(--gray-600);
-            margin-left: 30px;
+            margin-left: 20px;
             flex: 1;
+            display: none;
         }
 
         .logout-btn {
             background: white;
             color: var(--primary);
             border: 1px solid var(--gray-200);
-            padding: 10px 24px;
+            padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 14px;
+            white-space: nowrap;
         }
 
         .logout-btn:hover {
@@ -223,23 +243,26 @@
         .admin-content {
             display: grid;
             grid-template-columns: 280px 1fr;
-            gap: 30px;
-            padding: 120px var(--desktop-padding) 40px;
+            gap: 20px;
+            padding: 90px var(--desktop-padding) 40px;
             max-width: 1400px;
             margin: 0 auto;
             min-height: calc(100vh - 80px);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Sidebar */
         .admin-sidebar {
             background: white;
-            border-radius: 16px;
-            padding: 30px 0;
+            border-radius: 12px;
+            padding: 20px 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--gray-200);
             height: fit-content;
             position: sticky;
-            top: 100px;
+            top: 90px;
+            width: 100%;
         }
 
         .sidebar-nav {
@@ -247,20 +270,22 @@
         }
 
         .sidebar-item {
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .sidebar-link {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 16px 24px;
+            gap: 12px;
+            padding: 14px 20px;
             color: var(--gray-600);
             text-decoration: none;
             border-radius: 0;
             transition: all 0.2s;
-            font-size: 16px;
+            font-size: 15px;
             border-left: 4px solid transparent;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .sidebar-link:hover {
@@ -278,54 +303,72 @@
         .sidebar-link i {
             width: 20px;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
         /* Main Content */
         .admin-main {
             background: white;
-            border-radius: 16px;
-            padding: 40px;
+            border-radius: 12px;
+            padding: 30px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--gray-200);
-            min-height: 600px;
+            min-height: 500px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .section-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             color: var(--primary);
-            padding-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 2px solid #f3f4f6;
+            word-wrap: break-word;
         }
 
         /* Profile Settings */
         .profile-settings-form {
-            max-width: 700px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
+            gap: 20px;
+            margin-bottom: 20px;
+            width: 100%;
         }
 
         .image-upload {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            width: 100%;
         }
 
         .image-preview-container {
             display: flex;
-            align-items: flex-start;
-            gap: 30px;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
             margin-top: 20px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .image-preview-container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
         }
 
         .image-preview {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--gray-200);
@@ -335,12 +378,13 @@
 
         .image-input {
             width: 100%;
-            padding: 14px 18px;
+            padding: 14px 16px;
             border: 1px solid var(--gray-200);
             border-radius: 10px;
             font-size: 16px;
             margin-bottom: 10px;
             background: white;
+            box-sizing: border-box;
         }
 
         .image-input:focus {
@@ -350,28 +394,33 @@
         }
 
         .image-help {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--gray-600);
             margin-top: 8px;
             display: block;
             line-height: 1.5;
         }
 
+        /* Mobile-friendly toggle switch */
         .toggle-switch {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin: 30px 0;
-            padding: 20px;
+            margin: 25px 0;
+            padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
+            flex-wrap: wrap;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 54px;
-            height: 28px;
+            width: 50px;
+            height: 26px;
+            flex-shrink: 0;
         }
 
         .switch input {
@@ -395,8 +444,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 20px;
-            width: 20px;
+            height: 18px;
+            width: 18px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -409,67 +458,38 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(24px);
         }
 
-        .save-btn {
-            padding: 16px 40px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 10px;
+        .toggle-label {
+            font-size: 15px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .save-btn:hover {
-            background: #333;
-        }
-
-        .save-btn:disabled {
-            background: var(--gray-600);
-            cursor: not-allowed;
-        }
-
-        /* Account Info */
-        .account-info {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 24px;
-            margin: 40px 0;
-            border: 1px solid var(--gray-200);
-        }
-
-        .account-info h3 {
-            margin-bottom: 20px;
             color: var(--primary);
-            font-size: 20px;
+            flex: 1;
+            min-width: 200px;
         }
 
-        .account-info p {
-            margin-bottom: 12px;
+        .toggle-text {
+            font-size: 14px;
             color: var(--gray-600);
-            font-size: 16px;
+            width: 100%;
+            margin-top: 5px;
         }
 
-        .account-info strong {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Tooltip for Verified Badge */
-        .tooltip {
+        /* Mobile-friendly tooltip */
+        .tooltip-wrapper {
             position: relative;
             display: inline-block;
-            margin-left: 10px;
+            margin-left: 5px;
         }
 
-        .tooltip .tooltiptext {
+        .tooltip-icon {
+            color: var(--gray-600);
+            font-size: 14px;
+            cursor: help;
+        }
+
+        .tooltip-text {
             visibility: hidden;
             width: 200px;
             background-color: #333;
@@ -478,39 +498,44 @@
             border-radius: 6px;
             padding: 8px;
             position: absolute;
-            z-index: 1;
+            z-index: 1000;
             bottom: 125%;
             left: 50%;
-            margin-left: -100px;
+            transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s;
             font-size: 12px;
             font-weight: normal;
+            word-wrap: break-word;
+            max-width: min(200px, 90vw);
+            box-sizing: border-box;
         }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .tooltip .tooltiptext::after {
+        .tooltip-text::after {
             content: "";
             position: absolute;
             top: 100%;
             left: 50%;
-            margin-left: -5px;
+            transform: translateX(-50%);
             border-width: 5px;
             border-style: solid;
             border-color: #333 transparent transparent transparent;
         }
 
-        /* Verified Tooltip Editor */
+        .tooltip-wrapper:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Mobile-friendly tooltip editor */
         .tooltip-editor {
             margin-top: 15px;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 8px;
             border: 1px solid var(--gray-200);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .tooltip-editor label {
@@ -531,6 +556,7 @@
             min-height: 80px;
             font-family: 'Lato';
             line-height: 1.4;
+            box-sizing: border-box;
         }
 
         .tooltip-editor textarea:focus {
@@ -538,19 +564,73 @@
             border-color: var(--primary);
         }
 
-        /* ============== CREATE POST ENHANCED ============== */
+        .save-btn {
+            padding: 14px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            background: #333;
+        }
+
+        .save-btn:disabled {
+            background: var(--gray-600);
+            cursor: not-allowed;
+        }
+
+        /* Account Info */
+        .account-info {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 1px solid var(--gray-200);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .account-info h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .account-info p {
+            margin-bottom: 10px;
+            color: var(--gray-600);
+            font-size: 15px;
+        }
+
+        .account-info strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Create Post */
         .post-form textarea {
             width: 100%;
-            min-height: 200px;
-            padding: 20px;
+            min-height: 180px;
+            padding: 18px;
             border: 1px solid var(--gray-200);
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 16px;
             resize: vertical;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             font-family: 'Lato';
             line-height: 1.6;
             background: white;
+            box-sizing: border-box;
         }
 
         .post-form textarea:focus {
@@ -560,52 +640,58 @@
         }
 
         .image-input-group {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            width: 100%;
         }
 
         .post-image-preview {
-            max-width: 300px;
-            max-height: 300px;
+            max-width: 200px;
+            max-height: 200px;
             object-fit: contain;
-            border-radius: 12px;
-            margin: 20px 0;
+            border-radius: 8px;
+            margin: 15px 0;
             border: 1px solid var(--gray-200);
-            padding: 10px;
+            padding: 8px;
             background: #f8fafc;
             display: none;
         }
 
-        /* Color Picker for Post Background */
+        /* Color Picker */
         .color-picker-container {
-            margin: 24px 0;
-            padding: 20px;
+            margin: 20px 0;
+            padding: 18px;
             background: #f8f9fa;
             border-radius: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .color-picker-row {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 10px;
+            flex-wrap: wrap;
         }
 
         .color-preview {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 8px;
             border: 2px solid var(--gray-200);
             cursor: pointer;
             background: white;
+            flex-shrink: 0;
         }
 
         .color-input {
-            width: 120px;
-            padding: 8px 12px;
+            width: 100px;
+            padding: 8px 10px;
             border: 1px solid var(--gray-200);
             border-radius: 6px;
             font-size: 14px;
             text-transform: uppercase;
+            box-sizing: border-box;
         }
 
         .color-input:focus {
@@ -614,65 +700,71 @@
         }
 
         .color-label {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--gray-600);
+            width: 100%;
         }
 
-        /* ============== MANAGE POSTS ENHANCED ============== */
+        /* Manage Posts */
         .posts-list {
-            margin-top: 40px;
+            margin-top: 30px;
+            width: 100%;
         }
 
         .post-item {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 24px;
+            flex-direction: column;
+            padding: 20px;
             border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
             background: white;
             transition: all 0.2s;
             position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .post-item {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
         }
 
         .post-item.pinned {
-            border-left: 4px solid #ffd700;
-            background: linear-gradient(to right, rgba(255, 215, 0, 0.05), white);
+            border-left: 4px solid #000000;
         }
 
         .pin-badge {
             position: absolute;
             top: -10px;
-            right: 20px;
-            background: #ffd700;
-            color: #333;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            right: 15px;
+            background: #000000;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 5px;
-            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
-        }
-
-        .post-item:hover {
-            border-color: var(--gray-600);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .post-content-preview {
             flex: 1;
-            margin-right: 30px;
             min-width: 0;
+            width: 100%;
         }
 
         .post-content-preview p {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             line-height: 1.6;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            font-size: 15px;
         }
 
         .post-content-preview a {
@@ -683,71 +775,80 @@
         }
 
         .post-image-small {
-            max-width: 120px;
-            max-height: 120px;
+            max-width: 100px;
+            max-height: 100px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-top: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
             border: 1px solid var(--gray-200);
             display: block;
         }
 
         .post-stats {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
             color: var(--gray-600);
-            font-size: 14px;
-            margin-top: 15px;
+            font-size: 13px;
+            margin-top: 12px;
             align-items: center;
         }
 
         .post-date {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--gray-600);
             background: #f8f9fa;
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 6px;
             display: inline-block;
         }
 
         .post-actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-shrink: 0;
+            margin-top: 15px;
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        @media (min-width: 768px) {
+            .post-actions {
+                margin-top: 0;
+                width: auto;
+                justify-content: flex-start;
+            }
         }
 
         .post-action-btn {
-            padding: 10px 20px;
+            padding: 8px 15px;
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-weight: 500;
+            white-space: nowrap;
         }
 
         .pin-btn {
-            color: #d97706;
-            border-color: #d97706;
+            color: #000000;
+            border-color: #000000;
         }
 
         .pin-btn:hover {
-            background: #d97706;
+            background: #000000;
             color: white;
         }
 
         .pin-btn.pinned {
-            background: #ffd700;
-            color: #333;
-            border-color: #ffd700;
-        }
-
-        .pin-btn.pinned:hover {
-            background: #e6c300;
+            background: #000000;
+            color: white;
+            border-color: #000000;
         }
 
         .delete-btn {
@@ -763,19 +864,31 @@
         /* Toast */
         .toast {
             position: fixed;
-            bottom: 40px;
-            right: 40px;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
             background: var(--primary);
             color: white;
-            padding: 16px 28px;
-            border-radius: 12px;
+            padding: 14px 20px;
+            border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
             z-index: 2000;
             font-weight: 500;
+            text-align: center;
             max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .toast {
+                right: 30px;
+                left: auto;
+                text-align: left;
+            }
         }
 
         .toast.show {
@@ -786,8 +899,8 @@
         /* Loading States */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
@@ -800,7 +913,7 @@
 
         #postsLoading {
             text-align: center;
-            padding: 60px;
+            padding: 50px;
         }
 
         .posts-loading {
@@ -811,15 +924,15 @@
             border-top: 4px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         #noPostsMessage {
             display: none;
             text-align: center;
-            padding: 80px 20px;
+            padding: 60px 20px;
             color: var(--gray-600);
-            font-size: 18px;
+            font-size: 16px;
         }
 
         /* Mobile Navigation */
@@ -831,15 +944,18 @@
             right: 0;
             background: white;
             border-top: 1px solid var(--gray-200);
-            padding: 12px;
+            padding: 10px;
             z-index: 1000;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .mobile-nav-list {
             display: flex;
             justify-content: space-around;
             list-style: none;
+            width: 100%;
         }
 
         .mobile-nav-link {
@@ -848,11 +964,11 @@
             align-items: center;
             color: var(--gray-600);
             text-decoration: none;
-            font-size: 12px;
-            padding: 10px 12px;
-            border-radius: 10px;
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 8px;
             transition: all 0.2s;
-            min-width: 70px;
+            min-width: 60px;
         }
 
         .mobile-nav-link.active {
@@ -862,22 +978,22 @@
         }
 
         .mobile-nav-link i {
-            font-size: 22px;
-            margin-bottom: 6px;
+            font-size: 18px;
+            margin-bottom: 4px;
         }
 
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 1200px) {
             .admin-content {
-                padding: 120px 30px 40px;
+                padding: 90px 25px 40px;
             }
         }
 
         @media (max-width: 1024px) {
             .admin-content {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 100px 20px 100px;
+                gap: 15px;
+                padding: 85px 20px 80px;
             }
             
             .admin-sidebar {
@@ -903,75 +1019,72 @@
             }
             
             .admin-header-content {
-                padding: 15px;
+                padding: 12px 15px;
             }
             
             .admin-content {
-                padding: 90px 15px 100px;
+                padding: 80px 15px 80px;
             }
             
             .admin-main {
-                padding: 30px;
+                padding: 25px 20px;
             }
             
             .login-container {
-                padding: 40px 25px;
+                padding: 35px 20px;
             }
             
             .form-row {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 15px;
             }
             
             .section-title {
-                font-size: 24px;
-                margin-bottom: 30px;
+                font-size: 22px;
+                margin-bottom: 25px;
             }
             
             .post-item {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 20px;
-                padding: 20px;
+                padding: 18px;
             }
             
             .post-content-preview {
-                margin-right: 0;
                 width: 100%;
-            }
-            
-            .post-actions {
-                align-self: flex-end;
-                width: 100%;
-                justify-content: flex-end;
             }
             
             .image-preview-container {
+                gap: 15px;
+            }
+            
+            .toggle-switch {
                 flex-direction: column;
-                gap: 20px;
-                align-items: center;
+                align-items: flex-start;
+                gap: 10px;
             }
             
-            .toast {
-                bottom: 90px;
-                right: 20px;
+            .switch {
+                align-self: flex-start;
+            }
+            
+            .tooltip-text {
+                max-width: calc(100vw - 40px);
+                left: 0;
+                transform: none;
+            }
+            
+            .tooltip-text::after {
                 left: 20px;
-                text-align: center;
-            }
-            
-            .color-picker-row {
-                flex-wrap: wrap;
             }
         }
 
         @media (max-width: 480px) {
             .admin-main {
-                padding: 25px 20px;
+                padding: 20px 15px;
             }
             
             .logout-btn {
-                padding: 8px 16px;
-                font-size: 14px;
+                padding: 6px 12px;
+                font-size: 13px;
             }
             
             .save-btn {
@@ -980,13 +1093,13 @@
             }
             
             .section-title {
-                font-size: 22px;
+                font-size: 20px;
             }
             
             .post-stats {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 8px;
             }
             
             .post-image-preview {
@@ -994,31 +1107,43 @@
             }
             
             .mobile-nav-link {
-                min-width: 60px;
-                padding: 8px;
+                min-width: 55px;
+                padding: 6px;
             }
             
             .mobile-nav-link i {
-                font-size: 20px;
+                font-size: 16px;
             }
             
             .mobile-nav {
-                padding: 10px;
+                padding: 8px;
             }
             
             .post-action-btn {
-                padding: 8px 16px;
-                font-size: 13px;
+                padding: 7px 12px;
+                font-size: 12px;
+            }
+            
+            .admin-logo-text {
+                font-size: 16px;
+            }
+            
+            .admin-logo {
+                gap: 8px;
             }
         }
 
         @media (max-width: 360px) {
             .admin-main {
-                padding: 20px 15px;
+                padding: 18px 12px;
             }
             
             .post-item {
-                padding: 16px;
+                padding: 15px;
+            }
+            
+            .login-container {
+                padding: 30px 15px;
             }
         }
     </style>
@@ -1063,10 +1188,8 @@
                     <span class="admin-logo-text">Trulune Malaysia</span>
                 </a>
                 
-                <div class="admin-title">Admin Panel</div>
-                
                 <button class="logout-btn" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i> <span class="logout-text">Logout</span>
                 </button>
             </div>
         </header>
@@ -1148,18 +1271,18 @@
                         
                         <div class="form-group">
                             <div class="toggle-switch">
-                                <label class="form-label" style="font-weight: 600;">
+                                <label class="toggle-label">
                                     Verified Badge 
-                                    <span class="tooltip">
-                                        <i class="fas fa-question-circle" style="color: var(--gray-600); font-size: 14px;"></i>
-                                        <span class="tooltiptext" id="verifiedTooltipText">Official presence of Trulune Malaysia</span>
+                                    <span class="tooltip-wrapper">
+                                        <i class="fas fa-question-circle tooltip-icon"></i>
+                                        <span class="tooltip-text" id="verifiedTooltipText">Official presence of Trulune Malaysia</span>
                                     </span>
                                 </label>
                                 <label class="switch">
                                     <input type="checkbox" id="verifiedToggle">
                                     <span class="slider"></span>
                                 </label>
-                                <span style="font-size: 14px; color: var(--gray-600);">Show verified badge on profile and posts</span>
+                                <span class="toggle-text">Show verified badge on profile and posts</span>
                             </div>
                         </div>
                         
@@ -1220,17 +1343,17 @@ Links will automatically be clickable: https://example.com"></textarea>
                 <!-- Manage Posts Section -->
                 <section id="manage-posts-section" class="admin-section" style="display: none;">
                     <h2 class="section-title">Manage Posts</h2>
-                    <div id="postsLoading" style="text-align: center; padding: 60px;">
+                    <div id="postsLoading" style="text-align: center; padding: 50px;">
                         <div class="posts-loading"></div>
                         <p>Loading posts...</p>
                     </div>
                     <div class="posts-list" id="postsList" style="display: none;">
                         <!-- Posts will be loaded here -->
                     </div>
-                    <div id="noPostsMessage" style="display: none; text-align: center; padding: 80px 20px; color: var(--gray-600);">
-                        <i class="fas fa-newspaper" style="font-size: 48px; color: var(--gray-200); margin-bottom: 20px;"></i>
-                        <p style="font-size: 18px; margin-bottom: 10px;">No posts yet</p>
-                        <p style="color: var(--gray-600); font-size: 15px;">Create your first post to get started!</p>
+                    <div id="noPostsMessage" style="display: none; text-align: center; padding: 60px 20px; color: var(--gray-600);">
+                        <i class="fas fa-newspaper" style="font-size: 40px; color: var(--gray-200); margin-bottom: 15px;"></i>
+                        <p style="font-size: 16px; margin-bottom: 10px;">No posts yet</p>
+                        <p style="color: var(--gray-600); font-size: 14px;">Create your first post to get started!</p>
                     </div>
                 </section>
             </main>
@@ -1306,7 +1429,6 @@ Links will automatically be clickable: https://example.com"></textarea>
             postColorInput.addEventListener('input', function() {
                 let color = this.value.trim();
                 if (color.startsWith('#')) {
-                    // Validate hex color
                     const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
                     if (hexRegex.test(color)) {
                         colorPreview.style.background = color;
@@ -1327,9 +1449,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     adminPanel.style.display = 'block';
                     currentEmail.textContent = user.email;
                     
-                    // Update last login display
                     updateLastLoginDisplay();
-                    
                     loadProfileData();
                     loadPosts();
                 } else {
@@ -1364,7 +1484,6 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Auth state listener
             auth.onAuthStateChanged((user) => {
                 if (user) {
-                    // Record login time
                     lastLoginTime = new Date();
                     localStorage.setItem('trulune_last_login', lastLoginTime.toISOString());
                     
@@ -1372,9 +1491,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     adminPanel.style.display = 'block';
                     currentEmail.textContent = user.email;
                     
-                    // Update last login display
                     updateLastLoginDisplay();
-                    
                     loadProfileData();
                     loadPosts();
                 } else {
@@ -1383,10 +1500,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Initial check
             checkAuth();
             
-            // Restore last login time from localStorage
             const storedLastLogin = localStorage.getItem('trulune_last_login');
             if (storedLastLogin) {
                 lastLoginTime = new Date(storedLastLogin);
@@ -1402,7 +1517,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 const loginBtnText = document.getElementById('loginBtnText');
                 const loginLoading = document.getElementById('loginLoading');
                 
-                // Show loading state
                 loginBtn.disabled = true;
                 loginBtnText.style.display = 'none';
                 loginLoading.style.display = 'inline-block';
@@ -1415,7 +1529,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                     errorMessage.textContent = error.message;
                     errorMessage.style.display = 'block';
                 } finally {
-                    // Reset loading state
                     loginBtn.disabled = false;
                     loginBtnText.style.display = 'inline';
                     loginLoading.style.display = 'none';
@@ -1458,7 +1571,6 @@ Links will automatically be clickable: https://example.com"></textarea>
             
             // Navigation
             function setupNavigation() {
-                // Desktop sidebar
                 const sidebarLinks = document.querySelectorAll('.sidebar-link');
                 sidebarLinks.forEach(link => {
                     link.addEventListener('click', (e) => {
@@ -1468,7 +1580,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                     });
                 });
                 
-                // Mobile navigation
                 const mobileLinks = document.querySelectorAll('.mobile-nav-link');
                 mobileLinks.forEach(link => {
                     link.addEventListener('click', (e) => {
@@ -1480,7 +1591,6 @@ Links will automatically be clickable: https://example.com"></textarea>
             }
             
             function navigateToSection(section) {
-                // Update active state for desktop
                 document.querySelectorAll('.sidebar-link').forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('data-section') === section) {
@@ -1488,7 +1598,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                     }
                 });
                 
-                // Update active state for mobile
                 document.querySelectorAll('.mobile-nav-link').forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('data-section') === section) {
@@ -1496,20 +1605,16 @@ Links will automatically be clickable: https://example.com"></textarea>
                     }
                 });
                 
-                // Show section
                 showSection(section);
             }
             
             function showSection(section) {
-                // Hide all sections
                 document.querySelectorAll('.admin-section').forEach(sec => {
                     sec.style.display = 'none';
                 });
                 
-                // Show selected section
                 document.getElementById(`${section}-section`).style.display = 'block';
                 
-                // If showing manage posts, reload them
                 if (section === 'manage-posts') {
                     loadPosts();
                 }
@@ -1522,24 +1627,20 @@ Links will automatically be clickable: https://example.com"></textarea>
                     if (profileDoc.exists) {
                         const data = profileDoc.data();
                         
-                        // Fill form fields
                         document.getElementById('profileName').value = data.name || '';
                         document.getElementById('profileUsername').value = data.username || '';
                         document.getElementById('profileBio').value = data.bio || '';
                         document.getElementById('verifiedToggle').checked = data.verified || false;
                         
-                        // Verified badge tooltip text
                         if (data.verifiedTooltip) {
                             verifiedTooltipInput.value = data.verifiedTooltip;
                         }
                         
-                        // Update verified badge tooltip text
                         const verifiedTooltip = document.getElementById('verifiedTooltipText');
                         if (verifiedTooltip) {
                             verifiedTooltip.textContent = data.verifiedTooltip || 'Official presence of Trulune Malaysia';
                         }
                         
-                        // Profile image
                         const profileImageUrl = document.getElementById('profileImageUrl');
                         const profileImagePreview = document.getElementById('profileImagePreview');
                         
@@ -1551,14 +1652,12 @@ Links will automatically be clickable: https://example.com"></textarea>
                             profileImagePreview.src = 'images/Logo.png';
                         }
                         
-                        // Update preview when URL changes
                         profileImageUrl.addEventListener('input', function() {
                             if (this.value.trim()) {
                                 profileImagePreview.src = this.value;
                             }
                         });
                         
-                        // Update verified toggle tooltip on change
                         document.getElementById('verifiedToggle').addEventListener('change', function() {
                             const verifiedTooltip = document.getElementById('verifiedTooltipText');
                             if (verifiedTooltip) {
@@ -1568,7 +1667,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                             }
                         });
                         
-                        // Update tooltip text when input changes
                         verifiedTooltipInput.addEventListener('input', function() {
                             const verifiedTooltip = document.getElementById('verifiedTooltipText');
                             if (verifiedTooltip) {
@@ -1637,7 +1735,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 const saveProfileText = document.getElementById('saveProfileText');
                 const profileLoading = document.getElementById('profileLoading');
                 
-                // Show loading state
                 saveProfileBtn.disabled = true;
                 saveProfileText.style.display = 'none';
                 profileLoading.style.display = 'inline-block';
@@ -1655,10 +1752,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                     
                     await db.collection('profile').doc('main').set(profileData, { merge: true });
                     
-                    // Update existing posts with new profile info
                     await updateExistingPostsWithProfileInfo(profileData);
                     
-                    // Update tooltip text
                     const verifiedTooltip = document.getElementById('verifiedTooltipText');
                     if (verifiedTooltip) {
                         verifiedTooltip.textContent = profileData.verifiedTooltip;
@@ -1670,7 +1765,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                     console.error('Error updating profile:', error);
                     showToast('Error updating profile: ' + error.message);
                 } finally {
-                    // Reset loading state
                     saveProfileBtn.disabled = false;
                     saveProfileText.style.display = 'inline';
                     profileLoading.style.display = 'none';
@@ -1708,7 +1802,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 const publishPostText = document.getElementById('publishPostText');
                 const postLoading = document.getElementById('postLoading');
                 
-                // Show loading state
                 publishPostBtn.disabled = true;
                 publishPostText.style.display = 'none';
                 postLoading.style.display = 'inline-block';
@@ -1723,7 +1816,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                         return;
                     }
                     
-                    // Get current profile data for author info
                     const profileDoc = await db.collection('profile').doc('main').get();
                     const profileData = profileDoc.exists ? profileDoc.data() : {
                         name: 'Trulune Malaysia',
@@ -1732,11 +1824,10 @@ Links will automatically be clickable: https://example.com"></textarea>
                         verifiedTooltip: 'Official presence of Trulune Malaysia'
                     };
                     
-                    // Get post color (default to white)
                     let postColor = postColorInput.value.trim();
                     const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
                     if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
-                        postColor = '#FFFFFF'; // Default to white
+                        postColor = '#FFFFFF';
                     }
                     
                     const postData = {
@@ -1752,7 +1843,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                         pinned: false
                     };
                     
-                    // Add image if provided
                     const imageUrl = document.getElementById('postImageUrl').value.trim();
                     if (imageUrl) {
                         postData.imageUrl = imageUrl;
@@ -1760,7 +1850,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                     
                     await db.collection('posts').add(postData);
                     
-                    // Reset form
                     document.getElementById('postContent').value = '';
                     document.getElementById('postImageUrl').value = '';
                     document.getElementById('postImagePreview').style.display = 'none';
@@ -1769,14 +1858,12 @@ Links will automatically be clickable: https://example.com"></textarea>
                     
                     showToast('Post published successfully!');
                     
-                    // Switch to manage posts section
                     navigateToSection('manage-posts');
                     
                 } catch (error) {
                     console.error('Error creating post:', error);
                     showToast('Error creating post: ' + error.message);
                 } finally {
-                    // Reset loading state
                     publishPostBtn.disabled = false;
                     publishPostText.style.display = 'inline';
                     postLoading.style.display = 'none';
@@ -1789,7 +1876,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 const postsList = document.getElementById('postsList');
                 const noPostsMessage = document.getElementById('noPostsMessage');
                 
-                // Check if elements exist
                 if (!postsLoading || !postsList || !noPostsMessage) {
                     console.error('Required DOM elements not found');
                     return;
@@ -1803,13 +1889,11 @@ Links will automatically be clickable: https://example.com"></textarea>
                     let postsSnapshot;
                     
                     try {
-                        // Try to get posts ordered by timestamp
                         postsSnapshot = await db.collection('posts')
                             .orderBy('timestamp', 'desc')
                             .get();
                     } catch (indexError) {
                         console.log('Index error, trying without order:', indexError);
-                        // If index error, get all posts and sort manually
                         postsSnapshot = await db.collection('posts').get();
                     }
                     
@@ -1823,33 +1907,26 @@ Links will automatically be clickable: https://example.com"></textarea>
                     } else {
                         let postsArray = [];
                         
-                        // Convert snapshot to array
                         postsSnapshot.forEach((doc) => {
                             const post = doc.data();
                             post.id = doc.id;
                             postsArray.push(post);
                         });
                         
-                        // Sort: pinned posts first, then by date
                         postsArray.sort((a, b) => {
-                            // Pinned posts go first
                             if (a.pinned && !b.pinned) return -1;
                             if (!a.pinned && b.pinned) return 1;
                             
-                            // Then sort by timestamp
                             const timeA = getTimestampValue(a.timestamp || a.createdAt);
                             const timeB = getTimestampValue(b.timestamp || b.createdAt);
-                            return timeB - timeA; // Descending order
+                            return timeB - timeA;
                         });
                         
-                        // Create post elements
                         postsArray.forEach((post) => {
                             const postId = post.id;
                             
-                            // Format date
                             const dateText = formatTimestamp(post.timestamp || post.createdAt);
                             
-                            // Format content with clickable links
                             const formattedContent = post.content ? 
                                 post.content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #0E3659; text-decoration: underline; font-weight: 500;">$1</a>') : 
                                 '';
@@ -1879,7 +1956,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                             postsList.appendChild(postItem);
                         });
                         
-                        // Add event listeners for pin and delete buttons
                         document.querySelectorAll('.pin-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
@@ -1891,7 +1967,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                                     });
                                     
                                     showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
-                                    loadPosts(); // Reload posts to re-sort
+                                    loadPosts();
                                 } catch (error) {
                                     console.error('Error toggling pin:', error);
                                     showToast('Error updating post');
@@ -1906,7 +1982,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                                     try {
                                         await db.collection('posts').doc(postId).delete();
                                         showToast('Post deleted successfully');
-                                        loadPosts(); // Reload posts
+                                        loadPosts();
                                     } catch (error) {
                                         console.error('Error deleting post:', error);
                                         showToast('Error deleting post');
@@ -1925,7 +2001,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // Helper function to get timestamp value
             function getTimestampValue(timestamp) {
                 if (!timestamp) return 0;
                 
@@ -1947,7 +2022,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 return 0;
             }
             
-            // Toast notification
             function showToast(message) {
                 const toast = document.getElementById('toast');
                 if (!toast) return;
@@ -1960,10 +2034,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }, 3000);
             }
             
-            // Initialize navigation
             setupNavigation();
             
-            // Check for hash in URL
             if (window.location.hash) {
                 const section = window.location.hash.substring(1);
                 if (section && document.getElementById(`${section}-section`)) {
@@ -1973,7 +2045,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // Update last login every minute
             setInterval(updateLastLoginDisplay, 60000);
         });
     </script>
