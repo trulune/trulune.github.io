@@ -191,7 +191,7 @@
             box-sizing: border-box;
         }
 
-        /* FIXED: Profile Header Layout */
+        /* Profile Header */
         .profile-header {
             display: grid;
             grid-template-columns: 120px 1fr;
@@ -211,22 +211,50 @@
             }
         }
 
-        .profile-avatar {
+        /* Profile Avatar with Verified Badge */
+        .profile-avatar-container {
+            position: relative;
             width: 120px;
             height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
         }
 
         @media (max-width: 768px) {
-            .profile-avatar {
+            .profile-avatar-container {
+                margin: 0 auto;
                 width: 100px;
                 height: 100px;
-                margin: 0 auto;
             }
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 1. Plain verified badge, no background */
+        .profile-verified-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .profile-verified-badge img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
         }
 
         .profile-info {
@@ -253,98 +281,6 @@
             font-weight: 700;
             color: var(--primary);
             line-height: 1.2;
-        }
-
-        /* FIXED: Verified Badge with SVG */
-        .verified-badge {
-            background: transparent;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .verified-badge img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
-        /* FIXED: Verified Badge Modal */
-        .verified-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2001;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .verified-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .verified-modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .verified-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .verified-modal-icon {
-            width: 32px;
-            height: 32px;
-        }
-
-        .verified-modal-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .verified-modal-text {
-            color: var(--gray-600);
-            line-height: 1.5;
-            margin-bottom: 20px;
-            font-size: 15px;
-        }
-
-        .verified-modal-close {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-        .verified-modal-close:hover {
-            background: #333;
         }
 
         .profile-username {
@@ -422,7 +358,7 @@
             margin-bottom: 15px;
         }
 
-        /* Post Header */
+        /* Post Header with Avatar and Verified Badge */
         .post-header {
             display: flex;
             align-items: center;
@@ -430,18 +366,45 @@
             gap: 12px;
         }
 
-        .post-avatar {
+        .post-avatar-container {
+            position: relative;
             width: 50px;
             height: 50px;
+            flex-shrink: 0;
+        }
+
+        .post-avatar {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             cursor: pointer;
             transition: transform 0.2s;
-            flex-shrink: 0;
         }
 
         .post-avatar:hover {
             transform: scale(1.05);
+        }
+
+        /* 1. Plain verified badge, no background */
+        .post-verified-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .post-verified-badge img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
         }
 
         .post-author-info {
@@ -491,7 +454,7 @@
             word-break: break-all;
         }
 
-        /* FIXED: Post Image - Small, Left, Fixed Size */
+        /* Post Image */
         .post-image-container {
             margin: 15px 0;
             border-radius: 8px;
@@ -528,7 +491,7 @@
             transform: scale(1.02);
         }
 
-        /* FIXED: Post Actions - NO LINE */
+        /* Post Actions */
         .post-actions {
             display: flex;
             justify-content: space-between;
@@ -561,20 +524,25 @@
             background: rgba(0, 0, 0, 0.05);
         }
 
-        /* FIXED: Like Button System */
+        /* 2. Like button - red only when liked, gray when not liked */
         .like-button {
             position: relative;
+            color: var(--gray-600) !important;
         }
 
         .like-button.liked {
-            color: #dc2626;
-        }
-
-        .like-button.liked i {
-            animation: heartbeat 0.5s ease-in-out;
             color: #dc2626 !important;
         }
 
+        .like-button.liked i {
+            color: #dc2626 !important;
+        }
+
+        .like-button i {
+            transition: color 0.2s ease;
+        }
+
+        /* 3. Heartbeat animation on click */
         @keyframes heartbeat {
             0% { transform: scale(1); }
             25% { transform: scale(1.2); }
@@ -583,20 +551,24 @@
             100% { transform: scale(1); }
         }
 
-        /* FIXED: Mobile Like Count Visible */
+        .heartbeat {
+            animation: heartbeat 0.5s ease-in-out;
+        }
+
         .like-count {
             margin-left: 5px;
             font-weight: 600;
             color: var(--gray-600);
             display: inline-block !important;
             visibility: visible !important;
+            transition: color 0.2s ease;
         }
 
         .like-button.liked .like-count {
             color: #dc2626;
         }
 
-        /* FIXED: Share Modal - Better Position & Text */
+        /* Share Modal */
         .share-options {
             position: absolute;
             bottom: 100%;
@@ -728,6 +700,79 @@
         .close-modal:hover {
             background: rgba(0, 0, 0, 0.8);
             transform: scale(1.1);
+        }
+
+        /* Verified Badge Modal */
+        .verified-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2001;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .verified-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .verified-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .verified-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .verified-modal-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .verified-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .verified-modal-text {
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .verified-modal-close {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .verified-modal-close:hover {
+            background: #333;
         }
 
         /* Loading State */
@@ -1076,7 +1121,6 @@
                 font-size: 14px;
             }
             
-            /* FIXED: Mobile like count visible */
             .like-count {
                 display: inline !important;
                 visibility: visible !important;
@@ -1105,9 +1149,21 @@
                 font-size: 20px;
             }
             
-            .profile-avatar {
+            .profile-avatar-container {
                 width: 80px;
                 height: 80px;
+            }
+            
+            .profile-verified-badge {
+                width: 24px;
+                height: 24px;
+                bottom: 6px;
+                right: 6px;
+            }
+            
+            .profile-verified-badge img {
+                width: 18px;
+                height: 18px;
             }
             
             .profile-username {
@@ -1130,9 +1186,21 @@
                 padding: 16px;
             }
             
-            .post-avatar {
+            .post-avatar-container {
                 width: 40px;
                 height: 40px;
+            }
+            
+            .post-verified-badge {
+                width: 16px;
+                height: 16px;
+                bottom: -2px;
+                right: -2px;
+            }
+            
+            .post-verified-badge img {
+                width: 14px;
+                height: 14px;
             }
             
             .post-author-name {
@@ -1166,16 +1234,6 @@
             
             .logo {
                 gap: 8px;
-            }
-            
-            .verified-badge {
-                width: 20px;
-                height: 20px;
-            }
-            
-            .verified-badge img {
-                width: 20px;
-                height: 20px;
             }
         }
     </style>
@@ -1213,13 +1271,15 @@
     <div class="profile-page">
         <!-- Profile Header -->
         <div class="profile-header">
-            <img src="images/Logo.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+            <div class="profile-avatar-container">
+                <img src="images/Logo.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+                <div class="profile-verified-badge" id="profileVerifiedBadge">
+                    <img src="images/verified.svg" alt="Verified">
+                </div>
+            </div>
             <div class="profile-info">
                 <div class="profile-name-container">
                     <h1 class="profile-name" id="profileName">Trulune Malaysia</h1>
-                    <div class="verified-badge" id="verifiedBadge" style="display: none;">
-                        <img src="images/verified.svg" alt="Verified">
-                    </div>
                 </div>
                 <p class="profile-username" id="profileUsername">@trulune</p>
                 <p class="profile-bio" id="profileBio">Everyday scents. Timeless allure.</p>
@@ -1263,7 +1323,7 @@
         </div>
     </div>
 
-    <!-- FIXED: Verified Badge Modal -->
+    <!-- Verified Badge Modal -->
     <div class="verified-modal" id="verifiedModal">
         <div class="verified-modal-content">
             <div class="verified-modal-header">
@@ -1370,19 +1430,17 @@
                 });
             });
             
-            // FIXED: Verified Badge Modal Setup
-            const verifiedBadge = document.getElementById('verifiedBadge');
+            // Verified Badge Modal Setup
+            const profileVerifiedBadge = document.getElementById('profileVerifiedBadge');
             const verifiedModal = document.getElementById('verifiedModal');
             const verifiedModalText = document.getElementById('verifiedModalText');
             const verifiedModalClose = document.getElementById('verifiedModalClose');
 
-            if (verifiedBadge) {
-                verifiedBadge.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    verifiedModal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-            }
+            profileVerifiedBadge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                verifiedModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
 
             verifiedModalClose.addEventListener('click', function() {
                 verifiedModal.classList.remove('active');
@@ -1421,17 +1479,16 @@
                             profileAvatar.src = data.profileImage;
                         }
                         
-                        // FIXED: Verified badge with SVG
-                        const verifiedBadge = document.getElementById('verifiedBadge');
+                        // Verified badge
                         if (data.verified) {
-                            verifiedBadge.style.display = 'flex';
+                            profileVerifiedBadge.style.display = 'flex';
                             
                             // Update modal text
                             if (data.verifiedTooltip) {
                                 verifiedModalText.textContent = data.verifiedTooltip;
                             }
                         } else {
-                            verifiedBadge.style.display = 'none';
+                            profileVerifiedBadge.style.display = 'none';
                         }
                     }
                 } catch (error) {
@@ -1587,15 +1644,17 @@
                                 ${post.pinned ? '<div class="pin-indicator"><i class="fas fa-thumbtack"></i> Pinned Post</div>' : ''}
                                 
                                 <div class="post-header">
-                                    <img src="${post.authorAvatar || profileData.profileImage}" alt="${post.authorName || profileData.name}" class="post-avatar">
+                                    <div class="post-avatar-container">
+                                        <img src="${post.authorAvatar || profileData.profileImage}" alt="${post.authorName || profileData.name}" class="post-avatar">
+                                        ${(post.verified || profileData.verified) ? `
+                                            <div class="post-verified-badge">
+                                                <img src="images/verified.svg" alt="Verified">
+                                            </div>
+                                        ` : ''}
+                                    </div>
                                     <div class="post-author-info">
                                         <div class="post-author-name">
                                             ${post.authorName || profileData.name}
-                                            ${(post.verified || profileData.verified) ? `
-                                                <div class="verified-badge" style="display: flex; width: 18px; height: 18px; cursor: pointer;">
-                                                    <img src="images/verified.svg" alt="Verified">
-                                                </div>
-                                            ` : ''}
                                         </div>
                                         <div class="post-timestamp">${postDate}</div>
                                     </div>
@@ -1625,6 +1684,21 @@
                             `;
                             
                             postsFeed.appendChild(postCard);
+                            
+                            // Add click event for post verified badges
+                            if (post.verified || profileData.verified) {
+                                setTimeout(() => {
+                                    const badge = postCard.querySelector('.post-verified-badge');
+                                    if (badge) {
+                                        badge.style.display = 'flex';
+                                        badge.addEventListener('click', function(e) {
+                                            e.stopPropagation();
+                                            verifiedModal.classList.add('active');
+                                            document.body.style.overflow = 'hidden';
+                                        });
+                                    }
+                                }, 100);
+                            }
                         });
                         
                         // Add event listeners for like buttons
@@ -1665,7 +1739,7 @@
                 });
             }
             
-            // FIXED: Toggle like on post - Multiple likes per user
+            // Toggle like on post
             async function toggleLike(postId, likeButton) {
                 try {
                     const postRef = db.collection('posts').doc(postId);
@@ -1679,9 +1753,12 @@
                     const post = postDoc.data();
                     const likedBy = post.likedBy || [];
                     
-                    // FIXED: User can like multiple times
-                    const newLikedBy = [...likedBy, userId]; // Always add user
-                    const newLikes = (post.likes || 0) + 1; // Always increment
+                    // Check if already liked
+                    const alreadyLiked = likedBy.includes(userId);
+                    
+                    // User can like multiple times
+                    const newLikedBy = [...likedBy, userId];
+                    const newLikes = (post.likes || 0) + 1;
                     
                     // Update in Firebase
                     await postRef.update({
@@ -1689,18 +1766,20 @@
                         likedBy: newLikedBy
                     });
                     
-                    // FIXED: Update UI with smooth animation
+                    // Update UI
                     const likeCountSpan = likeButton.querySelector('.like-count');
                     if (likeCountSpan) {
                         likeCountSpan.textContent = newLikes;
                     }
                     
-                    // FIXED: Add heartbeat animation
+                    // 2. Add liked class to make it red
                     likeButton.classList.add('liked');
+                    
+                    // 3. Add heartbeat animation on click
                     const heartIcon = likeButton.querySelector('i');
-                    heartIcon.style.animation = 'heartbeat 0.5s ease-in-out';
+                    heartIcon.classList.add('heartbeat');
                     setTimeout(() => {
-                        heartIcon.style.animation = '';
+                        heartIcon.classList.remove('heartbeat');
                     }, 500);
                     
                     // Update total likes
@@ -1721,7 +1800,7 @@
                 document.getElementById('totalLikes').textContent = total;
             }
             
-            // FIXED: Open share options - Better positioning
+            // Open share options
             function openShareOptions(postId, button) {
                 // Remove any existing share options
                 document.querySelectorAll('.share-options').forEach(el => el.remove());
