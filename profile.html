@@ -1157,8 +1157,8 @@
             .profile-verified-badge {
                 width: 24px;
                 height: 24px;
-                bottom: 6px;
-                right: 6px;
+                bottom: 4px;
+                right: 4px;
             }
             
             .profile-verified-badge img {
@@ -1194,8 +1194,8 @@
             .post-verified-badge {
                 width: 16px;
                 height: 16px;
-                bottom: -2px;
-                right: -2px;
+                bottom: -4px;
+                right: -4px;
             }
             
             .post-verified-badge img {
@@ -1274,7 +1274,7 @@
             <div class="profile-avatar-container">
                 <img src="images/Logo.png" alt="Profile" class="profile-avatar" id="profileAvatar">
                 <div class="profile-verified-badge" id="profileVerifiedBadge">
-                    <img src="images/verified.svg" alt="Verified">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Blue_checkmark.svg" alt="Verified">
                 </div>
             </div>
             <div class="profile-info">
@@ -1327,7 +1327,7 @@
     <div class="verified-modal" id="verifiedModal">
         <div class="verified-modal-content">
             <div class="verified-modal-header">
-                <img src="images/verified.svg" alt="Verified" class="verified-modal-icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Blue_checkmark.svg" alt="Verified" class="verified-modal-icon">
                 <h3 class="verified-modal-title">Verified Account</h3>
             </div>
             <p class="verified-modal-text" id="verifiedModalText">Official presence of Trulune Malaysia</p>
@@ -1648,7 +1648,7 @@
                                         <img src="${post.authorAvatar || profileData.profileImage}" alt="${post.authorName || profileData.name}" class="post-avatar">
                                         ${(post.verified || profileData.verified) ? `
                                             <div class="post-verified-badge">
-                                                <img src="images/verified.svg" alt="Verified">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Blue_checkmark.svg" alt="Verified">
                                             </div>
                                         ` : ''}
                                     </div>
@@ -2031,4 +2031,3 @@
     </script>
 </body>
 </html>
-
