@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Lato';
+            font-family: 'Lato', sans-serif;
         }
         
         :root {
@@ -36,7 +36,7 @@
             width: 100%;
         }
 
-        /* Header - SIMPLIFIED VERSION FROM HOMEPAGE */
+        /* ============== HEADER - 100% EXACT COPY FROM HOMEPAGE ============== */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -46,10 +46,9 @@
             background: transparent;
             z-index: 1000;
             transition: all 0.3s ease;
-            width: 100%;
-            overflow: hidden;
         }
 
+        /* Header container untuk padding desktop & mobile */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -57,8 +56,6 @@
             padding: 20px var(--desktop-padding);
             max-width: 1400px;
             margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .header.scrolled {
@@ -66,6 +63,11 @@
             backdrop-filter: blur(10px);
         }
 
+        .header.scrolled .header-container {
+            padding: 15px var(--desktop-padding);
+        }
+
+        /* Logo paling kiri */
         .logo {
             display: flex;
             align-items: center;
@@ -75,7 +77,6 @@
             flex-shrink: 0;
             z-index: 1001;
             transition: color 0.3s ease;
-            max-width: 200px;
         }
 
         .logo-icon {
@@ -86,7 +87,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .logo-icon img {
@@ -100,12 +100,9 @@
             font-weight: 600;
             letter-spacing: -0.5px;
             transition: color 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        /* Navigation */
+        /* ============== NAVIGATION - 100% EXACT COPY ============== */
         .nav-links {
             display: flex;
             align-items: center;
@@ -143,12 +140,11 @@
             color: var(--gray-600);
             height: auto;
             min-height: 40px;
-            white-space: nowrap;
         }
 
         .nav-badge-link:hover {
             background: var(--gray-200);
-            color: black;
+            color: var(--primary);
             transform: translateY(-1px);
         }
 
@@ -177,10 +173,25 @@
             font-size: 20px;
             cursor: pointer;
             z-index: 1002;
-            flex-shrink: 0;
         }
 
-        /* Profile Page */
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        /* ============== Profile Page ============== */
         .profile-page {
             margin-top: 100px;
             padding: 0 var(--desktop-padding);
@@ -561,7 +572,7 @@
             background: rgba(0, 0, 0, 0.05);
         }
 
-        /* 2. LIKE BUTTON - DEFAULT GRAY, ONLY RED WHEN CLICKED (TEMPORARY) */
+        /* LIKE BUTTON - DEFAULT GRAY, ONLY RED WHEN CLICKED (TEMPORARY) */
         .like-button {
             position: relative;
             color: var(--gray-600) !important;
@@ -697,7 +708,7 @@
             text-align: center;
         }
 
-        /* Image Modal */
+        /* ============== IMAGE MODAL - FIXED CLOSE BUTTON POSITION ============== */
         .image-modal {
             display: none;
             position: fixed;
@@ -731,18 +742,27 @@
             align-items: center;
         }
 
+        .modal-image-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
         .modal-image {
             max-width: 100%;
             max-height: 90vh;
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            display: block;
         }
 
+        /* CLOSE BUTTON - STICKS TO TOP RIGHT OF IMAGE ON ALL DEVICES */
         .close-modal {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             font-size: 1.5rem;
             color: white;
             background: rgba(0, 0, 0, 0.6);
@@ -750,12 +770,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 1001;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
+            padding: 0;
         }
 
         .close-modal:hover {
@@ -1014,23 +1036,7 @@
             width: 100%;
         }
 
-        /* Mobile menu overlay */
-        .mobile-menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 998;
-        }
-
-        .mobile-menu-overlay.active {
-            display: block;
-        }
-
-        /* Responsive */
+        /* ==================== RESPONSIVE - EXACT COPY FROM HOMEPAGE ==================== */
         @media (max-width: 1200px) {
             :root {
                 --desktop-padding: 40px;
@@ -1060,6 +1066,7 @@
             }
         }
 
+        /* Mobile Header - 100% EXACT COPY FROM HOMEPAGE */
         @media (max-width: 768px) {
             :root {
                 --desktop-padding: var(--mobile-padding);
@@ -1078,7 +1085,7 @@
             }
 
             .header-actions {
-                margin-left: auto;
+                 margin-left: auto;
             }
 
             .nav-links {
@@ -1099,12 +1106,17 @@
                 overflow-y: auto;
                 margin-left: 0;
                 backdrop-filter: blur(10px);
-                width: 100%;
-                box-sizing: border-box;
             }
             
             .nav-links.active {
                 display: flex;
+            }
+            
+            .nav-links a {
+                font-size: 18px;
+                color: #000000;
+                padding: 8px 0;
+                width: 100%;
             }
             
             .mobile-menu-toggle {
@@ -1122,6 +1134,10 @@
                 padding: 8px 16px !important;
                 width: auto;
                 justify-content: center;
+            }
+            
+            .nav-badge-link .nav-badge {
+                margin: 0;
             }
 
             .profile-page {
@@ -1202,6 +1218,15 @@
             .social-link {
                 width: 36px;
                 height: 36px;
+            }
+
+            /* Mobile close button - SAME POSITION */
+            .close-modal {
+                top: 15px;
+                right: 15px;
+                width: 36px;
+                height: 36px;
+                font-size: 1.3rem;
             }
         }
 
@@ -1296,11 +1321,20 @@
             .logo {
                 gap: 8px;
             }
+
+            /* Small mobile close button - SAME POSITION */
+            .close-modal {
+                top: 12px;
+                right: 12px;
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header - SIMPLIFIED FROM HOMEPAGE -->
+    <!-- Header - 100% EXACT COPY FROM HOMEPAGE -->
     <header class="header" id="header">
         <div class="header-container">
             <a href="newhome.html" class="logo">
@@ -1374,13 +1408,15 @@
         </div>
     </div>
 
-    <!-- Image Modal -->
+    <!-- Image Modal - UPDATED STRUCTURE -->
     <div class="image-modal" id="imageModal">
         <div class="modal-content">
-            <img class="modal-image" id="modalImage" src="" alt="Full size">
-            <button class="close-modal" id="closeModal">
-                <i class="fas fa-times"></i>
-            </button>
+            <div class="modal-image-container">
+                <img class="modal-image" id="modalImage" src="" alt="Full size">
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1453,7 +1489,7 @@
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Header scroll effect
+            // Header scroll effect - 100% EXACT COPY FROM HOMEPAGE
             const header = document.getElementById('header');
             
             window.addEventListener('scroll', function() {
@@ -1464,7 +1500,7 @@
                 }
             });
             
-            // Mobile menu toggle
+            // Mobile menu toggle - 100% EXACT COPY FROM HOMEPAGE
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const navLinks = document.getElementById('nav-links');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -1784,7 +1820,7 @@
             // Setup like buttons event listeners
             function setupLikeButtons() {
                 document.querySelectorAll('.like-button').forEach(button => {
-                    button.addEventListener('click', async (e) => {
+                    button.addEventListener('click', async (e) {
                         e.stopPropagation();
                         const postId = e.currentTarget.getAttribute('data-post-id');
                         
