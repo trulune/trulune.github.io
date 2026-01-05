@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Lato', sans-serif;
+            font-family: 'Lato';
         }
         
         :root {
@@ -191,7 +191,7 @@
             display: block;
         }
 
-        /* ============== Profile Page ============== */
+        /* Profile Page */
         .profile-page {
             margin-top: 100px;
             padding: 0 var(--desktop-padding);
@@ -708,7 +708,7 @@
             text-align: center;
         }
 
-        /* ============== IMAGE MODAL - FIXED CLOSE BUTTON POSITION ============== */
+        /* ============== IMAGE MODAL - CLOSE BUTTON STICKS TO IMAGE ============== */
         .image-modal {
             display: none;
             position: fixed;
@@ -858,26 +858,14 @@
             background: #333;
         }
 
-        /* Loading State */
+        /* ============== REMOVED LOADING POSTS STYLES ============== */
+        /* Loading State - REMOVED */
         .loading-posts {
-            text-align: center;
-            padding: 60px;
-            width: 100%;
+            display: none !important;
         }
 
         .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f4f6;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            display: none !important;
         }
 
         .no-posts {
@@ -1036,7 +1024,7 @@
             width: 100%;
         }
 
-        /* ==================== RESPONSIVE - EXACT COPY FROM HOMEPAGE ==================== */
+        /* ==================== RESPONSIVE - 100% EXACT FROM HOMEPAGE ==================== */
         @media (max-width: 1200px) {
             :root {
                 --desktop-padding: 40px;
@@ -1112,19 +1100,13 @@
                 display: flex;
             }
             
-            .nav-links a {
-                font-size: 18px;
-                color: #000000;
-                padding: 8px 0;
-                width: 100%;
-            }
-            
             .mobile-menu-toggle {
                 display: block;
             }
 
             .nav-links > li > a {
                 font-size: 18px;
+                color: #000000;
                 padding: 8px 0;
                 width: 100%;
                 justify-content: flex-start;
@@ -1391,13 +1373,9 @@
             </div>
         </div>
         
-        <!-- Posts Feed -->
+        <!-- Posts Feed - NO LOADING SPINNER -->
         <div class="posts-feed" id="postsFeed">
-            <!-- Posts will be loaded here -->
-            <div class="loading-posts" id="postsLoading">
-                <div class="loading-spinner"></div>
-                <p>Loading posts...</p>
-            </div>
+            <!-- Posts will be loaded here directly -->
         </div>
         
         <!-- No Posts Message -->
@@ -1408,7 +1386,7 @@
         </div>
     </div>
 
-    <!-- Image Modal - UPDATED STRUCTURE -->
+    <!-- Image Modal -->
     <div class="image-modal" id="imageModal">
         <div class="modal-content">
             <div class="modal-image-container">
@@ -1646,19 +1624,18 @@
                 }
             }
             
-            // Load posts for profile feed
+            // Load posts for profile feed - WITHOUT LOADING SPINNER
             async function loadProfilePosts() {
-                const postsLoading = document.getElementById('postsLoading');
                 const postsFeed = document.getElementById('postsFeed');
                 const noPostsMessage = document.getElementById('noPostsMessage');
                 
                 // Check if elements exist
-                if (!postsLoading || !postsFeed || !noPostsMessage) {
+                if (!postsFeed || !noPostsMessage) {
                     console.error('Required DOM elements not found');
                     return;
                 }
                 
-                postsLoading.style.display = 'block';
+                // NO LOADING SPINNER - direct loading
                 noPostsMessage.style.display = 'none';
                 
                 try {
@@ -1676,9 +1653,6 @@
                     }
                     
                     console.log(`Loaded ${postsSnapshot.size} posts from Firestore`);
-                    
-                    // Remove loading indicator
-                    postsLoading.style.display = 'none';
                     
                     if (postsSnapshot.empty) {
                         noPostsMessage.style.display = 'block';
@@ -1812,7 +1786,6 @@
                     }
                 } catch (error) {
                     console.error('Error loading posts:', error);
-                    postsLoading.style.display = 'none';
                     noPostsMessage.style.display = 'block';
                 }
             }
@@ -1820,7 +1793,7 @@
             // Setup like buttons event listeners
             function setupLikeButtons() {
                 document.querySelectorAll('.like-button').forEach(button => {
-                    button.addEventListener('click', async (e) {
+                    button.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         const postId = e.currentTarget.getAttribute('data-post-id');
                         
@@ -1845,7 +1818,7 @@
                 });
             }
             
-            // Toggle like on post - IMPROVED with smoother animation handling
+            // Toggle like on post
             async function toggleLike(postId, likeButton) {
                 try {
                     // Set animation state
