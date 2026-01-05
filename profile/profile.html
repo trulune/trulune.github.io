@@ -35,7 +35,7 @@
             width: 100%;
         }
 
-        /* Header */
+        /* Header - COPIED FROM HOMEPAGE */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -236,7 +236,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* 1. Plain verified badge, no background */
+        /* Profile verified badge */
         .profile-verified-badge {
             position: absolute;
             bottom: 8px;
@@ -248,6 +248,13 @@
             justify-content: center;
             cursor: pointer;
             z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .profile-verified-badge {
+                bottom: 4px;
+                right: 4px;
+            }
         }
 
         .profile-verified-badge img {
@@ -358,7 +365,7 @@
             margin-bottom: 15px;
         }
 
-        /* Post Header with Avatar and Verified Badge */
+        /* Post Header with Avatar and Verified Badge - FIXED POSITION */
         .post-header {
             display: flex;
             align-items: center;
@@ -371,6 +378,13 @@
             width: 50px;
             height: 50px;
             flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .post-avatar-container {
+                width: 44px;
+                height: 44px;
+            }
         }
 
         .post-avatar {
@@ -386,11 +400,11 @@
             transform: scale(1.05);
         }
 
-        /* 1. Plain verified badge, no background */
+        /* Post verified badge - FIXED POSITION for all screen sizes */
         .post-verified-badge {
             position: absolute;
-            bottom: -2px;
-            right: -2px;
+            bottom: 0;
+            right: 0;
             width: 18px;
             height: 18px;
             display: none;
@@ -400,9 +414,18 @@
             z-index: 2;
         }
 
+        @media (max-width: 768px) {
+            .post-verified-badge {
+                width: 16px;
+                height: 16px;
+                bottom: -2px;
+                right: -2px;
+            }
+        }
+
         .post-verified-badge img {
-            width: 16px;
-            height: 16px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
         }
@@ -419,6 +442,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .post-author-name {
+                font-size: 15px;
+            }
         }
 
         .post-author-name:hover {
@@ -520,39 +549,69 @@
             position: relative;
         }
 
+        @media (max-width: 768px) {
+            .post-button {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+
         .post-button:hover {
             background: rgba(0, 0, 0, 0.05);
         }
 
-        /* 2. Like button - red only when liked, gray when not liked */
+        /* Like button - IMPROVED with smooth transitions */
         .like-button {
             position: relative;
             color: var(--gray-600) !important;
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .like-button.liked {
+        .like-button.temp-liked {
             color: #dc2626 !important;
         }
 
-        .like-button.liked i {
+        .like-button.temp-liked i {
+            color: #dc2626 !important;
+        }
+
+        .like-button.temp-liked .like-count {
             color: #dc2626 !important;
         }
 
         .like-button i {
-            transition: color 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
-        /* 3. Heartbeat animation on click */
+        /* IMPROVED Heartbeat animation with smoother transitions */
         @keyframes heartbeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.2); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+            0% { 
+                transform: scale(1);
+            }
+            15% { 
+                transform: scale(1.3);
+            }
+            30% { 
+                transform: scale(0.95);
+            }
+            45% { 
+                transform: scale(1.2);
+            }
+            60% { 
+                transform: scale(1);
+            }
+            75% { 
+                transform: scale(1.15);
+            }
+            100% { 
+                transform: scale(1);
+            }
         }
 
         .heartbeat {
-            animation: heartbeat 0.5s ease-in-out;
+            animation: heartbeat 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation-fill-mode: both;
         }
 
         .like-count {
@@ -561,11 +620,7 @@
             color: var(--gray-600);
             display: inline-block !important;
             visibility: visible !important;
-            transition: color 0.2s ease;
-        }
-
-        .like-button.liked .like-count {
-            color: #dc2626;
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Share Modal */
@@ -1098,7 +1153,7 @@
                 margin-bottom: 16px;
             }
             
-            .post-avatar {
+            .post-avatar-container {
                 width: 44px;
                 height: 44px;
             }
@@ -1194,8 +1249,8 @@
             .post-verified-badge {
                 width: 16px;
                 height: 16px;
-                bottom: -4px;
-                right: -4px;
+                bottom: -1px;
+                right: -1px;
             }
             
             .post-verified-badge img {
@@ -1239,7 +1294,7 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header - COPIED FROM HOMEPAGE -->
     <header class="header" id="header">
         <div class="header-container">
             <a href="newhome.html" class="logo">
@@ -1384,6 +1439,9 @@
             userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('trulune_user_id', userId);
         }
+        
+        // Like button debouncing and state management
+        const likeButtonStates = new Map(); // Track animation state for each post
         
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
@@ -1671,7 +1729,7 @@
                                 
                                 <div class="post-actions">
                                     <div class="post-interaction">
-                                        <button class="post-button like-button ${isLiked ? 'liked' : ''}" data-post-id="${postId}">
+                                        <button class="post-button like-button ${isLiked ? 'temp-liked' : ''}" data-post-id="${postId}">
                                             <i class="fas fa-heart"></i>
                                             <span class="like-count">${post.likes || 0}</span>
                                         </button>
@@ -1723,6 +1781,12 @@
                     button.addEventListener('click', async (e) => {
                         e.stopPropagation();
                         const postId = e.currentTarget.getAttribute('data-post-id');
+                        
+                        // Prevent rapid clicks
+                        if (likeButtonStates.get(postId) === 'animating') {
+                            return;
+                        }
+                        
                         await toggleLike(postId, button);
                     });
                 });
@@ -1739,22 +1803,23 @@
                 });
             }
             
-            // Toggle like on post
+            // Toggle like on post - IMPROVED with smoother animation handling
             async function toggleLike(postId, likeButton) {
                 try {
+                    // Set animation state
+                    likeButtonStates.set(postId, 'animating');
+                    
                     const postRef = db.collection('posts').doc(postId);
                     const postDoc = await postRef.get();
                     
                     if (!postDoc.exists) {
                         console.error('Post not found');
+                        likeButtonStates.delete(postId);
                         return;
                     }
                     
                     const post = postDoc.data();
                     const likedBy = post.likedBy || [];
-                    
-                    // Check if already liked
-                    const alreadyLiked = likedBy.includes(userId);
                     
                     // User can like multiple times
                     const newLikedBy = [...likedBy, userId];
@@ -1772,22 +1837,36 @@
                         likeCountSpan.textContent = newLikes;
                     }
                     
-                    // 2. Add liked class to make it red
-                    likeButton.classList.add('liked');
-                    
-                    // 3. Add heartbeat animation on click
+                    // Get heart icon
                     const heartIcon = likeButton.querySelector('i');
+                    
+                    // Remove any existing animation classes
+                    heartIcon.classList.remove('heartbeat');
+                    
+                    // Force reflow to restart animation
+                    void heartIcon.offsetWidth;
+                    
+                    // 2. Add temp-liked class to make it red TEMPORARILY
+                    likeButton.classList.add('temp-liked');
+                    
+                    // 3. Add improved heartbeat animation with better timing
                     heartIcon.classList.add('heartbeat');
-                    setTimeout(() => {
-                        heartIcon.classList.remove('heartbeat');
-                    }, 500);
                     
                     // Update total likes
                     updateTotalLikes();
                     
+                    // Remove red color after animation completes
+                    setTimeout(() => {
+                        likeButton.classList.remove('temp-liked');
+                        // Clear animation state
+                        likeButtonStates.delete(postId);
+                    }, 700); // Match animation duration
+                    
                 } catch (error) {
                     console.error('Error toggling like:', error);
                     showToast('Error updating like: ' + error.message);
+                    // Clear animation state on error
+                    likeButtonStates.delete(postId);
                 }
             }
             
