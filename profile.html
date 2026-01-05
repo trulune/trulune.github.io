@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Trulune Malaysia</title>
+    <link rel="icon" type="image/png" href="images/Logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
@@ -35,7 +36,7 @@
             width: 100%;
         }
 
-        /* Header - COPIED FROM HOMEPAGE */
+        /* Header - SIMPLIFIED VERSION FROM HOMEPAGE */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -365,7 +366,7 @@
             margin-bottom: 15px;
         }
 
-        /* Post Header with Avatar and Verified Badge - FIXED POSITION */
+        /* Post Header with Avatar and Verified Badge */
         .post-header {
             display: flex;
             align-items: center;
@@ -400,7 +401,7 @@
             transform: scale(1.05);
         }
 
-        /* Post verified badge - FIXED POSITION for all screen sizes */
+        /* Post verified badge */
         .post-verified-badge {
             position: absolute;
             bottom: 0;
@@ -560,13 +561,25 @@
             background: rgba(0, 0, 0, 0.05);
         }
 
-        /* Like button - IMPROVED with smooth transitions */
+        /* 2. LIKE BUTTON - DEFAULT GRAY, ONLY RED WHEN CLICKED (TEMPORARY) */
         .like-button {
             position: relative;
             color: var(--gray-600) !important;
             transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .like-button i {
+            color: var(--gray-600) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .like-button .like-count {
+            color: var(--gray-600) !important;
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Temporary red state when clicked */
         .like-button.temp-liked {
             color: #dc2626 !important;
         }
@@ -579,12 +592,7 @@
             color: #dc2626 !important;
         }
 
-        .like-button i {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-
-        /* IMPROVED Heartbeat animation with smoother transitions */
+        /* Heartbeat animation */
         @keyframes heartbeat {
             0% { 
                 transform: scale(1);
@@ -617,10 +625,8 @@
         .like-count {
             margin-left: 5px;
             font-weight: 600;
-            color: var(--gray-600);
             display: inline-block !important;
             visibility: visible !important;
-            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Share Modal */
@@ -1294,7 +1300,7 @@
     </style>
 </head>
 <body>
-    <!-- Header - COPIED FROM HOMEPAGE -->
+    <!-- Header - SIMPLIFIED FROM HOMEPAGE -->
     <header class="header" id="header">
         <div class="header-container">
             <a href="newhome.html" class="logo">
@@ -1729,7 +1735,7 @@
                                 
                                 <div class="post-actions">
                                     <div class="post-interaction">
-                                        <button class="post-button like-button ${isLiked ? 'temp-liked' : ''}" data-post-id="${postId}">
+                                        <button class="post-button like-button" data-post-id="${postId}">
                                             <i class="fas fa-heart"></i>
                                             <span class="like-count">${post.likes || 0}</span>
                                         </button>
@@ -1842,14 +1848,15 @@
                     
                     // Remove any existing animation classes
                     heartIcon.classList.remove('heartbeat');
+                    likeButton.classList.remove('temp-liked');
                     
                     // Force reflow to restart animation
                     void heartIcon.offsetWidth;
                     
-                    // 2. Add temp-liked class to make it red TEMPORARILY
+                    // Add temp-liked class to make it red TEMPORARILY
                     likeButton.classList.add('temp-liked');
                     
-                    // 3. Add improved heartbeat animation with better timing
+                    // Add improved heartbeat animation with better timing
                     heartIcon.classList.add('heartbeat');
                     
                     // Update total likes
