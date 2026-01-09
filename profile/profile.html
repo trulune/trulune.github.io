@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Trulune Malaysia</title>
+    <title>Feed - Trulune Malaysia</title>
     <link rel="icon" type="image/png" href="images/Logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
             width: 100%;
         }
 
-        /* ============== HEADER - 100% EXACT COPY FROM HOMEPAGE ============== */
+        /* ============== HEADER (COPIED FROM HOMEPAGE) ============== */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -48,7 +48,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Header container untuk padding desktop & mobile */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -67,7 +66,6 @@
             padding: 15px var(--desktop-padding);
         }
 
-        /* Logo paling kiri */
         .logo {
             display: flex;
             align-items: center;
@@ -82,7 +80,6 @@
         .logo-icon {
             width: 32px;
             height: 32px;
-            border-radius: 6px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -102,7 +99,6 @@
             transition: color 0.3s ease;
         }
 
-        /* ============== NAVIGATION - 100% EXACT COPY ============== */
         .nav-links {
             display: flex;
             align-items: center;
@@ -134,7 +130,6 @@
             padding: 8px 16px !important;
             background: var(--secondary);
             border: 1px solid var(--gray-200);
-            border-radius: 100px;
             font-size: 18px !important;
             font-weight: 500;
             color: var(--gray-600);
@@ -144,7 +139,7 @@
 
         .nav-badge-link:hover {
             background: var(--gray-200);
-            color: var(--primary);
+            color: black;
             transform: translateY(-1px);
         }
 
@@ -154,7 +149,6 @@
             font-size: 10px;
             font-weight: 700;
             padding: 4px 8px;
-            border-radius: 100px;
             line-height: 1;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
@@ -175,7 +169,6 @@
             z-index: 1002;
         }
 
-        /* Mobile menu overlay */
         .mobile-menu-overlay {
             display: none;
             position: fixed;
@@ -191,9 +184,9 @@
             display: block;
         }
 
-        /* Profile Page */
-        .profile-page {
-            margin-top: 100px;
+        /* Feed Page */
+        .feed-page {
+            margin-top: 120px;
             padding: 0 var(--desktop-padding);
             max-width: 1400px;
             margin-left: auto;
@@ -203,8 +196,8 @@
             box-sizing: border-box;
         }
 
-        /* Profile Header */
-        .profile-header {
+        /* Feed Header */
+        .feed-header {
             display: grid;
             grid-template-columns: 120px 1fr;
             gap: 30px;
@@ -215,7 +208,7 @@
         }
 
         @media (max-width: 768px) {
-            .profile-header {
+            .feed-header {
                 grid-template-columns: 1fr;
                 text-align: center;
                 gap: 20px;
@@ -242,17 +235,16 @@
         .profile-avatar {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
             border: 4px solid white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
         }
 
         /* Profile verified badge */
         .profile-verified-badge {
             position: absolute;
             bottom: 8px;
-            right: 8px;
+            right: -8px;
             width: 28px;
             height: 28px;
             display: none;
@@ -260,13 +252,6 @@
             justify-content: center;
             cursor: pointer;
             z-index: 2;
-        }
-
-        @media (max-width: 768px) {
-            .profile-verified-badge {
-                bottom: 4px;
-                right: 4px;
-            }
         }
 
         .profile-verified-badge img {
@@ -300,6 +285,7 @@
             font-weight: 700;
             color: var(--primary);
             line-height: 1.2;
+            letter-spacing: -0.01em;
         }
 
         .profile-username {
@@ -353,14 +339,18 @@
 
         .post-card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--gray-200);
             margin-bottom: 30px;
             padding: 24px;
             transition: all 0.3s ease;
             width: 100%;
             box-sizing: border-box;
+        }
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .post-card.pinned {
@@ -402,7 +392,6 @@
         .post-avatar {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
             cursor: pointer;
             transition: transform 0.2s;
@@ -415,8 +404,6 @@
         /* Post verified badge */
         .post-verified-badge {
             position: absolute;
-            bottom: 0;
-            right: 0;
             width: 18px;
             height: 18px;
             display: none;
@@ -430,8 +417,8 @@
             .post-verified-badge {
                 width: 16px;
                 height: 16px;
-                bottom: -2px;
-                right: -2px;
+                bottom: 4px;
+                right: -8px;
             }
         }
 
@@ -498,7 +485,6 @@
         /* Post Image */
         .post-image-container {
             margin: 15px 0;
-            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             width: auto;
@@ -513,7 +499,6 @@
             max-width: 300px;
             max-height: 200px;
             object-fit: cover;
-            border-radius: 8px;
             transition: transform 0.3s ease;
             display: block;
         }
@@ -556,9 +541,13 @@
             font-size: 15px;
             cursor: pointer;
             padding: 8px 12px;
-            border-radius: 6px;
             transition: all 0.2s ease;
             position: relative;
+            text-decoration: none;
+        }
+
+        .post-button:hover {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         @media (max-width: 768px) {
@@ -566,10 +555,6 @@
                 padding: 6px 10px;
                 font-size: 14px;
             }
-        }
-
-        .post-button:hover {
-            background: rgba(0, 0, 0, 0.05);
         }
 
         /* LIKE BUTTON - DEFAULT GRAY, ONLY RED WHEN CLICKED (TEMPORARY) */
@@ -648,9 +633,8 @@
             transform: translateX(-50%);
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
             padding: 12px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             display: none;
             z-index: 100;
             min-width: 200px;
@@ -661,9 +645,6 @@
 
         @media (max-width: 768px) {
             .share-options {
-                left: 50%;
-                transform: translateX(-50%);
-                min-width: 200px;
                 position: fixed;
                 bottom: auto;
                 top: 50%;
@@ -692,11 +673,11 @@
             border: none;
             text-align: left;
             cursor: pointer;
-            border-radius: 0;
             transition: background 0.2s;
             font-size: 14px;
             box-sizing: border-box;
             color: var(--gray-600);
+            text-decoration: none;
         }
 
         .share-option:hover {
@@ -753,7 +734,6 @@
             max-width: 100%;
             max-height: 90vh;
             object-fit: contain;
-            border-radius: 8px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             display: block;
         }
@@ -772,7 +752,6 @@
             z-index: 1001;
             width: 40px;
             height: 40px;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -808,13 +787,13 @@
 
         .verified-modal-content {
             background: white;
-            border-radius: 12px;
             padding: 30px;
             max-width: 400px;
             width: 90%;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
+            border: 1px solid var(--gray-200);
         }
 
         .verified-modal-header {
@@ -834,6 +813,7 @@
             font-size: 20px;
             font-weight: 700;
             color: var(--primary);
+            letter-spacing: -0.01em;
         }
 
         .verified-modal-text {
@@ -846,28 +826,19 @@
         .verified-modal-close {
             background: var(--primary);
             color: white;
-            border: none;
+            border: 1px solid transparent;
             padding: 10px 20px;
-            border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
         .verified-modal-close:hover {
-            background: #333;
+            background: #404040;
         }
 
-        /* ============== REMOVED LOADING POSTS STYLES ============== */
-        /* Loading State - REMOVED */
-        .loading-posts {
-            display: none !important;
-        }
-
-        .loading-spinner {
-            display: none !important;
-        }
-
+        /* No Posts Message */
         .no-posts {
             text-align: center;
             padding: 80px 20px;
@@ -901,7 +872,6 @@
             background: var(--primary);
             color: white;
             padding: 14px 20px;
-            border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform: translateY(100px);
             opacity: 0;
@@ -927,7 +897,7 @@
             opacity: 1;
         }
 
-        /* Footer */
+        /* ============== FOOTER - EXACT COPY FROM HOMEPAGE ============== */
         .footer {
             background: transparent;
             color: black;
@@ -967,7 +937,6 @@
         .footer-logo-icon {
             width: 32px;
             height: 32px;
-            border-radius: 6px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -997,7 +966,6 @@
         .social-link {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
             background: black;
             display: flex;
             align-items: center;
@@ -1024,13 +992,13 @@
             width: 100%;
         }
 
-        /* ==================== RESPONSIVE - 100% EXACT FROM HOMEPAGE ==================== */
+        /* ==================== RESPONSIVE ==================== */
         @media (max-width: 1200px) {
             :root {
                 --desktop-padding: 40px;
             }
             
-            .profile-page {
+            .feed-page {
                 padding: 0 var(--desktop-padding);
             }
             
@@ -1044,86 +1012,14 @@
             }
         }
 
-        @media (max-width: 1024px) {
-            .header-container {
-                padding: 15px var(--desktop-padding);
-            }
-            
-            .header.scrolled .header-container {
-                padding: 10px var(--desktop-padding);
-            }
-        }
-
-        /* Mobile Header - 100% EXACT COPY FROM HOMEPAGE */
+        /* Mobile */
         @media (max-width: 768px) {
             :root {
                 --desktop-padding: var(--mobile-padding);
             }
             
-            .header {
-                padding: 0.5rem var(--mobile-padding);
-            }
-            
-            .header-container {
-                padding: 15px 0;
-            }
-            
-            .header.scrolled .header-container {
-                padding: 10px 0;
-            }
-
-            .header-actions {
-                 margin-left: auto;
-            }
-
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                background: rgba(255, 255, 255, 0.98);
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                gap: 25px;
-                z-index: 999;
-                padding: 100px 20px 40px;
-                height: auto;
-                max-height: 100vh;
-                overflow-y: auto;
-                margin-left: 0;
-                backdrop-filter: blur(10px);
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .nav-links > li > a {
-                font-size: 18px;
-                color: #000000;
-                padding: 8px 0;
-                width: 100%;
-                justify-content: flex-start;
-            }
-            
-            .nav-badge-link {
-                padding: 8px 16px !important;
-                width: auto;
-                justify-content: center;
-            }
-            
-            .nav-badge-link .nav-badge {
-                margin: 0;
-            }
-
-            .profile-page {
-                margin-top: 80px;
+            .feed-page {
+                margin-top: 100px;
                 padding: 0 var(--mobile-padding);
             }
             
@@ -1210,9 +1106,82 @@
                 height: 36px;
                 font-size: 1.3rem;
             }
+
+            /* Mobile Header Styles */
+            .header {
+                padding: 0.5rem var(--mobile-padding);
+            }
+            
+            .header-container {
+                padding: 15px 0;
+            }
+            
+            .header.scrolled .header-container {
+                padding: 10px 0;
+            }
+
+            .header-actions {
+                margin-left: auto;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 25px;
+                z-index: 999;
+                padding: 100px 20px 40px;
+                height: auto;
+                max-height: 100vh;
+                overflow-y: auto;
+                margin-left: 0;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links a {
+                font-size: 18px;
+                color: #000000;
+                padding: 8px 0;
+                width: 100%;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links > li > a {
+                font-size: 18px;
+                padding: 8px 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .nav-badge-link {
+                padding: 8px 16px !important;
+                width: auto;
+                justify-content: center;
+            }
+            
+            .nav-badge-link .nav-badge {
+                margin: 0;
+            }
         }
 
         @media (max-width: 480px) {
+            .feed-page {
+                margin-top: 90px;
+            }
+            
             .profile-name {
                 font-size: 20px;
             }
@@ -1225,8 +1194,6 @@
             .profile-verified-badge {
                 width: 24px;
                 height: 24px;
-                bottom: 4px;
-                right: 4px;
             }
             
             .profile-verified-badge img {
@@ -1262,8 +1229,6 @@
             .post-verified-badge {
                 width: 16px;
                 height: 16px;
-                bottom: -1px;
-                right: -1px;
             }
             
             .post-verified-badge img {
@@ -1295,14 +1260,6 @@
             .post-button span {
                 display: inline !important;
             }
-            
-            .logo-text {
-                font-size: 18px;
-            }
-            
-            .logo {
-                gap: 8px;
-            }
 
             /* Small mobile close button - SAME POSITION */
             .close-modal {
@@ -1316,7 +1273,7 @@
     </style>
 </head>
 <body>
-    <!-- Header - 100% EXACT COPY FROM HOMEPAGE -->
+    <!-- Header (Copied from Homepage) -->
     <header class="header" id="header">
         <div class="header-container">
             <a href="newhome.html" class="logo">
@@ -1327,8 +1284,8 @@
             </a>
 
             <ul class="nav-links" id="nav-links">
-                <li><a href="newhome">Home</a></li>
-                <li><a href="profile">Profile</a></li>
+                <li><a href="newhome.html">Home</a></li>
+                <li><a href="feed.html">Feed</a></li>
                 <li><a href="https://t.me/trulune" class="nav-badge-link">
                 Get Fast Update<span class="nav-badge">🔔</span></a>
                 </li>
@@ -1344,10 +1301,10 @@
 
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
-    <!-- Profile Page -->
-    <div class="profile-page">
+    <!-- Feed Page -->
+    <div class="feed-page">
         <!-- Profile Header -->
-        <div class="profile-header">
+        <div class="feed-header">
             <div class="profile-avatar-container">
                 <img src="images/Logo.png" alt="Profile" class="profile-avatar" id="profileAvatar">
                 <div class="profile-verified-badge" id="profileVerifiedBadge">
@@ -1410,7 +1367,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer - EXACT COPY FROM HOMEPAGE -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
@@ -1467,7 +1424,7 @@
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Header scroll effect - 100% EXACT COPY FROM HOMEPAGE
+            // Header scroll effect (from homepage)
             const header = document.getElementById('header');
             
             window.addEventListener('scroll', function() {
@@ -1478,7 +1435,7 @@
                 }
             });
             
-            // Mobile menu toggle - 100% EXACT COPY FROM HOMEPAGE
+            // Mobile menu toggle (from homepage)
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const navLinks = document.getElementById('nav-links');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -1507,7 +1464,7 @@
                     toggleMobileMenu();
                 });
             });
-            
+
             // Verified Badge Modal Setup
             const profileVerifiedBadge = document.getElementById('profileVerifiedBadge');
             const verifiedModal = document.getElementById('verifiedModal');
