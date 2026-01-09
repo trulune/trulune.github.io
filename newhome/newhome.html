@@ -6,6 +6,9 @@
     <title>Trulune Malaysia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -1603,7 +1606,7 @@
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-container">
-            <a href="#" class="logo">
+            <a href="newhome" class="logo">
                 <div class="logo-icon">
                     <img src="images/Logo.png" alt="Trulune Logo">
                 </div>
@@ -1611,8 +1614,8 @@
             </a>
 
             <ul class="nav-links" id="nav-links">
-                <li><a href="newhome.html">Home</a></li>
-                <li><a href="feed.html">Feed</a></li>
+                <li><a href="newhome">Home</a></li>
+                <li><a href="feed">Feed</a></li>
                 <li><a href="https://t.me/trulune" class="nav-badge-link">
                 Get Fast Update<span class="nav-badge">🔔</span></a>
                 </li>
@@ -1668,58 +1671,8 @@
             <h2 class="first-collection-title">Our First Collection</h2>
             
             <div class="book-container">
-                <div class="book-slides">
-                    <div class="product-container cover">
-                        <div class="cover-content">
-                            <h2 class="cover-title">Fruitee</h2>
-                            <p class="cover-subtitle">Discover our first collection: a chosen lineup of fruity scents to be your everyday signature.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="product-container">
-                        <img src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee HoneyDew" class="product-image">
-                        <button class="fullscreen-btn" data-product="honeydew">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">Fruitee HoneyDew</h3>
-                            <p class="product-desc">Smell like Honey Dew</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">RM24</div>
-                                <a href="#" class="buy-btn">Get it Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-container">
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee Apple" class="product-image">
-                        <button class="fullscreen-btn" data-product="apple">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">Fruitee Apple</h3>
-                            <p class="product-desc">It smell like Apple</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">RM24</div>
-                                <a href="#" class="buy-btn">Get it Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-container">
-                        <img src="https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee Strawberry" class="product-image">
-                        <button class="fullscreen-btn" data-product="strawberry">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">Fruitee Strawberry</h3>
-                            <p class="product-desc">It does smell like Strawberry</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">RM24</div>
-                                <a href="#" class="buy-btn">Get it Now</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="book-slides" id="bookSlides">
+                    <!-- Cover will be added dynamically -->
                 </div>
                 
                 <div class="nav-controls first-page">
@@ -1758,42 +1711,8 @@
     <section class="products-section">
         <div class="container">
             <h2 class="all-products-title">All Products</h2>
-            <div class="products-grid">
-                <!-- Product 1 -->
-                <div class="product-card" data-product="1">
-                    <a href="#products" class="product-badge" id="product-badge-1">Fruitee Collection</a>
-                    <img src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fruitee Honey Dew" class="product-card-image">
-                    <div class="product-card-info">
-                        <h3 class="product-card-name">Fruitee Honey Dew</h3>
-                        <div class="product-card-price">RM 24</div>
-                        <button class="product-card-btn">Buy Now</button>
-                    </div>
-                </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card" data-product="2">
-                    <a href="#products" class="product-badge" id="product-badge-2">Fruitee Collection</a>
-                    <img src="https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fruitee Apple" class="product-card-image">
-                    <div class="product-card-info">
-                        <h3 class="product-card-name">Fruitee Apple</h3>
-                        <div class="product-card-price">RM 24</div>
-                        <button class="product-card-btn">Buy Now</button>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card" data-product="3">
-                    <a href="#products" class="product-badge" id="product-badge-3">Fruitee Collection</a>
-                    <img src="https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fruitee Strawberry" class="product-card-image">
-                    <div class="product-card-info">
-                        <h3 class="product-card-name">Fruitee Strawberry</h3>
-                        <div class="product-card-price">RM 24</div>
-                        <button class="product-card-btn">Buy Now</button>
-                    </div>
-                </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded dynamically -->
             </div>
         </div>
     </section>
@@ -1802,7 +1721,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <a href="#" class="footer-logo">
+                <a href="newhome" class="footer-logo">
                     <div class="footer-logo-icon">
                         <img src="images/Logo.png" alt="Trulune Logo">
                     </div>
@@ -1855,6 +1774,20 @@
     </div>
 
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
+            authDomain: "post-58eb6.firebaseapp.com",
+            projectId: "post-58eb6",
+            storageBucket: "post-58eb6.firebasestorage.app",
+            messagingSenderId: "448356917822",
+            appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -1938,7 +1871,7 @@
             const navControls = document.querySelector('.nav-controls');
             
             let currentPage = 0;
-            const totalSlides = document.querySelectorAll('.product-container').length;
+            let totalSlides = 0;
             
             function isMobileView() {
                 return window.innerWidth <= 992;
@@ -2005,50 +1938,19 @@
             let modalTotalSlides = 0;
             let modalImages = [];
             
-            // Product descriptions
-            const productDescriptions = {
-                1: "Fruitee Honey Dew - A refreshing and sweet scent that captures the essence of fresh honey dew melon. Perfect for everyday wear to keep you feeling fresh and vibrant all day long.",
-                2: "Fruitee Apple - Crisp and clean apple fragrance that brings a fresh, fruity aroma to your day. This uplifting scent will boost your mood and leave you feeling energized.",
-                3: "Fruitee Strawberry - Sweet and juicy strawberry scent that's both delightful and long-lasting. Experience the joy of fresh strawberries with this irresistible fragrance."
-            };
-            
-            // Product images for modal - FIXED to 1:1 aspect ratio images
-            const productModalImages = {
-                1: [
-                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
-                ],
-                2: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
-                ],
-                3: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
-                ]
-            };
-            
             // Open product modal
-            function openProductModal(productId) {
-                const productCard = document.querySelector(`[data-product="${productId}"]`);
-                if (!productCard) return;
-                
-                const productName = productCard.querySelector('.product-card-name').textContent;
-                const productPrice = productCard.querySelector('.product-card-price').textContent;
-                const productDesc = productDescriptions[productId] || "No description available.";
+            function openProductModal(product) {
+                if (!product) return;
                 
                 // Set modal content
-                modalProductName.textContent = productName;
-                modalProductDesc.textContent = productDesc;
-                modalProductPrice.textContent = productPrice;
+                modalProductName.textContent = product.name;
+                modalProductDesc.textContent = product.description || '';
+                modalProductPrice.textContent = product.price;
                 modalBuyBtn.setAttribute('href', '#');
                 modalBuyBtn.setAttribute('target', '_blank');
                 
                 // Set images for carousel
-                modalImages = productModalImages[productId] || [];
+                modalImages = product.gallery || [product.image];
                 modalTotalSlides = modalImages.length;
                 modalCurrentSlide = 0;
                 
@@ -2142,22 +2044,8 @@
                     }
                 }
             });
-            
-            // Product card click events
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    if (e.target.closest('.product-card-btn') || 
-                        e.target.closest('.product-badge')) {
-                        return;
-                    }
-                    
-                    const productId = this.getAttribute('data-product');
-                    openProductModal(productId);
-                });
-            });
 
             // ============== FULLSCREEN GALLERY ==============
-            const fullscreenBtns = document.querySelectorAll('.fullscreen-btn');
             const fullscreenModal = document.getElementById('fullscreen-modal');
             const modalImage = document.getElementById('modal-image');
             const closeModal = document.getElementById('close-modal');
@@ -2168,45 +2056,16 @@
             let currentGallery = null;
             let currentImageIndex = 0;
             
-            const productGalleries = {
-                honeydew: [
-                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ],
-                apple: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ],
-                strawberry: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ]
-            };
-            
-            fullscreenBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const productId = this.getAttribute('data-product');
-                    currentGallery = productGalleries[productId];
-                    currentImageIndex = 0;
-                    
-                    openGallery();
-                });
-            });
-            
-            function openGallery() {
-                if (!currentGallery || currentGallery.length === 0) {
+            function openGallery(productId, galleryImages) {
+                if (!galleryImages || galleryImages.length === 0) {
                     console.error('No gallery found!');
                     return;
                 }
                 
-                modalImage.src = currentGallery[0];
+                currentGallery = galleryImages;
+                currentImageIndex = 0;
+                
+                modalImage.src = galleryImages[0];
                 updateThumbnails();
                 updateGalleryButtons();
                 fullscreenModal.classList.add('active');
@@ -2290,6 +2149,267 @@
                 thumbnailsContainer.innerHTML = '';
             }
             
+            // ============== LOAD PRODUCTS FROM FIREBASE ==============
+            async function loadProducts() {
+                try {
+                    console.log('Loading products from Firebase...');
+                    
+                    // Load book products
+                    const bookSnapshot = await db.collection('websiteProducts')
+                        .where('type', '==', 'book')
+                        .get();
+                    
+                    // Load grid products
+                    const gridSnapshot = await db.collection('websiteProducts')
+                        .where('type', '==', 'grid')
+                        .get();
+                    
+                    const bookProducts = [];
+                    const gridProducts = [];
+                    
+                    bookSnapshot.forEach(doc => {
+                        bookProducts.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    gridSnapshot.forEach(doc => {
+                        gridProducts.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    console.log(`Loaded ${bookProducts.length} book products and ${gridProducts.length} grid products`);
+                    
+                    // Sort book products by order
+                    bookProducts.sort((a, b) => {
+                        if (a.id === 'honeydew') return -1;
+                        if (b.id === 'honeydew') return 1;
+                        if (a.id === 'apple') return -1;
+                        if (b.id === 'apple') return 1;
+                        if (a.id === 'strawberry') return -1;
+                        if (b.id === 'strawberry') return 1;
+                        return 0;
+                    });
+                    
+                    // Sort grid products by ID
+                    gridProducts.sort((a, b) => {
+                        const aNum = parseInt(a.id) || 0;
+                        const bNum = parseInt(b.id) || 0;
+                        return aNum - bNum;
+                    });
+                    
+                    // Display products
+                    displayBookProducts(bookProducts);
+                    displayGridProducts(gridProducts);
+                    
+                } catch (error) {
+                    console.error('Error loading products:', error);
+                    // Fallback to default products
+                    loadDefaultProducts();
+                }
+            }
+            
+            function displayBookProducts(products) {
+                const bookSlidesContainer = document.getElementById('bookSlides');
+                bookSlidesContainer.innerHTML = '';
+                
+                // Add cover
+                const coverElement = document.createElement('div');
+                coverElement.className = 'product-container cover';
+                coverElement.innerHTML = `
+                    <div class="cover-content">
+                        <h2 class="cover-title">Fruitee</h2>
+                        <p class="cover-subtitle">Discover our first collection: a chosen lineup of fruity scents to be your everyday signature.</p>
+                    </div>
+                `;
+                bookSlidesContainer.appendChild(coverElement);
+                
+                // Add book products
+                products.forEach((product, index) => {
+                    const productElement = document.createElement('div');
+                    productElement.className = 'product-container';
+                    productElement.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <button class="fullscreen-btn" data-product-id="${product.id}">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <div class="product-content">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-desc">${product.description || ''}</p>
+                            <div class="price-buy-container">
+                                <div class="product-price">${product.price}</div>
+                                <button class="buy-btn" data-product-id="${product.id}">Get it Now</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add event listener for fullscreen button
+                    const fullscreenBtn = productElement.querySelector('.fullscreen-btn');
+                    fullscreenBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openGallery(product.id, product.gallery || [product.image]);
+                    });
+                    
+                    // Add event listener for buy button
+                    const buyBtn = productElement.querySelector('.buy-btn');
+                    buyBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openProductModal(product);
+                    });
+                    
+                    // Add click event to open product modal
+                    productElement.addEventListener('click', function(e) {
+                        if (!e.target.closest('.fullscreen-btn') && !e.target.closest('.buy-btn')) {
+                            openProductModal(product);
+                        }
+                    });
+                    
+                    bookSlidesContainer.appendChild(productElement);
+                });
+                
+                // Update total slides and reset slider
+                totalSlides = document.querySelectorAll('.product-container').length;
+                currentPage = 0;
+                updateSlide();
+            }
+            
+            function displayGridProducts(products) {
+                const productsGrid = document.getElementById('productsGrid');
+                productsGrid.innerHTML = '';
+                
+                products.forEach((product, index) => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.setAttribute('data-product', product.id);
+                    
+                    productCard.innerHTML = `
+                        <a href="#products" class="product-badge">${product.badge || 'Fruitee Collection'}</a>
+                        <img src="${product.image}" alt="${product.name}" class="product-card-image">
+                        <div class="product-card-info">
+                            <h3 class="product-card-name">${product.name}</h3>
+                            <div class="product-card-price">${product.price}</div>
+                            <button class="product-card-btn">Buy Now</button>
+                        </div>
+                    `;
+                    
+                    // Add click event to open product modal
+                    productCard.addEventListener('click', function(e) {
+                        if (!e.target.closest('.product-card-btn') && 
+                            !e.target.closest('.product-badge')) {
+                            openProductModal(product);
+                        }
+                    });
+                    
+                    // Add click event to buy button
+                    const buyBtn = productCard.querySelector('.product-card-btn');
+                    buyBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        openProductModal(product);
+                    });
+                    
+                    productsGrid.appendChild(productCard);
+                });
+            }
+            
+            function loadDefaultProducts() {
+                // Default products if Firebase fails
+                const defaultBookProducts = [
+                    {
+                        id: 'honeydew',
+                        name: 'Fruitee HoneyDew',
+                        price: 'RM24',
+                        description: 'Smell like Honey Dew',
+                        badge: 'Fruitee Collection',
+                        type: 'book',
+                        image: 'https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C',
+                        gallery: [
+                            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
+                        ]
+                    },
+                    {
+                        id: 'apple',
+                        name: 'Fruitee Apple',
+                        price: 'RM24',
+                        description: 'It smell like Apple',
+                        badge: 'Fruitee Collection',
+                        type: 'book',
+                        image: 'https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*',
+                        gallery: [
+                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
+                        ]
+                    },
+                    {
+                        id: 'strawberry',
+                        name: 'Fruitee Strawberry',
+                        price: 'RM24',
+                        description: 'It does smell like Strawberry',
+                        badge: 'Fruitee Collection',
+                        type: 'book',
+                        image: 'https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*',
+                        gallery: [
+                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
+                        ]
+                    }
+                ];
+                
+                const defaultGridProducts = [
+                    {
+                        id: '1',
+                        name: 'Fruitee Honey Dew',
+                        price: 'RM 24',
+                        description: 'A refreshing and sweet scent that captures the essence of fresh honey dew melon.',
+                        badge: 'Fruitee Collection',
+                        type: 'grid',
+                        image: 'https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+                        gallery: [
+                            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
+                        ]
+                    },
+                    {
+                        id: '2',
+                        name: 'Fruitee Apple',
+                        price: 'RM 24',
+                        description: 'Crisp and clean apple fragrance that brings a fresh, fruity aroma to your day.',
+                        badge: 'Fruitee Collection',
+                        type: 'grid',
+                        image: 'https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+                        gallery: [
+                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
+                        ]
+                    },
+                    {
+                        id: '3',
+                        name: 'Fruitee Strawberry',
+                        price: 'RM 24',
+                        description: 'Sweet and juicy strawberry scent that\'s both delightful and long-lasting.',
+                        badge: 'Fruitee Collection',
+                        type: 'grid',
+                        image: 'https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+                        gallery: [
+                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
+                            'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
+                        ]
+                    }
+                ];
+                
+                displayBookProducts(defaultBookProducts);
+                displayGridProducts(defaultGridProducts);
+            }
+            
             // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -2309,7 +2429,7 @@
             
             // Initialize everything
             initHeroSlider();
-            updateSlide();
+            loadProducts();
             
             // Resize handler for book slider
             window.addEventListener('resize', function() {
@@ -2318,6 +2438,12 @@
                     currentPage = maxPage;
                 }
                 updateSlide();
+            });
+            
+            // Real-time updates from Firebase
+            db.collection('websiteProducts').onSnapshot((snapshot) => {
+                console.log('Products updated from Firebase');
+                loadProducts();
             });
         });
     </script>
