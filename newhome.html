@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trulune Malaysia</title>
+    <title>Feed - Trulune Malaysia</title>
+    <link rel="icon" type="image/png" href="images/Logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -26,21 +29,14 @@
 
         body {
             background: #fafafa;
-            background-size: cover;
             color: #333;
             line-height: 1.6;
-            overflow-x: hidden;
             min-height: 100vh;
-        }
-
-        /* Container untuk pusatkan content */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            overflow-x: hidden;
             width: 100%;
         }
 
-        /* ============== HEADER ============== */
+        /* ============== HEADER (COPIED FROM HOMEPAGE) ============== */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -52,7 +48,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Header container untuk padding desktop & mobile */
         .header-container {
             display: flex;
             justify-content: space-between;
@@ -71,7 +66,6 @@
             padding: 15px var(--desktop-padding);
         }
 
-        /* Logo paling kiri */
         .logo {
             display: flex;
             align-items: center;
@@ -105,7 +99,6 @@
             transition: color 0.3s ease;
         }
 
-        /* ============== NAVIGATION ============== */
         .nav-links {
             display: flex;
             align-items: center;
@@ -176,592 +169,590 @@
             z-index: 1002;
         }
 
-        /* ============== HERO SLIDER ============== */
-        .hero {
-            background: #fafafa;
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+
+        /* Feed Page */
+        .feed-page {
+            margin-top: 120px;
+            padding: 0 var(--desktop-padding);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 80px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Feed Header */
+        .feed-header {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+            width: 100%;
+            align-items: start;
+            padding: 20px 0;
+        }
+
+
+            .post-verified-badge {
+                width: 16px !important;
+                height: 16px !important;
+                bottom: 4px;
+                right: -8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .feed-header {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 20px;
+                padding: 0;
+            }
+        }
+
+        /* Profile Avatar with Verified Badge */
+        .profile-avatar-container {
             position: relative;
-            overflow: hidden;
-            height: 550px;
-
+            width: 120px;
+            height: 120px;
+            flex-shrink: 0;
         }
 
-        .hero-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
+        @media (max-width: 768px) {
+            .profile-avatar-container {
+                margin: 0 auto;
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .profile-avatar {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
         }
 
-        .slide {
+        /* Profile verified badge */
+        .profile-verified-badge {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.7s ease-in-out;
-            pointer-events: none;
-        }
-
-        .slide.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Slide 1 - Original Hero Content */
-        .slide-1 {
-            display: flex;
+            bottom: 8px;
+            right: -8px;
+            width: 28px;
+            height: 28px;
+            display: none;
             align-items: center;
             justify-content: center;
-            background: #fafafa;
+            cursor: pointer;
+            z-index: 2;
         }
 
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            padding: 0 var(--mobile-padding);
+        .profile-verified-badge img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
         }
 
-        .hero-badge {
-            display: inline-flex;
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name-container {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--secondary);
-            border: 1px solid var(--gray-200);
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .profile-name-container {
+                justify-content: center;
+            }
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .profile-username {
+            font-size: 18px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item {
+                align-items: center;
+            }
+        }
+
+        .stat-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
             font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 32px;
             color: var(--gray-600);
         }
 
-        .hero-title {
-            font-size: 50px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-subtitle {
-            font-size: 20px;
-            color: #525252;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 32px;
-            background: #000000;
-            color: #ffffff;
-            border: 1px solid transparent;
-            font-weight: 600;
-            font-size: 15px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            background: #404040;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Slide 2 - Image Background with Overlay */
-        .slide-2 {
-            background: url('https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80') no-repeat center center;
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .slide-2::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-        }
-
-        .slide-2-content {
-            text-align: center;
-            max-width: 800px;
-            padding: 0 var(--mobile-padding);
-            color: white;
-            position: relative;
-            z-index: 1;
-        }
-
-        .slide-2-title {
-            font-size: 42px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-        }
-
-        .slide-2-subtitle {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        /* Slider Arrow - PLAIN ARROW SAHAJA (NO CIRCLE) */
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: #000000;
-            font-size: 2.5rem;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s;
-            opacity: 0.7;
-            padding: 10px;
-        }
-
-        .slider-arrow:hover {
-            opacity: 1;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .slider-arrow-left {
-            left: 30px;
-            display: none; /* HIDE LEFT ARROW SEPERTI PERMINTAAN */
-        }
-
-        .slider-arrow-right {
-            right: 30px;
-        }
-
-        /* Arrow untuk slide 2 - PUTIH SAHAJA */
-        .slide-2 .slider-arrow {
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ============== SECTION TITLES ============== */
-        .first-collection-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 0;
-            letter-spacing: -0.01em;
-            text-align: left;
+        /* Posts Feed */
+        .posts-feed {
             width: 100%;
-            color: black;
-            padding: 30px 0 30px;
-            max-width: 1400px;
             margin: 0 auto;
         }
 
-        .all-products-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 0;
-            letter-spacing: -0.01em;
-            text-align: left;
-            width: 100%;
-            color: black;
-            padding: 30px 0 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* ============== PRODUCT BOOK ============== */
-        .product-book-section {
-            padding: 0 var(--desktop-padding);
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .book-container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
+        .post-card {
+            background: white;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-        }
-        
-        .book-slides {
-            display: flex;
-            transition: transform 0.4s ease;
-            height: 100%;
-        }
-        
-        .product-container {
-            flex: 0 0 50%;
-            position: relative;
-            background-color: white;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 500px;
-            min-width: 50%;
-        }
-        
-        .product-image {
+            border: 1px solid var(--gray-200);
+            margin-bottom: 30px;
+            padding: 24px;
+            transition: all 0.3s ease;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            box-sizing: border-box;
         }
-        
-        .product-container:hover .product-image {
-            transform: scale(1.03);
+
+        .post-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
-        
-        .product-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 25px 20px 30px;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
+
+        .post-card.pinned {
+            border-left: 4px solid #000000;
         }
-        
-        .product-name {
-            font-size: 2.2rem;
-            font-weight: 400;
-            letter-spacing: -0.5px;
-        }
-        
-        .product-desc {
-            font-size: 1.05rem;
-            opacity: 0.9;
-            margin-bottom: 8px;
-            max-width: 90%;
-            font-weight: 300;
-        }
-        
-        .price-buy-container {
+
+        .pin-indicator {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        
-        .product-price {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #ffdd40;
-        }
-        
-        .buy-btn {
-            display: inline-block;
-            background-color: #0E3659;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
+            gap: 8px;
+            color: #000000;
+            font-size: 14px;
             font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            margin-bottom: 15px;
         }
-        
-        .buy-btn:hover {
-            background-color: #0E3659;
-            opacity: 80%;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(58, 94, 208, 0.3);
-        }
-        
-        .fullscreen-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            background-color: rgba(255, 255, 255, 0.9);
+
+        /* Post Header with Avatar and Verified Badge */
+        .post-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-            border: none;
-            color: #333;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            gap: 12px;
         }
-        
-        .fullscreen-btn:hover {
-            background-color: white;
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-controls {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-            pointer-events: none;
-            z-index: 20;
-        }
-        
-        .nav-controls.first-page .prev-btn {
-            visibility: hidden;
-            pointer-events: none;
-        }
-        
-        .nav-controls.last-page .next-btn {
-            visibility: hidden;
-            pointer-events: none;
-        }
-        
-        .nav-btn {
+
+        .post-avatar-container {
+            position: relative;
             width: 50px;
             height: 50px;
-            background-color: white;
-            border: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-            color: #555;
-            pointer-events: auto;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
         }
-        
-        .nav-btn:hover {
-            background-color: #0E3659;
-            color: white;
-            border-color: #0E3659;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.2);
+
+        @media (max-width: 768px) {
+            .post-avatar-container {
+                width: 44px;
+                height: 44px;
+            }
         }
-        
-        .fullscreen-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .fullscreen-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            position: relative;
-            width: 90%;
-            height: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: default;
-        }
-        
-        .modal-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            cursor: default;
-        }
-        
-        .image-container {
-            position: relative;
-            display: inline-block;
-            max-width: 90%;
-            max-height: 90%;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.8rem;
-            color: white;
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1001;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .close-modal:hover {
-            background: rgba(0, 0, 0, 0.8);
-            transform: scale(1.1);
-        }
-        
-        .gallery-nav {
-            position: absolute;
-            top: 50%;
-            left: 5px;
-            right: 5px;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            pointer-events: none;
-            z-index: 1001;
-        }
-        
-        .gallery-btn {
-            background: none;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 2;
-            color: white;
-            pointer-events: auto;
-            padding: 15px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.7));
-        }
-        
-        .gallery-btn:hover {
-            transform: scale(1.2);
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-        }
-        
-        .gallery-btn.hidden {
-            visibility: hidden;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .thumbnails {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .thumbnail {
-            width: 80px;
-            height: 60px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            opacity: 0.7;
-        }
-        
-        .thumbnail:hover {
-            opacity: 1;
-            transform: scale(1.05);
-        }
-        
-        .thumbnail.active {
-            border-color: #4a6ee0;
-            opacity: 1;
-            box-shadow: 0 4px 12px rgba(74, 110, 224, 0.4);
-        }
-        
-        .thumbnail img {
+
+        .post-avatar {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        
-        .cover {
-            background: url('images/bookcover.jpeg') no-repeat center center fixed;
-            color: white;
-            text-align: center;
-        }
-        
-        .cover-content {
-            padding: 60px;
-            max-width: 90%;
-        }
-        
-        .cover-title {
-            font-size: 3.5rem;
-            font-weight: 400;
-            margin-bottom: 15px;
-            letter-spacing: -1px;
-        }
-        
-        .cover-subtitle {
-            font-size: 1.4rem;
-            opacity: 0.9;
-            font-weight: 300;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        /* ============== PRODUCT MODAL ============== */
-        .product-modal {
+        .post-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Post verified badge */
+        .post-verified-badge {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .post-verified-badge {
+                width: 16px;
+                height: 16px;
+                bottom: 4px;
+                right: -8px;
+            }
+        }
+
+        .post-verified-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+        }
+
+        .post-author-info {
+            flex: 1;
+        }
+
+        .post-author-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .post-author-name {
+                font-size: 15px;
+            }
+        }
+
+        .post-author-name:hover {
+            text-decoration: none;
+        }
+
+        .post-timestamp {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 2px;
+        }
+
+        /* Post Content */
+        .post-content {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .post-text {
+            color: var(--primary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            width: 100%;
+        }
+
+        .post-text a {
+            color: #0E3659;
+            text-decoration: underline;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        /* Post Image */
+        .post-image-container {
+            margin: 15px 0;
+            overflow: hidden;
+            cursor: pointer;
+            width: auto;
+            max-width: 300px;
+            text-align: left;
+            display: block;
+        }
+
+        .post-image {
+            width: 100%;
+            height: auto;
+            max-width: 300px;
+            max-height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .post-image-container {
+                max-width: 100%;
+            }
+            .post-image {
+                max-width: 100%;
+                max-height: 250px;
+            }
+        }
+
+        .post-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Post Actions */
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        .post-interaction {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .post-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            color: var(--gray-600);
+            font-size: 15px;
+            cursor: pointer;
+            padding: 8px 12px;
+            transition: all 0.2s ease;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .post-button:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            .post-button {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* LIKE BUTTON - DEFAULT GRAY, ONLY RED WHEN CLICKED (TEMPORARY) */
+        .like-button {
+            position: relative;
+            color: var(--gray-600) !important;
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .like-button i {
+            color: var(--gray-600) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .like-button .like-count {
+            color: var(--gray-600) !important;
+            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Temporary red state when clicked */
+        .like-button.temp-liked {
+            color: #dc2626 !important;
+        }
+
+        .like-button.temp-liked i {
+            color: #dc2626 !important;
+        }
+
+        .like-button.temp-liked .like-count {
+            color: #dc2626 !important;
+        }
+
+        /* Heartbeat animation */
+        @keyframes heartbeat {
+            0% { 
+                transform: scale(1);
+            }
+            15% { 
+                transform: scale(1.3);
+            }
+            30% { 
+                transform: scale(0.95);
+            }
+            45% { 
+                transform: scale(1.2);
+            }
+            60% { 
+                transform: scale(1);
+            }
+            75% { 
+                transform: scale(1.15);
+            }
+            100% { 
+                transform: scale(1);
+            }
+        }
+
+        .heartbeat {
+            animation: heartbeat 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation-fill-mode: both;
+        }
+
+        .like-count {
+            margin-left: 5px;
+            font-weight: 600;
+            display: inline-block !important;
+            visibility: visible !important;
+        }
+
+        /* Share Modal */
+        .share-options {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 1px solid var(--gray-200);
+            padding: 12px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 100;
+            min-width: 200px;
+            animation: fadeIn 0.2s ease;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .share-options {
+                position: fixed;
+                bottom: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                max-width: 90vw;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, 10px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        .share-options.show {
+            display: block;
+        }
+
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+            box-sizing: border-box;
+            color: var(--gray-600);
+            text-decoration: none;
+        }
+
+        .share-option:hover {
+            background: #f8f9fa;
+        }
+
+        .share-option i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* ============== IMAGE MODAL - CLOSE BUTTON STICKS TO IMAGE ============== */
+        .image-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.3s ease;
-            cursor: pointer;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        
-        .product-modal.active {
+
+        .image-modal.active {
             display: flex;
             opacity: 1;
         }
-        
-        .product-modal-content {
-            background: white;
-            max-width: 1000px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
+
+        .modal-content {
             position: relative;
-            cursor: default;
+            max-width: 90%;
+            max-height: 90%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        
-        .modal-close {
+
+        .modal-image-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            display: block;
+        }
+
+        /* CLOSE BUTTON - STICKS TO TOP RIGHT OF IMAGE ON ALL DEVICES */
+        .close-modal {
             position: absolute;
             top: 15px;
             right: 15px;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: white;
             background: rgba(0, 0, 0, 0.6);
             border: none;
@@ -773,280 +764,149 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0;
+            padding: 0;
         }
-        
-        .modal-close:hover {
+
+        .close-modal:hover {
             background: rgba(0, 0, 0, 0.8);
             transform: scale(1.1);
         }
-        
-        /* FIXED: 1:1 Aspect Ratio for ALL DEVICES */
-        .modal-image-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-        
-        /* 1:1 Aspect Ratio Container */
-        .modal-image-container::before {
-            content: '';
-            display: block;
-            padding-top: 100%; /* This creates 1:1 aspect ratio */
-        }
-        
-        .modal-product-img-carousel {
-            position: absolute;
+
+        /* Verified Badge Modal */
+        .verified-modal {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        
-        .modal-carousel-slide {
-            min-width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
-        .modal-carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .modal-carousel-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
             background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
+            z-index: 2001;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .verified-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .verified-modal-content {
+            background: white;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid var(--gray-200);
+        }
+
+        .verified-modal-header {
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        
-        .modal-carousel-arrow:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-        
-        .modal-carousel-arrow-left {
-            left: 15px;
-        }
-        
-        .modal-carousel-arrow-right {
-            right: 15px;
-        }
-        
-        .modal-carousel-dots {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
             gap: 10px;
-            z-index: 5;
-        }
-        
-        .modal-carousel-dot {
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .modal-carousel-dot.active {
-            background: white;
-            transform: scale(1.2);
-        }
-        
-        /* Desktop: Horizontal layout */
-        @media (min-width: 769px) {
-            .modal-image-container {
-                width: 50%;
-                float: left;
-            }
-            
-            .modal-product-info {
-                width: 50%;
-                padding: 40px;
-                float: left;
-                height: 500px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-        }
-        
-        /* Mobile: Vertical layout */
-        @media (max-width: 768px) {
-            .modal-image-container {
-            }
-            
-            .modal-product-info {
-                width: 100%;
-                padding: 25px;
-                float: none;
-                height: auto;
-            }
-        }
-        
-        .modal-product-name {
-            font-size: 32px;
-            font-weight: 600;
             margin-bottom: 15px;
-            color: #333;
-        }
-        
-        .modal-product-desc {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 16px;
-        }
-        
-        .modal-product-price {
-            font-size: 36px;
-            font-weight: 700;
-            color: red;
-            margin-bottom: 30px;
-        }
-        
-        .modal-buy-btn {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: white;
-            border: none;
-            padding: 16px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            text-decoration: none;
-        }
-        
-        .modal-buy-btn:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.3);
-        }
-        
-        .product-modal-content::after {
-            content: "";
-            display: table;
-            clear: both;
         }
 
-        /* ============== PRODUCT GRID ============== */
-        .products-section {
-            padding: 0 var(--desktop-padding);
-            max-width: 1400px;
-            margin: 0 auto;
+        .verified-modal-icon {
+            width: 32px;
+            height: 32px;
         }
 
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .product-card {
-            background: rgba(255, 255, 255, 0.95);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid black;
-            backdrop-filter: blur(10px);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-card-image {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-        }
-
-        .product-card-info {
-            padding: 20px;
-            text-align: left;
-        }
-
-        .product-card-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .product-card-price {
+        .verified-modal-title {
             font-size: 20px;
             font-weight: 700;
-            color: red;
-            margin-bottom: 16px;
-        }
-
-        .product-card-btn {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #ffffff;
-            border: none;
-            padding: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        .product-card-btn:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--secondary);
             color: var(--primary);
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: var(--shadow-sm);
-            z-index: 2;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
         }
 
-        .product-badge:hover {
-            background-color: #0E3659;
+        .verified-modal-text {
+            color: var(--gray-600);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .verified-modal-close {
+            background: var(--primary);
             color: white;
-            transform: translateY(-2px);
+            border: 1px solid transparent;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-decoration: none;
         }
 
-        /* ============== FOOTER ============== */
+        .verified-modal-close:hover {
+            background: #404040;
+        }
+
+        /* No Posts Message */
+        .no-posts {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray-600);
+            width: 100%;
+        }
+
+        .no-posts i {
+            font-size: 48px;
+            color: var(--gray-200);
+            margin-bottom: 20px;
+        }
+
+        .no-posts h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--gray-600);
+        }
+
+        .no-posts p {
+            font-size: 16px;
+            color: var(--gray-600);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 14px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            font-weight: 500;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .toast {
+                right: 30px;
+                left: auto;
+                text-align: left;
+            }
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============== FOOTER - EXACT COPY FROM HOMEPAGE ============== */
         .footer {
             background: transparent;
             color: black;
@@ -1054,6 +914,8 @@
             padding: 50px var(--desktop-padding) 20px;
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .footer-content {
@@ -1062,6 +924,7 @@
             align-items: center;
             gap: 32px;
             margin-bottom: 20px;
+            width: 100%;
         }
 
         .footer-brand {
@@ -1069,6 +932,7 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            width: 100%;
         }
 
         .footer-logo {
@@ -1105,6 +969,7 @@
             gap: 16px;
             margin-top: 10px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .social-link {
@@ -1117,6 +982,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .social-link:hover {
@@ -1132,22 +998,7 @@
             font-size: 14px;
             max-width: 1400px;
             margin: 0 auto;
-        }
-
-        /* Mobile menu overlay */
-        .mobile-menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 998;
-        }
-
-        .mobile-menu-overlay.active {
-            display: block;
+            width: 100%;
         }
 
         /* ==================== RESPONSIVE ==================== */
@@ -1156,59 +1007,17 @@
                 --desktop-padding: 40px;
             }
             
-            .hero-title {
-                font-size: 40px;
+            .feed-page {
+                padding: 0 var(--desktop-padding);
             }
             
-            .slide-2-title {
-                font-size: 36px;
+            .profile-name {
+                font-size: 24px;
             }
             
-            .hero-subtitle {
-                font-size: 18px;
-            }
-            
-            .slide-2-subtitle {
-                font-size: 16px;
-            }
-            
-            .product-container {
-                flex: 0 0 100%;
-                height: 500px;
-                min-width: 100%;
-            }
-            
-            .book-container {
-                height: 500px;
-            }
-            
-            .product-name {
-                font-size: 1.8rem;
-            }
-            
-            .cover-title {
-                font-size: 2.8rem;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .modal-product-info {
-                padding: 30px;
-                height: auto;
-            }
-            
-            .modal-product-name {
-                font-size: 28px;
-            }
-            
-            .modal-product-price {
-                font-size: 32px;
-            }
-            
-            .slider-arrow {
-                font-size: 2.2rem;
+            .post-image {
+                max-width: 280px;
+                max-height: 180px;
             }
         }
 
@@ -1218,6 +1027,96 @@
                 --desktop-padding: var(--mobile-padding);
             }
             
+            .feed-page {
+                margin-top: 100px;
+                padding: 0 var(--mobile-padding);
+            }
+            
+            .profile-name {
+                font-size: 22px;
+            }
+            
+            .profile-username {
+                font-size: 16px;
+            }
+            
+            .profile-bio {
+                font-size: 15px;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                gap: 30px;
+                justify-content: center;
+            }
+            
+            .stat-number {
+                font-size: 18px;
+            }
+            
+            .post-card {
+                padding: 20px;
+            }
+            
+            .post-header {
+                margin-bottom: 16px;
+            }
+            
+            .post-avatar-container {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .post-author-name {
+                font-size: 15px;
+            }
+            
+            .post-text {
+                font-size: 15px;
+            }
+            
+            .post-image {
+                max-width: 100%;
+                max-height: 250px;
+            }
+            
+            .post-button {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+            
+            .like-count {
+                display: inline !important;
+                visibility: visible !important;
+            }
+            
+            .footer {
+                padding: 40px var(--mobile-padding) 20px;
+            }
+            
+            .footer-content {
+                gap: 24px;
+            }
+            
+            .social-links {
+                gap: 12px;
+            }
+            
+            .social-link {
+                width: 36px;
+                height: 36px;
+            }
+
+            /* Mobile close button - SAME POSITION */
+            .close-modal {
+                top: 15px;
+                right: 15px;
+                width: 36px;
+                height: 36px;
+                font-size: 1.3rem;
+            }
+
+            /* Mobile Header Styles */
             .header {
                 padding: 0.5rem var(--mobile-padding);
             }
@@ -1231,7 +1130,7 @@
             }
 
             .header-actions {
-                 margin-left: auto;
+                margin-left: auto;
             }
 
             .nav-links {
@@ -1285,325 +1184,108 @@
             .nav-badge-link .nav-badge {
                 margin: 0;
             }
-
-            .hero {
-                height: 500px;
-            }
-            
-            .hero-title {
-                font-size: 32px;
-            }
-            
-            .hero-subtitle {
-                font-size: 16px;
-                margin-bottom: 30px; /* KURANGKAN UNTUK MOBILE */
-                padding-right: 50px; /* TAMBAH PADDING KANAN UNTUK ELAK BERTINDIH */
-            }
-            
-            .slide-2-title {
-                font-size: 28px;
-            }
-            
-            .slide-2-subtitle {
-                font-size: 15px;
-                margin-bottom: 30px; /* KURANGKAN UNTUK MOBILE */
-                padding-right: 50px; /* TAMBAH PADDING KANAN UNTUK ELAK BERTINDIH */
-            }
-            
-            .slider-arrow {
-                font-size: 1.8rem;
-                right: 15px;
-            }
-            
-            .first-collection-title,
-            .all-products-title {
-                font-size: 24px;
-                padding: 25px 0 25px;
-            }
-            
-            .product-book-section,
-            .products-section,
-            .footer {
-                padding: 0 var(--mobile-padding);
-            }
-            
-            .book-container {
-                height: 400px;
-                aspect-ratio: 1 / 1;
-            }
-            
-            .product-container {
-                height: 100%;
-                aspect-ratio: 1 / 1;
-            }
-            
-            .product-content {
-                padding: 20px 15px 25px;
-            }
-            
-            .product-name {
-                font-size: 1.4rem;
-            }
-            
-            .product-desc {
-                font-size: 0.95rem;
-            }
-            
-            .product-price {
-                font-size: 1.4rem;
-            }
-            
-            .buy-btn {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-            }
-            
-            .cover-content {
-                padding: 30px;
-            }
-            
-            .cover-title {
-                font-size: 2rem;
-            }
-            
-            .cover-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-            
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-                max-width: 100%;
-            }
-
-            .product-badge {
-                padding: 6px 12px;
-                font-size: 12px;
-                top: 15px;
-                right: 15px;
-            }
-            
-            .product-card-info {
-                padding: 15px;
-            }
-
-            .product-card-name {
-                font-size: 16px;
-            }
-
-            .product-card-price {
-                font-size: 18px;
-            }
-            
-            .footer {
-                padding: 40px var(--mobile-padding) 20px;
-            }
-            
-            .footer-content {
-                gap: 24px;
-            }
-            
-            .social-links {
-                gap: 12px;
-            }
-            
-            .social-link {
-                width: 36px;
-                height: 36px;
-            }
-
-            .modal-product-info {
-                padding: 25px;
-            }
-            
-            .modal-product-name {
-                font-size: 24px;
-                margin-bottom: 12px;
-            }
-            
-            .modal-product-desc {
-                font-size: 15px;
-                margin-bottom: 20px;
-            }
-            
-            .modal-product-price {
-                font-size: 28px;
-                margin-bottom: 25px;
-            }
-            
-            .modal-buy-btn {
-                padding: 14px;
-                font-size: 16px;
-            }
-            
-            .modal-carousel-arrow {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
         }
 
         @media (max-width: 480px) {
-            .hero {
-                height: 450px;
+            .feed-page {
+                margin-top: 90px;
             }
             
-            .hero-title {
-                font-size: 28px;
+            .profile-name {
+                font-size: 20px;
             }
             
-            .hero-subtitle {
+            .profile-avatar-container {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .profile-verified-badge {
+                width: 24px;
+                height: 24px;
+            }
+            
+            .profile-verified-badge img {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .profile-username {
                 font-size: 14px;
-                margin-bottom: 25px;
-                padding-right: 40px;
             }
             
-            .slide-2-title {
-                font-size: 24px;
+            .profile-bio {
+                font-size: 14px;
             }
             
-            .slide-2-subtitle {
+            .profile-stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 16px;
+            }
+            
+            .post-card {
+                padding: 16px;
+            }
+            
+            .post-avatar-container {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .post-verified-badge {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .post-verified-badge img {
+                width: 14px;
+                height: 14px;
+            }
+            
+            .post-author-name {
+                font-size: 14px;
+            }
+            
+            .post-timestamp {
                 font-size: 13px;
-                margin-bottom: 25px;
-                padding-right: 40px;
             }
             
-            .slider-arrow {
-                font-size: 1.5rem;
-                right: 10px;
-            }
-            
-            .book-container {
-                height: 400px;
-                aspect-ratio: 1 / 1.2;
-            }
-            
-            .product-container {
-                aspect-ratio: 1 / 1.2;
-            }
-            
-            .product-content {
-                padding: 15px 12px 20px;
-            }
-            
-            .product-name {
-                font-size: 1.2rem;
-            }
-            
-            .product-desc {
-                font-size: 0.85rem;
-                margin-bottom: 4px;
-            }
-            
-            .product-price {
-                font-size: 1.2rem;
-            }
-            
-            .buy-btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-            
-            .cover-title {
-                font-size: 1.8rem;
-            }
-            
-            .cover-subtitle {
-                font-size: 1rem;
-            }
-            
-            .nav-btn {
-                width: 36px;
-                height: 36px;
-            }
-            
-            .gallery-btn {
-                font-size: 2.5rem;
-            }
-            
-            .thumbnail {
-                width: 60px;
-                height: 45px;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-                max-width: 100%;
-            }
-
-            .product-card {
-            }
-
-            .product-card-info {
-                padding: 12px;
-            }
-
-            .product-card-name {
-                font-size: 15px;
-                margin-bottom: 10px;
-            }
-
-            .product-card-price {
-                font-size: 17px;
-                margin-bottom: 12px;
-            }
-
-            .product-card-btn {
-                padding: 10px;
+            .post-text {
                 font-size: 14px;
             }
+            
+            .post-image {
+                max-height: 200px;
+            }
+            
+            .post-button {
+                font-size: 13px;
+                padding: 6px 8px;
+            }
+            
+            .post-button span {
+                display: inline !important;
+            }
 
-            .product-badge {
-                padding: 4px 10px;
-                font-size: 11px;
+            /* Small mobile close button - SAME POSITION */
+            .close-modal {
                 top: 12px;
                 right: 12px;
-            }
-
-            .first-collection-title,
-            .all-products-title {
-                font-size: 22px;
-                padding: 20px 0 20px;
-            }
-
-            .modal-product-info {
-                padding: 20px;
-            }
-            
-            .modal-product-name {
-                font-size: 20px;
-                margin-bottom: 10px;
-            }
-            
-            .modal-product-desc {
-                font-size: 14px;
-                margin-bottom: 15px;
-            }
-            
-            .modal-product-price {
-                font-size: 24px;
-                margin-bottom: 20px;
-            }
-            
-            .modal-buy-btn {
-                padding: 12px;
-                font-size: 16px;
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header (Copied from Homepage) -->
     <header class="header" id="header">
         <div class="header-container">
-            <a href="#" class="logo">
+            <a href="newhome" class="logo">
                 <div class="logo-icon">
                     <img src="images/Logo.png" alt="Trulune Logo">
                 </div>
@@ -1611,8 +1293,8 @@
             </a>
 
             <ul class="nav-links" id="nav-links">
-                <li><a href="newhome.html">Home</a></li>
-                <li><a href="feed.html">Feed</a></li>
+                <li><a href="newhome">Home</a></li>
+                <li><a href="feed">Feed</a></li>
                 <li><a href="https://t.me/trulune" class="nav-badge-link">
                 Get Fast Update<span class="nav-badge">🔔</span></a>
                 </li>
@@ -1628,181 +1310,77 @@
 
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
-    <!-- Hero Section with Slider -->
-    <section class="hero">
-        <div class="hero-slider">
-            <!-- Slide 1 - Original Content -->
-            <div class="slide slide-1 active">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span>✨</span> Trulune
-                    </div>
-                    <h1 class="hero-title">Welcome!<br>To our World.</h1>
-                    <p class="hero-subtitle">Discover our first collection of fruity scents, chosen to elevate your day.</p>
-                    <a href="#products" class="btn" id="shop-collection-btn">Shop Collection</a>
+    <!-- Feed Page -->
+    <div class="feed-page">
+        <!-- Profile Header -->
+        <div class="feed-header">
+            <div class="profile-avatar-container">
+                <img src="images/Logo.png" alt="Profile" class="profile-avatar" id="profileAvatar">
+                <div class="profile-verified-badge" id="profileVerifiedBadge">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Blue_checkmark.svg" alt="Verified">
                 </div>
-                <!-- Right arrow only - PLAIN ARROW -->
-                <button class="slider-arrow slider-arrow-right" id="sliderNext">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
-            
-            <!-- Slide 2 - New Image Background -->
-            <div class="slide slide-2">
-                <div class="slide-2-content">
-                    <h2 class="slide-2-title">Premium Fragrances<br>For Everyday Moments</h2>
-                    <p class="slide-2-subtitle">Experience the perfect blend of nature's finest fruits in our signature scents collection. Each fragrance is crafted to create lasting impressions.</p>
-                    <a href="#products" class="btn">Explore Collection</a>
+            <div class="profile-info">
+                <div class="profile-name-container">
+                    <h1 class="profile-name" id="profileName">Trulune Malaysia</h1>
                 </div>
-                <!-- Right arrow only - PLAIN ARROW -->
-                <button class="slider-arrow slider-arrow-right" id="sliderNext2">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Book -->
-    <section class="product-book-section" id="products">
-        <div class="container">
-            <h2 class="first-collection-title">Our First Collection</h2>
-            
-            <div class="book-container">
-                <div class="book-slides">
-                    <div class="product-container cover">
-                        <div class="cover-content">
-                            <h2 class="cover-title">Fruitee</h2>
-                            <p class="cover-subtitle">Discover our first collection: a chosen lineup of fruity scents to be your everyday signature.</p>
-                        </div>
+                <p class="profile-username" id="profileUsername">@trulune</p>
+                <p class="profile-bio" id="profileBio">Everyday scents. Timeless allure.</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalPosts">0</span>
+                        <span class="stat-label">Posts</span>
                     </div>
-                    
-                    <div class="product-container">
-                        <img src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee HoneyDew" class="product-image">
-                        <button class="fullscreen-btn" data-product="honeydew">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">Fruitee HoneyDew</h3>
-                            <p class="product-desc">Smell like Honey Dew</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">RM24</div>
-                                <a href="#" class="buy-btn">Get it Now</a>
-                            </div>
-                        </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalLikes">0</span>
+                        <span class="stat-label">Likes</span>
                     </div>
-                    
-                    <div class="product-container">
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee Apple" class="product-image">
-                        <button class="fullscreen-btn" data-product="apple">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">Fruitee Apple</h3>
-                            <p class="product-desc">It smell like Apple</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">RM24</div>
-                                <a href="#" class="buy-btn">Get it Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-container">
-                        <img src="https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Fruitee Strawberry" class="product-image">
-                        <button class="fullscreen-btn" data-product="strawberry">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">Fruitee Strawberry</h3>
-                            <p class="product-desc">It does smell like Strawberry</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">RM24</div>
-                                <a href="#" class="buy-btn">Get it Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="nav-controls first-page">
-                    <button class="nav-btn prev-btn">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="nav-btn next-btn">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
                 </div>
             </div>
         </div>
         
-        <div class="fullscreen-modal" id="fullscreen-modal">
-            <div class="modal-content">
-                <div class="image-container">
-                    <img class="modal-image" id="modal-image" src="" alt="Fullscreen product image">
-                    <button class="close-modal" id="close-modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="gallery-nav">
-                        <button class="gallery-btn prev-gallery-btn hidden">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="gallery-btn next-gallery-btn">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="thumbnails" id="thumbnails"></div>
+        <!-- Posts Feed - NO LOADING SPINNER -->
+        <div class="posts-feed" id="postsFeed">
+            <!-- Posts will be loaded here directly -->
+        </div>
+        
+        <!-- No Posts Message -->
+        <div class="no-posts" id="noPostsMessage" style="display: none;">
+            <i class="fas fa-newspaper"></i>
+            <h3>No posts yet</h3>
+            <p>Check back later for updates!</p>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <div class="modal-content">
+            <div class="modal-image-container">
+                <img class="modal-image" id="modalImage" src="" alt="Full size">
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Product Grid -->
-    <section class="products-section">
-        <div class="container">
-            <h2 class="all-products-title">All Products</h2>
-            <div class="products-grid">
-                <!-- Product 1 -->
-                <div class="product-card" data-product="1">
-                    <a href="#products" class="product-badge" id="product-badge-1">Fruitee Collection</a>
-                    <img src="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fruitee Honey Dew" class="product-card-image">
-                    <div class="product-card-info">
-                        <h3 class="product-card-name">Fruitee Honey Dew</h3>
-                        <div class="product-card-price">RM 24</div>
-                        <button class="product-card-btn">Buy Now</button>
-                    </div>
-                </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card" data-product="2">
-                    <a href="#products" class="product-badge" id="product-badge-2">Fruitee Collection</a>
-                    <img src="https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fruitee Apple" class="product-card-image">
-                    <div class="product-card-info">
-                        <h3 class="product-card-name">Fruitee Apple</h3>
-                        <div class="product-card-price">RM 24</div>
-                        <button class="product-card-btn">Buy Now</button>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card" data-product="3">
-                    <a href="#products" class="product-badge" id="product-badge-3">Fruitee Collection</a>
-                    <img src="https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                         alt="Fruitee Strawberry" class="product-card-image">
-                    <div class="product-card-info">
-                        <h3 class="product-card-name">Fruitee Strawberry</h3>
-                        <div class="product-card-price">RM 24</div>
-                        <button class="product-card-btn">Buy Now</button>
-                    </div>
-                </div>
+    <!-- Verified Badge Modal -->
+    <div class="verified-modal" id="verifiedModal">
+        <div class="verified-modal-content">
+            <div class="verified-modal-header">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Blue_checkmark.svg" alt="Verified" class="verified-modal-icon">
+                <h3 class="verified-modal-title">Verified Account</h3>
             </div>
+            <p class="verified-modal-text" id="verifiedModalText">Official presence of Trulune Malaysia</p>
+            <button class="verified-modal-close" id="verifiedModalClose">Close</button>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
+    <!-- Footer - EXACT COPY FROM HOMEPAGE -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <a href="#" class="footer-logo">
+                <a href="newhome" class="footer-logo">
                     <div class="footer-logo-icon">
                         <img src="images/Logo.png" alt="Trulune Logo">
                     </div>
@@ -1823,43 +1401,39 @@
         </div>
     </footer>
 
-    <!-- Product Modal -->
-    <div class="product-modal" id="productModal">
-        <div class="product-modal-content">
-            <button class="modal-close" id="modalCloseBtn">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-image-container">
-                <div class="modal-product-img-carousel" id="modalCarousel">
-                    <!-- Slides will be added dynamically -->
-                </div>
-                
-                <button class="modal-carousel-arrow modal-carousel-arrow-left" id="modalPrevBtn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="modal-carousel-arrow modal-carousel-arrow-right" id="modalNextBtn">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                
-                <div class="modal-carousel-dots" id="modalDots">
-                    <!-- Dots will be added dynamically -->
-                </div>
-            </div>
-            <div class="modal-product-info">
-                <h3 id="modalProductName" class="modal-product-name"></h3>
-                <p id="modalProductDesc" class="modal-product-desc"></p>
-                <div id="modalProductPrice" class="modal-product-price"></div>
-                <a id="modalBuyBtn" href="#" target="_blank" class="modal-buy-btn">Get it Now</a>
-            </div>
-        </div>
-    </div>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDoBtFtFEs6Cd-uU6dNvwXNAuXOd1R1r10",
+            authDomain: "post-58eb6.firebaseapp.com",
+            projectId: "post-58eb6",
+            storageBucket: "post-58eb6.firebasestorage.app",
+            messagingSenderId: "448356917822",
+            appId: "1:448356917822:web:8251dc0ecff7fcd0efe76f"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // Generate unique user ID for likes tracking
+        let userId = localStorage.getItem('trulune_user_id');
+        if (!userId) {
+            userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('trulune_user_id', userId);
+        }
+        
+        // Like button debouncing and state management
+        const likeButtonStates = new Map(); // Track animation state for each post
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Header scroll effect
+            // Header scroll effect (from homepage)
             const header = document.getElementById('header');
             
             window.addEventListener('scroll', function() {
@@ -1870,7 +1444,7 @@
                 }
             });
             
-            // Mobile menu toggle
+            // Mobile menu toggle (from homepage)
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const navLinks = document.getElementById('nav-links');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -1900,425 +1474,620 @@
                 });
             });
 
-            // ============== HERO SLIDER ==============
-            let currentHeroSlide = 0;
-            const heroSlides = document.querySelectorAll('.hero-slider .slide');
-            const sliderNext = document.getElementById('sliderNext');
-            const sliderNext2 = document.getElementById('sliderNext2');
-            
-            // Function to go to next slide with SMOOTH transition
-            function nextHeroSlide() {
-                heroSlides[currentHeroSlide].classList.remove('active');
-                currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
-                heroSlides[currentHeroSlide].classList.add('active');
-            }
-            
-            // Initialize hero slider
-            function initHeroSlider() {
-                if (heroSlides.length === 0) return;
-                
-                // Arrow buttons event listeners - SAMA untuk semua slides
-                if (sliderNext) {
-                    sliderNext.addEventListener('click', function() {
-                        nextHeroSlide();
-                    });
-                }
-                
-                if (sliderNext2) {
-                    sliderNext2.addEventListener('click', function() {
-                        nextHeroSlide();
-                    });
-                }
-            }
+            // Verified Badge Modal Setup
+            const profileVerifiedBadge = document.getElementById('profileVerifiedBadge');
+            const verifiedModal = document.getElementById('verifiedModal');
+            const verifiedModalText = document.getElementById('verifiedModalText');
+            const verifiedModalClose = document.getElementById('verifiedModalClose');
 
-            // ============== PRODUCT BOOK SLIDER ==============
-            const bookSlides = document.querySelector('.book-slides');
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
-            const navControls = document.querySelector('.nav-controls');
-            
-            let currentPage = 0;
-            const totalSlides = document.querySelectorAll('.product-container').length;
-            
-            function isMobileView() {
-                return window.innerWidth <= 992;
-            }
-            
-            function getMaxPage() {
-                if (isMobileView()) {
-                    return totalSlides - 1;
-                } else {
-                    return Math.floor((totalSlides - 1) / 2);
-                }
-            }
-            
-            function updateSlide() {
-                let translateValue;
-                if (isMobileView()) {
-                    translateValue = currentPage * 100;
-                } else {
-                    translateValue = currentPage * 100;
-                }
-                
-                bookSlides.style.transform = `translateX(-${translateValue}%)`;
-                
-                const maxPage = getMaxPage();
-                navControls.className = 'nav-controls';
-                
-                if (currentPage === 0) {
-                    navControls.classList.add('first-page');
-                }
-                
-                if (currentPage === maxPage) {
-                    navControls.classList.add('last-page');
-                }
-            }
-            
-            nextBtn.addEventListener('click', function() {
-                const maxPage = getMaxPage();
-                if (currentPage < maxPage) {
-                    currentPage++;
-                    updateSlide();
-                }
-            });
-            
-            prevBtn.addEventListener('click', function() {
-                if (currentPage > 0) {
-                    currentPage--;
-                    updateSlide();
-                }
-            });
-
-            // ============== PRODUCT MODAL ==============
-            const productModal = document.getElementById('productModal');
-            const modalCloseBtn = document.getElementById('modalCloseBtn');
-            const modalCarousel = document.getElementById('modalCarousel');
-            const modalDots = document.getElementById('modalDots');
-            const modalPrevBtn = document.getElementById('modalPrevBtn');
-            const modalNextBtn = document.getElementById('modalNextBtn');
-            const modalProductName = document.getElementById('modalProductName');
-            const modalProductDesc = document.getElementById('modalProductDesc');
-            const modalProductPrice = document.getElementById('modalProductPrice');
-            const modalBuyBtn = document.getElementById('modalBuyBtn');
-            
-            let modalCurrentSlide = 0;
-            let modalTotalSlides = 0;
-            let modalImages = [];
-            
-            // Product descriptions
-            const productDescriptions = {
-                1: "Fruitee Honey Dew - A refreshing and sweet scent that captures the essence of fresh honey dew melon. Perfect for everyday wear to keep you feeling fresh and vibrant all day long.",
-                2: "Fruitee Apple - Crisp and clean apple fragrance that brings a fresh, fruity aroma to your day. This uplifting scent will boost your mood and leave you feeling energized.",
-                3: "Fruitee Strawberry - Sweet and juicy strawberry scent that's both delightful and long-lasting. Experience the joy of fresh strawberries with this irresistible fragrance."
-            };
-            
-            // Product images for modal - FIXED to 1:1 aspect ratio images
-            const productModalImages = {
-                1: [
-                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
-                ],
-                2: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
-                ],
-                3: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80",
-                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80"
-                ]
-            };
-            
-            // Open product modal
-            function openProductModal(productId) {
-                const productCard = document.querySelector(`[data-product="${productId}"]`);
-                if (!productCard) return;
-                
-                const productName = productCard.querySelector('.product-card-name').textContent;
-                const productPrice = productCard.querySelector('.product-card-price').textContent;
-                const productDesc = productDescriptions[productId] || "No description available.";
-                
-                // Set modal content
-                modalProductName.textContent = productName;
-                modalProductDesc.textContent = productDesc;
-                modalProductPrice.textContent = productPrice;
-                modalBuyBtn.setAttribute('href', '#');
-                modalBuyBtn.setAttribute('target', '_blank');
-                
-                // Set images for carousel
-                modalImages = productModalImages[productId] || [];
-                modalTotalSlides = modalImages.length;
-                modalCurrentSlide = 0;
-                
-                // Initialize carousel
-                initModalCarousel();
-                
-                // Show modal
-                productModal.classList.add('active');
+            profileVerifiedBadge.addEventListener('click', function(e) {
+                e.stopPropagation();
+                verifiedModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-            }
-            
-            // Initialize modal carousel
-            function initModalCarousel() {
-                modalCarousel.innerHTML = '';
-                modalDots.innerHTML = '';
-                
-                modalImages.forEach((imgSrc, index) => {
-                    // Create slide
-                    const slide = document.createElement('div');
-                    slide.className = 'modal-carousel-slide';
-                    slide.innerHTML = `<img src="${imgSrc}" alt="Product Image ${index + 1}">`;
-                    modalCarousel.appendChild(slide);
-                    
-                    // Create dot
-                    const dot = document.createElement('div');
-                    dot.className = `modal-carousel-dot ${index === 0 ? 'active' : ''}`;
-                    dot.setAttribute('data-slide', index);
-                    dot.addEventListener('click', () => goToModalSlide(index));
-                    modalDots.appendChild(dot);
-                });
-                
-                goToModalSlide(0);
-            }
-            
-            // Go to specific slide
-            function goToModalSlide(slideIndex) {
-                if (modalTotalSlides === 0) return;
-                
-                if (slideIndex < 0) slideIndex = modalTotalSlides - 1;
-                if (slideIndex >= modalTotalSlides) slideIndex = 0;
-                
-                modalCarousel.style.transform = `translateX(-${slideIndex * 100}%)`;
-                
-                // Update dots
-                document.querySelectorAll('.modal-carousel-dot').forEach((dot, index) => {
-                    dot.classList.toggle('active', index === slideIndex);
-                });
-                
-                modalCurrentSlide = slideIndex;
-            }
-            
-            // Next slide
-            function nextModalSlide() {
-                goToModalSlide(modalCurrentSlide + 1);
-            }
-            
-            // Previous slide
-            function prevModalSlide() {
-                goToModalSlide(modalCurrentSlide - 1);
-            }
-            
-            // Close modal
-            function closeProductModal() {
-                productModal.classList.remove('active');
+            });
+
+            verifiedModalClose.addEventListener('click', function() {
+                verifiedModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
+            });
+
+            verifiedModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && verifiedModal.classList.contains('active')) {
+                    verifiedModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Load profile data
+            async function loadProfileData() {
+                try {
+                    const profileDoc = await db.collection('profile').doc('main').get();
+                    if (profileDoc.exists) {
+                        const data = profileDoc.data();
+                        
+                        // Update profile elements
+                        document.getElementById('profileName').textContent = data.name || 'Trulune Malaysia';
+                        document.getElementById('profileUsername').textContent = '@' + (data.username || 'trulune');
+                        document.getElementById('profileBio').textContent = data.bio || 'Everyday scents. Timeless allure.';
+                        
+                        // Profile image
+                        const profileAvatar = document.getElementById('profileAvatar');
+                        if (data.profileImage) {
+                            profileAvatar.src = data.profileImage;
+                        }
+                        
+                        // Verified badge
+                        if (data.verified) {
+                            profileVerifiedBadge.style.display = 'flex';
+                            
+                            // Update modal text
+                            if (data.verifiedTooltip) {
+                                verifiedModalText.textContent = data.verifiedTooltip;
+                            }
+                        } else {
+                            profileVerifiedBadge.style.display = 'none';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading profile:', error);
+                }
             }
             
-            // Event listeners for modal
-            modalPrevBtn.addEventListener('click', prevModalSlide);
-            modalNextBtn.addEventListener('click', nextModalSlide);
-            modalCloseBtn.addEventListener('click', closeProductModal);
+            // Format timestamp for display
+            function formatTimestamp(timestamp) {
+                if (!timestamp) return 'Just now';
+                
+                try {
+                    let postDate;
+                    
+                    if (timestamp.toDate && typeof timestamp.toDate === 'function') {
+                        postDate = timestamp.toDate();
+                    } else if (timestamp instanceof Date) {
+                        postDate = timestamp;
+                    } else if (typeof timestamp === 'string' || typeof timestamp === 'number') {
+                        postDate = new Date(timestamp);
+                    } else if (timestamp.seconds && typeof timestamp.seconds === 'number') {
+                        postDate = new Date(timestamp.seconds * 1000 + (timestamp.nanoseconds || 0) / 1000000);
+                    } else {
+                        return 'Just now';
+                    }
+                    
+                    if (isNaN(postDate.getTime())) {
+                        return 'Just now';
+                    }
+                    
+                    const now = new Date();
+                    const diffInSeconds = Math.floor((now - postDate) / 1000);
+                    
+                    if (diffInSeconds < 60) {
+                        return 'Just now';
+                    } else if (diffInSeconds < 3600) {
+                        const minutes = Math.floor(diffInSeconds / 60);
+                        return `${minutes}m ago`;
+                    } else if (diffInSeconds < 86400) {
+                        const hours = Math.floor(diffInSeconds / 3600);
+                        return `${hours}h ago`;
+                    } else if (diffInSeconds < 604800) {
+                        const days = Math.floor(diffInSeconds / 86400);
+                        return `${days}d ago`;
+                    } else {
+                        return postDate.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: postDate.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+                        });
+                    }
+                } catch (e) {
+                    console.log('Error formatting date:', e);
+                    return 'Just now';
+                }
+            }
+            
+            // Load posts for profile feed - WITHOUT LOADING SPINNER
+            async function loadProfilePosts() {
+                const postsFeed = document.getElementById('postsFeed');
+                const noPostsMessage = document.getElementById('noPostsMessage');
+                
+                // Check if elements exist
+                if (!postsFeed || !noPostsMessage) {
+                    console.error('Required DOM elements not found');
+                    return;
+                }
+                
+                // NO LOADING SPINNER - direct loading
+                noPostsMessage.style.display = 'none';
+                
+                try {
+                    let postsSnapshot;
+                    
+                    try {
+                        // Try to get posts ordered by timestamp
+                        postsSnapshot = await db.collection('posts')
+                            .orderBy('timestamp', 'desc')
+                            .get();
+                    } catch (indexError) {
+                        console.log('Index error, trying without order:', indexError);
+                        // If index error, get all posts and sort manually
+                        postsSnapshot = await db.collection('posts').get();
+                    }
+                    
+                    console.log(`Loaded ${postsSnapshot.size} posts from Firestore`);
+                    
+                    if (postsSnapshot.empty) {
+                        noPostsMessage.style.display = 'block';
+                        updateStats(0, 0);
+                    } else {
+                        let postsArray = [];
+                        let totalLikes = 0;
+                        
+                        // Convert snapshot to array
+                        postsSnapshot.forEach((doc) => {
+                            const post = doc.data();
+                            post.id = doc.id;
+                            postsArray.push(post);
+                            totalLikes += post.likes || 0;
+                        });
+                        
+                        // Sort: pinned posts first, then by date
+                        postsArray.sort((a, b) => {
+                            // Pinned posts go first
+                            if (a.pinned && !b.pinned) return -1;
+                            if (!a.pinned && b.pinned) return 1;
+                            
+                            // Then sort by timestamp
+                            const timeA = getTimestampValue(a.timestamp || a.createdAt);
+                            const timeB = getTimestampValue(b.timestamp || b.createdAt);
+                            return timeB - timeA; // Descending order
+                        });
+                        
+                        // Clear feed
+                        postsFeed.innerHTML = '';
+                        
+                        // Get profile data for author info
+                        const profileDoc = await db.collection('profile').doc('main').get();
+                        const profileData = profileDoc.exists ? profileDoc.data() : {
+                            name: 'Trulune Malaysia',
+                            profileImage: 'images/Logo.png',
+                            verified: false,
+                            verifiedTooltip: 'Official presence of Trulune Malaysia'
+                        };
+                        
+                        // Create post cards
+                        postsArray.forEach((post) => {
+                            const postId = post.id;
+                            const postDate = formatTimestamp(post.timestamp || post.createdAt);
+                            
+                            // Format content with clickable links
+                            const formattedContent = post.content ? 
+                                post.content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #0E3659; text-decoration: underline; font-weight: 500;">$1</a>') : 
+                                '';
+                            
+                            // Check if user has liked this post
+                            const likedBy = post.likedBy || [];
+                            const isLiked = likedBy.includes(userId);
+                            
+                            // Get background color (default to white)
+                            const backgroundColor = post.backgroundColor || '#FFFFFF';
+                            
+                            const postCard = document.createElement('div');
+                            postCard.className = `post-card ${post.pinned ? 'pinned' : ''}`;
+                            postCard.style.backgroundColor = backgroundColor;
+                            postCard.id = `post-${postId}`;
+                            postCard.innerHTML = `
+                                ${post.pinned ? '<div class="pin-indicator"><i class="fas fa-thumbtack"></i> Pinned Post</div>' : ''}
+                                
+                                <div class="post-header">
+                                    <div class="post-avatar-container">
+                                        <img src="${post.authorAvatar || profileData.profileImage}" alt="${post.authorName || profileData.name}" class="post-avatar">
+                                        ${(post.verified || profileData.verified) ? `
+                                            <div class="post-verified-badge">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Blue_checkmark.svg" alt="Verified">
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    <div class="post-author-info">
+                                        <div class="post-author-name">
+                                            ${post.authorName || profileData.name}
+                                        </div>
+                                        <div class="post-timestamp">${postDate}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-content">
+                                    <div class="post-text">${formattedContent || ''}</div>
+                                    ${post.imageUrl ? `
+                                        <div class="post-image-container" onclick="openImageModal('${post.imageUrl}')">
+                                            <img src="${post.imageUrl}" alt="Post image" class="post-image">
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                
+                                <div class="post-actions">
+                                    <div class="post-interaction">
+                                        <button class="post-button like-button" data-post-id="${postId}">
+                                            <i class="fas fa-heart"></i>
+                                            <span class="like-count">${post.likes || 0}</span>
+                                        </button>
+                                        <button class="post-button share-button" data-post-id="${postId}">
+                                            <i class="fas fa-share-alt"></i>
+                                            <span>Share</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            postsFeed.appendChild(postCard);
+                            
+                            // Add click event for post verified badges
+                            if (post.verified || profileData.verified) {
+                                setTimeout(() => {
+                                    const badge = postCard.querySelector('.post-verified-badge');
+                                    if (badge) {
+                                        badge.style.display = 'flex';
+                                        badge.addEventListener('click', function(e) {
+                                            e.stopPropagation();
+                                            verifiedModal.classList.add('active');
+                                            document.body.style.overflow = 'hidden';
+                                        });
+                                    }
+                                }, 100);
+                            }
+                        });
+                        
+                        // Add event listeners for like buttons
+                        setupLikeButtons();
+                        
+                        // Add event listeners for share buttons
+                        setupShareButtons();
+                        
+                        // Update stats
+                        updateStats(postsArray.length, totalLikes);
+                    }
+                } catch (error) {
+                    console.error('Error loading posts:', error);
+                    noPostsMessage.style.display = 'block';
+                }
+            }
+            
+            // Setup like buttons event listeners
+            function setupLikeButtons() {
+                document.querySelectorAll('.like-button').forEach(button => {
+                    button.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        const postId = e.currentTarget.getAttribute('data-post-id');
+                        
+                        // Prevent rapid clicks
+                        if (likeButtonStates.get(postId) === 'animating') {
+                            return;
+                        }
+                        
+                        await toggleLike(postId, button);
+                    });
+                });
+            }
+            
+            // Setup share buttons event listeners
+            function setupShareButtons() {
+                document.querySelectorAll('.share-button').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const postId = this.getAttribute('data-post-id');
+                        openShareOptions(postId, this);
+                    });
+                });
+            }
+            
+            // Toggle like on post
+            async function toggleLike(postId, likeButton) {
+                try {
+                    // Set animation state
+                    likeButtonStates.set(postId, 'animating');
+                    
+                    const postRef = db.collection('posts').doc(postId);
+                    const postDoc = await postRef.get();
+                    
+                    if (!postDoc.exists) {
+                        console.error('Post not found');
+                        likeButtonStates.delete(postId);
+                        return;
+                    }
+                    
+                    const post = postDoc.data();
+                    const likedBy = post.likedBy || [];
+                    
+                    // User can like multiple times
+                    const newLikedBy = [...likedBy, userId];
+                    const newLikes = (post.likes || 0) + 1;
+                    
+                    // Update in Firebase
+                    await postRef.update({
+                        likes: newLikes,
+                        likedBy: newLikedBy
+                    });
+                    
+                    // Update UI
+                    const likeCountSpan = likeButton.querySelector('.like-count');
+                    if (likeCountSpan) {
+                        likeCountSpan.textContent = newLikes;
+                    }
+                    
+                    // Get heart icon
+                    const heartIcon = likeButton.querySelector('i');
+                    
+                    // Remove any existing animation classes
+                    heartIcon.classList.remove('heartbeat');
+                    likeButton.classList.remove('temp-liked');
+                    
+                    // Force reflow to restart animation
+                    void heartIcon.offsetWidth;
+                    
+                    // Add temp-liked class to make it red TEMPORARILY
+                    likeButton.classList.add('temp-liked');
+                    
+                    // Add improved heartbeat animation with better timing
+                    heartIcon.classList.add('heartbeat');
+                    
+                    // Update total likes
+                    updateTotalLikes();
+                    
+                    // Remove red color after animation completes
+                    setTimeout(() => {
+                        likeButton.classList.remove('temp-liked');
+                        // Clear animation state
+                        likeButtonStates.delete(postId);
+                    }, 700); // Match animation duration
+                    
+                } catch (error) {
+                    console.error('Error toggling like:', error);
+                    showToast('Error updating like: ' + error.message);
+                    // Clear animation state on error
+                    likeButtonStates.delete(postId);
+                }
+            }
+            
+            // Update total likes count
+            function updateTotalLikes() {
+                let total = 0;
+                document.querySelectorAll('.like-count').forEach(countSpan => {
+                    total += parseInt(countSpan.textContent) || 0;
+                });
+                document.getElementById('totalLikes').textContent = total;
+            }
+            
+            // Open share options
+            function openShareOptions(postId, button) {
+                // Remove any existing share options
+                document.querySelectorAll('.share-options').forEach(el => el.remove());
+                
+                // Create share options
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'share-options';
+                
+                // Get current URL with post anchor
+                const currentUrl = window.location.href.split('#')[0];
+                const postUrl = `${currentUrl}#post-${postId}`;
+                
+                optionsDiv.innerHTML = `
+                    <button class="share-option" onclick="copyPostLink('${postId}')">
+                        <i class="fas fa-link"></i>
+                        <span>Copy Post Link</span>
+                    </button>
+                    <button class="share-option" onclick="shareToTelegram('${postId}')">
+                        <i class="fab fa-telegram"></i>
+                        <span>Share to Telegram</span>
+                    </button>
+                    <button class="share-option" onclick="shareToWhatsApp('${postId}')">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>Share to WhatsApp</span>
+                    </button>
+                `;
+                
+                // Position the share options
+                button.appendChild(optionsDiv);
+                optionsDiv.classList.add('show');
+                
+                // Close when clicking outside
+                setTimeout(() => {
+                    const closeHandler = (e) => {
+                        if (!optionsDiv.contains(e.target) && e.target !== button) {
+                            optionsDiv.remove();
+                            document.removeEventListener('click', closeHandler);
+                        }
+                    };
+                    document.addEventListener('click', closeHandler);
+                }, 100);
+            }
+            
+            // Copy post link to clipboard
+            window.copyPostLink = async function(postId) {
+                const currentUrl = window.location.href.split('#')[0];
+                const postUrl = `${currentUrl}#post-${postId}`;
+                try {
+                    await navigator.clipboard.writeText(postUrl);
+                    showToast('Post link copied to clipboard!');
+                    
+                    // Close share options
+                    document.querySelectorAll('.share-options').forEach(options => {
+                        options.remove();
+                    });
+                } catch (error) {
+                    console.error('Error copying link:', error);
+                    showToast('Error copying link');
+                }
+            };
+            
+            // Share to Telegram
+            window.shareToTelegram = function(postId) {
+                const currentUrl = window.location.href.split('#')[0];
+                const postUrl = `${currentUrl}#post-${postId}`;
+                const message = `Check out this post from Trulune Malaysia! ${postUrl}`;
+                const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(message)}`;
+                window.open(telegramUrl, '_blank');
+                
+                // Close share options
+                document.querySelectorAll('.share-options').forEach(options => {
+                    options.remove();
+                });
+            };
+            
+            // Share to WhatsApp
+            window.shareToWhatsApp = function(postId) {
+                const currentUrl = window.location.href.split('#')[0];
+                const postUrl = `${currentUrl}#post-${postId}`;
+                const message = `Check out this post from Trulune Malaysia! ${postUrl}`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                // Close share options
+                document.querySelectorAll('.share-options').forEach(options => {
+                    options.remove();
+                });
+            };
+            
+            // Open image modal
+            window.openImageModal = function(imageUrl) {
+                const modal = document.getElementById('imageModal');
+                const modalImage = document.getElementById('modalImage');
+                
+                modalImage.src = imageUrl;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+            
+            // Close image modal
+            document.getElementById('closeModal').addEventListener('click', function() {
+                const modal = document.getElementById('imageModal');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
             
             // Close modal when clicking outside
-            productModal.addEventListener('click', function(e) {
-                if (e.target === productModal) {
-                    closeProductModal();
+            document.getElementById('imageModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
                 }
             });
             
             // Close modal with Escape key
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && productModal.classList.contains('active')) {
-                    closeProductModal();
-                }
-                // Keyboard navigation for carousel
-                if (productModal.classList.contains('active')) {
-                    if (e.key === 'ArrowLeft') {
-                        prevModalSlide();
-                    } else if (e.key === 'ArrowRight') {
-                        nextModalSlide();
-                    }
-                }
-            });
-            
-            // Product card click events
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    if (e.target.closest('.product-card-btn') || 
-                        e.target.closest('.product-badge')) {
-                        return;
+                if (e.key === 'Escape') {
+                    const modal = document.getElementById('imageModal');
+                    if (modal.classList.contains('active')) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
                     }
                     
-                    const productId = this.getAttribute('data-product');
-                    openProductModal(productId);
-                });
-            });
-
-            // ============== FULLSCREEN GALLERY ==============
-            const fullscreenBtns = document.querySelectorAll('.fullscreen-btn');
-            const fullscreenModal = document.getElementById('fullscreen-modal');
-            const modalImage = document.getElementById('modal-image');
-            const closeModal = document.getElementById('close-modal');
-            const prevGalleryBtn = document.querySelector('.prev-gallery-btn');
-            const nextGalleryBtn = document.querySelector('.next-gallery-btn');
-            const thumbnailsContainer = document.getElementById('thumbnails');
-            
-            let currentGallery = null;
-            let currentImageIndex = 0;
-            
-            const productGalleries = {
-                honeydew: [
-                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ],
-                apple: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ],
-                strawberry: [
-                    "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-                    "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                ]
-            };
-            
-            fullscreenBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const productId = this.getAttribute('data-product');
-                    currentGallery = productGalleries[productId];
-                    currentImageIndex = 0;
+                    // Close verified modal
+                    const verifiedModal = document.getElementById('verifiedModal');
+                    if (verifiedModal.classList.contains('active')) {
+                        verifiedModal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
                     
-                    openGallery();
-                });
-            });
-            
-            function openGallery() {
-                if (!currentGallery || currentGallery.length === 0) {
-                    console.error('No gallery found!');
-                    return;
-                }
-                
-                modalImage.src = currentGallery[0];
-                updateThumbnails();
-                updateGalleryButtons();
-                fullscreenModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function updateThumbnails() {
-                thumbnailsContainer.innerHTML = '';
-                
-                if (!currentGallery) return;
-                
-                currentGallery.forEach((imgSrc, index) => {
-                    const thumbnail = document.createElement('div');
-                    thumbnail.className = `thumbnail ${index === currentImageIndex ? 'active' : ''}`;
-                    thumbnail.innerHTML = `<img src="${imgSrc}" alt="Thumbnail ${index + 1}">`;
-                    
-                    thumbnail.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        currentImageIndex = index;
-                        modalImage.src = imgSrc;
-                        updateThumbnails();
-                        updateGalleryButtons();
+                    // Also close any open share options
+                    document.querySelectorAll('.share-options').forEach(options => {
+                        options.remove();
                     });
-                    
-                    thumbnailsContainer.appendChild(thumbnail);
-                });
-            }
+                }
+            });
             
-            function updateGalleryButtons() {
-                if (!currentGallery) return;
+            // Helper function to get timestamp value
+            function getTimestampValue(timestamp) {
+                if (!timestamp) return 0;
                 
-                if (currentImageIndex === 0) {
-                    prevGalleryBtn.classList.add('hidden');
-                } else {
-                    prevGalleryBtn.classList.remove('hidden');
-                }
-                
-                if (currentImageIndex === currentGallery.length - 1) {
-                    nextGalleryBtn.classList.add('hidden');
-                } else {
-                    nextGalleryBtn.classList.remove('hidden');
-                }
-            }
-            
-            prevGalleryBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (currentImageIndex > 0 && currentGallery) {
-                    currentImageIndex--;
-                    modalImage.src = currentGallery[currentImageIndex];
-                    updateThumbnails();
-                    updateGalleryButtons();
-                }
-            });
-            
-            nextGalleryBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (currentGallery && currentImageIndex < currentGallery.length - 1) {
-                    currentImageIndex++;
-                    modalImage.src = currentGallery[currentImageIndex];
-                    updateThumbnails();
-                    updateGalleryButtons();
-                }
-            });
-            
-            closeModal.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeGallery();
-            });
-            
-            fullscreenModal.addEventListener('click', function(e) {
-                if (e.target === fullscreenModal) {
-                    closeGallery();
-                }
-            });
-            
-            function closeGallery() {
-                fullscreenModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                currentGallery = null;
-                currentImageIndex = 0;
-                thumbnailsContainer.innerHTML = '';
-            }
-            
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+                try {
+                    if (timestamp.toDate && typeof timestamp.toDate === 'function') {
+                        return timestamp.toDate().getTime();
+                    } else if (timestamp instanceof Date) {
+                        return timestamp.getTime();
+                    } else if (typeof timestamp === 'string') {
+                        return new Date(timestamp).getTime();
+                    } else if (typeof timestamp === 'number') {
+                        return timestamp;
+                    } else if (timestamp.seconds && typeof timestamp.seconds === 'number') {
+                        return timestamp.seconds * 1000 + (timestamp.nanoseconds || 0) / 1000000;
                     }
-                });
-            });
-            
-            // Initialize everything
-            initHeroSlider();
-            updateSlide();
-            
-            // Resize handler for book slider
-            window.addEventListener('resize', function() {
-                const maxPage = getMaxPage();
-                if (currentPage > maxPage) {
-                    currentPage = maxPage;
+                } catch (e) {
+                    console.log('Error getting timestamp value:', e);
                 }
-                updateSlide();
-            });
+                return 0;
+            }
+            
+            // Update stats
+            function updateStats(totalPosts, totalLikes) {
+                document.getElementById('totalPosts').textContent = totalPosts;
+                document.getElementById('totalLikes').textContent = totalLikes;
+            }
+            
+            // Show toast notification
+            function showToast(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Load data
+            loadProfileData();
+            loadProfilePosts();
+            
+            // Check for post anchor in URL and scroll to it
+            function scrollToPost() {
+                const hash = window.location.hash;
+                if (hash && hash.startsWith('#post-')) {
+                    const postId = hash.replace('#post-', '');
+                    
+                    // Wait for posts to load and DOM to be ready
+                    const checkInterval = setInterval(() => {
+                        const postElement = document.getElementById(`post-${postId}`);
+                        if (postElement) {
+                            clearInterval(checkInterval);
+                            
+                            // Calculate position to center the post
+                            const postRect = postElement.getBoundingClientRect();
+                            const viewportHeight = window.innerHeight;
+                            const scrollPosition = window.pageYOffset + postRect.top - (viewportHeight / 2) + (postRect.height / 2);
+                            
+                            // Smooth scroll to center the post
+                            window.scrollTo({
+                                top: scrollPosition,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Highlight the post
+                            postElement.style.boxShadow = '0 0 0 3px rgba(14, 54, 89, 0.3)';
+                            setTimeout(() => {
+                                postElement.style.boxShadow = '';
+                            }, 3000);
+                        }
+                    }, 100);
+                    
+                    // Stop checking after 5 seconds
+                    setTimeout(() => {
+                        clearInterval(checkInterval);
+                    }, 5000);
+                }
+            }
+            
+            // Initial scroll to post if needed
+            setTimeout(scrollToPost, 1000);
+            
+            // Listen for hash changes
+            window.addEventListener('hashchange', scrollToPost);
+            
+            // Also check for hash when page loads (for direct links)
+            window.addEventListener('load', scrollToPost);
         });
     </script>
 </body>
