@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <link rel="icon" type="image/png" href="images/Logo.png">
     <style>
         * {
             margin: 0;
@@ -23,8 +24,10 @@
             --gray-200: #e5e5e5;
             --gray-600: #525252;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --desktop-padding: 40px;
+            --desktop-padding: 190px;
             --mobile-padding: 20px;
+            --header-height: 80px;
+            --sidebar-width: 280px;
         }
 
         body {
@@ -42,8 +45,8 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-            background: white;
+            padding: var(--mobile-padding);
+            background: #fafafa;
             width: 100%;
             overflow-x: hidden;
         }
@@ -51,12 +54,11 @@
         .login-container {
             background: white;
             padding: 40px 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
             border: 1px solid var(--gray-200);
             margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
         }
 
         .login-title {
@@ -65,13 +67,14 @@
             margin-bottom: 10px;
             text-align: center;
             color: var(--primary);
+            letter-spacing: -0.01em;
         }
 
         .login-subtitle {
             color: var(--gray-600);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 15px;
+            margin-bottom: 32px;
+            font-size: 16px;
         }
 
         .form-group {
@@ -83,14 +86,13 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--primary);
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .form-input {
             width: 100%;
             padding: 14px 16px;
             border: 1px solid var(--gray-200);
-            border-radius: 10px;
             font-size: 16px;
             transition: all 0.2s;
             background: white;
@@ -100,7 +102,6 @@
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         .login-btn {
@@ -108,22 +109,28 @@
             padding: 16px;
             background: var(--primary);
             color: white;
-            border: none;
-            border-radius: 10px;
+            border: 1px solid transparent;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
             margin-top: 10px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .login-btn:hover {
-            background: #333;
+            background: #404040;
+            transform: translateY(-1px);
         }
 
         .login-btn:disabled {
             background: var(--gray-600);
             cursor: not-allowed;
+            transform: none;
         }
 
         .error-message {
@@ -134,7 +141,6 @@
             text-align: center;
             padding: 10px;
             background: rgba(220, 38, 38, 0.05);
-            border-radius: 6px;
             border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
@@ -142,56 +148,64 @@
         .admin-panel {
             display: none;
             min-height: 100vh;
-            background: white;
+            background: #fafafa;
             width: 100%;
             overflow-x: hidden;
         }
 
         /* Admin Header */
         .admin-header {
-            background: white;
-            padding: 0;
+            padding: 0.5rem 0;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
+            background: transparent;
             z-index: 1000;
-            border-bottom: 1px solid var(--gray-200);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
             width: 100%;
-            overflow: hidden;
+            height: var(--header-height);
+        }
+
+        .admin-header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-header.scrolled .admin-header-content {
+            padding: 15px var(--desktop-padding);
         }
 
         .admin-header-content {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 15px var(--desktop-padding);
+            align-items: center;
+            padding: 20px var(--desktop-padding);
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
             box-sizing: border-box;
+            height: 100%;
         }
 
         .admin-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-decoration: none;
-            color: var(--primary);
+            color: #000000;
             flex-shrink: 0;
-            max-width: 200px;
+            z-index: 1001;
+            transition: color 0.3s ease;
         }
 
         .admin-logo-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
+            width: 32px;
+            height: 32px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .admin-logo-icon img {
@@ -201,68 +215,61 @@
         }
 
         .admin-logo-text {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            transition: color 0.3s ease;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .admin-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--gray-600);
-            margin-left: 20px;
-            flex: 1;
-            display: none;
         }
 
         .logout-btn {
-            background: white;
+            background: var(--secondary);
             color: var(--primary);
             border: 1px solid var(--gray-200);
             padding: 8px 16px;
-            border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 14px;
+            font-size: 15px;
             white-space: nowrap;
+            text-decoration: none;
+            min-height: 40px;
         }
 
         .logout-btn:hover {
-            background: #f8f9fa;
-            border-color: var(--gray-600);
+            background: var(--gray-200);
+            color: black;
+            transform: translateY(-1px);
         }
 
         /* Admin Content */
         .admin-content {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 20px;
-            padding: 90px var(--desktop-padding) 40px;
+            display: flex;
+            gap: 32px;
+            padding: calc(var(--header-height) + 20px) var(--desktop-padding) 40px;
             max-width: 1400px;
             margin: 0 auto;
-            min-height: calc(100vh - 80px);
+            min-height: calc(100vh - var(--header-height));
             width: 100%;
             box-sizing: border-box;
+            position: relative;
         }
 
         /* Sidebar */
         .admin-sidebar {
             background: white;
-            border-radius: 12px;
             padding: 20px 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--gray-200);
-            height: fit-content;
-            position: sticky;
-            top: 90px;
-            width: 100%;
+            height: calc(100vh - var(--header-height) - 20px);
+            position: fixed;
+            top: calc(var(--header-height) + 20px);
+            width: var(--sidebar-width);
+            z-index: 900;
+            overflow-y: auto;
         }
 
         .sidebar-nav {
@@ -280,9 +287,8 @@
             padding: 14px 20px;
             color: var(--gray-600);
             text-decoration: none;
-            border-radius: 0;
             transition: all 0.2s;
-            font-size: 15px;
+            font-size: 16px;
             border-left: 4px solid transparent;
             width: 100%;
             box-sizing: border-box;
@@ -310,21 +316,24 @@
         /* Main Content */
         .admin-main {
             background: white;
-            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
             border: 1px solid var(--gray-200);
             min-height: 500px;
-            width: 100%;
+            width: calc(100% - var(--sidebar-width) - 32px);
+            margin-left: calc(var(--sidebar-width) + 32px);
             box-sizing: border-box;
             overflow: hidden;
         }
 
         .section-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             margin-bottom: 30px;
             color: var(--primary);
+            letter-spacing: -0.01em;
+            text-align: left;
+            width: 100%;
             padding-bottom: 15px;
             border-bottom: 2px solid #f3f4f6;
             word-wrap: break-word;
@@ -369,7 +378,6 @@
         .image-preview {
             width: 120px;
             height: 120px;
-            border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--gray-200);
             display: block;
@@ -380,7 +388,6 @@
             width: 100%;
             padding: 14px 16px;
             border: 1px solid var(--gray-200);
-            border-radius: 10px;
             font-size: 16px;
             margin-bottom: 10px;
             background: white;
@@ -390,18 +397,17 @@
         .image-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         .image-help {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--gray-600);
             margin-top: 8px;
             display: block;
             line-height: 1.5;
         }
 
-        /* Mobile-friendly toggle switch */
+        /* Toggle switch */
         .toggle-switch {
             display: flex;
             align-items: center;
@@ -409,7 +415,6 @@
             margin: 25px 0;
             padding: 15px;
             background: #f8f9fa;
-            border-radius: 10px;
             flex-wrap: wrap;
             width: 100%;
             box-sizing: border-box;
@@ -438,7 +443,6 @@
             bottom: 0;
             background-color: #ccc;
             transition: .4s;
-            border-radius: 34px;
         }
 
         .slider:before {
@@ -450,7 +454,6 @@
             bottom: 4px;
             background-color: white;
             transition: .4s;
-            border-radius: 50%;
         }
 
         input:checked + .slider {
@@ -462,137 +465,45 @@
         }
 
         .toggle-label {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--primary);
             flex: 1;
             min-width: 200px;
         }
 
-        .toggle-text {
-            font-size: 14px;
-            color: var(--gray-600);
-            width: 100%;
-            margin-top: 5px;
-        }
-
-        /* Mobile-friendly tooltip */
-        .tooltip-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-left: 5px;
-        }
-
-        .tooltip-icon {
-            color: var(--gray-600);
-            font-size: 14px;
-            cursor: help;
-        }
-
-        .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px;
-            position: absolute;
-            z-index: 1000;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 12px;
-            font-weight: normal;
-            word-wrap: break-word;
-            max-width: min(200px, 90vw);
-            box-sizing: border-box;
-        }
-
-        .tooltip-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px;
-            border-style: solid;
-            border-color: #333 transparent transparent transparent;
-        }
-
-        .tooltip-wrapper:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* Mobile-friendly tooltip editor */
-        .tooltip-editor {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid var(--gray-200);
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .tooltip-editor label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--primary);
-            font-size: 14px;
-        }
-
-        .tooltip-editor textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--gray-200);
-            border-radius: 6px;
-            font-size: 14px;
-            resize: vertical;
-            min-height: 80px;
-            font-family: 'Lato';
-            line-height: 1.4;
-            box-sizing: border-box;
-        }
-
-        .tooltip-editor textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
+        /* Save button */
         .save-btn {
-            padding: 14px 30px;
-            background: var(--primary);
+            padding: 14px 32px;
+            background: #000000;
             color: white;
-            border: none;
-            border-radius: 10px;
+            border: 1px solid transparent;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
             font-size: 16px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             margin-top: 20px;
+            text-decoration: none;
+            text-align: center;
         }
 
         .save-btn:hover {
-            background: #333;
+            background: #404040;
+            transform: translateY(-1px);
         }
 
         .save-btn:disabled {
             background: var(--gray-600);
             cursor: not-allowed;
+            transform: none;
         }
 
         /* Account Info */
         .account-info {
             background: #f8fafc;
-            border-radius: 10px;
             padding: 20px;
             margin: 30px 0;
             border: 1px solid var(--gray-200);
@@ -604,6 +515,7 @@
             margin-bottom: 15px;
             color: var(--primary);
             font-size: 18px;
+            font-weight: 600;
         }
 
         .account-info p {
@@ -623,7 +535,6 @@
             min-height: 180px;
             padding: 18px;
             border: 1px solid var(--gray-200);
-            border-radius: 10px;
             font-size: 16px;
             resize: vertical;
             margin-bottom: 20px;
@@ -636,7 +547,6 @@
         .post-form textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         }
 
         .image-input-group {
@@ -648,7 +558,6 @@
             max-width: 200px;
             max-height: 200px;
             object-fit: contain;
-            border-radius: 8px;
             margin: 15px 0;
             border: 1px solid var(--gray-200);
             padding: 8px;
@@ -661,7 +570,7 @@
             margin: 20px 0;
             padding: 18px;
             background: #f8f9fa;
-            border-radius: 10px;
+            border: 1px solid var(--gray-200);
             width: 100%;
             box-sizing: border-box;
         }
@@ -677,7 +586,6 @@
         .color-preview {
             width: 45px;
             height: 45px;
-            border-radius: 8px;
             border: 2px solid var(--gray-200);
             cursor: pointer;
             background: white;
@@ -688,7 +596,6 @@
             width: 100px;
             padding: 8px 10px;
             border: 1px solid var(--gray-200);
-            border-radius: 6px;
             font-size: 14px;
             text-transform: uppercase;
             box-sizing: border-box;
@@ -700,7 +607,7 @@
         }
 
         .color-label {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--gray-600);
             width: 100%;
         }
@@ -716,13 +623,18 @@
             flex-direction: column;
             padding: 20px;
             border: 1px solid var(--gray-200);
-            border-radius: 10px;
             margin-bottom: 15px;
             background: white;
             transition: all 0.2s;
             position: relative;
             width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .post-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         @media (min-width: 768px) {
@@ -744,7 +656,6 @@
             background: #000000;
             color: white;
             padding: 4px 10px;
-            border-radius: 15px;
             font-size: 11px;
             font-weight: 600;
             display: flex;
@@ -778,7 +689,6 @@
             max-width: 100px;
             max-height: 100px;
             object-fit: cover;
-            border-radius: 6px;
             margin-top: 10px;
             border: 1px solid var(--gray-200);
             display: block;
@@ -799,7 +709,6 @@
             color: var(--gray-600);
             background: #f8f9fa;
             padding: 4px 8px;
-            border-radius: 6px;
             display: inline-block;
         }
 
@@ -821,18 +730,22 @@
         }
 
         .post-action-btn {
-            padding: 8px 15px;
+            padding: 8px 16px;
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 6px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 6px;
             font-weight: 500;
             white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .post-action-btn:hover {
+            transform: translateY(-1px);
         }
 
         .pin-btn {
@@ -861,6 +774,477 @@
             color: white;
         }
 
+        /* ============== PRODUCT MANAGEMENT ============== */
+        .products-editor-section {
+            display: none;
+        }
+        
+        .products-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .product-section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .products-grid-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .product-list-item {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-list-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .product-list-item.active {
+            border-color: var(--primary);
+            background: #f8f9fa;
+        }
+        
+        .product-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+        
+        .product-list-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .product-list-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .product-list-price {
+            font-size: 14px;
+            color: red;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .product-list-type {
+            display: inline-block;
+            font-size: 11px;
+            color: white;
+            background: #666;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 5px;
+        }
+        
+        .product-list-type.book {
+            background: #0E3659;
+        }
+        
+        .product-list-type.grid {
+            background: #182D40;
+        }
+        
+        /* Add Product Button */
+        .add-product-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border: 2px dashed var(--gray-200);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .add-product-btn {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .add-product-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(14, 54, 89, 0.3);
+        }
+        
+        /* Product Edit Form - MOBILE OPTIMIZED */
+        .product-edit-form-container {
+            background: #f8f9fa;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+            width: 100%;
+            overflow: visible;
+        }
+        
+        .product-edit-form-container.active {
+            display: block;
+        }
+        
+        .product-edit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .product-edit-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            word-wrap: break-word;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .product-edit-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .product-delete-btn {
+            padding: 10px 20px;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        
+        .product-delete-btn:hover {
+            background: #fecaca;
+        }
+        
+        .product-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .product-form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .product-field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .product-field-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .product-field-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .product-field-label i {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .product-input {
+            padding: 12px 15px;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .product-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Lato';
+            line-height: 1.5;
+            width: 100%;
+        }
+        
+        /* Image Gallery Management */
+        .image-gallery-container {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        
+        .image-gallery-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+            word-wrap: break-word;
+        }
+        
+        .image-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .gallery-image-item {
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            width: 100%;
+            aspect-ratio: 1/1;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-image-actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            gap: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-image-item:hover .gallery-image-actions {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-image-actions {
+                opacity: 1;
+                background: rgba(0, 0, 0, 0.5);
+                padding: 3px;
+                border-radius: 4px;
+            }
+        }
+        
+        .gallery-image-btn {
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .gallery-image-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .gallery-image-btn.set-main {
+            background: rgba(255, 193, 7, 0.9);
+        }
+        
+        .add-image-section {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 20px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .add-image-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .add-image-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 200px;
+            box-sizing: border-box;
+        }
+        
+        .add-image-btn {
+            padding: 12px 20px;
+            background: #0E3659;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .add-image-btn:hover {
+            background: #182D40;
+        }
+        
+        /* Form Actions - MOBILE OPTIMIZED */
+        .product-form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        
+        .product-save-btn {
+            padding: 14px 32px;
+            background: #000000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+        }
+        
+        .product-save-btn:hover {
+            background: #404040;
+            transform: translateY(-2px);
+        }
+        
+        .product-cancel-btn {
+            padding: 14px 32px;
+            background: #f3f4f6;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+        }
+        
+        .product-cancel-btn:hover {
+            background: #e5e7eb;
+            color: var(--primary);
+        }
+        
+        /* Status Messages */
+        .status-message {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            display: block;
+        }
+        
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            display: block;
+        }
+        
+        .status-loading {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+            display: block;
+        }
+
         /* Toast */
         .toast {
             position: fixed;
@@ -870,7 +1254,6 @@
             background: var(--primary);
             color: white;
             padding: 14px 20px;
-            border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform: translateY(100px);
             opacity: 0;
@@ -902,7 +1285,6 @@
             width: 18px;
             height: 18px;
             border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
         }
@@ -922,7 +1304,6 @@
             height: 40px;
             border: 4px solid #f3f4f6;
             border-top: 4px solid var(--primary);
-            border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
         }
@@ -966,9 +1347,12 @@
             text-decoration: none;
             font-size: 11px;
             padding: 8px;
-            border-radius: 8px;
             transition: all 0.2s;
             min-width: 60px;
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--primary);
         }
 
         .mobile-nav-link.active {
@@ -984,15 +1368,18 @@
 
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 1200px) {
+            :root {
+                --desktop-padding: 40px;
+            }
+            
             .admin-content {
-                padding: 90px 25px 40px;
+                padding: calc(var(--header-height) + 20px) 25px 40px;
             }
         }
 
         @media (max-width: 1024px) {
             .admin-content {
-                grid-template-columns: 1fr;
-                gap: 15px;
+                display: block;
                 padding: 85px 20px 80px;
             }
             
@@ -1000,30 +1387,44 @@
                 display: none;
             }
             
+            .admin-main {
+                width: 100%;
+                margin-left: 0;
+            }
+            
             .mobile-nav {
                 display: block;
             }
             
-            .admin-title {
-                display: none;
-            }
-            
             .admin-header-content {
                 padding: 15px 20px;
+            }
+            
+            .admin-header.scrolled .admin-header-content {
+                padding: 10px 20px;
             }
         }
 
         @media (max-width: 768px) {
             :root {
                 --desktop-padding: var(--mobile-padding);
+                --header-height: 70px;
+            }
+            
+            .admin-header {
+                padding: 0.5rem var(--mobile-padding);
             }
             
             .admin-header-content {
-                padding: 12px 15px;
+                padding: 15px 0;
+            }
+            
+            .admin-header.scrolled .admin-header-content {
+                padding: 10px 0;
             }
             
             .admin-content {
-                padding: 80px 15px 80px;
+                padding: 80px var(--mobile-padding) 80px;
             }
             
             .admin-main {
@@ -1040,7 +1441,7 @@
             }
             
             .section-title {
-                font-size: 22px;
+                font-size: 24px;
                 margin-bottom: 25px;
             }
             
@@ -1066,14 +1467,65 @@
                 align-self: flex-start;
             }
             
-            .tooltip-text {
-                max-width: calc(100vw - 40px);
-                left: 0;
-                transform: none;
+            /* Product management responsive */
+            .products-grid-list {
+                grid-template-columns: 1fr;
             }
             
-            .tooltip-text::after {
-                left: 20px;
+            .product-list-item {
+                padding: 12px;
+            }
+            
+            .product-thumbnail {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .product-edit-form-container {
+                padding: 20px;
+                margin-left: -20px;
+                margin-right: -20px;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                width: calc(100% + 40px);
+            }
+            
+            .product-edit-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .product-edit-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .image-gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 10px;
+            }
+            
+            .product-form-actions {
+                flex-direction: column;
+            }
+            
+            .product-save-btn, .product-cancel-btn {
+                width: 100%;
+                min-width: 100%;
+                justify-content: center;
+            }
+            
+            .add-image-input-group {
+                flex-direction: column;
+            }
+            
+            .add-image-input {
+                min-width: 100%;
+            }
+            
+            .add-image-btn {
+                width: 100%;
             }
         }
 
@@ -1083,8 +1535,8 @@
             }
             
             .logout-btn {
-                padding: 6px 12px;
-                font-size: 13px;
+                padding: 8px 12px;
+                font-size: 14px;
             }
             
             .save-btn {
@@ -1093,7 +1545,7 @@
             }
             
             .section-title {
-                font-size: 20px;
+                font-size: 22px;
             }
             
             .post-stats {
@@ -1121,29 +1573,33 @@
             
             .post-action-btn {
                 padding: 7px 12px;
-                font-size: 12px;
+                font-size: 13px;
             }
             
             .admin-logo-text {
-                font-size: 16px;
+                font-size: 18px;
             }
             
             .admin-logo {
                 gap: 8px;
             }
-        }
-
-        @media (max-width: 360px) {
-            .admin-main {
-                padding: 18px 12px;
+            
+            .product-edit-title {
+                font-size: 20px;
             }
             
-            .post-item {
-                padding: 15px;
+            .product-edit-actions {
+                flex-direction: column;
+                width: 100%;
             }
             
-            .login-container {
-                padding: 30px 15px;
+            .product-delete-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .image-gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
             }
         }
     </style>
@@ -1179,9 +1635,9 @@
     <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
         <!-- Header -->
-        <header class="admin-header">
+        <header class="admin-header" id="adminHeader">
             <div class="admin-header-content">
-                <a href="newhome.html" class="admin-logo">
+                <a href="index.html" class="admin-logo">
                     <div class="admin-logo-icon">
                         <img src="images/Logo.png" alt="Trulune Logo">
                     </div>
@@ -1214,6 +1670,12 @@
                         <a href="#manage-posts" class="sidebar-link" data-section="manage-posts">
                             <i class="fas fa-list-alt"></i>
                             <span>Manage Posts</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#edit-products" class="sidebar-link" data-section="edit-products">
+                            <i class="fas fa-edit"></i>
+                            <span>Manage Products</span>
                         </a>
                     </li>
                 </ul>
@@ -1272,11 +1734,7 @@
                         <div class="form-group">
                             <div class="toggle-switch">
                                 <label class="toggle-label">
-                                    Verified Badge 
-                                    <span class="tooltip-wrapper">
-                                        <i class="fas fa-question-circle tooltip-icon"></i>
-                                        <span class="tooltip-text" id="verifiedTooltipText">Official presence of Trulune Malaysia</span>
-                                    </span>
+                                    Verified Badge
                                 </label>
                                 <label class="switch">
                                     <input type="checkbox" id="verifiedToggle">
@@ -1284,13 +1742,6 @@
                                 </label>
                                 <span class="toggle-text">Show verified badge on profile and posts</span>
                             </div>
-                        </div>
-                        
-                        <!-- Verified Badge Tooltip Editor -->
-                        <div class="tooltip-editor">
-                            <label for="verifiedTooltipInput">Verified Badge Tooltip Text *</label>
-                            <textarea id="verifiedTooltipInput" placeholder="Official presence of Trulune Malaysia">Official presence of Trulune Malaysia</textarea>
-                            <small style="color: var(--gray-600); font-size: 12px; margin-top: 5px; display: block;">This text will appear when users hover over the verified badge on the profile page.</small>
                         </div>
                         
                         <button type="submit" class="save-btn" id="saveProfileBtn">
@@ -1311,7 +1762,6 @@
 Links will automatically be clickable: https://example.com"></textarea>
                         </div>
                         
-                        <!-- Color Picker for Post Background -->
                         <div class="color-picker-container">
                             <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Post Background Color (Optional)</h3>
                             <div class="color-picker-row">
@@ -1356,6 +1806,154 @@ Links will automatically be clickable: https://example.com"></textarea>
                         <p style="color: var(--gray-600); font-size: 14px;">Create your first post to get started!</p>
                     </div>
                 </section>
+                
+                <!-- Manage Products Section -->
+                <section id="edit-products-section" class="admin-section products-editor-section" style="display: none;">
+                    <h2 class="section-title">Manage Products</h2>
+                    <p style="color: var(--gray-600); margin-bottom: 25px; font-size: 16px;">
+                        Click on any product to edit its details. Changes will appear on the homepage immediately.
+                    </p>
+                    
+                    <!-- Add Product Button -->
+                    <div class="add-product-section">
+                        <h3 style="margin-bottom: 15px; color: var(--primary); font-size: 18px; font-weight: 600;">Add New Product</h3>
+                        <p style="margin-bottom: 20px; color: var(--gray-600);">Create a new product for your collection</p>
+                        <button class="add-product-btn" id="addNewProductBtn">
+                            <i class="fas fa-plus-circle"></i> Add New Product
+                        </button>
+                    </div>
+                    
+                    <!-- Products List View -->
+                    <div class="products-list-container">
+                        <!-- Book Products List -->
+                        <div class="product-list-section">
+                            <h3 class="product-section-title">Book Products</h3>
+                            <div class="products-grid-list" id="bookProductsList">
+                                <!-- Book products will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Grid Products List -->
+                        <div class="product-list-section">
+                            <h3 class="product-section-title">Grid Products</h3>
+                            <div class="products-grid-list" id="gridProductsList">
+                                <!-- Grid products will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Edit Form (Hidden by default) -->
+                    <div class="product-edit-form-container" id="productEditForm">
+                        <div class="product-edit-header">
+                            <h3 class="product-edit-title" id="editProductTitle">Edit Product</h3>
+                            <div class="product-edit-actions">
+                                <button class="product-delete-btn" id="deleteProductBtn">
+                                    <i class="fas fa-trash"></i> Delete Product
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <form id="productEditFormContent">
+                            <input type="hidden" id="editProductId">
+                            <div class="product-form-grid">
+                                <div class="product-field-group">
+                                    <label class="product-field-label">
+                                        <i class="fas fa-heading"></i> Product Name *
+                                    </label>
+                                    <input type="text" class="product-input" id="editProductName" 
+                                           placeholder="Enter product name" required>
+                                </div>
+                                
+                                <div class="product-field-group">
+                                    <label class="product-field-label">
+                                        <i class="fas fa-tag"></i> Price *
+                                    </label>
+                                    <input type="text" class="product-input" id="editProductPrice" 
+                                           placeholder="Enter price (e.g., RM24)" required>
+                                </div>
+                                
+                                <div class="product-field-group full-width">
+                                    <label class="product-field-label">
+                                        <i class="fas fa-align-left"></i> Description
+                                    </label>
+                                    <textarea class="product-input product-textarea" id="editProductDesc" 
+                                              placeholder="Enter product description" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="product-field-group">
+                                    <label class="product-field-label">
+                                        <i class="fas fa-certificate"></i> Badge Text
+                                    </label>
+                                    <input type="text" class="product-input" id="editProductBadge" 
+                                           placeholder="Enter badge text" value="Fruitee Collection">
+                                </div>
+                                
+                                <div class="product-field-group">
+                                    <label class="product-field-label">
+                                        <i class="fas fa-layer-group"></i> Product Type
+                                    </label>
+                                    <select class="product-input" id="editProductType">
+                                        <option value="book">Book Product</option>
+                                        <option value="grid">Grid Product</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="product-field-group full-width">
+                                    <label class="product-field-label">
+                                        <i class="fas fa-image"></i> Main Image URL *
+                                    </label>
+                                    <input type="text" class="product-input" id="editProductImage" 
+                                           placeholder="Enter main image URL" required>
+                                    <div style="margin-top: 10px;">
+                                        <img src="" alt="Main Image Preview" id="editProductImagePreview" 
+                                             style="width: 150px; height: 150px; object-fit: cover; border: 1px solid var(--gray-200); border-radius: 6px; margin-top: 10px; display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Image Gallery Management -->
+                            <div class="image-gallery-container">
+                                <h4 class="image-gallery-title">Product Gallery Images</h4>
+                                <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 15px;">
+                                    <strong>How it works:</strong><br>
+                                    • <strong>Book Products:</strong> Gallery appears when users click the fullscreen icon<br>
+                                    • <strong>Grid Products:</strong> Gallery appears when users click the product card<br>
+                                    • First image is always the main product image<br>
+                                    • Maximum 5 images total (1 main + 4 gallery images)
+                                </p>
+                                <div class="image-gallery-grid" id="productGalleryGrid">
+                                    <!-- Gallery images will be added here -->
+                                </div>
+                                
+                                <div class="add-image-section">
+                                    <div class="add-image-input-group">
+                                        <input type="text" class="add-image-input" id="addImageUrl" 
+                                               placeholder="Enter image URL">
+                                        <button type="button" class="add-image-btn" id="addImageBtn">
+                                            <i class="fas fa-plus"></i> Add Image
+                                        </button>
+                                    </div>
+                                    <small style="color: var(--gray-600); font-size: 13px;">
+                                        Add up to 5 images total. First image will be used as main product image.
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <!-- Status Message -->
+                            <div class="status-message" id="productStatusMessage"></div>
+                            
+                            <!-- Form Actions -->
+                            <div class="product-form-actions">
+                                <button type="submit" class="product-save-btn" id="saveProductBtn">
+                                    <i class="fas fa-save"></i> Save Product
+                                </button>
+                                <button type="button" class="product-cancel-btn" id="cancelEditBtn">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
             </main>
         </div>
 
@@ -1378,6 +1976,12 @@ Links will automatically be clickable: https://example.com"></textarea>
                     <a href="#manage-posts" class="mobile-nav-link" data-section="manage-posts">
                         <i class="fas fa-list-alt"></i>
                         <span>Posts</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="#edit-products" class="mobile-nav-link" data-section="edit-products">
+                        <i class="fas fa-edit"></i>
+                        <span>Products</span>
                     </a>
                 </li>
             </ul>
@@ -1406,10 +2010,21 @@ Links will automatically be clickable: https://example.com"></textarea>
         // Store last login time
         let lastLoginTime = null;
         
+        // Product data
+        let productsData = {
+            bookProducts: [],
+            gridProducts: []
+        };
+        
+        // Current product being edited
+        let currentEditingProduct = null;
+        let isNewProduct = false;
+        
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
             const loginPage = document.getElementById('loginPage');
             const adminPanel = document.getElementById('adminPanel');
+            const adminHeader = document.getElementById('adminHeader');
             const loginForm = document.getElementById('loginForm');
             const logoutBtn = document.getElementById('logoutBtn');
             const errorMessage = document.getElementById('errorMessage');
@@ -1422,8 +2037,26 @@ Links will automatically be clickable: https://example.com"></textarea>
             const postColorInput = document.getElementById('postColor');
             const resetColorBtn = document.getElementById('resetColorBtn');
             
-            // Verified badge tooltip input
-            const verifiedTooltipInput = document.getElementById('verifiedTooltipInput');
+            // Product editing elements
+            const productEditForm = document.getElementById('productEditForm');
+            const deleteProductBtn = document.getElementById('deleteProductBtn');
+            const saveProductBtn = document.getElementById('saveProductBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const addImageBtn = document.getElementById('addImageBtn');
+            const addImageUrl = document.getElementById('addImageUrl');
+            const productGalleryGrid = document.getElementById('productGalleryGrid');
+            const productStatusMessage = document.getElementById('productStatusMessage');
+            const addNewProductBtn = document.getElementById('addNewProductBtn');
+            const editProductId = document.getElementById('editProductId');
+            
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    adminHeader.classList.add('scrolled');
+                } else {
+                    adminHeader.classList.remove('scrolled');
+                }
+            });
             
             // Initialize color picker
             postColorInput.addEventListener('input', function() {
@@ -1452,6 +2085,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     updateLastLoginDisplay();
                     loadProfileData();
                     loadPosts();
+                    loadProductsList();
                 } else {
                     loginPage.style.display = 'flex';
                     adminPanel.style.display = 'none';
@@ -1494,6 +2128,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     updateLastLoginDisplay();
                     loadProfileData();
                     loadPosts();
+                    loadProductsList();
                 } else {
                     loginPage.style.display = 'flex';
                     adminPanel.style.display = 'none';
@@ -1613,10 +2248,15 @@ Links will automatically be clickable: https://example.com"></textarea>
                     sec.style.display = 'none';
                 });
                 
-                document.getElementById(`${section}-section`).style.display = 'block';
+                const sectionElement = document.getElementById(`${section}-section`);
+                if (sectionElement) {
+                    sectionElement.style.display = 'block';
+                }
                 
                 if (section === 'manage-posts') {
                     loadPosts();
+                } else if (section === 'edit-products') {
+                    loadProductsList();
                 }
             }
             
@@ -1632,15 +2272,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                         document.getElementById('profileBio').value = data.bio || '';
                         document.getElementById('verifiedToggle').checked = data.verified || false;
                         
-                        if (data.verifiedTooltip) {
-                            verifiedTooltipInput.value = data.verifiedTooltip;
-                        }
-                        
-                        const verifiedTooltip = document.getElementById('verifiedTooltipText');
-                        if (verifiedTooltip) {
-                            verifiedTooltip.textContent = data.verifiedTooltip || 'Official presence of Trulune Malaysia';
-                        }
-                        
                         const profileImageUrl = document.getElementById('profileImageUrl');
                         const profileImagePreview = document.getElementById('profileImagePreview');
                         
@@ -1655,22 +2286,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                         profileImageUrl.addEventListener('input', function() {
                             if (this.value.trim()) {
                                 profileImagePreview.src = this.value;
-                            }
-                        });
-                        
-                        document.getElementById('verifiedToggle').addEventListener('change', function() {
-                            const verifiedTooltip = document.getElementById('verifiedTooltipText');
-                            if (verifiedTooltip) {
-                                verifiedTooltip.textContent = this.checked ? 
-                                    (verifiedTooltipInput.value || 'Official presence of Trulune Malaysia') : 
-                                    'Verified badge will be hidden on profile and posts';
-                            }
-                        });
-                        
-                        verifiedTooltipInput.addEventListener('input', function() {
-                            const verifiedTooltip = document.getElementById('verifiedTooltipText');
-                            if (verifiedTooltip) {
-                                verifiedTooltip.textContent = this.value || 'Official presence of Trulune Malaysia';
                             }
                         });
                     }
@@ -1745,7 +2360,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                         username: document.getElementById('profileUsername').value.trim().replace('@', ''),
                         bio: document.getElementById('profileBio').value.trim(),
                         verified: document.getElementById('verifiedToggle').checked,
-                        verifiedTooltip: verifiedTooltipInput.value.trim() || 'Official presence of Trulune Malaysia',
                         profileImage: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
                         updatedAt: new Date().toISOString()
                     };
@@ -1753,11 +2367,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                     await db.collection('profile').doc('main').set(profileData, { merge: true });
                     
                     await updateExistingPostsWithProfileInfo(profileData);
-                    
-                    const verifiedTooltip = document.getElementById('verifiedTooltipText');
-                    if (verifiedTooltip) {
-                        verifiedTooltip.textContent = profileData.verifiedTooltip;
-                    }
                     
                     showToast('Profile updated successfully! All existing posts have been updated.');
                     
@@ -1820,8 +2429,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     const profileData = profileDoc.exists ? profileDoc.data() : {
                         name: 'Trulune Malaysia',
                         profileImage: 'images/Logo.png',
-                        verified: false,
-                        verifiedTooltip: 'Official presence of Trulune Malaysia'
+                        verified: false
                     };
                     
                     let postColor = postColorInput.value.trim();
@@ -2020,6 +2628,486 @@ Links will automatically be clickable: https://example.com"></textarea>
                     console.log('Error getting timestamp value:', e);
                 }
                 return 0;
+            }
+            
+            // ============== PRODUCT MANAGEMENT FUNCTIONS ==============
+            async function loadProductsList() {
+                try {
+                    console.log('Loading products from Firebase...');
+                    
+                    // Load book products
+                    const bookSnapshot = await db.collection('websiteProducts')
+                        .where('type', '==', 'book')
+                        .get();
+                    
+                    // Load grid products
+                    const gridSnapshot = await db.collection('websiteProducts')
+                        .where('type', '==', 'grid')
+                        .get();
+                    
+                    productsData.bookProducts = [];
+                    productsData.gridProducts = [];
+                    
+                    bookSnapshot.forEach(doc => {
+                        productsData.bookProducts.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    gridSnapshot.forEach(doc => {
+                        productsData.gridProducts.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+                    
+                    console.log(`Loaded ${productsData.bookProducts.length} book products and ${productsData.gridProducts.length} grid products`);
+                    
+                    // Sort book products by order
+                    productsData.bookProducts.sort((a, b) => {
+                        if (a.id === 'honeydew') return -1;
+                        if (b.id === 'honeydew') return 1;
+                        if (a.id === 'apple') return -1;
+                        if (b.id === 'apple') return 1;
+                        if (a.id === 'strawberry') return -1;
+                        if (b.id === 'strawberry') return 1;
+                        return 0;
+                    });
+                    
+                    // Sort grid products by ID
+                    productsData.gridProducts.sort((a, b) => {
+                        const aNum = parseInt(a.id) || 0;
+                        const bNum = parseInt(b.id) || 0;
+                        return aNum - bNum;
+                    });
+                    
+                    // Display products
+                    displayProductsList();
+                    
+                } catch (error) {
+                    console.error('Error loading products:', error);
+                    showToast('Error loading products: ' + error.message);
+                }
+            }
+            
+            function displayProductsList() {
+                // Load book products list
+                const bookProductsList = document.getElementById('bookProductsList');
+                const gridProductsList = document.getElementById('gridProductsList');
+                
+                bookProductsList.innerHTML = '';
+                gridProductsList.innerHTML = '';
+                
+                // Display book products
+                productsData.bookProducts.forEach((product) => {
+                    const productItem = createProductListItem(product);
+                    bookProductsList.appendChild(productItem);
+                });
+                
+                // Display grid products
+                productsData.gridProducts.forEach((product) => {
+                    const productItem = createProductListItem(product);
+                    gridProductsList.appendChild(productItem);
+                });
+            }
+            
+            function createProductListItem(product) {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-list-item';
+                productItem.dataset.productId = product.id;
+                productItem.dataset.productType = product.type;
+                
+                productItem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-thumbnail"
+                         onerror="this.src='https://via.placeholder.com/80?text=Image'">
+                    <div class="product-list-info">
+                        <h4 class="product-list-name">${product.name}</h4>
+                        <div class="product-list-price">${product.price}</div>
+                        <span class="product-list-type ${product.type}">${product.type === 'book' ? 'Book' : 'Grid'}</span>
+                    </div>
+                `;
+                
+                // Add click event to edit product
+                productItem.addEventListener('click', function() {
+                    // Remove active class from all items
+                    document.querySelectorAll('.product-list-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Load product for editing
+                    loadProductForEditing(product.id, product.type);
+                });
+                
+                return productItem;
+            }
+            
+            async function loadProductForEditing(productId, productType) {
+                try {
+                    const productDoc = await db.collection('websiteProducts').doc(productId).get();
+                    
+                    if (!productDoc.exists) {
+                        showToast('Product not found in database');
+                        return;
+                    }
+                    
+                    const product = {
+                        id: productId,
+                        ...productDoc.data()
+                    };
+                    
+                    // Store current editing product
+                    currentEditingProduct = product;
+                    isNewProduct = false;
+                    
+                    // Update form title
+                    document.getElementById('editProductTitle').textContent = `Edit: ${product.name}`;
+                    
+                    // Fill form fields
+                    document.getElementById('editProductId').value = product.id;
+                    document.getElementById('editProductName').value = product.name;
+                    document.getElementById('editProductPrice').value = product.price;
+                    document.getElementById('editProductDesc').value = product.description || '';
+                    document.getElementById('editProductBadge').value = product.badge || 'Fruitee Collection';
+                    document.getElementById('editProductType').value = product.type;
+                    document.getElementById('editProductImage').value = product.image || '';
+                    
+                    // Update image preview
+                    const imagePreview = document.getElementById('editProductImagePreview');
+                    if (product.image) {
+                        imagePreview.src = product.image;
+                        imagePreview.style.display = 'block';
+                    } else {
+                        imagePreview.style.display = 'none';
+                    }
+                    
+                    // Load gallery images
+                    loadProductGallery(product.gallery || []);
+                    
+                    // Show delete button (not for new products)
+                    deleteProductBtn.style.display = 'block';
+                    
+                    // Show edit form
+                    productEditForm.classList.add('active');
+                    
+                    // Scroll to edit form on desktop, but not on mobile
+                    if (window.innerWidth > 768) {
+                        productEditForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading product for editing:', error);
+                    showToast('Error loading product: ' + error.message);
+                }
+            }
+            
+            function loadProductGallery(galleryImages) {
+                productGalleryGrid.innerHTML = '';
+                
+                // Add gallery images
+                galleryImages.forEach((imageUrl, index) => {
+                    addGalleryImage(imageUrl, index === 0);
+                });
+            }
+            
+            function addGalleryImage(imageUrl, isMain = false) {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-image-item';
+                galleryItem.dataset.imageUrl = imageUrl;
+                
+                galleryItem.innerHTML = `
+                    <img src="${imageUrl}" alt="Gallery Image" class="gallery-image"
+                         onerror="this.src='https://via.placeholder.com/120?text=Image'">
+                    <div class="gallery-image-actions">
+                        ${isMain ? '<button class="gallery-image-btn set-main" title="Main Image"><i class="fas fa-star"></i></button>' : 
+                          '<button class="gallery-image-btn set-main-btn" title="Set as Main"><i class="fas fa-star"></i></button>'}
+                        <button class="gallery-image-btn remove-image-btn" title="Remove Image">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add remove functionality
+                const removeBtn = galleryItem.querySelector('.remove-image-btn');
+                removeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (confirm('Remove this image from gallery?')) {
+                        galleryItem.remove();
+                    }
+                });
+                
+                // Add set as main functionality
+                const setMainBtn = galleryItem.querySelector('.set-main-btn');
+                if (setMainBtn) {
+                    setMainBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        setImageAsMain(imageUrl);
+                    });
+                }
+                
+                productGalleryGrid.appendChild(galleryItem);
+            }
+            
+            function setImageAsMain(imageUrl) {
+                // Update main image field
+                document.getElementById('editProductImage').value = imageUrl;
+                const imagePreview = document.getElementById('editProductImagePreview');
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block';
+                
+                // Update all gallery items to show which is main
+                const galleryItems = productGalleryGrid.querySelectorAll('.gallery-image-item');
+                galleryItems.forEach(item => {
+                    const actions = item.querySelector('.gallery-image-actions');
+                    const isThisMain = item.dataset.imageUrl === imageUrl;
+                    
+                    if (isThisMain) {
+                        actions.innerHTML = `
+                            <button class="gallery-image-btn set-main" title="Main Image"><i class="fas fa-star"></i></button>
+                            <button class="gallery-image-btn remove-image-btn" title="Remove Image">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        `;
+                    } else {
+                        actions.innerHTML = `
+                            <button class="gallery-image-btn set-main-btn" title="Set as Main"><i class="fas fa-star"></i></button>
+                            <button class="gallery-image-btn remove-image-btn" title="Remove Image">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        `;
+                        
+                        // Re-add event listener
+                        const setMainBtn = item.querySelector('.set-main-btn');
+                        setMainBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            setImageAsMain(item.dataset.imageUrl);
+                        });
+                    }
+                    
+                    // Re-add remove event listener
+                    const removeBtn = item.querySelector('.remove-image-btn');
+                    removeBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (confirm('Remove this image from gallery?')) {
+                            item.remove();
+                        }
+                    });
+                });
+                
+                showToast('Main image updated');
+            }
+            
+            // Add image to gallery
+            addImageBtn.addEventListener('click', function() {
+                const imageUrl = addImageUrl.value.trim();
+                if (!imageUrl) {
+                    showStatusMessage('Please enter an image URL', 'error');
+                    return;
+                }
+                
+                // Validate URL
+                if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://') && !imageUrl.startsWith('images/')) {
+                    showStatusMessage('Please enter a valid image URL starting with http://, https://, or images/', 'error');
+                    return;
+                }
+                
+                // Check if we already have 5 images
+                const galleryItems = productGalleryGrid.querySelectorAll('.gallery-image-item');
+                if (galleryItems.length >= 5) {
+                    showStatusMessage('Maximum 5 images allowed', 'error');
+                    return;
+                }
+                
+                const isFirstImage = galleryItems.length === 0;
+                addGalleryImage(imageUrl, isFirstImage);
+                addImageUrl.value = '';
+                
+                // If this is the first image, set it as main
+                if (isFirstImage) {
+                    document.getElementById('editProductImage').value = imageUrl;
+                    const imagePreview = document.getElementById('editProductImagePreview');
+                    imagePreview.src = imageUrl;
+                    imagePreview.style.display = 'block';
+                }
+                
+                showStatusMessage('Image added to gallery', 'success');
+            });
+            
+            // Image input enter key support
+            addImageUrl.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addImageBtn.click();
+                }
+            });
+            
+            // Image preview on input
+            document.getElementById('editProductImage').addEventListener('input', function() {
+                const preview = document.getElementById('editProductImagePreview');
+                if (this.value.trim()) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+            
+            // Add new product button
+            addNewProductBtn.addEventListener('click', function() {
+                resetProductForm();
+                isNewProduct = true;
+                currentEditingProduct = null;
+                
+                document.getElementById('editProductTitle').textContent = 'Add New Product';
+                document.getElementById('editProductId').value = 'new-' + Date.now();
+                document.getElementById('editProductName').value = '';
+                document.getElementById('editProductPrice').value = '';
+                document.getElementById('editProductDesc').value = '';
+                document.getElementById('editProductBadge').value = 'Fruitee Collection';
+                document.getElementById('editProductType').value = 'book';
+                document.getElementById('editProductImage').value = '';
+                
+                // Hide delete button for new products
+                deleteProductBtn.style.display = 'none';
+                
+                // Clear gallery
+                productGalleryGrid.innerHTML = '';
+                
+                // Show edit form
+                productEditForm.classList.add('active');
+                
+                // Scroll to edit form on desktop only
+                if (window.innerWidth > 768) {
+                    productEditForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                
+                showStatusMessage('Creating new product. Fill in the details and save.', 'success');
+            });
+            
+            // Save product changes
+            document.getElementById('productEditFormContent').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const productId = document.getElementById('editProductId').value.trim();
+                const name = document.getElementById('editProductName').value.trim();
+                const price = document.getElementById('editProductPrice').value.trim();
+                const description = document.getElementById('editProductDesc').value.trim();
+                const badge = document.getElementById('editProductBadge').value.trim();
+                const type = document.getElementById('editProductType').value;
+                const mainImage = document.getElementById('editProductImage').value.trim();
+                
+                // Validate required fields
+                if (!name || !price || !mainImage) {
+                    showStatusMessage('Please fill in all required fields (Name, Price, Main Image)', 'error');
+                    return;
+                }
+                
+                // Collect gallery images
+                const galleryImages = [];
+                const galleryItems = productGalleryGrid.querySelectorAll('.gallery-image-item');
+                galleryItems.forEach((item) => {
+                    const imgSrc = item.querySelector('.gallery-image').src;
+                    galleryImages.push(imgSrc);
+                });
+                
+                // If no gallery images but has main image, add main image to gallery
+                if (galleryImages.length === 0 && mainImage) {
+                    galleryImages.push(mainImage);
+                }
+                
+                // Create product data object
+                const productData = {
+                    name: name,
+                    price: price,
+                    description: description,
+                    badge: badge || 'Fruitee Collection',
+                    type: type,
+                    image: mainImage,
+                    gallery: galleryImages,
+                    updatedAt: new Date().toISOString(),
+                    lastUpdatedBy: auth.currentUser.email
+                };
+                
+                try {
+                    // Save to Firebase (sync with homepage)
+                    await db.collection('websiteProducts').doc(productId).set(productData, { merge: true });
+                    
+                    showStatusMessage(isNewProduct ? 'Product created successfully!' : 'Product updated successfully!', 'success');
+                    showToast(isNewProduct ? 'Product created successfully!' : 'Product updated successfully!');
+                    
+                    // Reload products list
+                    await loadProductsList();
+                    
+                    // Close edit form after successful save
+                    setTimeout(() => {
+                        productEditForm.classList.remove('active');
+                        resetProductForm();
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('Error saving product:', error);
+                    showStatusMessage('Error saving product: ' + error.message, 'error');
+                }
+            });
+            
+            // Delete product
+            deleteProductBtn.addEventListener('click', async function() {
+                if (!currentEditingProduct) return;
+                
+                if (confirm(`Are you sure you want to delete "${currentEditingProduct.name}"? This action cannot be undone.`)) {
+                    try {
+                        // Delete from Firebase
+                        await db.collection('websiteProducts').doc(currentEditingProduct.id).delete();
+                        
+                        showToast('Product deleted successfully');
+                        
+                        // Hide edit form
+                        productEditForm.classList.remove('active');
+                        resetProductForm();
+                        
+                        // Reload product list
+                        await loadProductsList();
+                        
+                    } catch (error) {
+                        console.error('Error deleting product:', error);
+                        showToast('Error deleting product: ' + error.message);
+                    }
+                }
+            });
+            
+            // Cancel editing
+            cancelEditBtn.addEventListener('click', function() {
+                productEditForm.classList.remove('active');
+                resetProductForm();
+                
+                // Remove active class from all list items
+                document.querySelectorAll('.product-list-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            });
+            
+            function resetProductForm() {
+                currentEditingProduct = null;
+                isNewProduct = false;
+                productGalleryGrid.innerHTML = '';
+                document.getElementById('productStatusMessage').className = 'status-message';
+                document.getElementById('productStatusMessage').textContent = '';
+                document.getElementById('editProductImagePreview').style.display = 'none';
+            }
+            
+            function showStatusMessage(message, type) {
+                productStatusMessage.textContent = message;
+                productStatusMessage.className = `status-message status-${type}`;
+                
+                // Auto hide after 3 seconds
+                setTimeout(() => {
+                    productStatusMessage.className = 'status-message';
+                    productStatusMessage.textContent = '';
+                }, 3000);
             }
             
             function showToast(message) {
