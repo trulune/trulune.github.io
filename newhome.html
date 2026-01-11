@@ -6,9 +6,6 @@
     <title>Trulune Malaysia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -154,8 +151,8 @@
         }
 
         .nav-badge-link .nav-badge {
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #ffffff;
+            background: var(--primary);
+            color: var(--secondary);
             font-size: 10px;
             font-weight: 700;
             padding: 4px 8px;
@@ -185,7 +182,6 @@
             position: relative;
             overflow: hidden;
             height: 550px;
-
         }
 
         .hero-slider {
@@ -295,7 +291,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-
+            background: rgba(0, 0, 0, 0.3);
         }
 
         .slide-2-content {
@@ -325,7 +321,7 @@
             line-height: 1.6;
         }
 
-        /* Slider Arrow - PLAIN ARROW SAHAJA (NO CIRCLE) */
+        /* Slider Arrow */
         .slider-arrow {
             position: absolute;
             top: 50%;
@@ -348,14 +344,13 @@
 
         .slider-arrow-left {
             left: 30px;
-            display: none; /* HIDE LEFT ARROW SEPERTI PERMINTAAN */
+            display: none;
         }
 
         .slider-arrow-right {
             right: 30px;
         }
 
-        /* Arrow untuk slide 2 - PUTIH SAHAJA */
         .slide-2 .slider-arrow {
             color: white;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -393,6 +388,15 @@
             padding: 0 var(--desktop-padding);
             max-width: 1400px;
             margin: 0 auto;
+        }
+
+        /* Add space between book collections */
+        .book-collection-wrapper {
+            margin-bottom: 30px;
+        }
+        
+        .book-collection-wrapper:last-child {
+            margin-bottom: 0;
         }
 
         .book-container {
@@ -467,13 +471,13 @@
         .product-price {
             font-size: 1.8rem;
             font-weight: 600;
-            color: #ffdd40;
+            color: #ffffff;
         }
         
         .buy-btn {
             display: inline-block;
-            background-color: #0E3659;
-            color: white;
+            background-color: var(--primary);
+            color: var(--secondary);
             padding: 10px 20px;
             text-decoration: none;
             font-weight: 500;
@@ -484,10 +488,9 @@
         }
         
         .buy-btn:hover {
-            background-color: #0E3659;
-            opacity: 80%;
+            background-color: #404040;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(58, 94, 208, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .fullscreen-btn {
@@ -554,11 +557,11 @@
         }
         
         .nav-btn:hover {
-            background-color: #0E3659;
+            background-color: var(--primary);
             color: white;
-            border-color: #0E3659;
+            border-color: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(74, 110, 224, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .fullscreen-modal {
@@ -651,7 +654,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 2;
+            font-size: 2rem;
             color: white;
             pointer-events: auto;
             padding: 15px;
@@ -693,9 +696,9 @@
         }
         
         .thumbnail.active {
-            border-color: #4a6ee0;
+            border-color: white;
             opacity: 1;
-            box-shadow: 0 4px 12px rgba(74, 110, 224, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
         }
         
         .thumbnail img {
@@ -705,14 +708,17 @@
         }
         
         .cover {
-            background: url('images/bookcover.jpeg') no-repeat center center fixed;
-            color: white;
+            background-color: var(--secondary);
+            color: var(--primary);
             text-align: center;
+            position: relative;
         }
         
         .cover-content {
             padding: 60px;
             max-width: 90%;
+            position: relative;
+            z-index: 2;
         }
         
         .cover-title {
@@ -794,7 +800,7 @@
         .modal-image-container::before {
             content: '';
             display: block;
-            padding-top: 100%; /* This creates 1:1 aspect ratio */
+            padding-top: 100%;
         }
         
         .modal-product-img-carousel {
@@ -897,6 +903,7 @@
         /* Mobile: Vertical layout */
         @media (max-width: 768px) {
             .modal-image-container {
+                width: 100%;
             }
             
             .modal-product-info {
@@ -924,15 +931,15 @@
         .modal-product-price {
             font-size: 36px;
             font-weight: 700;
-            color: red;
+            color: #333;
             margin-bottom: 30px;
         }
         
         .modal-buy-btn {
             display: block;
             width: 100%;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: white;
+            background: var(--primary);
+            color: var(--secondary);
             border: none;
             padding: 16px;
             font-size: 18px;
@@ -944,9 +951,9 @@
         }
         
         .modal-buy-btn:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            background: #404040;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(14, 54, 89, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .product-modal-content::after {
@@ -962,6 +969,82 @@
             margin: 0 auto;
         }
 
+        /* Special styles for 1-2 products on desktop */
+        @media (min-width: 769px) {
+            .products-grid.single-product {
+                display: flex;
+                justify-content: center;
+            }
+            
+            .products-grid.single-product .product-card {
+                max-width: 1000px;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                height: auto;
+            }
+            
+            .products-grid.single-product .product-card-image {
+                width: 50%;
+                height: 500px;
+                object-fit: cover;
+            }
+            
+            .products-grid.single-product .product-card-info {
+                width: 50%;
+                padding: 40px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .products-grid.two-products {
+                grid-template-columns: 1fr 1fr;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .products-grid.two-products .product-card {
+                display: flex;
+                flex-direction: column;
+                height: 500px;
+            }
+            
+            .products-grid.two-products .product-card-image {
+                height: 300px;
+                object-fit: cover;
+            }
+            
+            .products-grid.two-products .product-card-info {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        }
+
+        /* Mobile: 2 in a row for 2+ products, 1 in a row for 1 product */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .products-grid.single-product {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-grid.single-product .product-card {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .products-grid.two-products {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Default grid for 3+ products */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1005,15 +1088,15 @@
         .product-card-price {
             font-size: 20px;
             font-weight: 700;
-            color: red;
+            color: #333;
             margin-bottom: 16px;
         }
 
         .product-card-btn {
             display: block;
             width: 100%;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: #ffffff;
+            background: var(--primary);
+            color: var(--secondary);
             border: none;
             padding: 12px;
             font-weight: 600;
@@ -1024,7 +1107,7 @@
         }
 
         .product-card-btn:hover {
-            background: linear-gradient(135deg, #182D40 0%, #0E3659 100%);
+            background: #404040;
         }
 
         .product-badge {
@@ -1041,12 +1124,35 @@
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease;
+            pointer-events: none;
+            cursor: default;
         }
 
-        .product-badge:hover {
-            background-color: #0E3659;
-            color: white;
-            transform: translateY(-2px);
+        /* ============== LOADING STATES ============== */
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #000000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Hide sections when empty */
+        .book-collection-empty,
+        .product-grid-empty {
+            display: none;
         }
 
         /* ============== FOOTER ============== */
@@ -1123,8 +1229,7 @@
         }
 
         .social-link:hover {
-            color: black;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.8);
             transform: translateY(-2px);
         }
 
@@ -1299,8 +1404,8 @@
             
             .hero-subtitle {
                 font-size: 16px;
-                margin-bottom: 30px; /* KURANGKAN UNTUK MOBILE */
-                padding-right: 50px; /* TAMBAH PADDING KANAN UNTUK ELAK BERTINDIH */
+                margin-bottom: 30px;
+                padding-right: 50px;
             }
             
             .slide-2-title {
@@ -1309,8 +1414,8 @@
             
             .slide-2-subtitle {
                 font-size: 15px;
-                margin-bottom: 30px; /* KURANGKAN UNTUK MOBILE */
-                padding-right: 50px; /* TAMBAH PADDING KANAN UNTUK ELAK BERTINDIH */
+                margin-bottom: 30px;
+                padding-right: 50px;
             }
             
             .slider-arrow {
@@ -1541,9 +1646,6 @@
                 max-width: 100%;
             }
 
-            .product-card {
-            }
-
             .product-card-info {
                 padding: 12px;
             }
@@ -1601,12 +1703,15 @@
             }
         }
     </style>
+    <!-- Add Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <!-- Header -->
     <header class="header" id="header">
         <div class="header-container">
-            <a href="newhome" class="logo">
+            <a href="#" class="logo">
                 <div class="logo-icon">
                     <img src="images/Logo.png" alt="Trulune Logo">
                 </div>
@@ -1614,8 +1719,8 @@
             </a>
 
             <ul class="nav-links" id="nav-links">
-                <li><a href="newhome">Home</a></li>
-                <li><a href="feed">Feed</a></li>
+                <li><a href="newhome.html">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="https://t.me/trulune" class="nav-badge-link">
                 Get Fast Update<span class="nav-badge">🔔</span></a>
                 </li>
@@ -1631,7 +1736,7 @@
 
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
 
-    <!-- Hero Section with Slider -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-slider">
             <!-- Slide 1 - Original Content -->
@@ -1644,7 +1749,6 @@
                     <p class="hero-subtitle">Discover our first collection of fruity scents, chosen to elevate your day.</p>
                     <a href="#products" class="btn" id="shop-collection-btn">Shop Collection</a>
                 </div>
-                <!-- Right arrow only - PLAIN ARROW -->
                 <button class="slider-arrow slider-arrow-right" id="sliderNext">
                     <i class="fas fa-chevron-right"></i>
                 </button>
@@ -1657,7 +1761,6 @@
                     <p class="slide-2-subtitle">Experience the perfect blend of nature's finest fruits in our signature scents collection. Each fragrance is crafted to create lasting impressions.</p>
                     <a href="#products" class="btn">Explore Collection</a>
                 </div>
-                <!-- Right arrow only - PLAIN ARROW -->
                 <button class="slider-arrow slider-arrow-right" id="sliderNext2">
                     <i class="fas fa-chevron-right"></i>
                 </button>
@@ -1665,54 +1768,42 @@
         </div>
     </section>
 
-    <!-- Product Book -->
+    <!-- Product Book Section - DYNAMIC -->
     <section class="product-book-section" id="products">
         <div class="container">
-            <h2 class="first-collection-title">Our First Collection</h2>
+            <h2 class="first-collection-title book-collection-empty">Our First Collection</h2>
             
-            <div class="book-container">
-                <div class="book-slides" id="bookSlides">
-                    <!-- Cover will be added dynamically -->
-                </div>
-                
-                <div class="nav-controls first-page">
-                    <button class="nav-btn prev-btn">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="nav-btn next-btn">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
+            <!-- Loading State -->
+            <div class="loading-container" id="bookCollectionLoading">
+                <div class="loading-spinner"></div>
             </div>
-        </div>
-        
-        <div class="fullscreen-modal" id="fullscreen-modal">
-            <div class="modal-content">
-                <div class="image-container">
-                    <img class="modal-image" id="modal-image" src="" alt="Fullscreen product image">
-                    <button class="close-modal" id="close-modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="gallery-nav">
-                        <button class="gallery-btn prev-gallery-btn hidden">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="gallery-btn next-gallery-btn">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="thumbnails" id="thumbnails"></div>
+            
+            <!-- Book Collections will be inserted here -->
+            <div id="bookCollectionsContainer"></div>
+            
+            <!-- Empty State -->
+            <div id="noBookCollections" class="book-collection-empty" style="text-align: center; padding: 60px 20px;">
+                <p style="color: var(--gray-600);">No collections available yet.</p>
             </div>
         </div>
     </section>
 
-    <!-- Product Grid -->
+    <!-- Product Grid Section - DYNAMIC -->
     <section class="products-section">
         <div class="container">
-            <h2 class="all-products-title">All Products</h2>
-            <div class="products-grid" id="productsGrid">
-                <!-- Products will be loaded dynamically -->
+            <h2 class="all-products-title product-grid-empty">All Products</h2>
+            
+            <!-- Loading State -->
+            <div class="loading-container" id="productGridLoading">
+                <div class="loading-spinner"></div>
+            </div>
+            
+            <!-- Product Grid will be inserted here -->
+            <div id="productGridContainer"></div>
+            
+            <!-- Empty State -->
+            <div id="noProductGrid" class="product-grid-empty" style="text-align: center; padding: 60px 20px;">
+                <p style="color: var(--gray-600);">No products available yet.</p>
             </div>
         </div>
     </section>
@@ -1721,7 +1812,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <a href="newhome" class="footer-logo">
+                <a href="#" class="footer-logo">
                     <div class="footer-logo-icon">
                         <img src="images/Logo.png" alt="Trulune Logo">
                     </div>
@@ -1773,6 +1864,9 @@
         </div>
     </div>
 
+    <!-- Fullscreen Gallery Modal -->
+    <div id="fullscreenGalleryContainer"></div>
+
     <script>
         // Firebase Configuration
         const firebaseConfig = {
@@ -1787,11 +1881,12 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
+            // ============== EXISTING FUNCTIONALITY ==============
             // Header scroll effect
             const header = document.getElementById('header');
             
@@ -1850,7 +1945,6 @@
             function initHeroSlider() {
                 if (heroSlides.length === 0) return;
                 
-                // Arrow buttons event listeners - SAMA untuk semua slides
                 if (sliderNext) {
                     sliderNext.addEventListener('click', function() {
                         nextHeroSlide();
@@ -1864,65 +1958,395 @@
                 }
             }
 
-            // ============== PRODUCT BOOK SLIDER ==============
-            const bookSlides = document.querySelector('.book-slides');
-            const prevBtn = document.querySelector('.prev-btn');
-            const nextBtn = document.querySelector('.next-btn');
-            const navControls = document.querySelector('.nav-controls');
-            
-            let currentPage = 0;
-            let totalSlides = 0;
-            
-            function isMobileView() {
-                return window.innerWidth <= 992;
-            }
-            
-            function getMaxPage() {
-                if (isMobileView()) {
-                    return totalSlides - 1;
-                } else {
-                    return Math.floor((totalSlides - 1) / 2);
+            // ============== LOAD BOOK COLLECTIONS FROM FIREBASE ==============
+            async function loadBookCollections() {
+                try {
+                    const collectionsSnapshot = await db.collection('bookCollections')
+                        .orderBy('order', 'desc')
+                        .get();
+                    
+                    const bookCollectionsContainer = document.getElementById('bookCollectionsContainer');
+                    const loadingElement = document.getElementById('bookCollectionLoading');
+                    const emptyElement = document.getElementById('noBookCollections');
+                    const titleElement = document.querySelector('.first-collection-title');
+                    
+                    bookCollectionsContainer.innerHTML = '';
+                    
+                    if (collectionsSnapshot.empty) {
+                        loadingElement.style.display = 'none';
+                        emptyElement.style.display = 'block';
+                        titleElement.style.display = 'none';
+                        document.querySelector('.product-book-section').style.display = 'none';
+                    } else {
+                        document.querySelector('.product-book-section').style.display = 'block';
+                        titleElement.style.display = 'block';
+                        loadingElement.style.display = 'none';
+                        emptyElement.style.display = 'none';
+                        
+                        let collectionIndex = 0;
+                        collectionsSnapshot.forEach((doc) => {
+                            const collection = doc.data();
+                            renderBookCollection(collection, doc.id, collectionIndex);
+                            collectionIndex++;
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error loading book collections:', error);
+                    document.getElementById('bookCollectionLoading').style.display = 'none';
                 }
             }
             
-            function updateSlide() {
-                let translateValue;
-                if (isMobileView()) {
-                    translateValue = currentPage * 100;
-                } else {
-                    translateValue = currentPage * 100;
-                }
+            // Render a single book collection - UPDATED with wrapper for spacing
+            function renderBookCollection(collection, collectionId, collectionIndex) {
+                const container = document.getElementById('bookCollectionsContainer');
                 
-                bookSlides.style.transform = `translateX(-${translateValue}%)`;
+                // Create wrapper for each collection with spacing
+                const collectionWrapper = document.createElement('div');
+                collectionWrapper.className = 'book-collection-wrapper';
                 
-                const maxPage = getMaxPage();
-                navControls.className = 'nav-controls';
+                const collectionHTML = `
+                    <div class="book-container" data-collection-id="${collectionId}">
+                        <div class="book-slides">
+                            <!-- Cover Slide -->
+                            <div class="product-container cover" style="background: url('${collection.coverImage}') no-repeat center center; background-size: cover;">
+                                <div class="cover-content">
+                                    <h2 class="cover-title">${collection.title}</h2>
+                                    <p class="cover-subtitle">${collection.description}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Product Slides -->
+                            ${collection.products ? collection.products.map((product, index) => {
+                                // Get custom colors or use defaults
+                                const bgColor = product.backgroundColor || '#000000';
+                                const textColor = product.textColor || '#ffffff';
+                                const priceColor = product.priceColor || '#ffffff';
+                                
+                                return `
+                                <div class="product-container" data-product-index="${index}">
+                                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                                    <button class="fullscreen-btn" data-collection-id="${collectionId}" data-product-index="${index}">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                    <div class="product-content">
+                                        <h3 class="product-name">${product.name}</h3>
+                                        <p class="product-desc">${product.description}</p>
+                                        <div class="price-buy-container">
+                                            <div class="product-price" style="color: ${priceColor}">${product.price}</div>
+                                            <a href="${product.buttonLink}" target="_blank" class="buy-btn" style="background-color: ${bgColor}; color: ${textColor}">${product.buttonText}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `}).join('') : ''}
+                        </div>
+                        
+                        <div class="nav-controls first-page">
+                            <button class="nav-btn prev-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="nav-btn next-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
                 
-                if (currentPage === 0) {
-                    navControls.classList.add('first-page');
-                }
+                collectionWrapper.innerHTML = collectionHTML;
+                container.appendChild(collectionWrapper);
                 
-                if (currentPage === maxPage) {
-                    navControls.classList.add('last-page');
+                // Initialize the book slider for this collection
+                initializeBookSlider(collectionId);
+                
+                // Setup fullscreen gallery for each product
+                if (collection.products) {
+                    collection.products.forEach((product, index) => {
+                        setupFullscreenGallery(collectionId, index, product.galleryImages || []);
+                    });
                 }
             }
             
-            nextBtn.addEventListener('click', function() {
-                const maxPage = getMaxPage();
-                if (currentPage < maxPage) {
-                    currentPage++;
+            // Initialize book slider
+            function initializeBookSlider(collectionId) {
+                const bookContainer = document.querySelector(`[data-collection-id="${collectionId}"]`);
+                if (!bookContainer) return;
+                
+                const bookSlides = bookContainer.querySelector('.book-slides');
+                const prevBtn = bookContainer.querySelector('.prev-btn');
+                const nextBtn = bookContainer.querySelector('.next-btn');
+                const navControls = bookContainer.querySelector('.nav-controls');
+                
+                let currentPage = 0;
+                const totalSlides = bookContainer.querySelectorAll('.product-container').length;
+                
+                function isMobileView() {
+                    return window.innerWidth <= 992;
+                }
+                
+                function getMaxPage() {
+                    if (isMobileView()) {
+                        return totalSlides - 1;
+                    } else {
+                        return Math.floor((totalSlides - 1) / 2);
+                    }
+                }
+                
+                function updateSlide() {
+                    let translateValue;
+                    if (isMobileView()) {
+                        translateValue = currentPage * 100;
+                    } else {
+                        translateValue = currentPage * 100;
+                    }
+                    
+                    bookSlides.style.transform = `translateX(-${translateValue}%)`;
+                    
+                    const maxPage = getMaxPage();
+                    navControls.className = 'nav-controls';
+                    
+                    if (currentPage === 0) {
+                        navControls.classList.add('first-page');
+                    }
+                    
+                    if (currentPage === maxPage) {
+                        navControls.classList.add('last-page');
+                    }
+                }
+                
+                nextBtn.addEventListener('click', function() {
+                    const maxPage = getMaxPage();
+                    if (currentPage < maxPage) {
+                        currentPage++;
+                        updateSlide();
+                    }
+                });
+                
+                prevBtn.addEventListener('click', function() {
+                    if (currentPage > 0) {
+                        currentPage--;
+                        updateSlide();
+                    }
+                });
+                
+                updateSlide();
+                
+                // Resize handler
+                window.addEventListener('resize', function() {
+                    const maxPage = getMaxPage();
+                    if (currentPage > maxPage) {
+                        currentPage = maxPage;
+                    }
                     updateSlide();
-                }
-            });
+                });
+            }
             
-            prevBtn.addEventListener('click', function() {
-                if (currentPage > 0) {
-                    currentPage--;
-                    updateSlide();
+            // Setup fullscreen gallery
+            function setupFullscreenGallery(collectionId, productIndex, galleryImages) {
+                const fullscreenBtn = document.querySelector(`[data-collection-id="${collectionId}"][data-product-index="${productIndex}"]`);
+                if (!fullscreenBtn) return;
+                
+                fullscreenBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    if (!galleryImages || galleryImages.length === 0) {
+                        galleryImages = [this.closest('.product-container').querySelector('.product-image').src];
+                    }
+                    
+                    openFullscreenGallery(galleryImages, collectionId, productIndex);
+                });
+            }
+            
+            // Open fullscreen gallery
+            function openFullscreenGallery(images, collectionId, productIndex) {
+                let modal = document.getElementById(`fullscreen-modal-${collectionId}-${productIndex}`);
+                if (!modal) {
+                    modal = document.createElement('div');
+                    modal.id = `fullscreen-modal-${collectionId}-${productIndex}`;
+                    modal.className = 'fullscreen-modal';
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <div class="image-container">
+                                <img class="modal-image" src="${images[0]}" alt="Fullscreen product image">
+                                <button class="close-modal">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <div class="gallery-nav">
+                                    <button class="gallery-btn prev-gallery-btn hidden">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button class="gallery-btn next-gallery-btn">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="thumbnails"></div>
+                        </div>
+                    `;
+                    document.getElementById('fullscreenGalleryContainer').appendChild(modal);
+                    
+                    initializeGalleryModal(modal, images);
                 }
-            });
-
-            // ============== PRODUCT MODAL ==============
+                
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Initialize gallery modal
+            function initializeGalleryModal(modal, images) {
+                const modalImage = modal.querySelector('.modal-image');
+                const closeModal = modal.querySelector('.close-modal');
+                const prevGalleryBtn = modal.querySelector('.prev-gallery-btn');
+                const nextGalleryBtn = modal.querySelector('.next-gallery-btn');
+                const thumbnailsContainer = modal.querySelector('.thumbnails');
+                
+                let currentImageIndex = 0;
+                
+                function updateThumbnails() {
+                    thumbnailsContainer.innerHTML = '';
+                    
+                    images.forEach((imgSrc, index) => {
+                        const thumbnail = document.createElement('div');
+                        thumbnail.className = `thumbnail ${index === currentImageIndex ? 'active' : ''}`;
+                        thumbnail.innerHTML = `<img src="${imgSrc}" alt="Thumbnail ${index + 1}">`;
+                        
+                        thumbnail.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            currentImageIndex = index;
+                            modalImage.src = imgSrc;
+                            updateThumbnails();
+                            updateGalleryButtons();
+                        });
+                        
+                        thumbnailsContainer.appendChild(thumbnail);
+                    });
+                }
+                
+                function updateGalleryButtons() {
+                    if (currentImageIndex === 0) {
+                        prevGalleryBtn.classList.add('hidden');
+                    } else {
+                        prevGalleryBtn.classList.remove('hidden');
+                    }
+                    
+                    if (currentImageIndex === images.length - 1) {
+                        nextGalleryBtn.classList.add('hidden');
+                    } else {
+                        nextGalleryBtn.classList.remove('hidden');
+                    }
+                }
+                
+                prevGalleryBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (currentImageIndex > 0) {
+                        currentImageIndex--;
+                        modalImage.src = images[currentImageIndex];
+                        updateThumbnails();
+                        updateGalleryButtons();
+                    }
+                });
+                
+                nextGalleryBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (currentImageIndex < images.length - 1) {
+                        currentImageIndex++;
+                        modalImage.src = images[currentImageIndex];
+                        updateThumbnails();
+                        updateGalleryButtons();
+                    }
+                });
+                
+                closeModal.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+                
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+                
+                updateThumbnails();
+                updateGalleryButtons();
+            }
+            
+            // ============== LOAD PRODUCT GRID FROM FIREBASE ==============
+            async function loadProductGrid() {
+                try {
+                    const productsSnapshot = await db.collection('productGrid')
+                        .orderBy('order', 'desc')
+                        .get();
+                    
+                    const productGridContainer = document.getElementById('productGridContainer');
+                    const loadingElement = document.getElementById('productGridLoading');
+                    const emptyElement = document.getElementById('noProductGrid');
+                    const titleElement = document.querySelector('.all-products-title');
+                    
+                    productGridContainer.innerHTML = '';
+                    
+                    if (productsSnapshot.empty) {
+                        loadingElement.style.display = 'none';
+                        emptyElement.style.display = 'block';
+                        titleElement.style.display = 'block';
+                    } else {
+                        loadingElement.style.display = 'none';
+                        emptyElement.style.display = 'none';
+                        titleElement.style.display = 'block';
+                        
+                        const productsGrid = document.createElement('div');
+                        productsGrid.className = 'products-grid';
+                        
+                        const products = [];
+                        productsSnapshot.forEach((doc) => {
+                            products.push({ id: doc.id, ...doc.data() });
+                        });
+                        
+                        // Apply responsive classes based on product count
+                        if (products.length === 1) {
+                            productsGrid.classList.add('single-product');
+                        } else if (products.length === 2) {
+                            productsGrid.classList.add('two-products');
+                        }
+                        
+                        // Render each product
+                        products.forEach((product, index) => {
+                            const productCard = document.createElement('div');
+                            productCard.className = 'product-card';
+                            productCard.setAttribute('data-product', product.id);
+                            
+                            productCard.innerHTML = `
+                                ${product.badge ? `<div class="product-badge" id="product-badge-${index}">${product.badge}</div>` : ''}
+                                <img src="${product.mainImage}" alt="${product.name}" class="product-card-image">
+                                <div class="product-card-info">
+                                    <h3 class="product-card-name">${product.name}</h3>
+                                    <div class="product-card-price">${product.price}</div>
+                                    <a href="${product.buttonLink}" target="_blank" class="product-card-btn">${product.buttonText}</a>
+                                </div>
+                            `;
+                            
+                            productsGrid.appendChild(productCard);
+                            
+                            // Add click event for modal
+                            productCard.addEventListener('click', function(e) {
+                                if (e.target.closest('.product-card-btn') || 
+                                    e.target.closest('.product-badge')) {
+                                    return;
+                                }
+                                
+                                openProductModal(product);
+                            });
+                        });
+                        
+                        productGridContainer.appendChild(productsGrid);
+                    }
+                } catch (error) {
+                    console.error('Error loading product grid:', error);
+                    document.getElementById('productGridLoading').style.display = 'none';
+                }
+            }
+            
+            // ============== PRODUCT MODAL FUNCTIONALITY ==============
             const productModal = document.getElementById('productModal');
             const modalCloseBtn = document.getElementById('modalCloseBtn');
             const modalCarousel = document.getElementById('modalCarousel');
@@ -1937,27 +2361,25 @@
             let modalCurrentSlide = 0;
             let modalTotalSlides = 0;
             let modalImages = [];
+            let currentProductData = null;
             
             // Open product modal
             function openProductModal(product) {
-                if (!product) return;
+                currentProductData = product;
                 
-                // Set modal content
                 modalProductName.textContent = product.name;
-                modalProductDesc.textContent = product.description || '';
+                modalProductDesc.textContent = product.description;
                 modalProductPrice.textContent = product.price;
-                modalBuyBtn.setAttribute('href', '#');
+                modalBuyBtn.setAttribute('href', product.buttonLink);
                 modalBuyBtn.setAttribute('target', '_blank');
+                modalBuyBtn.textContent = product.buttonText;
                 
-                // Set images for carousel
-                modalImages = product.gallery || [product.image];
+                modalImages = [product.mainImage, ...(product.galleryImages || [])];
                 modalTotalSlides = modalImages.length;
                 modalCurrentSlide = 0;
                 
-                // Initialize carousel
                 initModalCarousel();
                 
-                // Show modal
                 productModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
@@ -1968,13 +2390,11 @@
                 modalDots.innerHTML = '';
                 
                 modalImages.forEach((imgSrc, index) => {
-                    // Create slide
                     const slide = document.createElement('div');
                     slide.className = 'modal-carousel-slide';
                     slide.innerHTML = `<img src="${imgSrc}" alt="Product Image ${index + 1}">`;
                     modalCarousel.appendChild(slide);
                     
-                    // Create dot
                     const dot = document.createElement('div');
                     dot.className = `modal-carousel-dot ${index === 0 ? 'active' : ''}`;
                     dot.setAttribute('data-slide', index);
@@ -1994,7 +2414,6 @@
                 
                 modalCarousel.style.transform = `translateX(-${slideIndex * 100}%)`;
                 
-                // Update dots
                 document.querySelectorAll('.modal-carousel-dot').forEach((dot, index) => {
                     dot.classList.toggle('active', index === slideIndex);
                 });
@@ -2016,6 +2435,7 @@
             function closeProductModal() {
                 productModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
+                currentProductData = null;
             }
             
             // Event listeners for modal
@@ -2023,19 +2443,16 @@
             modalNextBtn.addEventListener('click', nextModalSlide);
             modalCloseBtn.addEventListener('click', closeProductModal);
             
-            // Close modal when clicking outside
             productModal.addEventListener('click', function(e) {
                 if (e.target === productModal) {
                     closeProductModal();
                 }
             });
             
-            // Close modal with Escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && productModal.classList.contains('active')) {
                     closeProductModal();
                 }
-                // Keyboard navigation for carousel
                 if (productModal.classList.contains('active')) {
                     if (e.key === 'ArrowLeft') {
                         prevModalSlide();
@@ -2044,371 +2461,6 @@
                     }
                 }
             });
-
-            // ============== FULLSCREEN GALLERY ==============
-            const fullscreenModal = document.getElementById('fullscreen-modal');
-            const modalImage = document.getElementById('modal-image');
-            const closeModal = document.getElementById('close-modal');
-            const prevGalleryBtn = document.querySelector('.prev-gallery-btn');
-            const nextGalleryBtn = document.querySelector('.next-gallery-btn');
-            const thumbnailsContainer = document.getElementById('thumbnails');
-            
-            let currentGallery = null;
-            let currentImageIndex = 0;
-            
-            function openGallery(productId, galleryImages) {
-                if (!galleryImages || galleryImages.length === 0) {
-                    console.error('No gallery found!');
-                    return;
-                }
-                
-                currentGallery = galleryImages;
-                currentImageIndex = 0;
-                
-                modalImage.src = galleryImages[0];
-                updateThumbnails();
-                updateGalleryButtons();
-                fullscreenModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function updateThumbnails() {
-                thumbnailsContainer.innerHTML = '';
-                
-                if (!currentGallery) return;
-                
-                currentGallery.forEach((imgSrc, index) => {
-                    const thumbnail = document.createElement('div');
-                    thumbnail.className = `thumbnail ${index === currentImageIndex ? 'active' : ''}`;
-                    thumbnail.innerHTML = `<img src="${imgSrc}" alt="Thumbnail ${index + 1}">`;
-                    
-                    thumbnail.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        currentImageIndex = index;
-                        modalImage.src = imgSrc;
-                        updateThumbnails();
-                        updateGalleryButtons();
-                    });
-                    
-                    thumbnailsContainer.appendChild(thumbnail);
-                });
-            }
-            
-            function updateGalleryButtons() {
-                if (!currentGallery) return;
-                
-                if (currentImageIndex === 0) {
-                    prevGalleryBtn.classList.add('hidden');
-                } else {
-                    prevGalleryBtn.classList.remove('hidden');
-                }
-                
-                if (currentImageIndex === currentGallery.length - 1) {
-                    nextGalleryBtn.classList.add('hidden');
-                } else {
-                    nextGalleryBtn.classList.remove('hidden');
-                }
-            }
-            
-            prevGalleryBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (currentImageIndex > 0 && currentGallery) {
-                    currentImageIndex--;
-                    modalImage.src = currentGallery[currentImageIndex];
-                    updateThumbnails();
-                    updateGalleryButtons();
-                }
-            });
-            
-            nextGalleryBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (currentGallery && currentImageIndex < currentGallery.length - 1) {
-                    currentImageIndex++;
-                    modalImage.src = currentGallery[currentImageIndex];
-                    updateThumbnails();
-                    updateGalleryButtons();
-                }
-            });
-            
-            closeModal.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeGallery();
-            });
-            
-            fullscreenModal.addEventListener('click', function(e) {
-                if (e.target === fullscreenModal) {
-                    closeGallery();
-                }
-            });
-            
-            function closeGallery() {
-                fullscreenModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                currentGallery = null;
-                currentImageIndex = 0;
-                thumbnailsContainer.innerHTML = '';
-            }
-            
-            // ============== LOAD PRODUCTS FROM FIREBASE ==============
-            async function loadProducts() {
-                try {
-                    console.log('Loading products from Firebase...');
-                    
-                    // Load book products
-                    const bookSnapshot = await db.collection('websiteProducts')
-                        .where('type', '==', 'book')
-                        .get();
-                    
-                    // Load grid products
-                    const gridSnapshot = await db.collection('websiteProducts')
-                        .where('type', '==', 'grid')
-                        .get();
-                    
-                    const bookProducts = [];
-                    const gridProducts = [];
-                    
-                    bookSnapshot.forEach(doc => {
-                        bookProducts.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
-                    });
-                    
-                    gridSnapshot.forEach(doc => {
-                        gridProducts.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
-                    });
-                    
-                    console.log(`Loaded ${bookProducts.length} book products and ${gridProducts.length} grid products`);
-                    
-                    // Sort book products by order
-                    bookProducts.sort((a, b) => {
-                        if (a.id === 'honeydew') return -1;
-                        if (b.id === 'honeydew') return 1;
-                        if (a.id === 'apple') return -1;
-                        if (b.id === 'apple') return 1;
-                        if (a.id === 'strawberry') return -1;
-                        if (b.id === 'strawberry') return 1;
-                        return 0;
-                    });
-                    
-                    // Sort grid products by ID
-                    gridProducts.sort((a, b) => {
-                        const aNum = parseInt(a.id) || 0;
-                        const bNum = parseInt(b.id) || 0;
-                        return aNum - bNum;
-                    });
-                    
-                    // Display products
-                    displayBookProducts(bookProducts);
-                    displayGridProducts(gridProducts);
-                    
-                } catch (error) {
-                    console.error('Error loading products:', error);
-                    // Fallback to default products
-                    loadDefaultProducts();
-                }
-            }
-            
-            function displayBookProducts(products) {
-                const bookSlidesContainer = document.getElementById('bookSlides');
-                bookSlidesContainer.innerHTML = '';
-                
-                // Add cover
-                const coverElement = document.createElement('div');
-                coverElement.className = 'product-container cover';
-                coverElement.innerHTML = `
-                    <div class="cover-content">
-                        <h2 class="cover-title">Fruitee</h2>
-                        <p class="cover-subtitle">Discover our first collection: a chosen lineup of fruity scents to be your everyday signature.</p>
-                    </div>
-                `;
-                bookSlidesContainer.appendChild(coverElement);
-                
-                // Add book products
-                products.forEach((product, index) => {
-                    const productElement = document.createElement('div');
-                    productElement.className = 'product-container';
-                    productElement.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <button class="fullscreen-btn" data-product-id="${product.id}">
-                            <i class="fas fa-expand"></i>
-                        </button>
-                        <div class="product-content">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-desc">${product.description || ''}</p>
-                            <div class="price-buy-container">
-                                <div class="product-price">${product.price}</div>
-                                <button class="buy-btn" data-product-id="${product.id}">Get it Now</button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Add event listener for fullscreen button
-                    const fullscreenBtn = productElement.querySelector('.fullscreen-btn');
-                    fullscreenBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        openGallery(product.id, product.gallery || [product.image]);
-                    });
-                    
-                    // Add event listener for buy button
-                    const buyBtn = productElement.querySelector('.buy-btn');
-                    buyBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        openProductModal(product);
-                    });
-                    
-                    // Add click event to open product modal
-                    productElement.addEventListener('click', function(e) {
-                        if (!e.target.closest('.fullscreen-btn') && !e.target.closest('.buy-btn')) {
-                            openProductModal(product);
-                        }
-                    });
-                    
-                    bookSlidesContainer.appendChild(productElement);
-                });
-                
-                // Update total slides and reset slider
-                totalSlides = document.querySelectorAll('.product-container').length;
-                currentPage = 0;
-                updateSlide();
-            }
-            
-            function displayGridProducts(products) {
-                const productsGrid = document.getElementById('productsGrid');
-                productsGrid.innerHTML = '';
-                
-                products.forEach((product, index) => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'product-card';
-                    productCard.setAttribute('data-product', product.id);
-                    
-                    productCard.innerHTML = `
-                        <a href="#products" class="product-badge">${product.badge || 'Fruitee Collection'}</a>
-                        <img src="${product.image}" alt="${product.name}" class="product-card-image">
-                        <div class="product-card-info">
-                            <h3 class="product-card-name">${product.name}</h3>
-                            <div class="product-card-price">${product.price}</div>
-                            <button class="product-card-btn">Buy Now</button>
-                        </div>
-                    `;
-                    
-                    // Add click event to open product modal
-                    productCard.addEventListener('click', function(e) {
-                        if (!e.target.closest('.product-card-btn') && 
-                            !e.target.closest('.product-badge')) {
-                            openProductModal(product);
-                        }
-                    });
-                    
-                    // Add click event to buy button
-                    const buyBtn = productCard.querySelector('.product-card-btn');
-                    buyBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        openProductModal(product);
-                    });
-                    
-                    productsGrid.appendChild(productCard);
-                });
-            }
-            
-            function loadDefaultProducts() {
-                // Default products if Firebase fails
-                const defaultBookProducts = [
-                    {
-                        id: 'honeydew',
-                        name: 'Fruitee HoneyDew',
-                        price: 'RM24',
-                        description: 'Smell like Honey Dew',
-                        badge: 'Fruitee Collection',
-                        type: 'book',
-                        image: 'https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C',
-                        gallery: [
-                            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
-                        ]
-                    },
-                    {
-                        id: 'apple',
-                        name: 'Fruitee Apple',
-                        price: 'RM24',
-                        description: 'It smell like Apple',
-                        badge: 'Fruitee Collection',
-                        type: 'book',
-                        image: 'https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*',
-                        gallery: [
-                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
-                        ]
-                    },
-                    {
-                        id: 'strawberry',
-                        name: 'Fruitee Strawberry',
-                        price: 'RM24',
-                        description: 'It does smell like Strawberry',
-                        badge: 'Fruitee Collection',
-                        type: 'book',
-                        image: 'https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*',
-                        gallery: [
-                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
-                        ]
-                    }
-                ];
-                
-                const defaultGridProducts = [
-                    {
-                        id: '1',
-                        name: 'Fruitee Honey Dew',
-                        price: 'RM 24',
-                        description: 'A refreshing and sweet scent that captures the essence of fresh honey dew melon.',
-                        badge: 'Fruitee Collection',
-                        type: 'grid',
-                        image: 'https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/honeydew-shutterstock_1428257837.jpg?itok=R7RPvV1C?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-                        gallery: [
-                            'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1517423568366-8b83523034fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
-                        ]
-                    },
-                    {
-                        id: '2',
-                        name: 'Fruitee Apple',
-                        price: 'RM 24',
-                        description: 'Crisp and clean apple fragrance that brings a fresh, fruity aroma to your day.',
-                        badge: 'Fruitee Collection',
-                        type: 'grid',
-                        image: 'https://hips.hearstapps.com/hmg-prod/images/apples-at-farmers-market-royalty-free-image-1627321463.jpg?crop=1.00xw:0.631xh;0.00160xw,0.206xh&resize=1400:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-                        gallery: [
-                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
-                        ]
-                    },
-                    {
-                        id: '3',
-                        name: 'Fruitee Strawberry',
-                        price: 'RM 24',
-                        description: 'Sweet and juicy strawberry scent that\'s both delightful and long-lasting.',
-                        badge: 'Fruitee Collection',
-                        type: 'grid',
-                        image: 'https://hips.hearstapps.com/clv.h-cdn.co/assets/15/22/1432664914-strawberry-facts1.jpg?resize=980:*?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
-                        gallery: [
-                            'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80',
-                            'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80'
-                        ]
-                    }
-                ];
-                
-                displayBookProducts(defaultBookProducts);
-                displayGridProducts(defaultGridProducts);
-            }
             
             // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2427,24 +2479,10 @@
                 });
             });
             
-            // Initialize everything
+            // ============== INITIALIZE EVERYTHING ==============
             initHeroSlider();
-            loadProducts();
-            
-            // Resize handler for book slider
-            window.addEventListener('resize', function() {
-                const maxPage = getMaxPage();
-                if (currentPage > maxPage) {
-                    currentPage = maxPage;
-                }
-                updateSlide();
-            });
-            
-            // Real-time updates from Firebase
-            db.collection('websiteProducts').onSnapshot((snapshot) => {
-                console.log('Products updated from Firebase');
-                loadProducts();
-            });
+            loadBookCollections();
+            loadProductGrid();
         });
     </script>
 </body>
