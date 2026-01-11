@@ -9,7 +9,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <link rel="icon" type="image/png" href="images/Logo.png">
     <style>
         * {
             margin: 0;
@@ -272,6 +271,23 @@
             overflow-y: auto;
         }
 
+        .admin-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 2px;
+        }
+
+        .admin-sidebar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
         .sidebar-nav {
             list-style: none;
         }
@@ -337,6 +353,273 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #f3f4f6;
             word-wrap: break-word;
+        }
+
+        /* ============== ACTION HEADER ============== */
+        .action-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .sortable-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sortable-item {
+            background: white;
+            border: 1px solid var(--gray-200);
+            margin-bottom: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+            cursor: move;
+        }
+
+        .sortable-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .sortable-item.sortable-ghost {
+            opacity: 0.4;
+            background: #f8f9fa;
+        }
+
+        .sortable-item.sortable-chosen {
+            background: #f0f0f0;
+            border-color: var(--primary);
+        }
+
+        .sortable-item .drag-handle {
+            color: var(--gray-600);
+            font-size: 18px;
+            margin-right: 15px;
+            cursor: move;
+            flex-shrink: 0;
+        }
+
+        .item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .item-meta {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 10px;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .edit-item-btn {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .edit-item-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .delete-item-btn {
+            color: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .delete-item-btn:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid var(--gray-200);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.01em;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray-600);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .modal-body {
+            width: 100%;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--gray-600);
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .product-fields {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 1px solid var(--gray-200);
+        }
+
+        .add-product-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .add-product-btn:hover {
+            background: #404040;
+        }
+
+        .product-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .remove-product-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .remove-product-btn:hover {
+            background: #b91c1c;
         }
 
         /* Profile Settings */
@@ -472,10 +755,101 @@
             min-width: 200px;
         }
 
-        /* Save button */
+        .toggle-text {
+            font-size: 15px;
+            color: var(--gray-600);
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        /* Tooltip */
+        .tooltip-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .tooltip-icon {
+            color: var(--gray-600);
+            font-size: 14px;
+            cursor: help;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            font-weight: normal;
+            word-wrap: break-word;
+            max-width: min(200px, 90vw);
+            box-sizing: border-box;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip-wrapper:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Tooltip editor */
+        .tooltip-editor {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid var(--gray-200);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .tooltip-editor label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary);
+            font-size: 15px;
+        }
+
+        .tooltip-editor textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--gray-200);
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Lato';
+            line-height: 1.4;
+            box-sizing: border-box;
+        }
+
+        .tooltip-editor textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         .save-btn {
             padding: 14px 32px;
-            background: #000000;
+            background: var(--primary);
             color: white;
             border: 1px solid transparent;
             font-weight: 600;
@@ -529,7 +903,7 @@
             font-weight: 600;
         }
 
-        /* Create Post */
+        /* ============== CREATE POST SECTION STYLES ============== */
         .post-form textarea {
             width: 100%;
             min-height: 180px;
@@ -646,14 +1020,38 @@
         }
 
         .post-item.pinned {
-            border-left: 4px solid #000000;
+            border-left: 4px solid var(--primary);
+        }
+
+        .post-item.archived {
+            opacity: 0.6;
+            background: #f8f9fa;
+        }
+
+        .post-item.archived .post-content-preview {
+            position: relative;
+        }
+
+        .post-item.archived .post-content-preview::after {
+            content: "ARCHIVED";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 15px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 3px;
+            z-index: 1;
         }
 
         .pin-badge {
             position: absolute;
             top: -10px;
             right: 15px;
-            background: #000000;
+            background: var(--primary);
             color: white;
             padding: 4px 10px;
             font-size: 11px;
@@ -679,7 +1077,7 @@
         }
 
         .post-content-preview a {
-            color: #0E3659;
+            color: var(--primary);
             text-decoration: underline;
             font-weight: 500;
             word-break: break-all;
@@ -712,13 +1110,15 @@
             display: inline-block;
         }
 
+        /* FIXED: Mobile compatibility for post actions */
         .post-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-shrink: 0;
             margin-top: 15px;
             width: 100%;
-            justify-content: flex-end;
+            justify-content: flex-start;
+            flex-wrap: wrap;
         }
 
         @media (min-width: 768px) {
@@ -726,6 +1126,7 @@
                 margin-top: 0;
                 width: auto;
                 justify-content: flex-start;
+                flex-wrap: nowrap;
             }
         }
 
@@ -749,534 +1150,238 @@
         }
 
         .pin-btn {
-            color: #000000;
-            border-color: #000000;
+            color: var(--primary);
+            border-color: var(--primary);
         }
 
         .pin-btn:hover {
-            background: #000000;
+            background: var(--primary);
             color: white;
         }
 
         .pin-btn.pinned {
-            background: #000000;
+            background: var(--primary);
             color: white;
-            border-color: #000000;
+            border-color: var(--primary);
         }
 
-        .delete-btn {
+        .edit-post-btn {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .edit-post-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .archive-btn {
+            color: #666;
+            border-color: #666;
+        }
+
+        .archive-btn:hover {
+            background: #666;
+            color: white;
+        }
+
+        .archive-btn.archived {
+            background: #666;
+            color: white;
+        }
+
+        .delete-post-btn {
             color: #dc2626;
             border-color: #dc2626;
         }
 
-        .delete-btn:hover {
+        .delete-post-btn:hover {
             background: #dc2626;
             color: white;
         }
 
-        /* ============== PRODUCT MANAGEMENT ============== */
-        .products-editor-section {
-            display: none;
-        }
-        
-        .products-list-container {
+        /* Filter buttons for posts */
+        .posts-filter {
             display: flex;
-            flex-direction: column;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .product-section-title {
-            font-size: 22px;
-            font-weight: 600;
+            gap: 10px;
             margin-bottom: 20px;
-            color: var(--primary);
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--gray-200);
+            flex-wrap: wrap;
         }
-        
-        .products-grid-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-        
-        .product-list-item {
+
+        .filter-btn {
+            padding: 8px 16px;
             background: white;
             border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        
-        .product-list-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-        
-        .product-list-item.active {
-            border-color: var(--primary);
-            background: #f8f9fa;
-        }
-        
-        .product-thumbnail {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid var(--gray-200);
-            flex-shrink: 0;
-        }
-        
-        .product-list-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .product-list-name {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .product-list-price {
             font-size: 14px;
-            color: red;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .product-list-type {
-            display: inline-block;
-            font-size: 11px;
-            color: white;
-            background: #666;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-top: 5px;
-        }
-        
-        .product-list-type.book {
-            background: #0E3659;
-        }
-        
-        .product-list-type.grid {
-            background: #182D40;
-        }
-        
-        /* Add Product Button */
-        .add-product-section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: #f8f9fa;
-            border: 2px dashed var(--gray-200);
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .add-product-btn {
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #0E3659 0%, #182D40 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
+            transition: all 0.2s;
+            display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            font-weight: 500;
+            white-space: nowrap;
+            text-decoration: none;
         }
-        
-        .add-product-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(14, 54, 89, 0.3);
-        }
-        
-        /* Product Edit Form - MOBILE OPTIMIZED */
-        .product-edit-form-container {
+
+        .filter-btn:hover {
             background: #f8f9fa;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            padding: 30px;
-            margin-top: 30px;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Edit Post Modal */
+        .edit-post-modal {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            overflow: visible;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        
-        .product-edit-form-container.active {
-            display: block;
+
+        .edit-post-modal.active {
+            display: flex;
+            opacity: 1;
         }
-        
-        .product-edit-header {
+
+        .edit-post-modal-content {
+            background: white;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border: 1px solid var(--gray-200);
+        }
+
+        .edit-post-modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-            width: 100%;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-200);
         }
-        
-        .product-edit-title {
-            font-size: 24px;
+
+        .edit-post-modal-title {
+            font-size: 22px;
             font-weight: 700;
             color: var(--primary);
-            word-wrap: break-word;
-            flex: 1;
-            min-width: 0;
+            letter-spacing: -0.01em;
         }
-        
-        .product-edit-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .product-delete-btn {
-            padding: 10px 20px;
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-        
-        .product-delete-btn:hover {
-            background: #fecaca;
-        }
-        
-        .product-form-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-        }
-        
-        @media (min-width: 768px) {
-            .product-form-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        .product-field-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-        }
-        
-        .product-field-group.full-width {
-            grid-column: 1 / -1;
-        }
-        
-        .product-field-label {
-            font-size: 14px;
-            font-weight: 500;
+
+        .edit-post-modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
             color: var(--gray-600);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        
-        .product-field-label i {
-            color: #666;
-            font-size: 12px;
-        }
-        
-        .product-input {
-            padding: 12px 15px;
-            border: 1px solid var(--gray-200);
-            border-radius: 6px;
-            font-size: 15px;
-            transition: all 0.3s;
-            background: white;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .product-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
-        }
-        
-        .product-textarea {
-            min-height: 100px;
-            resize: vertical;
-            font-family: 'Lato';
-            line-height: 1.5;
-            width: 100%;
-        }
-        
-        /* Image Gallery Management */
-        .image-gallery-container {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-            width: 100%;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-        
-        .image-gallery-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary);
-            word-wrap: break-word;
-        }
-        
-        .image-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        
-        .gallery-image-item {
-            position: relative;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid var(--gray-200);
-            width: 100%;
-            aspect-ratio: 1/1;
-        }
-        
-        .gallery-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        
-        .gallery-image-actions {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            display: flex;
-            gap: 5px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .gallery-image-item:hover .gallery-image-actions {
-            opacity: 1;
-        }
-        
-        @media (max-width: 768px) {
-            .gallery-image-actions {
-                opacity: 1;
-                background: rgba(0, 0, 0, 0.5);
-                padding: 3px;
-                border-radius: 4px;
-            }
-        }
-        
-        .gallery-image-btn {
+            cursor: pointer;
             width: 30px;
             height: 30px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            padding: 0;
         }
-        
-        .gallery-image-btn:hover {
-            background: rgba(0, 0, 0, 0.9);
-        }
-        
-        .gallery-image-btn.set-main {
-            background: rgba(255, 193, 7, 0.9);
-        }
-        
-        .add-image-section {
-            border-top: 1px solid var(--gray-200);
-            padding-top: 20px;
-            margin-top: 20px;
-            width: 100%;
-        }
-        
-        .add-image-input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-        
-        .add-image-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid var(--gray-200);
-            border-radius: 6px;
-            font-size: 14px;
-            min-width: 200px;
-            box-sizing: border-box;
-        }
-        
-        .add-image-btn {
-            padding: 12px 20px;
-            background: #0E3659;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        
-        .add-image-btn:hover {
-            background: #182D40;
-        }
-        
-        /* Form Actions - MOBILE OPTIMIZED */
-        .product-form-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            width: 100%;
-        }
-        
-        .product-save-btn {
-            padding: 14px 32px;
-            background: #000000;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            flex: 1;
-            min-width: 200px;
-            justify-content: center;
-        }
-        
-        .product-save-btn:hover {
-            background: #404040;
-            transform: translateY(-2px);
-        }
-        
-        .product-cancel-btn {
-            padding: 14px 32px;
-            background: #f3f4f6;
-            color: var(--gray-600);
-            border: 1px solid var(--gray-200);
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            flex: 1;
-            min-width: 200px;
-            justify-content: center;
-        }
-        
-        .product-cancel-btn:hover {
-            background: #e5e7eb;
+
+        .edit-post-modal-close:hover {
             color: var(--primary);
         }
-        
-        /* Status Messages */
-        .status-message {
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            display: none;
+
+        .edit-post-modal-form {
             width: 100%;
+        }
+
+        .edit-post-modal textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 1px solid var(--gray-200);
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+            font-family: 'Lato';
+            line-height: 1.6;
+            background: white;
             box-sizing: border-box;
         }
-        
-        .status-success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-            display: block;
+
+        .edit-post-modal textarea:focus {
+            outline: none;
+            border-color: var(--primary);
         }
-        
-        .status-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-            display: block;
-        }
-        
-        .status-loading {
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fde68a;
+
+        .edit-post-modal-image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+            margin: 15px 0;
+            border: 1px solid var(--gray-200);
+            padding: 8px;
+            background: #f8fafc;
             display: block;
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            left: 20px;
+        .edit-post-modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            justify-content: flex-end;
+        }
+
+        .edit-post-modal-save {
+            padding: 12px 24px;
             background: var(--primary);
             color: white;
-            padding: 14px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 2000;
-            font-weight: 500;
-            text-align: center;
-            max-width: 400px;
-            margin: 0 auto;
-            box-sizing: border-box;
+            border: 1px solid transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
         }
 
-        @media (min-width: 768px) {
-            .toast {
-                right: 30px;
-                left: auto;
-                text-align: left;
-            }
+        .edit-post-modal-save:hover {
+            background: #404040;
+            transform: translateY(-1px);
         }
 
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
+        .edit-post-modal-cancel {
+            padding: 12px 24px;
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--gray-200);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+
+        .edit-post-modal-cancel:hover {
+            background: #f8f9fa;
+        }
+
+        .edit-post-modal-loading {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
         }
 
         /* Loading States */
@@ -1314,6 +1419,48 @@
             padding: 60px 20px;
             color: var(--gray-600);
             font-size: 16px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 14px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            font-weight: 500;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .toast {
+                right: 30px;
+                left: auto;
+                text-align: left;
+            }
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         /* Mobile Navigation */
@@ -1366,6 +1513,57 @@
             margin-bottom: 4px;
         }
 
+        /* Book Collection Color Customization */
+        .color-customization {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+        }
+
+        .color-customization h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .color-input-group label {
+            min-width: 120px;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--gray-200);
+            cursor: pointer;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .color-hex-input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid var(--gray-200);
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .color-hex-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 1200px) {
             :root {
@@ -1374,6 +1572,10 @@
             
             .admin-content {
                 padding: calc(var(--header-height) + 20px) 25px 40px;
+            }
+            
+            .admin-sidebar {
+                left: 25px;
             }
         }
 
@@ -1453,6 +1655,32 @@
                 width: 100%;
             }
             
+            /* FIXED: Mobile post actions layout */
+            .post-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: 15px;
+            }
+            
+            .post-action-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+                gap: 4px;
+                flex: 1;
+                min-width: calc(50% - 4px);
+                justify-content: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .post-action-btn i {
+                font-size: 12px;
+            }
+            
             .image-preview-container {
                 gap: 15px;
             }
@@ -1467,65 +1695,40 @@
                 align-self: flex-start;
             }
             
-            /* Product management responsive */
-            .products-grid-list {
-                grid-template-columns: 1fr;
+            .tooltip-text {
+                max-width: calc(100vw - 40px);
+                left: 0;
+                transform: none;
             }
             
-            .product-list-item {
-                padding: 12px;
+            .tooltip-text::after {
+                left: 20px;
             }
             
-            .product-thumbnail {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .product-edit-form-container {
+            .modal-content {
                 padding: 20px;
-                margin-left: -20px;
-                margin-right: -20px;
-                border-radius: 0;
-                border-left: none;
-                border-right: none;
-                width: calc(100% + 40px);
+                width: 95%;
             }
             
-            .product-edit-header {
+            .edit-post-modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+            
+            .action-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
             
-            .product-edit-actions {
-                width: 100%;
-                justify-content: flex-start;
-            }
-            
-            .image-gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-                gap: 10px;
-            }
-            
-            .product-form-actions {
+            .sortable-item {
                 flex-direction: column;
+                align-items: flex-start;
             }
             
-            .product-save-btn, .product-cancel-btn {
+            .item-actions {
                 width: 100%;
-                min-width: 100%;
-                justify-content: center;
-            }
-            
-            .add-image-input-group {
-                flex-direction: column;
-            }
-            
-            .add-image-input {
-                min-width: 100%;
-            }
-            
-            .add-image-btn {
-                width: 100%;
+                justify-content: flex-end;
+                margin-top: 15px;
             }
         }
 
@@ -1554,9 +1757,32 @@
                 gap: 8px;
             }
             
-            .post-image-preview {
-                max-width: 100%;
+            /* FIXED: Extra small screen post actions */
+            .post-action-btn {
+                font-size: 12px;
+                padding: 5px 8px;
+                min-width: calc(50% - 4px);
             }
+            
+            .post-action-btn span {
+                display: none;
+            }
+            
+            .post-action-btn i {
+                margin: 0;
+                font-size: 14px;
+            }
+            
+            .post-action-btn:after {
+                content: attr(data-text);
+                font-size: 11px;
+                margin-left: 4px;
+            }
+            
+            .edit-post-btn:after { content: "Edit"; }
+            .pin-btn:after { content: "Pin"; }
+            .archive-btn:after { content: "Archive"; }
+            .delete-post-btn:after { content: "Delete"; }
             
             .mobile-nav-link {
                 min-width: 55px;
@@ -1571,11 +1797,6 @@
                 padding: 8px;
             }
             
-            .post-action-btn {
-                padding: 7px 12px;
-                font-size: 13px;
-            }
-            
             .admin-logo-text {
                 font-size: 18px;
             }
@@ -1584,25 +1805,43 @@
                 gap: 8px;
             }
             
-            .product-edit-title {
-                font-size: 20px;
+            .tabs {
+                flex-wrap: wrap;
             }
             
-            .product-edit-actions {
+            .tab-btn {
+                flex: 1;
+                min-width: 50%;
+                text-align: center;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .admin-main {
+                padding: 18px 12px;
+            }
+            
+            .post-item {
+                padding: 15px;
+            }
+            
+            .login-container {
+                padding: 30px 15px;
+            }
+            
+            .posts-filter {
                 flex-direction: column;
-                width: 100%;
+                align-items: stretch;
             }
             
-            .product-delete-btn {
-                width: 100%;
+            .filter-btn {
                 justify-content: center;
-            }
-            
-            .image-gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
             }
         }
     </style>
+    <!-- SortableJS for drag and drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
     <!-- Login Page -->
@@ -1637,7 +1876,7 @@
         <!-- Header -->
         <header class="admin-header" id="adminHeader">
             <div class="admin-header-content">
-                <a href="index.html" class="admin-logo">
+                <a href="newhome.html" class="admin-logo">
                     <div class="admin-logo-icon">
                         <img src="images/Logo.png" alt="Trulune Logo">
                     </div>
@@ -1673,9 +1912,15 @@
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#edit-products" class="sidebar-link" data-section="edit-products">
-                            <i class="fas fa-edit"></i>
-                            <span>Manage Products</span>
+                        <a href="#book-collections" class="sidebar-link" data-section="book-collections">
+                            <i class="fas fa-book"></i>
+                            <span>Book Collections</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#product-grid" class="sidebar-link" data-section="product-grid">
+                            <i class="fas fa-th-large"></i>
+                            <span>Product Grid</span>
                         </a>
                     </li>
                 </ul>
@@ -1734,7 +1979,11 @@
                         <div class="form-group">
                             <div class="toggle-switch">
                                 <label class="toggle-label">
-                                    Verified Badge
+                                    Verified Badge 
+                                    <span class="tooltip-wrapper">
+                                        <i class="fas fa-question-circle tooltip-icon"></i>
+                                        <span class="tooltip-text" id="verifiedTooltipText">Official presence of Trulune Malaysia</span>
+                                    </span>
                                 </label>
                                 <label class="switch">
                                     <input type="checkbox" id="verifiedToggle">
@@ -1742,6 +1991,13 @@
                                 </label>
                                 <span class="toggle-text">Show verified badge on profile and posts</span>
                             </div>
+                        </div>
+                        
+                        <!-- Verified Badge Tooltip Editor -->
+                        <div class="tooltip-editor">
+                            <label for="verifiedTooltipInput">Verified Badge Tooltip Text *</label>
+                            <textarea id="verifiedTooltipInput" placeholder="Official presence of Trulune Malaysia">Official presence of Trulune Malaysia</textarea>
+                            <small style="color: var(--gray-600); font-size: 12px; margin-top: 5px; display: block;">This text will appear when users hover over the verified badge on the profile page.</small>
                         </div>
                         
                         <button type="submit" class="save-btn" id="saveProfileBtn">
@@ -1762,6 +2018,7 @@
 Links will automatically be clickable: https://example.com"></textarea>
                         </div>
                         
+                        <!-- Color Picker for Post Background -->
                         <div class="color-picker-container">
                             <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Post Background Color (Optional)</h3>
                             <div class="color-picker-row">
@@ -1793,6 +2050,23 @@ Links will automatically be clickable: https://example.com"></textarea>
                 <!-- Manage Posts Section -->
                 <section id="manage-posts-section" class="admin-section" style="display: none;">
                     <h2 class="section-title">Manage Posts</h2>
+                    
+                    <!-- Posts Filter -->
+                    <div class="posts-filter">
+                        <button class="filter-btn active" data-filter="all">
+                            <i class="fas fa-list"></i> All Posts
+                        </button>
+                        <button class="filter-btn" data-filter="pinned">
+                            <i class="fas fa-thumbtack"></i> Pinned
+                        </button>
+                        <button class="filter-btn" data-filter="active">
+                            <i class="fas fa-check-circle"></i> Active
+                        </button>
+                        <button class="filter-btn" data-filter="archived">
+                            <i class="fas fa-archive"></i> Archived
+                        </button>
+                    </div>
+                    
                     <div id="postsLoading" style="text-align: center; padding: 50px;">
                         <div class="posts-loading"></div>
                         <p>Loading posts...</p>
@@ -1806,152 +2080,54 @@ Links will automatically be clickable: https://example.com"></textarea>
                         <p style="color: var(--gray-600); font-size: 14px;">Create your first post to get started!</p>
                     </div>
                 </section>
-                
-                <!-- Manage Products Section -->
-                <section id="edit-products-section" class="admin-section products-editor-section" style="display: none;">
-                    <h2 class="section-title">Manage Products</h2>
-                    <p style="color: var(--gray-600); margin-bottom: 25px; font-size: 16px;">
-                        Click on any product to edit its details. Changes will appear on the homepage immediately.
-                    </p>
-                    
-                    <!-- Add Product Button -->
-                    <div class="add-product-section">
-                        <h3 style="margin-bottom: 15px; color: var(--primary); font-size: 18px; font-weight: 600;">Add New Product</h3>
-                        <p style="margin-bottom: 20px; color: var(--gray-600);">Create a new product for your collection</p>
-                        <button class="add-product-btn" id="addNewProductBtn">
-                            <i class="fas fa-plus-circle"></i> Add New Product
+
+                <!-- Book Collections Section -->
+                <section id="book-collections-section" class="admin-section" style="display: none;">
+                    <div class="action-header">
+                        <h2 class="section-title">Book Collections</h2>
+                        <button class="save-btn" id="addBookCollectionBtn">
+                            <i class="fas fa-plus"></i> Add New Collection
                         </button>
                     </div>
                     
-                    <!-- Products List View -->
-                    <div class="products-list-container">
-                        <!-- Book Products List -->
-                        <div class="product-list-section">
-                            <h3 class="product-section-title">Book Products</h3>
-                            <div class="products-grid-list" id="bookProductsList">
-                                <!-- Book products will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <!-- Grid Products List -->
-                        <div class="product-list-section">
-                            <h3 class="product-section-title">Grid Products</h3>
-                            <div class="products-grid-list" id="gridProductsList">
-                                <!-- Grid products will be loaded here -->
-                            </div>
-                        </div>
+                    <div id="bookCollectionsLoading" style="text-align: center; padding: 50px;">
+                        <div class="posts-loading"></div>
+                        <p>Loading book collections...</p>
                     </div>
                     
-                    <!-- Product Edit Form (Hidden by default) -->
-                    <div class="product-edit-form-container" id="productEditForm">
-                        <div class="product-edit-header">
-                            <h3 class="product-edit-title" id="editProductTitle">Edit Product</h3>
-                            <div class="product-edit-actions">
-                                <button class="product-delete-btn" id="deleteProductBtn">
-                                    <i class="fas fa-trash"></i> Delete Product
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <form id="productEditFormContent">
-                            <input type="hidden" id="editProductId">
-                            <div class="product-form-grid">
-                                <div class="product-field-group">
-                                    <label class="product-field-label">
-                                        <i class="fas fa-heading"></i> Product Name *
-                                    </label>
-                                    <input type="text" class="product-input" id="editProductName" 
-                                           placeholder="Enter product name" required>
-                                </div>
-                                
-                                <div class="product-field-group">
-                                    <label class="product-field-label">
-                                        <i class="fas fa-tag"></i> Price *
-                                    </label>
-                                    <input type="text" class="product-input" id="editProductPrice" 
-                                           placeholder="Enter price (e.g., RM24)" required>
-                                </div>
-                                
-                                <div class="product-field-group full-width">
-                                    <label class="product-field-label">
-                                        <i class="fas fa-align-left"></i> Description
-                                    </label>
-                                    <textarea class="product-input product-textarea" id="editProductDesc" 
-                                              placeholder="Enter product description" rows="3"></textarea>
-                                </div>
-                                
-                                <div class="product-field-group">
-                                    <label class="product-field-label">
-                                        <i class="fas fa-certificate"></i> Badge Text
-                                    </label>
-                                    <input type="text" class="product-input" id="editProductBadge" 
-                                           placeholder="Enter badge text" value="Fruitee Collection">
-                                </div>
-                                
-                                <div class="product-field-group">
-                                    <label class="product-field-label">
-                                        <i class="fas fa-layer-group"></i> Product Type
-                                    </label>
-                                    <select class="product-input" id="editProductType">
-                                        <option value="book">Book Product</option>
-                                        <option value="grid">Grid Product</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="product-field-group full-width">
-                                    <label class="product-field-label">
-                                        <i class="fas fa-image"></i> Main Image URL *
-                                    </label>
-                                    <input type="text" class="product-input" id="editProductImage" 
-                                           placeholder="Enter main image URL" required>
-                                    <div style="margin-top: 10px;">
-                                        <img src="" alt="Main Image Preview" id="editProductImagePreview" 
-                                             style="width: 150px; height: 150px; object-fit: cover; border: 1px solid var(--gray-200); border-radius: 6px; margin-top: 10px; display: none;">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Image Gallery Management -->
-                            <div class="image-gallery-container">
-                                <h4 class="image-gallery-title">Product Gallery Images</h4>
-                                <p style="color: var(--gray-600); font-size: 14px; margin-bottom: 15px;">
-                                    <strong>How it works:</strong><br>
-                                    • <strong>Book Products:</strong> Gallery appears when users click the fullscreen icon<br>
-                                    • <strong>Grid Products:</strong> Gallery appears when users click the product card<br>
-                                    • First image is always the main product image<br>
-                                    • Maximum 5 images total (1 main + 4 gallery images)
-                                </p>
-                                <div class="image-gallery-grid" id="productGalleryGrid">
-                                    <!-- Gallery images will be added here -->
-                                </div>
-                                
-                                <div class="add-image-section">
-                                    <div class="add-image-input-group">
-                                        <input type="text" class="add-image-input" id="addImageUrl" 
-                                               placeholder="Enter image URL">
-                                        <button type="button" class="add-image-btn" id="addImageBtn">
-                                            <i class="fas fa-plus"></i> Add Image
-                                        </button>
-                                    </div>
-                                    <small style="color: var(--gray-600); font-size: 13px;">
-                                        Add up to 5 images total. First image will be used as main product image.
-                                    </small>
-                                </div>
-                            </div>
-                            
-                            <!-- Status Message -->
-                            <div class="status-message" id="productStatusMessage"></div>
-                            
-                            <!-- Form Actions -->
-                            <div class="product-form-actions">
-                                <button type="submit" class="product-save-btn" id="saveProductBtn">
-                                    <i class="fas fa-save"></i> Save Product
-                                </button>
-                                <button type="button" class="product-cancel-btn" id="cancelEditBtn">
-                                    <i class="fas fa-times"></i> Cancel
-                                </button>
-                            </div>
-                        </form>
+                    <ul class="sortable-list" id="bookCollectionsList" style="display: none;">
+                        <!-- Book collections will be loaded here -->
+                    </ul>
+                    
+                    <div id="noBookCollectionsMessage" class="empty-state" style="display: none;">
+                        <i class="fas fa-book" style="font-size: 40px; color: var(--gray-200); margin-bottom: 15px;"></i>
+                        <p style="font-size: 16px; margin-bottom: 10px;">No book collections yet</p>
+                        <p style="color: var(--gray-600); font-size: 14px;">Create your first book collection to get started!</p>
+                    </div>
+                </section>
+
+                <!-- Product Grid Section -->
+                <section id="product-grid-section" class="admin-section" style="display: none;">
+                    <div class="action-header">
+                        <h2 class="section-title">Product Grid</h2>
+                        <button class="save-btn" id="addProductGridBtn">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                    </div>
+                    
+                    <div id="productGridLoading" style="text-align: center; padding: 50px;">
+                        <div class="posts-loading"></div>
+                        <p>Loading products...</p>
+                    </div>
+                    
+                    <ul class="sortable-list" id="productGridList" style="display: none;">
+                        <!-- Products will be loaded here -->
+                    </ul>
+                    
+                    <div id="noProductGridMessage" class="empty-state" style="display: none;">
+                        <i class="fas fa-box" style="font-size: 40px; color: var(--gray-200); margin-bottom: 15px;"></i>
+                        <p style="font-size: 16px; margin-bottom: 10px;">No products yet</p>
+                        <p style="color: var(--gray-600); font-size: 14px;">Create your first product to get started!</p>
                     </div>
                 </section>
             </main>
@@ -1979,13 +2155,202 @@ Links will automatically be clickable: https://example.com"></textarea>
                     </a>
                 </li>
                 <li class="mobile-nav-item">
-                    <a href="#edit-products" class="mobile-nav-link" data-section="edit-products">
-                        <i class="fas fa-edit"></i>
+                    <a href="#book-collections" class="mobile-nav-link" data-section="book-collections">
+                        <i class="fas fa-book"></i>
+                        <span>Collections</span>
+                    </a>
+                </li>
+                <li class="mobile-nav-item">
+                    <a href="#product-grid" class="mobile-nav-link" data-section="product-grid">
+                        <i class="fas fa-th-large"></i>
                         <span>Products</span>
                     </a>
                 </li>
             </ul>
         </nav>
+    </div>
+
+    <!-- Edit Post Modal -->
+    <div class="edit-post-modal" id="editPostModal">
+        <div class="edit-post-modal-content">
+            <div class="edit-post-modal-header">
+                <h3 class="edit-post-modal-title">Edit Post</h3>
+                <button class="edit-post-modal-close" id="editPostModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editPostForm" class="edit-post-modal-form">
+                <input type="hidden" id="editPostId">
+                
+                <div class="form-group">
+                    <label class="form-label">Post Content *</label>
+                    <textarea id="editPostContent" placeholder="Edit post content..." required></textarea>
+                </div>
+                
+                <!-- Color Picker for Edit -->
+                <div class="color-picker-container">
+                    <h3 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Post Background Color</h3>
+                    <div class="color-picker-row">
+                        <div class="color-preview" id="editColorPreview" style="background: #ffffff;"></div>
+                        <input type="text" class="color-input" id="editPostColor" placeholder="#FFFFFF" maxlength="7" value="#FFFFFF">
+                        <button type="button" class="post-action-btn" id="editResetColorBtn" style="padding: 8px 16px;">
+                            <i class="fas fa-undo"></i> Reset to White
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group image-input-group">
+                    <label class="form-label">Image URL (Optional)</label>
+                    <input type="text" class="image-input" id="editPostImageUrl" 
+                           placeholder="e.g., images/bookcover.png or https://example.com/image.jpg">
+                    <small class="image-help">Leave empty to remove image</small>
+                    <img id="editPostImagePreview" class="edit-post-modal-image-preview" alt="Image Preview">
+                </div>
+                
+                <div class="edit-post-modal-actions">
+                    <button type="button" class="edit-post-modal-cancel" id="editPostCancelBtn">Cancel</button>
+                    <button type="submit" class="edit-post-modal-save" id="editPostSaveBtn">
+                        <span id="editPostSaveText">Save Changes</span>
+                        <span class="edit-post-modal-loading" id="editPostLoading" style="display: none;"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book Collection Modal -->
+    <div class="modal" id="bookCollectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="bookCollectionModalTitle">Add Book Collection</h3>
+                <button class="modal-close" id="bookCollectionModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="bookCollectionForm" class="modal-body">
+                <input type="hidden" id="bookCollectionId">
+                
+                <div class="tabs">
+                    <button type="button" class="tab-btn active" data-tab="basic-info">Basic Info</button>
+                    <button type="button" class="tab-btn" data-tab="products">Products</button>
+                </div>
+                
+                <!-- Basic Info Tab -->
+                <div class="tab-content active" id="basic-info-tab">
+                    <div class="form-group">
+                        <label class="form-label">Collection Title *</label>
+                        <input type="text" class="form-input" id="bookCollectionTitle" required placeholder="e.g., Fruitee Collection">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Collection Description *</label>
+                        <textarea class="form-input" id="bookCollectionDesc" rows="4" required placeholder="Describe your collection..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Cover Image URL *</label>
+                        <input type="text" class="form-input" id="bookCollectionCover" required placeholder="e.g., images/bookcover.jpeg or https://example.com/image.jpg">
+                        <small class="image-help">Enter local path or full URL</small>
+                        <div class="image-preview-container">
+                            <img src="images/bookcover.jpeg" alt="Cover Preview" class="image-preview" id="bookCollectionCoverPreview">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Products Tab -->
+                <div class="tab-content" id="products-tab">
+                    <div id="bookCollectionProducts">
+                        <!-- Products will be added here -->
+                    </div>
+                    
+                    <button type="button" class="add-product-btn" id="addProductToCollectionBtn">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
+                    <button type="button" class="action-btn" id="bookCollectionCancelBtn">Cancel</button>
+                    <button type="submit" class="save-btn" id="saveBookCollectionBtn">
+                        <span id="saveBookCollectionText">Save Collection</span>
+                        <span class="loading" id="bookCollectionLoading" style="display: none;"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Grid Modal -->
+    <div class="modal" id="productGridModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="productGridModalTitle">Add Product</h3>
+                <button class="modal-close" id="productGridModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="productGridForm" class="modal-body">
+                <input type="hidden" id="productGridId">
+                
+                <div class="form-group">
+                    <label class="form-label">Product Name *</label>
+                    <input type="text" class="form-input" id="productGridName" required placeholder="e.g., Fruitee HoneyDew">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Product Description *</label>
+                    <textarea class="form-input" id="productGridDesc" rows="3" required placeholder="Describe your product..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Price *</label>
+                    <input type="text" class="form-input" id="productGridPrice" required placeholder="e.g., RM24">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Main Image URL *</label>
+                    <input type="text" class="form-input" id="productGridMainImage" required placeholder="e.g., images/product.jpg or https://example.com/image.jpg">
+                    <small class="image-help">Enter local path or full URL for the main product image</small>
+                    <div class="image-preview-container">
+                        <img src="" alt="Product Preview" class="image-preview" id="productGridMainImagePreview" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Gallery Images (Optional)</label>
+                    <div id="productGridGallery">
+                        <!-- Gallery images will be added here -->
+                    </div>
+                    <button type="button" class="add-product-btn" id="addGalleryImageBtn">
+                        <i class="fas fa-plus"></i> Add Gallery Image
+                    </button>
+                    <small class="image-help">Add up to 4 gallery images that will show in fullscreen mode</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Buy Button Text *</label>
+                    <input type="text" class="form-input" id="productGridButtonText" required placeholder="e.g., Get it Now">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Buy Button Link *</label>
+                    <input type="url" class="form-input" id="productGridButtonLink" required placeholder="e.g., https://example.com/buy">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Collection Badge (Optional)</label>
+                    <input type="text" class="form-input" id="productGridBadge" placeholder="e.g., Fruitee Collection">
+                    <small class="image-help">Leave empty for no badge</small>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
+                    <button type="button" class="action-btn" id="productGridCancelBtn">Cancel</button>
+                    <button type="submit" class="save-btn" id="saveProductGridBtn">
+                        <span id="saveProductGridText">Save Product</span>
+                        <span class="loading" id="productGridLoading" style="display: none;"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Toast Notification -->
@@ -2007,18 +2372,12 @@ Links will automatically be clickable: https://example.com"></textarea>
         const db = firebase.firestore();
         const auth = firebase.auth();
         
-        // Store last login time
+        // Store last login time and current filter
         let lastLoginTime = null;
-        
-        // Product data
-        let productsData = {
-            bookProducts: [],
-            gridProducts: []
-        };
-        
-        // Current product being edited
-        let currentEditingProduct = null;
-        let isNewProduct = false;
+        let currentFilter = 'all';
+        let currentEditingPostId = null;
+        let currentEditingCollectionId = null;
+        let currentEditingProductId = null;
         
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
@@ -2037,17 +2396,21 @@ Links will automatically be clickable: https://example.com"></textarea>
             const postColorInput = document.getElementById('postColor');
             const resetColorBtn = document.getElementById('resetColorBtn');
             
-            // Product editing elements
-            const productEditForm = document.getElementById('productEditForm');
-            const deleteProductBtn = document.getElementById('deleteProductBtn');
-            const saveProductBtn = document.getElementById('saveProductBtn');
-            const cancelEditBtn = document.getElementById('cancelEditBtn');
-            const addImageBtn = document.getElementById('addImageBtn');
-            const addImageUrl = document.getElementById('addImageUrl');
-            const productGalleryGrid = document.getElementById('productGalleryGrid');
-            const productStatusMessage = document.getElementById('productStatusMessage');
-            const addNewProductBtn = document.getElementById('addNewProductBtn');
-            const editProductId = document.getElementById('editProductId');
+            // Edit color picker elements
+            const editColorPreview = document.getElementById('editColorPreview');
+            const editPostColorInput = document.getElementById('editPostColor');
+            const editResetColorBtn = document.getElementById('editResetColorBtn');
+            
+            // Verified badge tooltip input
+            const verifiedTooltipInput = document.getElementById('verifiedTooltipInput');
+            
+            // Modal elements
+            const bookCollectionModal = document.getElementById('bookCollectionModal');
+            const bookCollectionModalClose = document.getElementById('bookCollectionModalClose');
+            const productGridModal = document.getElementById('productGridModal');
+            const productGridModalClose = document.getElementById('productGridModalClose');
+            const editPostModal = document.getElementById('editPostModal');
+            const editPostModalClose = document.getElementById('editPostModalClose');
             
             // Header scroll effect
             window.addEventListener('scroll', function() {
@@ -2074,6 +2437,112 @@ Links will automatically be clickable: https://example.com"></textarea>
                 colorPreview.style.background = '#FFFFFF';
             });
             
+            // Edit color picker initialization
+            editPostColorInput.addEventListener('input', function() {
+                let color = this.value.trim();
+                if (color.startsWith('#')) {
+                    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                    if (hexRegex.test(color)) {
+                        editColorPreview.style.background = color;
+                    }
+                }
+            });
+            
+            editResetColorBtn.addEventListener('click', function() {
+                editPostColorInput.value = '#FFFFFF';
+                editColorPreview.style.background = '#FFFFFF';
+            });
+            
+            // Edit post modal setup
+            function closeEditPostModal() {
+                editPostModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                currentEditingPostId = null;
+            }
+            
+            editPostModalClose.addEventListener('click', closeEditPostModal);
+            document.getElementById('editPostCancelBtn').addEventListener('click', closeEditPostModal);
+            
+            editPostModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEditPostModal();
+                }
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && editPostModal.classList.contains('active')) {
+                    closeEditPostModal();
+                }
+            });
+            
+            // Edit image preview
+            document.getElementById('editPostImageUrl').addEventListener('input', function() {
+                const preview = document.getElementById('editPostImagePreview');
+                if (this.value.trim()) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+            
+            // Edit post form submission
+            document.getElementById('editPostForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const editSaveBtn = document.getElementById('editPostSaveBtn');
+                const editSaveText = document.getElementById('editPostSaveText');
+                const editLoading = document.getElementById('editPostLoading');
+                
+                editSaveBtn.disabled = true;
+                editSaveText.style.display = 'none';
+                editLoading.style.display = 'inline-block';
+                
+                try {
+                    const postId = document.getElementById('editPostId').value;
+                    const content = document.getElementById('editPostContent').value.trim();
+                    
+                    if (!content) {
+                        showToast('Please enter post content');
+                        return;
+                    }
+                    
+                    let postColor = editPostColorInput.value.trim();
+                    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                    if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
+                        postColor = '#FFFFFF';
+                    }
+                    
+                    const updateData = {
+                        content: content,
+                        backgroundColor: postColor,
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    const imageUrl = document.getElementById('editPostImageUrl').value.trim();
+                    if (imageUrl) {
+                        updateData.imageUrl = imageUrl;
+                    } else {
+                        // Remove image if field is empty
+                        updateData.imageUrl = firebase.firestore.FieldValue.delete();
+                    }
+                    
+                    await db.collection('posts').doc(postId).update(updateData);
+                    
+                    showToast('Post updated successfully!');
+                    closeEditPostModal();
+                    loadPosts();
+                    
+                } catch (error) {
+                    console.error('Error updating post:', error);
+                    showToast('Error updating post: ' + error.message);
+                } finally {
+                    editSaveBtn.disabled = false;
+                    editSaveText.style.display = 'inline';
+                    editLoading.style.display = 'none';
+                }
+            });
+            
             // Check if already logged in
             const checkAuth = () => {
                 const user = auth.currentUser;
@@ -2085,7 +2554,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                     updateLastLoginDisplay();
                     loadProfileData();
                     loadPosts();
-                    loadProductsList();
+                    loadBookCollections();
+                    loadProductGrid();
                 } else {
                     loginPage.style.display = 'flex';
                     adminPanel.style.display = 'none';
@@ -2128,7 +2598,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                     updateLastLoginDisplay();
                     loadProfileData();
                     loadPosts();
-                    loadProductsList();
+                    loadBookCollections();
+                    loadProductGrid();
                 } else {
                     loginPage.style.display = 'flex';
                     adminPanel.style.display = 'none';
@@ -2248,15 +2719,14 @@ Links will automatically be clickable: https://example.com"></textarea>
                     sec.style.display = 'none';
                 });
                 
-                const sectionElement = document.getElementById(`${section}-section`);
-                if (sectionElement) {
-                    sectionElement.style.display = 'block';
-                }
+                document.getElementById(`${section}-section`).style.display = 'block';
                 
                 if (section === 'manage-posts') {
                     loadPosts();
-                } else if (section === 'edit-products') {
-                    loadProductsList();
+                } else if (section === 'book-collections') {
+                    loadBookCollections();
+                } else if (section === 'product-grid') {
+                    loadProductGrid();
                 }
             }
             
@@ -2272,6 +2742,15 @@ Links will automatically be clickable: https://example.com"></textarea>
                         document.getElementById('profileBio').value = data.bio || '';
                         document.getElementById('verifiedToggle').checked = data.verified || false;
                         
+                        if (data.verifiedTooltip) {
+                            verifiedTooltipInput.value = data.verifiedTooltip;
+                        }
+                        
+                        const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                        if (verifiedTooltip) {
+                            verifiedTooltip.textContent = data.verifiedTooltip || 'Official presence of Trulune Malaysia';
+                        }
+                        
                         const profileImageUrl = document.getElementById('profileImageUrl');
                         const profileImagePreview = document.getElementById('profileImagePreview');
                         
@@ -2286,6 +2765,22 @@ Links will automatically be clickable: https://example.com"></textarea>
                         profileImageUrl.addEventListener('input', function() {
                             if (this.value.trim()) {
                                 profileImagePreview.src = this.value;
+                            }
+                        });
+                        
+                        document.getElementById('verifiedToggle').addEventListener('change', function() {
+                            const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                            if (verifiedTooltip) {
+                                verifiedTooltip.textContent = this.checked ? 
+                                    (verifiedTooltipInput.value || 'Official presence of Trulune Malaysia') : 
+                                    'Verified badge will be hidden on profile and posts';
+                            }
+                        });
+                        
+                        verifiedTooltipInput.addEventListener('input', function() {
+                            const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                            if (verifiedTooltip) {
+                                verifiedTooltip.textContent = this.value || 'Official presence of Trulune Malaysia';
                             }
                         });
                     }
@@ -2360,6 +2855,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                         username: document.getElementById('profileUsername').value.trim().replace('@', ''),
                         bio: document.getElementById('profileBio').value.trim(),
                         verified: document.getElementById('verifiedToggle').checked,
+                        verifiedTooltip: verifiedTooltipInput.value.trim() || 'Official presence of Trulune Malaysia',
                         profileImage: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
                         updatedAt: new Date().toISOString()
                     };
@@ -2367,6 +2863,11 @@ Links will automatically be clickable: https://example.com"></textarea>
                     await db.collection('profile').doc('main').set(profileData, { merge: true });
                     
                     await updateExistingPostsWithProfileInfo(profileData);
+                    
+                    const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                    if (verifiedTooltip) {
+                        verifiedTooltip.textContent = profileData.verifiedTooltip;
+                    }
                     
                     showToast('Profile updated successfully! All existing posts have been updated.');
                     
@@ -2429,7 +2930,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                     const profileData = profileDoc.exists ? profileDoc.data() : {
                         name: 'Trulune Malaysia',
                         profileImage: 'images/Logo.png',
-                        verified: false
+                        verified: false,
+                        verifiedTooltip: 'Official presence of Trulune Malaysia'
                     };
                     
                     let postColor = postColorInput.value.trim();
@@ -2448,7 +2950,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                         createdAt: new Date().toISOString(),
                         likes: 0,
                         likedBy: [],
-                        pinned: false
+                        pinned: false,
+                        archived: false
                     };
                     
                     const imageUrl = document.getElementById('postImageUrl').value.trim();
@@ -2478,7 +2981,53 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Load and manage posts with pin feature
+            // Open edit post modal
+            function openEditPostModal(postId, postData) {
+                currentEditingPostId = postId;
+                
+                // Fill form with current data
+                document.getElementById('editPostId').value = postId;
+                document.getElementById('editPostContent').value = postData.content || '';
+                
+                // Set color
+                const bgColor = postData.backgroundColor || '#FFFFFF';
+                document.getElementById('editPostColor').value = bgColor;
+                editColorPreview.style.background = bgColor;
+                
+                // Set image
+                const imageUrl = postData.imageUrl || '';
+                document.getElementById('editPostImageUrl').value = imageUrl;
+                
+                const preview = document.getElementById('editPostImagePreview');
+                if (imageUrl) {
+                    preview.src = imageUrl;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+                
+                // Open modal
+                editPostModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Archive/Unarchive post
+            async function toggleArchivePost(postId, isArchived) {
+                try {
+                    await db.collection('posts').doc(postId).update({
+                        archived: !isArchived,
+                        updatedAt: new Date().toISOString()
+                    });
+                    
+                    showToast(isArchived ? 'Post restored from archive' : 'Post archived');
+                    loadPosts();
+                } catch (error) {
+                    console.error('Error toggling archive:', error);
+                    showToast('Error updating post');
+                }
+            }
+            
+            // Load and manage posts with archive, edit, and filter features
             async function loadPosts() {
                 const postsLoading = document.getElementById('postsLoading');
                 const postsList = document.getElementById('postsList');
@@ -2521,7 +3070,34 @@ Links will automatically be clickable: https://example.com"></textarea>
                             postsArray.push(post);
                         });
                         
-                        postsArray.sort((a, b) => {
+                        // Apply filter
+                        let filteredPosts = postsArray;
+                        if (currentFilter === 'pinned') {
+                            filteredPosts = postsArray.filter(post => post.pinned && !post.archived);
+                        } else if (currentFilter === 'active') {
+                            filteredPosts = postsArray.filter(post => !post.archived);
+                        } else if (currentFilter === 'archived') {
+                            filteredPosts = postsArray.filter(post => post.archived);
+                        }
+                        
+                        if (filteredPosts.length === 0) {
+                            postsLoading.style.display = 'none';
+                            noPostsMessage.style.display = 'block';
+                            noPostsMessage.innerHTML = `
+                                <i class="fas fa-${currentFilter === 'archived' ? 'archive' : 'newspaper'}" 
+                                   style="font-size: 40px; color: var(--gray-200); margin-bottom: 15px;"></i>
+                                <p style="font-size: 16px; margin-bottom: 10px;">
+                                    No ${currentFilter === 'all' ? '' : currentFilter} posts yet
+                                </p>
+                                <p style="color: var(--gray-600); font-size: 14px;">
+                                    ${currentFilter === 'archived' ? 'No archived posts' : 'Create your first post to get started!'}
+                                </p>
+                            `;
+                            return;
+                        }
+                        
+                        // Sort: pinned posts first, then by date
+                        filteredPosts.sort((a, b) => {
                             if (a.pinned && !b.pinned) return -1;
                             if (!a.pinned && b.pinned) return 1;
                             
@@ -2530,17 +3106,18 @@ Links will automatically be clickable: https://example.com"></textarea>
                             return timeB - timeA;
                         });
                         
-                        postsArray.forEach((post) => {
+                        filteredPosts.forEach((post) => {
                             const postId = post.id;
+                            const isArchived = post.archived || false;
                             
                             const dateText = formatTimestamp(post.timestamp || post.createdAt);
                             
                             const formattedContent = post.content ? 
-                                post.content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #0E3659; text-decoration: underline; font-weight: 500;">$1</a>') : 
+                                post.content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: var(--primary); text-decoration: underline; font-weight: 500;">$1</a>') : 
                                 '';
                             
                             const postItem = document.createElement('div');
-                            postItem.className = `post-item ${post.pinned ? 'pinned' : ''}`;
+                            postItem.className = `post-item ${post.pinned ? 'pinned' : ''} ${isArchived ? 'archived' : ''}`;
                             postItem.innerHTML = `
                                 ${post.pinned ? '<div class="pin-badge"><i class="fas fa-thumbtack"></i> PINNED</div>' : ''}
                                 <div class="post-content-preview">
@@ -2549,14 +3126,21 @@ Links will automatically be clickable: https://example.com"></textarea>
                                     <div class="post-stats">
                                         <span><i class="fas fa-heart"></i> ${post.likes || 0} likes</span>
                                         <span class="post-date">${dateText}</span>
+                                        ${isArchived ? '<span style="color: #666; font-weight: 600;"><i class="fas fa-archive"></i> Archived</span>' : ''}
                                     </div>
                                 </div>
                                 <div class="post-actions">
-                                    <button class="post-action-btn pin-btn ${post.pinned ? 'pinned' : ''}" data-post-id="${postId}">
-                                        <i class="fas fa-thumbtack"></i> ${post.pinned ? 'Unpin' : 'Pin'}
+                                    <button class="post-action-btn edit-post-btn" data-post-id="${postId}" data-text="Edit">
+                                        <i class="fas fa-edit"></i> <span>Edit</span>
                                     </button>
-                                    <button class="post-action-btn delete-btn" data-post-id="${postId}">
-                                        <i class="fas fa-trash"></i> Delete
+                                    <button class="post-action-btn pin-btn ${post.pinned ? 'pinned' : ''}" data-post-id="${postId}" data-text="${post.pinned ? 'Unpin' : 'Pin'}">
+                                        <i class="fas fa-thumbtack"></i> <span>${post.pinned ? 'Unpin' : 'Pin'}</span>
+                                    </button>
+                                    <button class="post-action-btn archive-btn ${isArchived ? 'archived' : ''}" data-post-id="${postId}" data-text="${isArchived ? 'Restore' : 'Archive'}">
+                                        <i class="fas fa-${isArchived ? 'box-open' : 'archive'}"></i> <span>${isArchived ? 'Restore' : 'Archive'}</span>
+                                    </button>
+                                    <button class="post-action-btn delete-post-btn" data-post-id="${postId}" data-text="Delete">
+                                        <i class="fas fa-trash"></i> <span>Delete</span>
                                     </button>
                                 </div>
                             `;
@@ -2564,6 +3148,27 @@ Links will automatically be clickable: https://example.com"></textarea>
                             postsList.appendChild(postItem);
                         });
                         
+                        // Add event listeners for edit buttons
+                        document.querySelectorAll('.edit-post-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const post = postsArray.find(p => p.id === postId);
+                                if (post) {
+                                    openEditPostModal(postId, post);
+                                }
+                            });
+                        });
+                        
+                        // Add event listeners for archive buttons
+                        document.querySelectorAll('.archive-btn').forEach(button => {
+                            button.addEventListener('click', async (e) => {
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const isArchived = e.currentTarget.classList.contains('archived');
+                                await toggleArchivePost(postId, isArchived);
+                            });
+                        });
+                        
+                        // Add event listeners for pin buttons
                         document.querySelectorAll('.pin-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
@@ -2583,7 +3188,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                             });
                         });
                         
-                        document.querySelectorAll('.delete-btn').forEach(button => {
+                        // Add event listeners for delete buttons
+                        document.querySelectorAll('.delete-post-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
                                 if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
@@ -2630,486 +3236,860 @@ Links will automatically be clickable: https://example.com"></textarea>
                 return 0;
             }
             
-            // ============== PRODUCT MANAGEMENT FUNCTIONS ==============
-            async function loadProductsList() {
+            // Setup filter buttons for posts
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Update current filter
+                    currentFilter = this.getAttribute('data-filter');
+                    
+                    // Reload posts with filter
+                    loadPosts();
+                });
+            });
+            
+            // ============== BOOK COLLECTIONS MANAGEMENT ==============
+            const addBookCollectionBtn = document.getElementById('addBookCollectionBtn');
+            const bookCollectionsList = document.getElementById('bookCollectionsList');
+            const bookCollectionsLoading = document.getElementById('bookCollectionsLoading');
+            const noBookCollectionsMessage = document.getElementById('noBookCollectionsMessage');
+            
+            // Add Book Collection
+            addBookCollectionBtn.addEventListener('click', () => {
+                openBookCollectionModal();
+            });
+            
+            // Open Book Collection Modal with color customization
+            function openBookCollectionModal(collectionId = null) {
+                currentEditingCollectionId = collectionId;
+                
+                // Reset form
+                document.getElementById('bookCollectionId').value = '';
+                document.getElementById('bookCollectionTitle').value = '';
+                document.getElementById('bookCollectionDesc').value = '';
+                document.getElementById('bookCollectionCover').value = '';
+                document.getElementById('bookCollectionCoverPreview').src = 'images/bookcover.jpeg';
+                document.getElementById('bookCollectionCoverPreview').style.display = 'block';
+                
+                // Clear products
+                document.getElementById('bookCollectionProducts').innerHTML = '';
+                
+                // Update modal title
+                const modalTitle = document.getElementById('bookCollectionModalTitle');
+                modalTitle.textContent = collectionId ? 'Edit Book Collection' : 'Add Book Collection';
+                
+                // Show first tab
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('basic-info-tab').classList.add('active');
+                document.querySelector('[data-tab="basic-info"]').classList.add('active');
+                
+                // Load data if editing
+                if (collectionId) {
+                    loadBookCollectionData(collectionId);
+                } else {
+                    // Add one empty product by default
+                    addProductToCollection();
+                }
+                
+                // Open modal
+                bookCollectionModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Load Book Collection Data
+            async function loadBookCollectionData(collectionId) {
                 try {
-                    console.log('Loading products from Firebase...');
+                    const collectionDoc = await db.collection('bookCollections').doc(collectionId).get();
+                    if (collectionDoc.exists) {
+                        const data = collectionDoc.data();
+                        
+                        document.getElementById('bookCollectionId').value = collectionId;
+                        document.getElementById('bookCollectionTitle').value = data.title || '';
+                        document.getElementById('bookCollectionDesc').value = data.description || '';
+                        document.getElementById('bookCollectionCover').value = data.coverImage || '';
+                        
+                        const coverPreview = document.getElementById('bookCollectionCoverPreview');
+                        if (data.coverImage) {
+                            coverPreview.src = data.coverImage;
+                            coverPreview.style.display = 'block';
+                        }
+                        
+                        // Load products
+                        const productsContainer = document.getElementById('bookCollectionProducts');
+                        productsContainer.innerHTML = '';
+                        
+                        if (data.products && data.products.length > 0) {
+                            data.products.forEach((product, index) => {
+                                addProductToCollection(product, index);
+                            });
+                        } else {
+                            addProductToCollection();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading collection data:', error);
+                    showToast('Error loading collection data');
+                }
+            }
+            
+            // Add Product to Collection with color customization
+            function addProductToCollection(product = null, index = null) {
+                const productsContainer = document.getElementById('bookCollectionProducts');
+                const productIndex = index !== null ? index : productsContainer.children.length;
+                
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product-item';
+                productDiv.innerHTML = `
+                    <h4 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Product ${productIndex + 1}</h4>
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" class="form-input product-name" value="${product ? product.name : ''}" required placeholder="e.g., Fruitee HoneyDew">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <input type="text" class="form-input product-desc" value="${product ? product.description : ''}" required placeholder="e.g., Smell like Honey Dew">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image URL *</label>
+                        <input type="text" class="form-input product-image" value="${product ? product.image : ''}" required placeholder="e.g., images/honeydew.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price *</label>
+                        <input type="text" class="form-input product-price" value="${product ? product.price : ''}" required placeholder="e.g., RM24">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Buy Button Text *</label>
+                        <input type="text" class="form-input product-button-text" value="${product ? product.buttonText : 'Get it Now'}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Buy Button Link *</label>
+                        <input type="url" class="form-input product-button-link" value="${product ? product.buttonLink : '#'}" required>
+                    </div>
                     
-                    // Load book products
-                    const bookSnapshot = await db.collection('websiteProducts')
-                        .where('type', '==', 'book')
-                        .get();
+                    <!-- Color Customization Section -->
+                    <div class="color-customization">
+                        <h4>Color Customization</h4>
+                        <div class="color-input-group">
+                            <label>Button Background:</label>
+                            <input type="color" class="color-picker product-bg-color" value="${product ? (product.backgroundColor || '#000000') : '#000000'}">
+                            <input type="text" class="color-hex-input product-bg-color-text" value="${product ? (product.backgroundColor || '#000000') : '#000000'}" placeholder="#000000">
+                        </div>
+                        <div class="color-input-group">
+                            <label>Button Text:</label>
+                            <input type="color" class="color-picker product-text-color" value="${product ? (product.textColor || '#ffffff') : '#ffffff'}">
+                            <input type="text" class="color-hex-input product-text-color-text" value="${product ? (product.textColor || '#ffffff') : '#ffffff'}" placeholder="#ffffff">
+                        </div>
+                        <div class="color-input-group">
+                            <label>Price Text:</label>
+                            <input type="color" class="color-picker product-price-color" value="${product ? (product.priceColor || '#ffffff') : '#ffffff'}">
+                            <input type="text" class="color-hex-input product-price-color-text" value="${product ? (product.priceColor || '#ffffff') : '#ffffff'}" placeholder="#ffffff">
+                        </div>
+                    </div>
                     
-                    // Load grid products
-                    const gridSnapshot = await db.collection('websiteProducts')
-                        .where('type', '==', 'grid')
-                        .get();
+                    <div class="form-group">
+                        <label class="form-label">Gallery Images (Optional, up to 4)</label>
+                        <div class="gallery-images">
+                            ${product && product.galleryImages ? product.galleryImages.map((img, idx) => `
+                                <div class="gallery-image-item" style="margin-bottom: 10px;">
+                                    <input type="text" class="form-input gallery-image" value="${img}" placeholder="Gallery image URL">
+                                    <button type="button" class="remove-gallery-image" style="margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;">Remove</button>
+                                </div>
+                            `).join('') : ''}
+                        </div>
+                        <button type="button" class="add-gallery-image" style="margin-top: 10px; padding: 8px 16px; background: var(--primary); color: white; border: none; cursor: pointer;">Add Gallery Image</button>
+                    </div>
+                    <button type="button" class="remove-product-btn" style="width: 100%;">Remove Product</button>
+                `;
+                
+                productsContainer.appendChild(productDiv);
+                
+                // Setup color picker interactions
+                setupColorPicker(productDiv);
+                
+                // Add event listeners
+                const removeBtn = productDiv.querySelector('.remove-product-btn');
+                removeBtn.addEventListener('click', () => {
+                    if (productsContainer.children.length > 1) {
+                        productDiv.remove();
+                        renumberProducts();
+                    } else {
+                        showToast('At least one product is required');
+                    }
+                });
+                
+                // Add gallery image functionality
+                const addGalleryBtn = productDiv.querySelector('.add-gallery-image');
+                const galleryContainer = productDiv.querySelector('.gallery-images');
+                
+                addGalleryBtn.addEventListener('click', () => {
+                    const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
+                    if (galleryItems.length >= 4) {
+                        showToast('Maximum 4 gallery images allowed');
+                        return;
+                    }
                     
-                    productsData.bookProducts = [];
-                    productsData.gridProducts = [];
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-image-item';
+                    galleryItem.style.marginBottom = '10px';
+                    galleryItem.innerHTML = `
+                        <input type="text" class="form-input gallery-image" placeholder="Gallery image URL">
+                        <button type="button" class="remove-gallery-image" style="margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;">Remove</button>
+                    `;
                     
-                    bookSnapshot.forEach(doc => {
-                        productsData.bookProducts.push({
-                            id: doc.id,
-                            ...doc.data()
+                    galleryContainer.appendChild(galleryItem);
+                    
+                    // Add remove event listener
+                    const removeGalleryBtn = galleryItem.querySelector('.remove-gallery-image');
+                    removeGalleryBtn.addEventListener('click', () => {
+                        galleryItem.remove();
+                    });
+                });
+                
+                // Add remove event listeners to existing gallery images
+                productDiv.querySelectorAll('.remove-gallery-image').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        this.closest('.gallery-image-item').remove();
+                    });
+                });
+            }
+            
+            // Setup color picker interactions
+            function setupColorPicker(productDiv) {
+                // Button background color
+                const bgColorPicker = productDiv.querySelector('.product-bg-color');
+                const bgColorText = productDiv.querySelector('.product-bg-color-text');
+                
+                bgColorPicker.addEventListener('input', function() {
+                    bgColorText.value = this.value;
+                });
+                
+                bgColorText.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                        bgColorPicker.value = this.value;
+                    }
+                });
+                
+                // Button text color
+                const textColorPicker = productDiv.querySelector('.product-text-color');
+                const textColorText = productDiv.querySelector('.product-text-color-text');
+                
+                textColorPicker.addEventListener('input', function() {
+                    textColorText.value = this.value;
+                });
+                
+                textColorText.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                        textColorPicker.value = this.value;
+                    }
+                });
+                
+                // Price text color
+                const priceColorPicker = productDiv.querySelector('.product-price-color');
+                const priceColorText = productDiv.querySelector('.product-price-color-text');
+                
+                priceColorPicker.addEventListener('input', function() {
+                    priceColorText.value = this.value;
+                });
+                
+                priceColorText.addEventListener('input', function() {
+                    if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                        priceColorPicker.value = this.value;
+                    }
+                });
+            }
+            
+            // Renumber Products
+            function renumberProducts() {
+                const productsContainer = document.getElementById('bookCollectionProducts');
+                const productItems = productsContainer.querySelectorAll('.product-item');
+                
+                productItems.forEach((item, index) => {
+                    const title = item.querySelector('h4');
+                    if (title) {
+                        title.textContent = `Product ${index + 1}`;
+                    }
+                });
+            }
+            
+            // Add Product to Collection Button
+            document.getElementById('addProductToCollectionBtn').addEventListener('click', () => {
+                addProductToCollection();
+            });
+            
+            // Tab functionality
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active tab content
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tab}-tab`).classList.add('active');
+                });
+            });
+            
+            // Cover image preview
+            document.getElementById('bookCollectionCover').addEventListener('input', function() {
+                const preview = document.getElementById('bookCollectionCoverPreview');
+                if (this.value.trim()) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                }
+            });
+            
+            // Close Book Collection Modal
+            function closeBookCollectionModal() {
+                bookCollectionModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                currentEditingCollectionId = null;
+            }
+            
+            bookCollectionModalClose.addEventListener('click', closeBookCollectionModal);
+            document.getElementById('bookCollectionCancelBtn').addEventListener('click', closeBookCollectionModal);
+            
+            bookCollectionModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeBookCollectionModal();
+                }
+            });
+            
+            // Save Book Collection
+            document.getElementById('bookCollectionForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const saveBtn = document.getElementById('saveBookCollectionBtn');
+                const saveText = document.getElementById('saveBookCollectionText');
+                const loading = document.getElementById('bookCollectionLoading');
+                
+                saveBtn.disabled = true;
+                saveText.style.display = 'none';
+                loading.style.display = 'inline-block';
+                
+                try {
+                    const collectionId = document.getElementById('bookCollectionId').value;
+                    const title = document.getElementById('bookCollectionTitle').value.trim();
+                    const description = document.getElementById('bookCollectionDesc').value.trim();
+                    const coverImage = document.getElementById('bookCollectionCover').value.trim();
+                    
+                    if (!title || !description || !coverImage) {
+                        showToast('Please fill all required fields');
+                        return;
+                    }
+                    
+                    // Collect products data
+                    const products = [];
+                    const productItems = document.querySelectorAll('.product-item');
+                    
+                    productItems.forEach((item, index) => {
+                        const name = item.querySelector('.product-name').value.trim();
+                        const desc = item.querySelector('.product-desc').value.trim();
+                        const image = item.querySelector('.product-image').value.trim();
+                        const price = item.querySelector('.product-price').value.trim();
+                        const buttonText = item.querySelector('.product-button-text').value.trim();
+                        const buttonLink = item.querySelector('.product-button-link').value.trim();
+                        
+                        // Get color customization values
+                        const backgroundColor = item.querySelector('.product-bg-color-text').value.trim() || '#000000';
+                        const textColor = item.querySelector('.product-text-color-text').value.trim() || '#ffffff';
+                        const priceColor = item.querySelector('.product-price-color-text').value.trim() || '#ffffff';
+                        
+                        // Collect gallery images
+                        const galleryImages = [];
+                        item.querySelectorAll('.gallery-image').forEach(input => {
+                            if (input.value.trim()) {
+                                galleryImages.push(input.value.trim());
+                            }
                         });
+                        
+                        if (name && desc && image && price && buttonText && buttonLink) {
+                            products.push({
+                                name,
+                                description: desc,
+                                image,
+                                price,
+                                buttonText,
+                                buttonLink,
+                                backgroundColor,
+                                textColor,
+                                priceColor,
+                                galleryImages: galleryImages.slice(0, 4) // Limit to 4
+                            });
+                        }
                     });
                     
-                    gridSnapshot.forEach(doc => {
-                        productsData.gridProducts.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
-                    });
+                    if (products.length === 0) {
+                        showToast('At least one product is required');
+                        return;
+                    }
                     
-                    console.log(`Loaded ${productsData.bookProducts.length} book products and ${productsData.gridProducts.length} grid products`);
+                    const collectionData = {
+                        title,
+                        description,
+                        coverImage,
+                        products,
+                        order: collectionId ? undefined : Date.now(), // Use timestamp for new items
+                        updatedAt: new Date().toISOString()
+                    };
                     
-                    // Sort book products by order
-                    productsData.bookProducts.sort((a, b) => {
-                        if (a.id === 'honeydew') return -1;
-                        if (b.id === 'honeydew') return 1;
-                        if (a.id === 'apple') return -1;
-                        if (b.id === 'apple') return 1;
-                        if (a.id === 'strawberry') return -1;
-                        if (b.id === 'strawberry') return 1;
-                        return 0;
-                    });
+                    if (collectionId) {
+                        // Update existing collection
+                        await db.collection('bookCollections').doc(collectionId).update(collectionData);
+                        showToast('Collection updated successfully!');
+                    } else {
+                        // Add new collection
+                        collectionData.createdAt = new Date().toISOString();
+                        await db.collection('bookCollections').add(collectionData);
+                        showToast('Collection added successfully!');
+                    }
                     
-                    // Sort grid products by ID
-                    productsData.gridProducts.sort((a, b) => {
-                        const aNum = parseInt(a.id) || 0;
-                        const bNum = parseInt(b.id) || 0;
-                        return aNum - bNum;
-                    });
-                    
-                    // Display products
-                    displayProductsList();
+                    closeBookCollectionModal();
+                    loadBookCollections();
                     
                 } catch (error) {
+                    console.error('Error saving collection:', error);
+                    showToast('Error saving collection: ' + error.message);
+                } finally {
+                    saveBtn.disabled = false;
+                    saveText.style.display = 'inline';
+                    loading.style.display = 'none';
+                }
+            });
+            
+            // Load Book Collections
+            async function loadBookCollections() {
+                try {
+                    bookCollectionsLoading.style.display = 'block';
+                    bookCollectionsList.style.display = 'none';
+                    noBookCollectionsMessage.style.display = 'none';
+                    
+                    const collectionsSnapshot = await db.collection('bookCollections')
+                        .orderBy('order', 'desc')
+                        .get();
+                    
+                    bookCollectionsList.innerHTML = '';
+                    
+                    if (collectionsSnapshot.empty) {
+                        bookCollectionsLoading.style.display = 'none';
+                        noBookCollectionsMessage.style.display = 'block';
+                    } else {
+                        collectionsSnapshot.forEach((doc) => {
+                            const collection = doc.data();
+                            collection.id = doc.id;
+                            
+                            const li = document.createElement('li');
+                            li.className = 'sortable-item';
+                            li.setAttribute('data-id', collection.id);
+                            li.innerHTML = `
+                                <i class="fas fa-grip-vertical drag-handle"></i>
+                                <div class="item-content">
+                                    <div class="item-title">${collection.title || 'Untitled Collection'}</div>
+                                    <div class="item-meta">${collection.products ? collection.products.length : 0} products</div>
+                                    <div style="font-size: 14px; color: var(--gray-600);">${collection.description || 'No description'}</div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="action-btn edit-item-btn edit-collection-btn" data-id="${collection.id}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="action-btn delete-item-btn delete-collection-btn" data-id="${collection.id}">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            `;
+                            
+                            bookCollectionsList.appendChild(li);
+                        });
+                        
+                        // Initialize Sortable
+                        new Sortable(bookCollectionsList, {
+                            animation: 150,
+                            ghostClass: 'sortable-ghost',
+                            chosenClass: 'sortable-chosen',
+                            onEnd: async function(evt) {
+                                // Update order in database
+                                const items = Array.from(bookCollectionsList.children);
+                                const updatePromises = items.map((item, index) => {
+                                    const id = item.getAttribute('data-id');
+                                    return db.collection('bookCollections').doc(id).update({
+                                        order: Date.now() - index // Higher order = first
+                                    });
+                                });
+                                
+                                try {
+                                    await Promise.all(updatePromises);
+                                    showToast('Order updated successfully!');
+                                } catch (error) {
+                                    console.error('Error updating order:', error);
+                                    showToast('Error updating order');
+                                }
+                            }
+                        });
+                        
+                        // Add event listeners for edit buttons
+                        document.querySelectorAll('.edit-collection-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const collectionId = this.getAttribute('data-id');
+                                openBookCollectionModal(collectionId);
+                            });
+                        });
+                        
+                        // Add event listeners for delete buttons
+                        document.querySelectorAll('.delete-collection-btn').forEach(btn => {
+                            btn.addEventListener('click', async function() {
+                                const collectionId = this.getAttribute('data-id');
+                                if (confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+                                    try {
+                                        await db.collection('bookCollections').doc(collectionId).delete();
+                                        showToast('Collection deleted successfully');
+                                        loadBookCollections();
+                                    } catch (error) {
+                                        console.error('Error deleting collection:', error);
+                                        showToast('Error deleting collection');
+                                    }
+                                }
+                            });
+                        });
+                        
+                        bookCollectionsLoading.style.display = 'none';
+                        bookCollectionsList.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error loading collections:', error);
+                    bookCollectionsLoading.style.display = 'none';
+                    showToast('Error loading collections: ' + error.message);
+                }
+            }
+            
+            // ============== PRODUCT GRID MANAGEMENT ==============
+            const addProductGridBtn = document.getElementById('addProductGridBtn');
+            const productGridList = document.getElementById('productGridList');
+            const productGridLoading = document.getElementById('productGridLoading');
+            const noProductGridMessage = document.getElementById('noProductGridMessage');
+            
+            // Add Product Grid
+            addProductGridBtn.addEventListener('click', () => {
+                openProductGridModal();
+            });
+            
+            // Open Product Grid Modal
+            function openProductGridModal(productId = null) {
+                currentEditingProductId = productId;
+                
+                // Reset form
+                document.getElementById('productGridId').value = '';
+                document.getElementById('productGridName').value = '';
+                document.getElementById('productGridDesc').value = '';
+                document.getElementById('productGridPrice').value = '';
+                document.getElementById('productGridMainImage').value = '';
+                document.getElementById('productGridMainImagePreview').src = '';
+                document.getElementById('productGridMainImagePreview').style.display = 'none';
+                document.getElementById('productGridGallery').innerHTML = '';
+                document.getElementById('productGridButtonText').value = 'Get it Now';
+                document.getElementById('productGridButtonLink').value = '#';
+                document.getElementById('productGridBadge').value = '';
+                
+                // Update modal title
+                const modalTitle = document.getElementById('productGridModalTitle');
+                modalTitle.textContent = productId ? 'Edit Product' : 'Add Product';
+                
+                // Load data if editing
+                if (productId) {
+                    loadProductGridData(productId);
+                }
+                
+                // Open modal
+                productGridModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Load Product Grid Data
+            async function loadProductGridData(productId) {
+                try {
+                    const productDoc = await db.collection('productGrid').doc(productId).get();
+                    if (productDoc.exists) {
+                        const data = productDoc.data();
+                        
+                        document.getElementById('productGridId').value = productId;
+                        document.getElementById('productGridName').value = data.name || '';
+                        document.getElementById('productGridDesc').value = data.description || '';
+                        document.getElementById('productGridPrice').value = data.price || '';
+                        document.getElementById('productGridMainImage').value = data.mainImage || '';
+                        document.getElementById('productGridButtonText').value = data.buttonText || 'Get it Now';
+                        document.getElementById('productGridButtonLink').value = data.buttonLink || '#';
+                        document.getElementById('productGridBadge').value = data.badge || '';
+                        
+                        const preview = document.getElementById('productGridMainImagePreview');
+                        if (data.mainImage) {
+                            preview.src = data.mainImage;
+                            preview.style.display = 'block';
+                        }
+                        
+                        // Load gallery images
+                        const galleryContainer = document.getElementById('productGridGallery');
+                        galleryContainer.innerHTML = '';
+                        
+                        if (data.galleryImages && data.galleryImages.length > 0) {
+                            data.galleryImages.forEach((image, index) => {
+                                addGalleryImage(image, index);
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading product data:', error);
+                    showToast('Error loading product data');
+                }
+            }
+            
+            // Add Gallery Image
+            function addGalleryImage(imageUrl = '', index = null) {
+                const galleryContainer = document.getElementById('productGridGallery');
+                const galleryIndex = index !== null ? index : galleryContainer.children.length;
+                
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-image-item';
+                galleryItem.style.marginBottom = '15px';
+                galleryItem.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="text" class="form-input gallery-image-url" value="${imageUrl}" placeholder="Gallery image URL" style="flex: 1;">
+                        <button type="button" class="remove-gallery-image-btn" style="padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; flex-shrink: 0;">Remove</button>
+                    </div>
+                `;
+                
+                galleryContainer.appendChild(galleryItem);
+                
+                // Add remove event listener
+                const removeBtn = galleryItem.querySelector('.remove-gallery-image-btn');
+                removeBtn.addEventListener('click', () => {
+                    if (galleryContainer.children.length > 1) {
+                        galleryItem.remove();
+                    } else {
+                        showToast('At least one gallery image is required');
+                    }
+                });
+            }
+            
+            // Add Gallery Image Button
+            document.getElementById('addGalleryImageBtn').addEventListener('click', () => {
+                const galleryContainer = document.getElementById('productGridGallery');
+                if (galleryContainer.children.length >= 4) {
+                    showToast('Maximum 4 gallery images allowed');
+                    return;
+                }
+                addGalleryImage();
+            });
+            
+            // Main image preview
+            document.getElementById('productGridMainImage').addEventListener('input', function() {
+                const preview = document.getElementById('productGridMainImagePreview');
+                if (this.value.trim()) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                }
+            });
+            
+            // Close Product Grid Modal
+            function closeProductGridModal() {
+                productGridModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                currentEditingProductId = null;
+            }
+            
+            productGridModalClose.addEventListener('click', closeProductGridModal);
+            document.getElementById('productGridCancelBtn').addEventListener('click', closeProductGridModal);
+            
+            productGridModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeProductGridModal();
+                }
+            });
+            
+            // Save Product Grid - FIXED VERSION
+            document.getElementById('productGridForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const saveBtn = document.getElementById('saveProductGridBtn');
+                const saveText = document.getElementById('saveProductGridText');
+                const loading = document.getElementById('productGridLoading');
+                
+                saveBtn.disabled = true;
+                saveText.style.display = 'none';
+                loading.style.display = 'inline-block';
+                
+                try {
+                    const productId = document.getElementById('productGridId').value;
+                    const name = document.getElementById('productGridName').value.trim();
+                    const description = document.getElementById('productGridDesc').value.trim();
+                    const price = document.getElementById('productGridPrice').value.trim();
+                    const mainImage = document.getElementById('productGridMainImage').value.trim();
+                    const buttonText = document.getElementById('productGridButtonText').value.trim();
+                    const buttonLink = document.getElementById('productGridButtonLink').value.trim();
+                    const badge = document.getElementById('productGridBadge').value.trim();
+                    
+                    if (!name || !description || !price || !mainImage || !buttonText || !buttonLink) {
+                        showToast('Please fill all required fields');
+                        return;
+                    }
+                    
+                    // Collect gallery images
+                    const galleryImages = [];
+                    document.querySelectorAll('.gallery-image-url').forEach(input => {
+                        if (input.value.trim()) {
+                            galleryImages.push(input.value.trim());
+                        }
+                    });
+                    
+                    const productData = {
+                        name,
+                        description,
+                        price,
+                        mainImage,
+                        buttonText,
+                        buttonLink,
+                        badge: badge || null,
+                        galleryImages: galleryImages.slice(0, 4), // Limit to 4
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    if (productId) {
+                        // Update existing product - FIX: Don't set order to undefined
+                        await db.collection('productGrid').doc(productId).update(productData);
+                        showToast('Product updated successfully!');
+                    } else {
+                        // Add new product - set order for new products
+                        productData.order = Date.now();
+                        productData.createdAt = new Date().toISOString();
+                        await db.collection('productGrid').add(productData);
+                        showToast('Product added successfully!');
+                    }
+                    
+                    closeProductGridModal();
+                    loadProductGrid();
+                    
+                } catch (error) {
+                    console.error('Error saving product:', error);
+                    showToast('Error saving product: ' + error.message);
+                } finally {
+                    saveBtn.disabled = false;
+                    saveText.style.display = 'inline';
+                    loading.style.display = 'none';
+                }
+            });
+            
+            // Load Product Grid
+            async function loadProductGrid() {
+                try {
+                    productGridLoading.style.display = 'block';
+                    productGridList.style.display = 'none';
+                    noProductGridMessage.style.display = 'none';
+                    
+                    const productsSnapshot = await db.collection('productGrid')
+                        .orderBy('order', 'desc')
+                        .get();
+                    
+                    productGridList.innerHTML = '';
+                    
+                    if (productsSnapshot.empty) {
+                        productGridLoading.style.display = 'none';
+                        noProductGridMessage.style.display = 'block';
+                    } else {
+                        productsSnapshot.forEach((doc) => {
+                            const product = doc.data();
+                            product.id = doc.id;
+                            
+                            const li = document.createElement('li');
+                            li.className = 'sortable-item';
+                            li.setAttribute('data-id', product.id);
+                            li.innerHTML = `
+                                <i class="fas fa-grip-vertical drag-handle"></i>
+                                <div class="item-content">
+                                    <div class="item-title">${product.name || 'Untitled Product'}</div>
+                                    <div class="item-meta">${product.price || 'No price'} • ${product.galleryImages ? product.galleryImages.length : 0} gallery images</div>
+                                    <div style="font-size: 14px; color: var(--gray-600);">${product.description || 'No description'}</div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="action-btn edit-item-btn edit-product-btn" data-id="${product.id}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="action-btn delete-item-btn delete-product-btn" data-id="${product.id}">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            `;
+                            
+                            productGridList.appendChild(li);
+                        });
+                        
+                        // Initialize Sortable
+                        new Sortable(productGridList, {
+                            animation: 150,
+                            ghostClass: 'sortable-ghost',
+                            chosenClass: 'sortable-chosen',
+                            onEnd: async function(evt) {
+                                // Update order in database
+                                const items = Array.from(productGridList.children);
+                                const updatePromises = items.map((item, index) => {
+                                    const id = item.getAttribute('data-id');
+                                    return db.collection('productGrid').doc(id).update({
+                                        order: Date.now() - index // Higher order = first
+                                    });
+                                });
+                                
+                                try {
+                                    await Promise.all(updatePromises);
+                                    showToast('Order updated successfully!');
+                                } catch (error) {
+                                    console.error('Error updating order:', error);
+                                    showToast('Error updating order');
+                                }
+                            }
+                        });
+                        
+                        // Add event listeners for edit buttons
+                        document.querySelectorAll('.edit-product-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const productId = this.getAttribute('data-id');
+                                openProductGridModal(productId);
+                            });
+                        });
+                        
+                        // Add event listeners for delete buttons
+                        document.querySelectorAll('.delete-product-btn').forEach(btn => {
+                            btn.addEventListener('click', async function() {
+                                const productId = this.getAttribute('data-id');
+                                if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                                    try {
+                                        await db.collection('productGrid').doc(productId).delete();
+                                        showToast('Product deleted successfully');
+                                        loadProductGrid();
+                                    } catch (error) {
+                                        console.error('Error deleting product:', error);
+                                        showToast('Error deleting product');
+                                    }
+                                }
+                            });
+                        });
+                        
+                        productGridLoading.style.display = 'none';
+                        productGridList.style.display = 'block';
+                    }
+                } catch (error) {
                     console.error('Error loading products:', error);
+                    productGridLoading.style.display = 'none';
                     showToast('Error loading products: ' + error.message);
                 }
             }
             
-            function displayProductsList() {
-                // Load book products list
-                const bookProductsList = document.getElementById('bookProductsList');
-                const gridProductsList = document.getElementById('gridProductsList');
-                
-                bookProductsList.innerHTML = '';
-                gridProductsList.innerHTML = '';
-                
-                // Display book products
-                productsData.bookProducts.forEach((product) => {
-                    const productItem = createProductListItem(product);
-                    bookProductsList.appendChild(productItem);
-                });
-                
-                // Display grid products
-                productsData.gridProducts.forEach((product) => {
-                    const productItem = createProductListItem(product);
-                    gridProductsList.appendChild(productItem);
-                });
-            }
-            
-            function createProductListItem(product) {
-                const productItem = document.createElement('div');
-                productItem.className = 'product-list-item';
-                productItem.dataset.productId = product.id;
-                productItem.dataset.productType = product.type;
-                
-                productItem.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" class="product-thumbnail"
-                         onerror="this.src='https://via.placeholder.com/80?text=Image'">
-                    <div class="product-list-info">
-                        <h4 class="product-list-name">${product.name}</h4>
-                        <div class="product-list-price">${product.price}</div>
-                        <span class="product-list-type ${product.type}">${product.type === 'book' ? 'Book' : 'Grid'}</span>
-                    </div>
-                `;
-                
-                // Add click event to edit product
-                productItem.addEventListener('click', function() {
-                    // Remove active class from all items
-                    document.querySelectorAll('.product-list-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked item
-                    this.classList.add('active');
-                    
-                    // Load product for editing
-                    loadProductForEditing(product.id, product.type);
-                });
-                
-                return productItem;
-            }
-            
-            async function loadProductForEditing(productId, productType) {
-                try {
-                    const productDoc = await db.collection('websiteProducts').doc(productId).get();
-                    
-                    if (!productDoc.exists) {
-                        showToast('Product not found in database');
-                        return;
-                    }
-                    
-                    const product = {
-                        id: productId,
-                        ...productDoc.data()
-                    };
-                    
-                    // Store current editing product
-                    currentEditingProduct = product;
-                    isNewProduct = false;
-                    
-                    // Update form title
-                    document.getElementById('editProductTitle').textContent = `Edit: ${product.name}`;
-                    
-                    // Fill form fields
-                    document.getElementById('editProductId').value = product.id;
-                    document.getElementById('editProductName').value = product.name;
-                    document.getElementById('editProductPrice').value = product.price;
-                    document.getElementById('editProductDesc').value = product.description || '';
-                    document.getElementById('editProductBadge').value = product.badge || 'Fruitee Collection';
-                    document.getElementById('editProductType').value = product.type;
-                    document.getElementById('editProductImage').value = product.image || '';
-                    
-                    // Update image preview
-                    const imagePreview = document.getElementById('editProductImagePreview');
-                    if (product.image) {
-                        imagePreview.src = product.image;
-                        imagePreview.style.display = 'block';
-                    } else {
-                        imagePreview.style.display = 'none';
-                    }
-                    
-                    // Load gallery images
-                    loadProductGallery(product.gallery || []);
-                    
-                    // Show delete button (not for new products)
-                    deleteProductBtn.style.display = 'block';
-                    
-                    // Show edit form
-                    productEditForm.classList.add('active');
-                    
-                    // Scroll to edit form on desktop, but not on mobile
-                    if (window.innerWidth > 768) {
-                        productEditForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }
-                    
-                } catch (error) {
-                    console.error('Error loading product for editing:', error);
-                    showToast('Error loading product: ' + error.message);
-                }
-            }
-            
-            function loadProductGallery(galleryImages) {
-                productGalleryGrid.innerHTML = '';
-                
-                // Add gallery images
-                galleryImages.forEach((imageUrl, index) => {
-                    addGalleryImage(imageUrl, index === 0);
-                });
-            }
-            
-            function addGalleryImage(imageUrl, isMain = false) {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-image-item';
-                galleryItem.dataset.imageUrl = imageUrl;
-                
-                galleryItem.innerHTML = `
-                    <img src="${imageUrl}" alt="Gallery Image" class="gallery-image"
-                         onerror="this.src='https://via.placeholder.com/120?text=Image'">
-                    <div class="gallery-image-actions">
-                        ${isMain ? '<button class="gallery-image-btn set-main" title="Main Image"><i class="fas fa-star"></i></button>' : 
-                          '<button class="gallery-image-btn set-main-btn" title="Set as Main"><i class="fas fa-star"></i></button>'}
-                        <button class="gallery-image-btn remove-image-btn" title="Remove Image">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                
-                // Add remove functionality
-                const removeBtn = galleryItem.querySelector('.remove-image-btn');
-                removeBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    if (confirm('Remove this image from gallery?')) {
-                        galleryItem.remove();
-                    }
-                });
-                
-                // Add set as main functionality
-                const setMainBtn = galleryItem.querySelector('.set-main-btn');
-                if (setMainBtn) {
-                    setMainBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        setImageAsMain(imageUrl);
-                    });
-                }
-                
-                productGalleryGrid.appendChild(galleryItem);
-            }
-            
-            function setImageAsMain(imageUrl) {
-                // Update main image field
-                document.getElementById('editProductImage').value = imageUrl;
-                const imagePreview = document.getElementById('editProductImagePreview');
-                imagePreview.src = imageUrl;
-                imagePreview.style.display = 'block';
-                
-                // Update all gallery items to show which is main
-                const galleryItems = productGalleryGrid.querySelectorAll('.gallery-image-item');
-                galleryItems.forEach(item => {
-                    const actions = item.querySelector('.gallery-image-actions');
-                    const isThisMain = item.dataset.imageUrl === imageUrl;
-                    
-                    if (isThisMain) {
-                        actions.innerHTML = `
-                            <button class="gallery-image-btn set-main" title="Main Image"><i class="fas fa-star"></i></button>
-                            <button class="gallery-image-btn remove-image-btn" title="Remove Image">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        `;
-                    } else {
-                        actions.innerHTML = `
-                            <button class="gallery-image-btn set-main-btn" title="Set as Main"><i class="fas fa-star"></i></button>
-                            <button class="gallery-image-btn remove-image-btn" title="Remove Image">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        `;
-                        
-                        // Re-add event listener
-                        const setMainBtn = item.querySelector('.set-main-btn');
-                        setMainBtn.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            setImageAsMain(item.dataset.imageUrl);
-                        });
-                    }
-                    
-                    // Re-add remove event listener
-                    const removeBtn = item.querySelector('.remove-image-btn');
-                    removeBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        if (confirm('Remove this image from gallery?')) {
-                            item.remove();
-                        }
-                    });
-                });
-                
-                showToast('Main image updated');
-            }
-            
-            // Add image to gallery
-            addImageBtn.addEventListener('click', function() {
-                const imageUrl = addImageUrl.value.trim();
-                if (!imageUrl) {
-                    showStatusMessage('Please enter an image URL', 'error');
-                    return;
-                }
-                
-                // Validate URL
-                if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://') && !imageUrl.startsWith('images/')) {
-                    showStatusMessage('Please enter a valid image URL starting with http://, https://, or images/', 'error');
-                    return;
-                }
-                
-                // Check if we already have 5 images
-                const galleryItems = productGalleryGrid.querySelectorAll('.gallery-image-item');
-                if (galleryItems.length >= 5) {
-                    showStatusMessage('Maximum 5 images allowed', 'error');
-                    return;
-                }
-                
-                const isFirstImage = galleryItems.length === 0;
-                addGalleryImage(imageUrl, isFirstImage);
-                addImageUrl.value = '';
-                
-                // If this is the first image, set it as main
-                if (isFirstImage) {
-                    document.getElementById('editProductImage').value = imageUrl;
-                    const imagePreview = document.getElementById('editProductImagePreview');
-                    imagePreview.src = imageUrl;
-                    imagePreview.style.display = 'block';
-                }
-                
-                showStatusMessage('Image added to gallery', 'success');
-            });
-            
-            // Image input enter key support
-            addImageUrl.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    addImageBtn.click();
-                }
-            });
-            
-            // Image preview on input
-            document.getElementById('editProductImage').addEventListener('input', function() {
-                const preview = document.getElementById('editProductImagePreview');
-                if (this.value.trim()) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-            
-            // Add new product button
-            addNewProductBtn.addEventListener('click', function() {
-                resetProductForm();
-                isNewProduct = true;
-                currentEditingProduct = null;
-                
-                document.getElementById('editProductTitle').textContent = 'Add New Product';
-                document.getElementById('editProductId').value = 'new-' + Date.now();
-                document.getElementById('editProductName').value = '';
-                document.getElementById('editProductPrice').value = '';
-                document.getElementById('editProductDesc').value = '';
-                document.getElementById('editProductBadge').value = 'Fruitee Collection';
-                document.getElementById('editProductType').value = 'book';
-                document.getElementById('editProductImage').value = '';
-                
-                // Hide delete button for new products
-                deleteProductBtn.style.display = 'none';
-                
-                // Clear gallery
-                productGalleryGrid.innerHTML = '';
-                
-                // Show edit form
-                productEditForm.classList.add('active');
-                
-                // Scroll to edit form on desktop only
-                if (window.innerWidth > 768) {
-                    productEditForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-                
-                showStatusMessage('Creating new product. Fill in the details and save.', 'success');
-            });
-            
-            // Save product changes
-            document.getElementById('productEditFormContent').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const productId = document.getElementById('editProductId').value.trim();
-                const name = document.getElementById('editProductName').value.trim();
-                const price = document.getElementById('editProductPrice').value.trim();
-                const description = document.getElementById('editProductDesc').value.trim();
-                const badge = document.getElementById('editProductBadge').value.trim();
-                const type = document.getElementById('editProductType').value;
-                const mainImage = document.getElementById('editProductImage').value.trim();
-                
-                // Validate required fields
-                if (!name || !price || !mainImage) {
-                    showStatusMessage('Please fill in all required fields (Name, Price, Main Image)', 'error');
-                    return;
-                }
-                
-                // Collect gallery images
-                const galleryImages = [];
-                const galleryItems = productGalleryGrid.querySelectorAll('.gallery-image-item');
-                galleryItems.forEach((item) => {
-                    const imgSrc = item.querySelector('.gallery-image').src;
-                    galleryImages.push(imgSrc);
-                });
-                
-                // If no gallery images but has main image, add main image to gallery
-                if (galleryImages.length === 0 && mainImage) {
-                    galleryImages.push(mainImage);
-                }
-                
-                // Create product data object
-                const productData = {
-                    name: name,
-                    price: price,
-                    description: description,
-                    badge: badge || 'Fruitee Collection',
-                    type: type,
-                    image: mainImage,
-                    gallery: galleryImages,
-                    updatedAt: new Date().toISOString(),
-                    lastUpdatedBy: auth.currentUser.email
-                };
-                
-                try {
-                    // Save to Firebase (sync with homepage)
-                    await db.collection('websiteProducts').doc(productId).set(productData, { merge: true });
-                    
-                    showStatusMessage(isNewProduct ? 'Product created successfully!' : 'Product updated successfully!', 'success');
-                    showToast(isNewProduct ? 'Product created successfully!' : 'Product updated successfully!');
-                    
-                    // Reload products list
-                    await loadProductsList();
-                    
-                    // Close edit form after successful save
-                    setTimeout(() => {
-                        productEditForm.classList.remove('active');
-                        resetProductForm();
-                    }, 1500);
-                    
-                } catch (error) {
-                    console.error('Error saving product:', error);
-                    showStatusMessage('Error saving product: ' + error.message, 'error');
-                }
-            });
-            
-            // Delete product
-            deleteProductBtn.addEventListener('click', async function() {
-                if (!currentEditingProduct) return;
-                
-                if (confirm(`Are you sure you want to delete "${currentEditingProduct.name}"? This action cannot be undone.`)) {
-                    try {
-                        // Delete from Firebase
-                        await db.collection('websiteProducts').doc(currentEditingProduct.id).delete();
-                        
-                        showToast('Product deleted successfully');
-                        
-                        // Hide edit form
-                        productEditForm.classList.remove('active');
-                        resetProductForm();
-                        
-                        // Reload product list
-                        await loadProductsList();
-                        
-                    } catch (error) {
-                        console.error('Error deleting product:', error);
-                        showToast('Error deleting product: ' + error.message);
-                    }
-                }
-            });
-            
-            // Cancel editing
-            cancelEditBtn.addEventListener('click', function() {
-                productEditForm.classList.remove('active');
-                resetProductForm();
-                
-                // Remove active class from all list items
-                document.querySelectorAll('.product-list-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-            });
-            
-            function resetProductForm() {
-                currentEditingProduct = null;
-                isNewProduct = false;
-                productGalleryGrid.innerHTML = '';
-                document.getElementById('productStatusMessage').className = 'status-message';
-                document.getElementById('productStatusMessage').textContent = '';
-                document.getElementById('editProductImagePreview').style.display = 'none';
-            }
-            
-            function showStatusMessage(message, type) {
-                productStatusMessage.textContent = message;
-                productStatusMessage.className = `status-message status-${type}`;
-                
-                // Auto hide after 3 seconds
-                setTimeout(() => {
-                    productStatusMessage.className = 'status-message';
-                    productStatusMessage.textContent = '';
-                }, 3000);
-            }
-            
+            // Show Toast Notification
             function showToast(message) {
                 const toast = document.getElementById('toast');
                 if (!toast) return;
@@ -3122,6 +4102,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }, 3000);
             }
             
+            // Initialize
             setupNavigation();
             
             if (window.location.hash) {
