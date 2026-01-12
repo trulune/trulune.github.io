@@ -546,6 +546,7 @@
             display: flex;
             border-bottom: 1px solid var(--gray-200);
             margin-bottom: 20px;
+            overflow-x: auto;
         }
 
         .tab-btn {
@@ -558,6 +559,8 @@
             font-weight: 500;
             color: var(--gray-600);
             transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .tab-btn:hover {
@@ -1513,7 +1516,7 @@
             margin-bottom: 4px;
         }
 
-        /* Book Collection Color Customization */
+        /* Book Collection Color Customization - MOBILE FIXED */
         .color-customization {
             margin-top: 20px;
             padding: 15px;
@@ -1531,15 +1534,39 @@
 
         .color-input-group {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .color-input-group {
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+            }
         }
 
         .color-input-group label {
             min-width: 120px;
             font-size: 14px;
             color: var(--gray-600);
+            margin-bottom: 5px;
+        }
+
+        @media (min-width: 768px) {
+            .color-input-group label {
+                margin-bottom: 0;
+            }
+        }
+
+        .color-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
         }
 
         .color-picker {
@@ -1549,19 +1576,109 @@
             cursor: pointer;
             background: white;
             flex-shrink: 0;
+            min-width: 40px;
         }
 
         .color-hex-input {
-            width: 100px;
+            flex: 1;
+            min-width: 0;
             padding: 8px;
             border: 1px solid var(--gray-200);
             font-size: 14px;
             text-transform: uppercase;
+            width: 100%;
+            max-width: 120px;
         }
 
         .color-hex-input:focus {
             outline: none;
             border-color: var(--primary);
+        }
+
+        /* Mobile Optimized Product Item */
+        .mobile-optimized-product {
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+        }
+
+        .mobile-optimized-product h4 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        /* Gallery Images Mobile Fix */
+        .gallery-images {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .gallery-image-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-image-item {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        .remove-gallery-image {
+            padding: 8px 16px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            align-self: flex-start;
+        }
+
+        @media (min-width: 768px) {
+            .remove-gallery-image {
+                align-self: center;
+            }
+        }
+
+        .add-gallery-image {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        /* Modal Actions Mobile Fix */
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .modal-actions {
+                flex-direction: row;
+                justify-content: flex-end;
+            }
         }
 
         /* ==================== RESPONSIVE ==================== */
@@ -1708,11 +1825,13 @@
             .modal-content {
                 padding: 20px;
                 width: 95%;
+                max-width: 95%;
             }
             
             .edit-post-modal-content {
                 padding: 20px;
                 width: 95%;
+                max-width: 95%;
             }
             
             .action-header {
@@ -1729,6 +1848,49 @@
                 width: 100%;
                 justify-content: flex-end;
                 margin-top: 15px;
+            }
+            
+            /* MOBILE OPTIMIZED: Product item in collections */
+            .product-item {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .product-item h4 {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            
+            /* Color customization mobile fix */
+            .color-customization {
+                padding: 12px;
+            }
+            
+            .color-input-group label {
+                min-width: 100px;
+                font-size: 13px;
+            }
+            
+            .color-picker {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .color-hex-input {
+                max-width: 100px;
+                font-size: 13px;
+            }
+            
+            /* Modal tabs mobile fix */
+            .tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 5px;
+            }
+            
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 14px;
             }
         }
 
@@ -1815,6 +1977,46 @@
                 text-align: center;
                 padding: 10px;
             }
+            
+            /* MOBILE OPTIMIZED: Small screen modals */
+            .modal-content {
+                padding: 15px;
+                width: 100%;
+                max-width: 100%;
+                max-height: 85vh;
+            }
+            
+            .edit-post-modal-content {
+                padding: 15px;
+                width: 100%;
+                max-width: 100%;
+                max-height: 85vh;
+            }
+            
+            /* Color pickers on very small screens */
+            .color-input-row {
+                flex-wrap: wrap;
+            }
+            
+            .color-hex-input {
+                max-width: 100%;
+                width: calc(100% - 50px);
+            }
+            
+            /* Product form on mobile */
+            .product-item .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .gallery-image-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .remove-gallery-image {
+                align-self: stretch;
+                text-align: center;
+            }
         }
 
         @media (max-width: 360px) {
@@ -1837,6 +2039,29 @@
             
             .filter-btn {
                 justify-content: center;
+            }
+            
+            /* Ultra small screens */
+            .modal-content {
+                padding: 12px;
+            }
+            
+            .edit-post-modal-content {
+                padding: 12px;
+            }
+            
+            .modal-title {
+                font-size: 18px;
+            }
+            
+            .color-input-group label {
+                min-width: 90px;
+                font-size: 12px;
+            }
+            
+            .color-picker {
+                width: 30px;
+                height: 30px;
             }
         }
     </style>
@@ -2218,7 +2443,7 @@ Links will automatically be clickable: https://example.com"></textarea>
         </div>
     </div>
 
-    <!-- Book Collection Modal -->
+    <!-- Book Collection Modal - MOBILE OPTIMIZED -->
     <div class="modal" id="bookCollectionModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2244,7 +2469,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     
                     <div class="form-group">
                         <label class="form-label">Collection Description *</label>
-                        <textarea class="form-input" id="bookCollectionDesc" rows="4" required placeholder="Describe your collection..."></textarea>
+                        <textarea class="form-input" id="bookCollectionDesc" rows="3" required placeholder="Describe your collection..."></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -2257,7 +2482,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     </div>
                 </div>
                 
-                <!-- Products Tab -->
+                <!-- Products Tab - MOBILE OPTIMIZED -->
                 <div class="tab-content" id="products-tab">
                     <div id="bookCollectionProducts">
                         <!-- Products will be added here -->
@@ -2268,7 +2493,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     </button>
                 </div>
                 
-                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
+                <div class="modal-actions">
                     <button type="button" class="action-btn" id="bookCollectionCancelBtn">Cancel</button>
                     <button type="submit" class="save-btn" id="saveBookCollectionBtn">
                         <span id="saveBookCollectionText">Save Collection</span>
@@ -2279,7 +2504,7 @@ Links will automatically be clickable: https://example.com"></textarea>
         </div>
     </div>
 
-    <!-- Product Grid Modal -->
+    <!-- Product Grid Modal - MOBILE OPTIMIZED -->
     <div class="modal" id="productGridModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2298,7 +2523,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 <div class="form-group">
                     <label class="form-label">Product Description *</label>
-                    <textarea class="form-input" id="productGridDesc" rows="3" required placeholder="Describe your product..."></textarea>
+                    <textarea class="form-input" id="productGridDesc" rows="2" required placeholder="Describe your product..."></textarea>
                 </div>
                 
                 <div class="form-group">
@@ -2342,7 +2567,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     <small class="image-help">Leave empty for no badge</small>
                 </div>
                 
-                <div style="display: flex; gap: 15px; margin-top: 25px; justify-content: flex-end;">
+                <div class="modal-actions">
                     <button type="button" class="action-btn" id="productGridCancelBtn">Cancel</button>
                     <button type="submit" class="save-btn" id="saveProductGridBtn">
                         <span id="saveProductGridText">Save Product</span>
@@ -2378,6 +2603,9 @@ Links will automatically be clickable: https://example.com"></textarea>
         let currentEditingPostId = null;
         let currentEditingCollectionId = null;
         let currentEditingProductId = null;
+        
+        // Mobile detection
+        const isMobile = () => window.innerWidth <= 768;
         
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
@@ -3255,7 +3483,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 });
             });
             
-            // ============== BOOK COLLECTIONS MANAGEMENT ==============
+            // ============== BOOK COLLECTIONS MANAGEMENT - MOBILE OPTIMIZED ==============
             const addBookCollectionBtn = document.getElementById('addBookCollectionBtn');
             const bookCollectionsList = document.getElementById('bookCollectionsList');
             const bookCollectionsLoading = document.getElementById('bookCollectionsLoading');
@@ -3266,7 +3494,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 openBookCollectionModal();
             });
             
-            // Open Book Collection Modal with color customization
+            // Open Book Collection Modal with mobile optimization
             function openBookCollectionModal(collectionId = null) {
                 currentEditingCollectionId = collectionId;
                 
@@ -3340,14 +3568,86 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // Add Product to Collection with color customization
+            // Add Product to Collection - MOBILE OPTIMIZED
             function addProductToCollection(product = null, index = null) {
                 const productsContainer = document.getElementById('bookCollectionProducts');
                 const productIndex = index !== null ? index : productsContainer.children.length;
                 
                 const productDiv = document.createElement('div');
-                productDiv.className = 'product-item';
-                productDiv.innerHTML = `
+                productDiv.className = isMobile() ? 'mobile-optimized-product' : 'product-item';
+                
+                // Use mobile optimized layout
+                const productHTML = isMobile() ? 
+                    // Mobile optimized layout
+                    `
+                    <h4>Product ${productIndex + 1}</h4>
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" class="form-input product-name" value="${product ? product.name : ''}" required placeholder="e.g., Fruitee HoneyDew">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <input type="text" class="form-input product-desc" value="${product ? product.description : ''}" required placeholder="e.g., Smell like Honey Dew">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Image URL *</label>
+                        <input type="text" class="form-input product-image" value="${product ? product.image : ''}" required placeholder="e.g., images/honeydew.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Price *</label>
+                        <input type="text" class="form-input product-price" value="${product ? product.price : ''}" required placeholder="e.g., RM24">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Buy Button Text *</label>
+                        <input type="text" class="form-input product-button-text" value="${product ? product.buttonText : 'Get it Now'}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Buy Button Link *</label>
+                        <input type="url" class="form-input product-button-link" value="${product ? product.buttonLink : '#'}" required>
+                    </div>
+                    
+                    <!-- Color Customization Section - Mobile Optimized -->
+                    <div class="color-customization">
+                        <h4>Color Customization</h4>
+                        <div class="color-input-group">
+                            <label>Button Background:</label>
+                            <div class="color-input-row">
+                                <input type="color" class="color-picker product-bg-color" value="${product ? (product.backgroundColor || '#000000') : '#000000'}">
+                                <input type="text" class="color-hex-input product-bg-color-text" value="${product ? (product.backgroundColor || '#000000') : '#000000'}" placeholder="#000000">
+                            </div>
+                        </div>
+                        <div class="color-input-group">
+                            <label>Button Text:</label>
+                            <div class="color-input-row">
+                                <input type="color" class="color-picker product-text-color" value="${product ? (product.textColor || '#ffffff') : '#ffffff'}">
+                                <input type="text" class="color-hex-input product-text-color-text" value="${product ? (product.textColor || '#ffffff') : '#ffffff'}" placeholder="#ffffff">
+                            </div>
+                        </div>
+                        <div class="color-input-group">
+                            <label>Price Text:</label>
+                            <div class="color-input-row">
+                                <input type="color" class="color-picker product-price-color" value="${product ? (product.priceColor || '#ffffff') : '#ffffff'}">
+                                <input type="text" class="color-hex-input product-price-color-text" value="${product ? (product.priceColor || '#ffffff') : '#ffffff'}" placeholder="#ffffff">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Gallery Images (Optional, up to 4)</label>
+                        <div class="gallery-images">
+                            ${product && product.galleryImages ? product.galleryImages.map((img, idx) => `
+                                <div class="gallery-image-item">
+                                    <input type="text" class="form-input gallery-image" value="${img}" placeholder="Gallery image URL">
+                                    <button type="button" class="remove-gallery-image">Remove</button>
+                                </div>
+                            `).join('') : ''}
+                        </div>
+                        <button type="button" class="add-gallery-image">Add Gallery Image</button>
+                    </div>
+                    <button type="button" class="remove-product-btn" style="width: 100%;">Remove Product</button>
+                    ` :
+                    // Desktop layout
+                    `
                     <h4 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Product ${productIndex + 1}</h4>
                     <div class="form-group">
                         <label class="form-label">Product Name *</label>
@@ -3407,8 +3707,9 @@ Links will automatically be clickable: https://example.com"></textarea>
                         <button type="button" class="add-gallery-image" style="margin-top: 10px; padding: 8px 16px; background: var(--primary); color: white; border: none; cursor: pointer;">Add Gallery Image</button>
                     </div>
                     <button type="button" class="remove-product-btn" style="width: 100%;">Remove Product</button>
-                `;
+                    `;
                 
+                productDiv.innerHTML = productHTML;
                 productsContainer.appendChild(productDiv);
                 
                 // Setup color picker interactions
@@ -3438,10 +3739,10 @@ Links will automatically be clickable: https://example.com"></textarea>
                     
                     const galleryItem = document.createElement('div');
                     galleryItem.className = 'gallery-image-item';
-                    galleryItem.style.marginBottom = '10px';
+                    galleryItem.style.marginBottom = isMobile() ? '10px' : '10px';
                     galleryItem.innerHTML = `
                         <input type="text" class="form-input gallery-image" placeholder="Gallery image URL">
-                        <button type="button" class="remove-gallery-image" style="margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;">Remove</button>
+                        <button type="button" class="remove-gallery-image" style="${isMobile() ? 'margin-top: 8px; padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; width: 100%;' : 'margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;'}">Remove</button>
                     `;
                     
                     galleryContainer.appendChild(galleryItem);
@@ -3461,7 +3762,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 });
             }
             
-            // Setup color picker interactions
+            // Setup color picker interactions - Mobile Optimized
             function setupColorPicker(productDiv) {
                 // Button background color
                 const bgColorPicker = productDiv.querySelector('.product-bg-color');
@@ -3509,7 +3810,7 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Renumber Products
             function renumberProducts() {
                 const productsContainer = document.getElementById('bookCollectionProducts');
-                const productItems = productsContainer.querySelectorAll('.product-item');
+                const productItems = productsContainer.querySelectorAll('.product-item, .mobile-optimized-product');
                 
                 productItems.forEach((item, index) => {
                     const title = item.querySelector('h4');
@@ -3564,7 +3865,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Save Book Collection
+            // Save Book Collection - MOBILE OPTIMIZED
             document.getElementById('bookCollectionForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -3589,7 +3890,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     
                     // Collect products data
                     const products = [];
-                    const productItems = document.querySelectorAll('.product-item');
+                    const productItems = document.querySelectorAll('.product-item, .mobile-optimized-product');
                     
                     productItems.forEach((item, index) => {
                         const name = item.querySelector('.product-name').value.trim();
@@ -3690,13 +3991,20 @@ Links will automatically be clickable: https://example.com"></textarea>
                             const li = document.createElement('li');
                             li.className = 'sortable-item';
                             li.setAttribute('data-id', collection.id);
-                            li.innerHTML = `
-                                <i class="fas fa-grip-vertical drag-handle"></i>
-                                <div class="item-content">
-                                    <div class="item-title">${collection.title || 'Untitled Collection'}</div>
-                                    <div class="item-meta">${collection.products ? collection.products.length : 0} products</div>
-                                    <div style="font-size: 14px; color: var(--gray-600);">${collection.description || 'No description'}</div>
+                            
+                            // Mobile optimized item actions
+                            const itemActionsHTML = isMobile() ? 
+                                `
+                                <div class="item-actions">
+                                    <button class="action-btn edit-item-btn edit-collection-btn" data-id="${collection.id}">
+                                        <i class="fas fa-edit"></i> <span>Edit</span>
+                                    </button>
+                                    <button class="action-btn delete-item-btn delete-collection-btn" data-id="${collection.id}">
+                                        <i class="fas fa-trash"></i> <span>Delete</span>
+                                    </button>
                                 </div>
+                                ` : 
+                                `
                                 <div class="item-actions">
                                     <button class="action-btn edit-item-btn edit-collection-btn" data-id="${collection.id}">
                                         <i class="fas fa-edit"></i> Edit
@@ -3705,6 +4013,16 @@ Links will automatically be clickable: https://example.com"></textarea>
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </div>
+                                `;
+                            
+                            li.innerHTML = `
+                                <i class="fas fa-grip-vertical drag-handle"></i>
+                                <div class="item-content">
+                                    <div class="item-title">${collection.title || 'Untitled Collection'}</div>
+                                    <div class="item-meta">${collection.products ? collection.products.length : 0} products</div>
+                                    <div style="font-size: 14px; color: var(--gray-600);">${collection.description || 'No description'}</div>
+                                </div>
+                                ${itemActionsHTML}
                             `;
                             
                             bookCollectionsList.appendChild(li);
@@ -3770,7 +4088,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // ============== PRODUCT GRID MANAGEMENT ==============
+            // ============== PRODUCT GRID MANAGEMENT - MOBILE OPTIMIZED ==============
             const addProductGridBtn = document.getElementById('addProductGridBtn');
             const productGridList = document.getElementById('productGridList');
             const productGridLoading = document.getElementById('productGridLoading');
@@ -3781,7 +4099,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 openProductGridModal();
             });
             
-            // Open Product Grid Modal
+            // Open Product Grid Modal - MOBILE OPTIMIZED
             function openProductGridModal(productId = null) {
                 currentEditingProductId = productId;
                 
@@ -3797,6 +4115,9 @@ Links will automatically be clickable: https://example.com"></textarea>
                 document.getElementById('productGridButtonText').value = 'Get it Now';
                 document.getElementById('productGridButtonLink').value = '#';
                 document.getElementById('productGridBadge').value = '';
+                
+                // Add one gallery image by default
+                addGalleryImage();
                 
                 // Update modal title
                 const modalTitle = document.getElementById('productGridModalTitle');
@@ -3842,6 +4163,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                             data.galleryImages.forEach((image, index) => {
                                 addGalleryImage(image, index);
                             });
+                        } else {
+                            addGalleryImage();
                         }
                     }
                 } catch (error) {
@@ -3850,21 +4173,30 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // Add Gallery Image
+            // Add Gallery Image - MOBILE OPTIMIZED
             function addGalleryImage(imageUrl = '', index = null) {
                 const galleryContainer = document.getElementById('productGridGallery');
                 const galleryIndex = index !== null ? index : galleryContainer.children.length;
                 
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-image-item';
-                galleryItem.style.marginBottom = '15px';
-                galleryItem.innerHTML = `
+                galleryItem.style.marginBottom = isMobile() ? '15px' : '15px';
+                
+                const galleryHTML = isMobile() ? 
+                    `
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <input type="text" class="form-input gallery-image-url" value="${imageUrl}" placeholder="Gallery image URL">
+                        <button type="button" class="remove-gallery-image-btn" style="padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; text-align: center;">Remove</button>
+                    </div>
+                    ` : 
+                    `
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <input type="text" class="form-input gallery-image-url" value="${imageUrl}" placeholder="Gallery image URL" style="flex: 1;">
                         <button type="button" class="remove-gallery-image-btn" style="padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; flex-shrink: 0;">Remove</button>
                     </div>
-                `;
+                    `;
                 
+                galleryItem.innerHTML = galleryHTML;
                 galleryContainer.appendChild(galleryItem);
                 
                 // Add remove event listener
@@ -3913,7 +4245,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Save Product Grid - FIXED VERSION
+            // Save Product Grid - MOBILE OPTIMIZED
             document.getElementById('productGridForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -3961,7 +4293,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     };
                     
                     if (productId) {
-                        // Update existing product - FIX: Don't set order to undefined
+                        // Update existing product
                         await db.collection('productGrid').doc(productId).update(productData);
                         showToast('Product updated successfully!');
                     } else {
@@ -3985,7 +4317,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Load Product Grid
+            // Load Product Grid - MOBILE OPTIMIZED
             async function loadProductGrid() {
                 try {
                     productGridLoading.style.display = 'block';
@@ -4009,19 +4341,33 @@ Links will automatically be clickable: https://example.com"></textarea>
                             const li = document.createElement('li');
                             li.className = 'sortable-item';
                             li.setAttribute('data-id', product.id);
-                            li.innerHTML = `
-                                <i class="fas fa-grip-vertical drag-handle"></i>
+                            
+                            // Mobile optimized layout
+                            const itemContentHTML = isMobile() ? 
+                                `
+                                <div class="item-content">
+                                    <div class="item-title">${product.name || 'Untitled Product'}</div>
+                                    <div class="item-meta">${product.price || 'No price'}</div>
+                                    <div style="font-size: 14px; color: var(--gray-600); margin-top: 5px;">${product.description ? (product.description.length > 80 ? product.description.substring(0, 80) + '...' : product.description) : 'No description'}</div>
+                                </div>
+                                ` : 
+                                `
                                 <div class="item-content">
                                     <div class="item-title">${product.name || 'Untitled Product'}</div>
                                     <div class="item-meta">${product.price || 'No price'} • ${product.galleryImages ? product.galleryImages.length : 0} gallery images</div>
                                     <div style="font-size: 14px; color: var(--gray-600);">${product.description || 'No description'}</div>
                                 </div>
+                                `;
+                            
+                            li.innerHTML = `
+                                <i class="fas fa-grip-vertical drag-handle"></i>
+                                ${itemContentHTML}
                                 <div class="item-actions">
                                     <button class="action-btn edit-item-btn edit-product-btn" data-id="${product.id}">
-                                        <i class="fas fa-edit"></i> Edit
+                                        <i class="fas fa-edit"></i> ${isMobile() ? '<span>Edit</span>' : 'Edit'}
                                     </button>
                                     <button class="action-btn delete-item-btn delete-product-btn" data-id="${product.id}">
-                                        <i class="fas fa-trash"></i> Delete
+                                        <i class="fas fa-trash"></i> ${isMobile() ? '<span>Delete</span>' : 'Delete'}
                                     </button>
                                 </div>
                             `;
