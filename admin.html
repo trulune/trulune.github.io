@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Panel - Trulune Malaysia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Lato';
+            -webkit-tap-highlight-color: transparent;
         }
         
         :root {
@@ -36,6 +37,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             width: 100%;
+            touch-action: manipulation;
         }
 
         /* ============== LOGIN PAGE ============== */
@@ -119,6 +121,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation;
         }
 
         .login-btn:hover {
@@ -164,6 +167,8 @@
             transition: all 0.3s ease;
             width: 100%;
             height: var(--header-height);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         .admin-header.scrolled {
@@ -236,6 +241,7 @@
             white-space: nowrap;
             text-decoration: none;
             min-height: 40px;
+            touch-action: manipulation;
         }
 
         .logout-btn:hover {
@@ -308,6 +314,7 @@
             border-left: 4px solid transparent;
             width: 100%;
             box-sizing: border-box;
+            touch-action: manipulation;
         }
 
         .sidebar-link:hover {
@@ -381,6 +388,8 @@
             justify-content: space-between;
             transition: all 0.2s;
             cursor: move;
+            position: relative;
+            z-index: 1;
         }
 
         .sortable-item:hover {
@@ -404,6 +413,7 @@
             margin-right: 15px;
             cursor: move;
             flex-shrink: 0;
+            touch-action: none;
         }
 
         .item-content {
@@ -424,10 +434,13 @@
             margin-bottom: 10px;
         }
 
+        /* FIXED: Button actions container with proper z-index */
         .item-actions {
             display: flex;
             gap: 10px;
             flex-shrink: 0;
+            position: relative;
+            z-index: 10;
         }
 
         .action-btn {
@@ -443,6 +456,10 @@
             font-weight: 500;
             white-space: nowrap;
             text-decoration: none;
+            touch-action: manipulation;
+            min-height: 36px;
+            position: relative;
+            z-index: 11;
         }
 
         .action-btn:hover {
@@ -485,6 +502,7 @@
             transition: opacity 0.3s ease;
             padding: 20px;
             box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal.active {
@@ -502,6 +520,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
             border: 1px solid var(--gray-200);
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal-header {
@@ -526,12 +545,15 @@
             font-size: 24px;
             color: var(--gray-600);
             cursor: pointer;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
+            touch-action: manipulation;
+            z-index: 10;
+            position: relative;
         }
 
         .modal-close:hover {
@@ -547,6 +569,7 @@
             border-bottom: 1px solid var(--gray-200);
             margin-bottom: 20px;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .tab-btn {
@@ -561,6 +584,7 @@
             transition: all 0.2s;
             white-space: nowrap;
             flex-shrink: 0;
+            touch-action: manipulation;
         }
 
         .tab-btn:hover {
@@ -598,6 +622,7 @@
             align-items: center;
             gap: 8px;
             font-weight: 500;
+            touch-action: manipulation;
         }
 
         .add-product-btn:hover {
@@ -609,6 +634,8 @@
             padding: 15px;
             margin-bottom: 15px;
             border: 1px solid var(--gray-200);
+            position: relative;
+            z-index: 1;
         }
 
         .remove-product-btn {
@@ -619,6 +646,7 @@
             border: none;
             cursor: pointer;
             font-size: 14px;
+            touch-action: manipulation;
         }
 
         .remove-product-btn:hover {
@@ -865,6 +893,8 @@
             margin-top: 20px;
             text-decoration: none;
             text-align: center;
+            touch-action: manipulation;
+            min-height: 44px;
         }
 
         .save-btn:hover {
@@ -1122,6 +1152,8 @@
             width: 100%;
             justify-content: flex-start;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
         }
 
         @media (min-width: 768px) {
@@ -1146,6 +1178,10 @@
             font-weight: 500;
             white-space: nowrap;
             text-decoration: none;
+            touch-action: manipulation;
+            min-height: 36px;
+            position: relative;
+            z-index: 11;
         }
 
         .post-action-btn:hover {
@@ -1224,6 +1260,7 @@
             font-weight: 500;
             white-space: nowrap;
             text-decoration: none;
+            touch-action: manipulation;
         }
 
         .filter-btn:hover {
@@ -1293,12 +1330,13 @@
             font-size: 24px;
             color: var(--gray-600);
             cursor: pointer;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
+            touch-action: manipulation;
         }
 
         .edit-post-modal-close:hover {
@@ -1355,6 +1393,7 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 16px;
+            touch-action: manipulation;
         }
 
         .edit-post-modal-save:hover {
@@ -1371,6 +1410,7 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 16px;
+            touch-action: manipulation;
         }
 
         .edit-post-modal-cancel:hover {
@@ -1499,6 +1539,7 @@
             padding: 8px;
             transition: all 0.2s;
             min-width: 60px;
+            touch-action: manipulation;
         }
 
         .mobile-nav-link:hover {
@@ -1577,6 +1618,7 @@
             background: white;
             flex-shrink: 0;
             min-width: 40px;
+            touch-action: manipulation;
         }
 
         .color-hex-input {
@@ -1643,6 +1685,7 @@
             cursor: pointer;
             font-size: 14px;
             align-self: flex-start;
+            touch-action: manipulation;
         }
 
         @media (min-width: 768px) {
@@ -1663,6 +1706,7 @@
             align-items: center;
             gap: 8px;
             justify-content: center;
+            touch-action: manipulation;
         }
 
         /* Modal Actions Mobile Fix */
@@ -1783,7 +1827,7 @@
             }
             
             .post-action-btn {
-                padding: 6px 12px;
+                padding: 10px 12px;
                 font-size: 13px;
                 gap: 4px;
                 flex: 1;
@@ -1792,10 +1836,11 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                min-height: 44px;
             }
             
             .post-action-btn i {
-                font-size: 12px;
+                font-size: 14px;
             }
             
             .image-preview-container {
@@ -1848,6 +1893,16 @@
                 width: 100%;
                 justify-content: flex-end;
                 margin-top: 15px;
+                gap: 8px;
+            }
+            
+            .action-btn {
+                padding: 10px 12px;
+                font-size: 13px;
+                flex: 1;
+                min-width: calc(50% - 4px);
+                justify-content: center;
+                min-height: 44px;
             }
             
             /* MOBILE OPTIMIZED: Product item in collections */
@@ -1891,6 +1946,7 @@
             .tab-btn {
                 padding: 10px 15px;
                 font-size: 14px;
+                min-height: 44px;
             }
         }
 
@@ -1922,7 +1978,7 @@
             /* FIXED: Extra small screen post actions */
             .post-action-btn {
                 font-size: 12px;
-                padding: 5px 8px;
+                padding: 10px 8px;
                 min-width: calc(50% - 4px);
             }
             
@@ -2062,6 +2118,50 @@
             .color-picker {
                 width: 30px;
                 height: 30px;
+            }
+        }
+
+        /* ==================== MOBILE TOUCH FIXES ==================== */
+        /* Ensure buttons are tappable on mobile */
+        button, .action-btn, .save-btn, .post-action-btn, .filter-btn, .tab-btn, .modal-close {
+            cursor: pointer;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            tap-highlight-color: rgba(0,0,0,0.1);
+        }
+
+        /* Prevent text selection on interactive elements */
+        .sortable-item, .post-item, button, .action-btn {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* Improve touch feedback */
+        .action-btn:active, .post-action-btn:active, .save-btn:active {
+            transform: scale(0.98);
+            transition: transform 0.1s;
+        }
+
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+            .admin-content {
+                padding-bottom: 100px; /* Extra space for mobile nav */
+            }
+        }
+
+        /* Fix z-index stacking for mobile */
+        @media (max-width: 768px) {
+            .modal {
+                z-index: 3000;
+            }
+            
+            .mobile-nav {
+                z-index: 2000;
+            }
+            
+            .admin-main {
+                padding-bottom: 100px; /* Space for mobile nav */
             }
         }
     </style>
@@ -2604,10 +2704,21 @@ Links will automatically be clickable: https://example.com"></textarea>
         let currentEditingCollectionId = null;
         let currentEditingProductId = null;
         
-        // Mobile detection
-        const isMobile = () => window.innerWidth <= 768;
+        // Mobile detection with improved touch detection
+        const isMobile = () => {
+            return window.innerWidth <= 768 || ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        };
+        
+        // Add touch event polyfill for better mobile support
+        const addTouchSupport = () => {
+            document.addEventListener('touchstart', function() {}, {passive: true});
+            document.addEventListener('touchmove', function() {}, {passive: true});
+            document.addEventListener('touchend', function() {}, {passive: true});
+        };
         
         document.addEventListener('DOMContentLoaded', function() {
+            addTouchSupport();
+            
             // DOM Elements
             const loginPage = document.getElementById('loginPage');
             const adminPanel = document.getElementById('adminPanel');
@@ -2639,6 +2750,32 @@ Links will automatically be clickable: https://example.com"></textarea>
             const productGridModalClose = document.getElementById('productGridModalClose');
             const editPostModal = document.getElementById('editPostModal');
             const editPostModalClose = document.getElementById('editPostModalClose');
+            
+            // Enhanced mobile touch handling for modals
+            const setupMobileModalClose = (modal, closeBtn) => {
+                if (closeBtn) {
+                    // Add both click and touch events
+                    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+                    closeBtn.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        modal.classList.remove('active');
+                    });
+                }
+                
+                // Close modal on background tap
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                    }
+                });
+                
+                modal.addEventListener('touchend', (e) => {
+                    if (e.target === modal) {
+                        e.preventDefault();
+                        modal.classList.remove('active');
+                    }
+                });
+            };
             
             // Header scroll effect
             window.addEventListener('scroll', function() {
@@ -2688,13 +2825,13 @@ Links will automatically be clickable: https://example.com"></textarea>
                 currentEditingPostId = null;
             }
             
-            editPostModalClose.addEventListener('click', closeEditPostModal);
-            document.getElementById('editPostCancelBtn').addEventListener('click', closeEditPostModal);
+            // Setup modal close with touch support
+            setupMobileModalClose(editPostModal, editPostModalClose);
             
-            editPostModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeEditPostModal();
-                }
+            document.getElementById('editPostCancelBtn').addEventListener('click', closeEditPostModal);
+            document.getElementById('editPostCancelBtn').addEventListener('touchend', function(e) {
+                e.preventDefault();
+                closeEditPostModal();
             });
             
             document.addEventListener('keydown', function(e) {
@@ -2714,7 +2851,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Edit post form submission
+            // Edit post form submission with touch support
             document.getElementById('editPostForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -2841,7 +2978,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 lastLoginTime = new Date(storedLastLogin);
             }
             
-            // Login form submission
+            // Login form submission with touch support
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -2869,7 +3006,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Change Password
+            // Change Password with touch support
             changePasswordBtn.addEventListener('click', async () => {
                 const newPassword = prompt('Enter new password (min 6 characters):');
                 if (!newPassword) return;
@@ -2895,7 +3032,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Logout
+            // Logout with touch support
             logoutBtn.addEventListener('click', () => {
                 if (confirm('Are you sure you want to logout?')) {
                     auth.signOut();
@@ -2903,25 +3040,35 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
-            // Navigation
+            logoutBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    auth.signOut();
+                    showToast('Logged out successfully');
+                }
+            });
+            
+            // Navigation with enhanced touch support
             function setupNavigation() {
-                const sidebarLinks = document.querySelectorAll('.sidebar-link');
-                sidebarLinks.forEach(link => {
+                const setupLink = (link) => {
                     link.addEventListener('click', (e) => {
                         e.preventDefault();
                         const section = link.getAttribute('data-section');
                         navigateToSection(section);
                     });
-                });
+                    
+                    link.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        const section = link.getAttribute('data-section');
+                        navigateToSection(section);
+                    });
+                };
+                
+                const sidebarLinks = document.querySelectorAll('.sidebar-link');
+                sidebarLinks.forEach(setupLink);
                 
                 const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const section = link.getAttribute('data-section');
-                        navigateToSection(section);
-                    });
-                });
+                mobileLinks.forEach(setupLink);
             }
             
             function navigateToSection(section) {
@@ -2947,14 +3094,17 @@ Links will automatically be clickable: https://example.com"></textarea>
                     sec.style.display = 'none';
                 });
                 
-                document.getElementById(`${section}-section`).style.display = 'block';
-                
-                if (section === 'manage-posts') {
-                    loadPosts();
-                } else if (section === 'book-collections') {
-                    loadBookCollections();
-                } else if (section === 'product-grid') {
-                    loadProductGrid();
+                const targetSection = document.getElementById(`${section}-section`);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                    
+                    if (section === 'manage-posts') {
+                        loadPosts();
+                    } else if (section === 'book-collections') {
+                        loadBookCollections();
+                    } else if (section === 'product-grid') {
+                        loadProductGrid();
+                    }
                 }
             }
             
@@ -3065,7 +3215,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // Save profile changes
+            // Save profile changes with touch support
             document.getElementById('profileForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -3132,7 +3282,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             }
             
-            // Create new post with color option
+            // Create new post with color option and touch support
             document.getElementById('createPostForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
@@ -3376,7 +3526,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                             postsList.appendChild(postItem);
                         });
                         
-                        // Add event listeners for edit buttons
+                        // Add event listeners for edit buttons with touch support
                         document.querySelectorAll('.edit-post-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
@@ -3385,18 +3535,34 @@ Links will automatically be clickable: https://example.com"></textarea>
                                     openEditPostModal(postId, post);
                                 }
                             });
+                            
+                            button.addEventListener('touchend', async (e) => {
+                                e.preventDefault();
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const post = postsArray.find(p => p.id === postId);
+                                if (post) {
+                                    openEditPostModal(postId, post);
+                                }
+                            });
                         });
                         
-                        // Add event listeners for archive buttons
+                        // Add event listeners for archive buttons with touch support
                         document.querySelectorAll('.archive-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
                                 const isArchived = e.currentTarget.classList.contains('archived');
                                 await toggleArchivePost(postId, isArchived);
                             });
+                            
+                            button.addEventListener('touchend', async (e) => {
+                                e.preventDefault();
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const isArchived = e.currentTarget.classList.contains('archived');
+                                await toggleArchivePost(postId, isArchived);
+                            });
                         });
                         
-                        // Add event listeners for pin buttons
+                        // Add event listeners for pin buttons with touch support
                         document.querySelectorAll('.pin-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
                                 const postId = e.currentTarget.getAttribute('data-post-id');
@@ -3414,11 +3580,44 @@ Links will automatically be clickable: https://example.com"></textarea>
                                     showToast('Error updating post');
                                 }
                             });
+                            
+                            button.addEventListener('touchend', async (e) => {
+                                e.preventDefault();
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                const isPinned = e.currentTarget.classList.contains('pinned');
+                                
+                                try {
+                                    await db.collection('posts').doc(postId).update({
+                                        pinned: !isPinned
+                                    });
+                                    
+                                    showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
+                                    loadPosts();
+                                } catch (error) {
+                                    console.error('Error toggling pin:', error);
+                                    showToast('Error updating post');
+                                }
+                            });
                         });
                         
-                        // Add event listeners for delete buttons
+                        // Add event listeners for delete buttons with touch support
                         document.querySelectorAll('.delete-post-btn').forEach(button => {
                             button.addEventListener('click', async (e) => {
+                                const postId = e.currentTarget.getAttribute('data-post-id');
+                                if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+                                    try {
+                                        await db.collection('posts').doc(postId).delete();
+                                        showToast('Post deleted successfully');
+                                        loadPosts();
+                                    } catch (error) {
+                                        console.error('Error deleting post:', error);
+                                        showToast('Error deleting post');
+                                    }
+                                }
+                            });
+                            
+                            button.addEventListener('touchend', async (e) => {
+                                e.preventDefault();
                                 const postId = e.currentTarget.getAttribute('data-post-id');
                                 if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
                                     try {
@@ -3464,23 +3663,44 @@ Links will automatically be clickable: https://example.com"></textarea>
                 return 0;
             }
             
-            // Setup filter buttons for posts
+            // Setup filter buttons for posts with touch support
             document.querySelectorAll('.filter-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    document.querySelectorAll('.filter-btn').forEach(btn => {
-                        btn.classList.remove('active');
+                const setupFilterButton = (btn) => {
+                    btn.addEventListener('click', function() {
+                        // Remove active class from all buttons
+                        document.querySelectorAll('.filter-btn').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        // Update current filter
+                        currentFilter = this.getAttribute('data-filter');
+                        
+                        // Reload posts with filter
+                        loadPosts();
                     });
                     
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    // Update current filter
-                    currentFilter = this.getAttribute('data-filter');
-                    
-                    // Reload posts with filter
-                    loadPosts();
-                });
+                    btn.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        // Remove active class from all buttons
+                        document.querySelectorAll('.filter-btn').forEach(b => {
+                            b.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        // Update current filter
+                        currentFilter = this.getAttribute('data-filter');
+                        
+                        // Reload posts with filter
+                        loadPosts();
+                    });
+                };
+                
+                setupFilterButton(button);
             });
             
             // ============== BOOK COLLECTIONS MANAGEMENT - MOBILE OPTIMIZED ==============
@@ -3489,8 +3709,13 @@ Links will automatically be clickable: https://example.com"></textarea>
             const bookCollectionsLoading = document.getElementById('bookCollectionsLoading');
             const noBookCollectionsMessage = document.getElementById('noBookCollectionsMessage');
             
-            // Add Book Collection
+            // Add Book Collection with touch support
             addBookCollectionBtn.addEventListener('click', () => {
+                openBookCollectionModal();
+            });
+            
+            addBookCollectionBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
                 openBookCollectionModal();
             });
             
@@ -3531,6 +3756,20 @@ Links will automatically be clickable: https://example.com"></textarea>
                 bookCollectionModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
+            
+            // Setup book collection modal close with touch support
+            setupMobileModalClose(bookCollectionModal, bookCollectionModalClose);
+            
+            document.getElementById('bookCollectionCancelBtn').addEventListener('click', () => {
+                bookCollectionModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            document.getElementById('bookCollectionCancelBtn').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                bookCollectionModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
             
             // Load Book Collection Data
             async function loadBookCollectionData(collectionId) {
@@ -3577,9 +3816,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 productDiv.className = isMobile() ? 'mobile-optimized-product' : 'product-item';
                 
                 // Use mobile optimized layout
-                const productHTML = isMobile() ? 
-                    // Mobile optimized layout
-                    `
+                const productHTML = `
                     <h4>Product ${productIndex + 1}</h4>
                     <div class="form-group">
                         <label class="form-label">Product Name *</label>
@@ -3645,69 +3882,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                         <button type="button" class="add-gallery-image">Add Gallery Image</button>
                     </div>
                     <button type="button" class="remove-product-btn" style="width: 100%;">Remove Product</button>
-                    ` :
-                    // Desktop layout
-                    `
-                    <h4 style="margin-bottom: 15px; font-size: 16px; font-weight: 600;">Product ${productIndex + 1}</h4>
-                    <div class="form-group">
-                        <label class="form-label">Product Name *</label>
-                        <input type="text" class="form-input product-name" value="${product ? product.name : ''}" required placeholder="e.g., Fruitee HoneyDew">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Description *</label>
-                        <input type="text" class="form-input product-desc" value="${product ? product.description : ''}" required placeholder="e.g., Smell like Honey Dew">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Image URL *</label>
-                        <input type="text" class="form-input product-image" value="${product ? product.image : ''}" required placeholder="e.g., images/honeydew.jpg">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Price *</label>
-                        <input type="text" class="form-input product-price" value="${product ? product.price : ''}" required placeholder="e.g., RM24">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Buy Button Text *</label>
-                        <input type="text" class="form-input product-button-text" value="${product ? product.buttonText : 'Get it Now'}" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Buy Button Link *</label>
-                        <input type="url" class="form-input product-button-link" value="${product ? product.buttonLink : '#'}" required>
-                    </div>
-                    
-                    <!-- Color Customization Section -->
-                    <div class="color-customization">
-                        <h4>Color Customization</h4>
-                        <div class="color-input-group">
-                            <label>Button Background:</label>
-                            <input type="color" class="color-picker product-bg-color" value="${product ? (product.backgroundColor || '#000000') : '#000000'}">
-                            <input type="text" class="color-hex-input product-bg-color-text" value="${product ? (product.backgroundColor || '#000000') : '#000000'}" placeholder="#000000">
-                        </div>
-                        <div class="color-input-group">
-                            <label>Button Text:</label>
-                            <input type="color" class="color-picker product-text-color" value="${product ? (product.textColor || '#ffffff') : '#ffffff'}">
-                            <input type="text" class="color-hex-input product-text-color-text" value="${product ? (product.textColor || '#ffffff') : '#ffffff'}" placeholder="#ffffff">
-                        </div>
-                        <div class="color-input-group">
-                            <label>Price Text:</label>
-                            <input type="color" class="color-picker product-price-color" value="${product ? (product.priceColor || '#ffffff') : '#ffffff'}">
-                            <input type="text" class="color-hex-input product-price-color-text" value="${product ? (product.priceColor || '#ffffff') : '#ffffff'}" placeholder="#ffffff">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Gallery Images (Optional, up to 4)</label>
-                        <div class="gallery-images">
-                            ${product && product.galleryImages ? product.galleryImages.map((img, idx) => `
-                                <div class="gallery-image-item" style="margin-bottom: 10px;">
-                                    <input type="text" class="form-input gallery-image" value="${img}" placeholder="Gallery image URL">
-                                    <button type="button" class="remove-gallery-image" style="margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;">Remove</button>
-                                </div>
-                            `).join('') : ''}
-                        </div>
-                        <button type="button" class="add-gallery-image" style="margin-top: 10px; padding: 8px 16px; background: var(--primary); color: white; border: none; cursor: pointer;">Add Gallery Image</button>
-                    </div>
-                    <button type="button" class="remove-product-btn" style="width: 100%;">Remove Product</button>
-                    `;
+                `;
                 
                 productDiv.innerHTML = productHTML;
                 productsContainer.appendChild(productDiv);
@@ -3715,7 +3890,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 // Setup color picker interactions
                 setupColorPicker(productDiv);
                 
-                // Add event listeners
+                // Add event listeners with touch support
                 const removeBtn = productDiv.querySelector('.remove-product-btn');
                 removeBtn.addEventListener('click', () => {
                     if (productsContainer.children.length > 1) {
@@ -3726,39 +3901,77 @@ Links will automatically be clickable: https://example.com"></textarea>
                     }
                 });
                 
-                // Add gallery image functionality
+                removeBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    if (productsContainer.children.length > 1) {
+                        productDiv.remove();
+                        renumberProducts();
+                    } else {
+                        showToast('At least one product is required');
+                    }
+                });
+                
+                // Add gallery image functionality with touch support
                 const addGalleryBtn = productDiv.querySelector('.add-gallery-image');
                 const galleryContainer = productDiv.querySelector('.gallery-images');
                 
-                addGalleryBtn.addEventListener('click', () => {
-                    const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
-                    if (galleryItems.length >= 4) {
-                        showToast('Maximum 4 gallery images allowed');
-                        return;
-                    }
-                    
-                    const galleryItem = document.createElement('div');
-                    galleryItem.className = 'gallery-image-item';
-                    galleryItem.style.marginBottom = isMobile() ? '10px' : '10px';
-                    galleryItem.innerHTML = `
-                        <input type="text" class="form-input gallery-image" placeholder="Gallery image URL">
-                        <button type="button" class="remove-gallery-image" style="${isMobile() ? 'margin-top: 8px; padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; width: 100%;' : 'margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;'}">Remove</button>
-                    `;
-                    
-                    galleryContainer.appendChild(galleryItem);
-                    
-                    // Add remove event listener
-                    const removeGalleryBtn = galleryItem.querySelector('.remove-gallery-image');
-                    removeGalleryBtn.addEventListener('click', () => {
-                        galleryItem.remove();
+                const setupAddGalleryBtn = (btn) => {
+                    btn.addEventListener('click', () => {
+                        const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
+                        if (galleryItems.length >= 4) {
+                            showToast('Maximum 4 gallery images allowed');
+                            return;
+                        }
+                        
+                        addGalleryImageItem(galleryContainer);
                     });
-                });
+                    
+                    btn.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
+                        if (galleryItems.length >= 4) {
+                            showToast('Maximum 4 gallery images allowed');
+                            return;
+                        }
+                        
+                        addGalleryImageItem(galleryContainer);
+                    });
+                };
+                
+                setupAddGalleryBtn(addGalleryBtn);
                 
                 // Add remove event listeners to existing gallery images
                 productDiv.querySelectorAll('.remove-gallery-image').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        this.closest('.gallery-image-item').remove();
-                    });
+                    setupRemoveGalleryBtn(btn);
+                });
+            }
+            
+            // Helper function to add gallery image item
+            function addGalleryImageItem(galleryContainer) {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-image-item';
+                galleryItem.style.marginBottom = isMobile() ? '10px' : '10px';
+                galleryItem.innerHTML = `
+                    <input type="text" class="form-input gallery-image" placeholder="Gallery image URL">
+                    <button type="button" class="remove-gallery-image" style="${isMobile() ? 'margin-top: 8px; padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; width: 100%;' : 'margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;'}">Remove</button>
+                `;
+                
+                galleryContainer.appendChild(galleryItem);
+                
+                // Add remove event listener
+                const removeGalleryBtn = galleryItem.querySelector('.remove-gallery-image');
+                setupRemoveGalleryBtn(removeGalleryBtn);
+            }
+            
+            // Helper function to setup remove gallery button
+            function setupRemoveGalleryBtn(btn) {
+                btn.addEventListener('click', function() {
+                    this.closest('.gallery-image-item').remove();
+                });
+                
+                btn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    this.closest('.gallery-image-item').remove();
                 });
             }
             
@@ -3768,43 +3981,49 @@ Links will automatically be clickable: https://example.com"></textarea>
                 const bgColorPicker = productDiv.querySelector('.product-bg-color');
                 const bgColorText = productDiv.querySelector('.product-bg-color-text');
                 
-                bgColorPicker.addEventListener('input', function() {
-                    bgColorText.value = this.value;
-                });
-                
-                bgColorText.addEventListener('input', function() {
-                    if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
-                        bgColorPicker.value = this.value;
-                    }
-                });
+                if (bgColorPicker && bgColorText) {
+                    bgColorPicker.addEventListener('input', function() {
+                        bgColorText.value = this.value;
+                    });
+                    
+                    bgColorText.addEventListener('input', function() {
+                        if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                            bgColorPicker.value = this.value;
+                        }
+                    });
+                }
                 
                 // Button text color
                 const textColorPicker = productDiv.querySelector('.product-text-color');
                 const textColorText = productDiv.querySelector('.product-text-color-text');
                 
-                textColorPicker.addEventListener('input', function() {
-                    textColorText.value = this.value;
-                });
-                
-                textColorText.addEventListener('input', function() {
-                    if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
-                        textColorPicker.value = this.value;
-                    }
-                });
+                if (textColorPicker && textColorText) {
+                    textColorPicker.addEventListener('input', function() {
+                        textColorText.value = this.value;
+                    });
+                    
+                    textColorText.addEventListener('input', function() {
+                        if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                            textColorPicker.value = this.value;
+                        }
+                    });
+                }
                 
                 // Price text color
                 const priceColorPicker = productDiv.querySelector('.product-price-color');
                 const priceColorText = productDiv.querySelector('.product-price-color-text');
                 
-                priceColorPicker.addEventListener('input', function() {
-                    priceColorText.value = this.value;
-                });
-                
-                priceColorText.addEventListener('input', function() {
-                    if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
-                        priceColorPicker.value = this.value;
-                    }
-                });
+                if (priceColorPicker && priceColorText) {
+                    priceColorPicker.addEventListener('input', function() {
+                        priceColorText.value = this.value;
+                    });
+                    
+                    priceColorText.addEventListener('input', function() {
+                        if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+                            priceColorPicker.value = this.value;
+                        }
+                    });
+                }
             }
             
             // Renumber Products
@@ -3820,14 +4039,32 @@ Links will automatically be clickable: https://example.com"></textarea>
                 });
             }
             
-            // Add Product to Collection Button
+            // Add Product to Collection Button with touch support
             document.getElementById('addProductToCollectionBtn').addEventListener('click', () => {
                 addProductToCollection();
             });
             
-            // Tab functionality
+            document.getElementById('addProductToCollectionBtn').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                addProductToCollection();
+            });
+            
+            // Tab functionality with touch support
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    
+                    // Update active tab button
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update active tab content
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tab}-tab`).classList.add('active');
+                });
+                
+                btn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
                     const tab = this.getAttribute('data-tab');
                     
                     // Update active tab button
@@ -3846,22 +4083,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 if (this.value.trim()) {
                     preview.src = this.value;
                     preview.style.display = 'block';
-                }
-            });
-            
-            // Close Book Collection Modal
-            function closeBookCollectionModal() {
-                bookCollectionModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                currentEditingCollectionId = null;
-            }
-            
-            bookCollectionModalClose.addEventListener('click', closeBookCollectionModal);
-            document.getElementById('bookCollectionCancelBtn').addEventListener('click', closeBookCollectionModal);
-            
-            bookCollectionModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeBookCollectionModal();
                 }
             });
             
@@ -3893,17 +4114,21 @@ Links will automatically be clickable: https://example.com"></textarea>
                     const productItems = document.querySelectorAll('.product-item, .mobile-optimized-product');
                     
                     productItems.forEach((item, index) => {
-                        const name = item.querySelector('.product-name').value.trim();
-                        const desc = item.querySelector('.product-desc').value.trim();
-                        const image = item.querySelector('.product-image').value.trim();
-                        const price = item.querySelector('.product-price').value.trim();
-                        const buttonText = item.querySelector('.product-button-text').value.trim();
-                        const buttonLink = item.querySelector('.product-button-link').value.trim();
+                        const name = item.querySelector('.product-name')?.value.trim();
+                        const desc = item.querySelector('.product-desc')?.value.trim();
+                        const image = item.querySelector('.product-image')?.value.trim();
+                        const price = item.querySelector('.product-price')?.value.trim();
+                        const buttonText = item.querySelector('.product-button-text')?.value.trim();
+                        const buttonLink = item.querySelector('.product-button-link')?.value.trim();
+                        
+                        if (!name || !desc || !image || !price || !buttonText || !buttonLink) {
+                            return;
+                        }
                         
                         // Get color customization values
-                        const backgroundColor = item.querySelector('.product-bg-color-text').value.trim() || '#000000';
-                        const textColor = item.querySelector('.product-text-color-text').value.trim() || '#ffffff';
-                        const priceColor = item.querySelector('.product-price-color-text').value.trim() || '#ffffff';
+                        const backgroundColor = item.querySelector('.product-bg-color-text')?.value.trim() || '#000000';
+                        const textColor = item.querySelector('.product-text-color-text')?.value.trim() || '#ffffff';
+                        const priceColor = item.querySelector('.product-price-color-text')?.value.trim() || '#ffffff';
                         
                         // Collect gallery images
                         const galleryImages = [];
@@ -3913,20 +4138,18 @@ Links will automatically be clickable: https://example.com"></textarea>
                             }
                         });
                         
-                        if (name && desc && image && price && buttonText && buttonLink) {
-                            products.push({
-                                name,
-                                description: desc,
-                                image,
-                                price,
-                                buttonText,
-                                buttonLink,
-                                backgroundColor,
-                                textColor,
-                                priceColor,
-                                galleryImages: galleryImages.slice(0, 4) // Limit to 4
-                            });
-                        }
+                        products.push({
+                            name,
+                            description: desc,
+                            image,
+                            price,
+                            buttonText,
+                            buttonLink,
+                            backgroundColor,
+                            textColor,
+                            priceColor,
+                            galleryImages: galleryImages.slice(0, 4) // Limit to 4
+                        });
                     });
                     
                     if (products.length === 0) {
@@ -3954,7 +4177,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                         showToast('Collection added successfully!');
                     }
                     
-                    closeBookCollectionModal();
+                    bookCollectionModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
                     loadBookCollections();
                     
                 } catch (error) {
@@ -3992,9 +4216,13 @@ Links will automatically be clickable: https://example.com"></textarea>
                             li.className = 'sortable-item';
                             li.setAttribute('data-id', collection.id);
                             
-                            // Mobile optimized item actions
-                            const itemActionsHTML = isMobile() ? 
-                                `
+                            li.innerHTML = `
+                                <i class="fas fa-grip-vertical drag-handle"></i>
+                                <div class="item-content">
+                                    <div class="item-title">${collection.title || 'Untitled Collection'}</div>
+                                    <div class="item-meta">${collection.products ? collection.products.length : 0} products</div>
+                                    <div style="font-size: 14px; color: var(--gray-600);">${collection.description || 'No description'}</div>
+                                </div>
                                 <div class="item-actions">
                                     <button class="action-btn edit-item-btn edit-collection-btn" data-id="${collection.id}">
                                         <i class="fas fa-edit"></i> <span>Edit</span>
@@ -4003,36 +4231,17 @@ Links will automatically be clickable: https://example.com"></textarea>
                                         <i class="fas fa-trash"></i> <span>Delete</span>
                                     </button>
                                 </div>
-                                ` : 
-                                `
-                                <div class="item-actions">
-                                    <button class="action-btn edit-item-btn edit-collection-btn" data-id="${collection.id}">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="action-btn delete-item-btn delete-collection-btn" data-id="${collection.id}">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                                `;
-                            
-                            li.innerHTML = `
-                                <i class="fas fa-grip-vertical drag-handle"></i>
-                                <div class="item-content">
-                                    <div class="item-title">${collection.title || 'Untitled Collection'}</div>
-                                    <div class="item-meta">${collection.products ? collection.products.length : 0} products</div>
-                                    <div style="font-size: 14px; color: var(--gray-600);">${collection.description || 'No description'}</div>
-                                </div>
-                                ${itemActionsHTML}
                             `;
                             
                             bookCollectionsList.appendChild(li);
                         });
                         
-                        // Initialize Sortable
+                        // Initialize Sortable with touch support
                         new Sortable(bookCollectionsList, {
                             animation: 150,
                             ghostClass: 'sortable-ghost',
                             chosenClass: 'sortable-chosen',
+                            handle: '.drag-handle',
                             onEnd: async function(evt) {
                                 // Update order in database
                                 const items = Array.from(bookCollectionsList.children);
@@ -4053,17 +4262,38 @@ Links will automatically be clickable: https://example.com"></textarea>
                             }
                         });
                         
-                        // Add event listeners for edit buttons
+                        // Add event listeners for edit buttons with touch support
                         document.querySelectorAll('.edit-collection-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
                                 const collectionId = this.getAttribute('data-id');
                                 openBookCollectionModal(collectionId);
                             });
+                            
+                            btn.addEventListener('touchend', function(e) {
+                                e.preventDefault();
+                                const collectionId = this.getAttribute('data-id');
+                                openBookCollectionModal(collectionId);
+                            });
                         });
                         
-                        // Add event listeners for delete buttons
+                        // Add event listeners for delete buttons with touch support
                         document.querySelectorAll('.delete-collection-btn').forEach(btn => {
                             btn.addEventListener('click', async function() {
+                                const collectionId = this.getAttribute('data-id');
+                                if (confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+                                    try {
+                                        await db.collection('bookCollections').doc(collectionId).delete();
+                                        showToast('Collection deleted successfully');
+                                        loadBookCollections();
+                                    } catch (error) {
+                                        console.error('Error deleting collection:', error);
+                                        showToast('Error deleting collection');
+                                    }
+                                }
+                            });
+                            
+                            btn.addEventListener('touchend', async function(e) {
+                                e.preventDefault();
                                 const collectionId = this.getAttribute('data-id');
                                 if (confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
                                     try {
@@ -4094,8 +4324,13 @@ Links will automatically be clickable: https://example.com"></textarea>
             const productGridLoading = document.getElementById('productGridLoading');
             const noProductGridMessage = document.getElementById('noProductGridMessage');
             
-            // Add Product Grid
+            // Add Product Grid with touch support
             addProductGridBtn.addEventListener('click', () => {
+                openProductGridModal();
+            });
+            
+            addProductGridBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
                 openProductGridModal();
             });
             
@@ -4132,6 +4367,20 @@ Links will automatically be clickable: https://example.com"></textarea>
                 productGridModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             }
+            
+            // Setup product grid modal close with touch support
+            setupMobileModalClose(productGridModal, productGridModalClose);
+            
+            document.getElementById('productGridCancelBtn').addEventListener('click', () => {
+                productGridModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            document.getElementById('productGridCancelBtn').addEventListener('touchend', (e) => {
+                e.preventDefault();
+                productGridModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
             
             // Load Product Grid Data
             async function loadProductGridData(productId) {
@@ -4182,24 +4431,16 @@ Links will automatically be clickable: https://example.com"></textarea>
                 galleryItem.className = 'gallery-image-item';
                 galleryItem.style.marginBottom = isMobile() ? '15px' : '15px';
                 
-                const galleryHTML = isMobile() ? 
-                    `
+                galleryItem.innerHTML = `
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <input type="text" class="form-input gallery-image-url" value="${imageUrl}" placeholder="Gallery image URL">
                         <button type="button" class="remove-gallery-image-btn" style="padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; text-align: center;">Remove</button>
                     </div>
-                    ` : 
-                    `
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="text" class="form-input gallery-image-url" value="${imageUrl}" placeholder="Gallery image URL" style="flex: 1;">
-                        <button type="button" class="remove-gallery-image-btn" style="padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; flex-shrink: 0;">Remove</button>
-                    </div>
-                    `;
+                `;
                 
-                galleryItem.innerHTML = galleryHTML;
                 galleryContainer.appendChild(galleryItem);
                 
-                // Add remove event listener
+                // Add remove event listener with touch support
                 const removeBtn = galleryItem.querySelector('.remove-gallery-image-btn');
                 removeBtn.addEventListener('click', () => {
                     if (galleryContainer.children.length > 1) {
@@ -4208,10 +4449,29 @@ Links will automatically be clickable: https://example.com"></textarea>
                         showToast('At least one gallery image is required');
                     }
                 });
+                
+                removeBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    if (galleryContainer.children.length > 1) {
+                        galleryItem.remove();
+                    } else {
+                        showToast('At least one gallery image is required');
+                    }
+                });
             }
             
-            // Add Gallery Image Button
+            // Add Gallery Image Button with touch support
             document.getElementById('addGalleryImageBtn').addEventListener('click', () => {
+                const galleryContainer = document.getElementById('productGridGallery');
+                if (galleryContainer.children.length >= 4) {
+                    showToast('Maximum 4 gallery images allowed');
+                    return;
+                }
+                addGalleryImage();
+            });
+            
+            document.getElementById('addGalleryImageBtn').addEventListener('touchend', (e) => {
+                e.preventDefault();
                 const galleryContainer = document.getElementById('productGridGallery');
                 if (galleryContainer.children.length >= 4) {
                     showToast('Maximum 4 gallery images allowed');
@@ -4226,22 +4486,6 @@ Links will automatically be clickable: https://example.com"></textarea>
                 if (this.value.trim()) {
                     preview.src = this.value;
                     preview.style.display = 'block';
-                }
-            });
-            
-            // Close Product Grid Modal
-            function closeProductGridModal() {
-                productGridModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-                currentEditingProductId = null;
-            }
-            
-            productGridModalClose.addEventListener('click', closeProductGridModal);
-            document.getElementById('productGridCancelBtn').addEventListener('click', closeProductGridModal);
-            
-            productGridModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeProductGridModal();
                 }
             });
             
@@ -4304,7 +4548,8 @@ Links will automatically be clickable: https://example.com"></textarea>
                         showToast('Product added successfully!');
                     }
                     
-                    closeProductGridModal();
+                    productGridModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
                     loadProductGrid();
                     
                 } catch (error) {
@@ -4342,32 +4587,19 @@ Links will automatically be clickable: https://example.com"></textarea>
                             li.className = 'sortable-item';
                             li.setAttribute('data-id', product.id);
                             
-                            // Mobile optimized layout
-                            const itemContentHTML = isMobile() ? 
-                                `
+                            li.innerHTML = `
+                                <i class="fas fa-grip-vertical drag-handle"></i>
                                 <div class="item-content">
                                     <div class="item-title">${product.name || 'Untitled Product'}</div>
                                     <div class="item-meta">${product.price || 'No price'}</div>
                                     <div style="font-size: 14px; color: var(--gray-600); margin-top: 5px;">${product.description ? (product.description.length > 80 ? product.description.substring(0, 80) + '...' : product.description) : 'No description'}</div>
                                 </div>
-                                ` : 
-                                `
-                                <div class="item-content">
-                                    <div class="item-title">${product.name || 'Untitled Product'}</div>
-                                    <div class="item-meta">${product.price || 'No price'} • ${product.galleryImages ? product.galleryImages.length : 0} gallery images</div>
-                                    <div style="font-size: 14px; color: var(--gray-600);">${product.description || 'No description'}</div>
-                                </div>
-                                `;
-                            
-                            li.innerHTML = `
-                                <i class="fas fa-grip-vertical drag-handle"></i>
-                                ${itemContentHTML}
                                 <div class="item-actions">
                                     <button class="action-btn edit-item-btn edit-product-btn" data-id="${product.id}">
-                                        <i class="fas fa-edit"></i> ${isMobile() ? '<span>Edit</span>' : 'Edit'}
+                                        <i class="fas fa-edit"></i> <span>Edit</span>
                                     </button>
                                     <button class="action-btn delete-item-btn delete-product-btn" data-id="${product.id}">
-                                        <i class="fas fa-trash"></i> ${isMobile() ? '<span>Delete</span>' : 'Delete'}
+                                        <i class="fas fa-trash"></i> <span>Delete</span>
                                     </button>
                                 </div>
                             `;
@@ -4375,11 +4607,12 @@ Links will automatically be clickable: https://example.com"></textarea>
                             productGridList.appendChild(li);
                         });
                         
-                        // Initialize Sortable
+                        // Initialize Sortable with touch support
                         new Sortable(productGridList, {
                             animation: 150,
                             ghostClass: 'sortable-ghost',
                             chosenClass: 'sortable-chosen',
+                            handle: '.drag-handle',
                             onEnd: async function(evt) {
                                 // Update order in database
                                 const items = Array.from(productGridList.children);
@@ -4400,17 +4633,38 @@ Links will automatically be clickable: https://example.com"></textarea>
                             }
                         });
                         
-                        // Add event listeners for edit buttons
+                        // Add event listeners for edit buttons with touch support
                         document.querySelectorAll('.edit-product-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
                                 const productId = this.getAttribute('data-id');
                                 openProductGridModal(productId);
                             });
+                            
+                            btn.addEventListener('touchend', function(e) {
+                                e.preventDefault();
+                                const productId = this.getAttribute('data-id');
+                                openProductGridModal(productId);
+                            });
                         });
                         
-                        // Add event listeners for delete buttons
+                        // Add event listeners for delete buttons with touch support
                         document.querySelectorAll('.delete-product-btn').forEach(btn => {
                             btn.addEventListener('click', async function() {
+                                const productId = this.getAttribute('data-id');
+                                if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                                    try {
+                                        await db.collection('productGrid').doc(productId).delete();
+                                        showToast('Product deleted successfully');
+                                        loadProductGrid();
+                                    } catch (error) {
+                                        console.error('Error deleting product:', error);
+                                        showToast('Error deleting product');
+                                    }
+                                }
+                            });
+                            
+                            btn.addEventListener('touchend', async function(e) {
+                                e.preventDefault();
                                 const productId = this.getAttribute('data-id');
                                 if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
                                     try {
