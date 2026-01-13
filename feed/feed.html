@@ -36,7 +36,7 @@
             width: 100%;
         }
 
-        /* ============== HEADER (COPIED FROM HOMEPAGE) ============== */
+        /* ============== HEADER ============== */
         .header {
             padding: 0.5rem 0;
             position: fixed;
@@ -564,7 +564,7 @@
             }
         }
 
-        /* LIKE BUTTON - DEFAULT GRAY, ONLY RED WHEN CLICKED (TEMPORARY) */
+        /* LIKE BUTTON */
         .like-button {
             position: relative;
             color: var(--gray-600) !important;
@@ -696,7 +696,7 @@
             text-align: center;
         }
 
-        /* ============== IMAGE MODAL - CLOSE BUTTON STICKS TO IMAGE ============== */
+        /* ============== IMAGE MODAL ============== */
         .image-modal {
             display: none;
             position: fixed;
@@ -745,7 +745,7 @@
             display: block;
         }
 
-        /* CLOSE BUTTON - STICKS TO TOP RIGHT OF IMAGE ON ALL DEVICES */
+        /* CLOSE BUTTON */
         .close-modal {
             position: absolute;
             top: 15px;
@@ -904,7 +904,7 @@
             opacity: 1;
         }
 
-        /* ============== FOOTER - EXACT COPY FROM HOMEPAGE ============== */
+        /* ============== FOOTER ============== */
         .footer {
             background: transparent;
             color: black;
@@ -1105,7 +1105,7 @@
                 height: 36px;
             }
 
-            /* Mobile close button - SAME POSITION */
+            /* Mobile close button */
             .close-modal {
                 top: 15px;
                 right: 15px;
@@ -1268,7 +1268,7 @@
                 display: inline !important;
             }
 
-            /* Small mobile close button - SAME POSITION */
+            /* Small mobile close button */
             .close-modal {
                 top: 12px;
                 right: 12px;
@@ -1280,7 +1280,7 @@
     </style>
 </head>
 <body>
-    <!-- Header (Copied from Homepage) -->
+    <!-- Header -->
     <header class="header" id="header">
         <div class="header-container">
             <a href="newhome" class="logo">
@@ -1337,7 +1337,7 @@
             </div>
         </div>
         
-        <!-- Posts Feed - NO LOADING SPINNER -->
+        <!-- Posts Feed -->
         <div class="posts-feed" id="postsFeed">
             <!-- Posts will be loaded here directly -->
         </div>
@@ -1374,7 +1374,7 @@
         </div>
     </div>
 
-    <!-- Footer - EXACT COPY FROM HOMEPAGE -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
@@ -1425,13 +1425,13 @@
         }
         
         // Like button debouncing and state management
-        const likeButtonStates = new Map(); // Track animation state for each post
+        const likeButtonStates = new Map();
         
         document.addEventListener('DOMContentLoaded', function() {
             // Set current year
             document.getElementById('current-year').textContent = new Date().getFullYear();
             
-            // Header scroll effect (from homepage)
+            // Header scroll effect
             const header = document.getElementById('header');
             
             window.addEventListener('scroll', function() {
@@ -1442,7 +1442,7 @@
                 }
             });
             
-            // Mobile menu toggle (from homepage)
+            // Mobile menu toggle
             const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
             const navLinks = document.getElementById('nav-links');
             const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
@@ -1629,8 +1629,12 @@
                         postsSnapshot.forEach((doc) => {
                             const post = doc.data();
                             post.id = doc.id;
-                            postsArray.push(post);
-                            totalLikes += post.likes || 0;
+                            
+                            // FILTER OUT ARCHIVED POSTS - ONLY SHOW ACTIVE POSTS
+                            if (!post.archived) {
+                                postsArray.push(post);
+                                totalLikes += post.likes || 0;
+                            }
                         });
                         
                         // Sort: pinned posts first, then by date
@@ -2090,4 +2094,3 @@
     </script>
 </body>
 </html>
-
