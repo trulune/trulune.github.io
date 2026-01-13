@@ -37,7 +37,7 @@
             min-height: 100vh;
             overflow-x: hidden;
             width: 100%;
-            touch-action: manipulation;
+            touch-action: pan-y;
         }
 
         /* ============== LOGIN PAGE ============== */
@@ -122,6 +122,7 @@
             align-items: center;
             justify-content: center;
             touch-action: manipulation;
+            min-height: 44px;
         }
 
         .login-btn:hover {
@@ -275,6 +276,7 @@
             width: var(--sidebar-width);
             z-index: 900;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .admin-sidebar::-webkit-scrollbar {
@@ -347,6 +349,7 @@
             margin-left: calc(var(--sidebar-width) + 32px);
             box-sizing: border-box;
             overflow: hidden;
+            position: relative;
         }
 
         .section-title {
@@ -376,6 +379,7 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            width: 100%;
         }
 
         .sortable-item {
@@ -390,6 +394,10 @@
             cursor: move;
             position: relative;
             z-index: 1;
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .sortable-item:hover {
@@ -414,11 +422,19 @@
             cursor: move;
             flex-shrink: 0;
             touch-action: none;
+            padding: 10px;
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .item-content {
             flex: 1;
             min-width: 0;
+            padding-right: 15px;
+            overflow: hidden;
         }
 
         .item-title {
@@ -426,6 +442,7 @@
             font-weight: 600;
             margin-bottom: 5px;
             color: var(--primary);
+            word-wrap: break-word;
         }
 
         .item-meta {
@@ -444,7 +461,7 @@
         }
 
         .action-btn {
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: white;
             border: 1px solid var(--gray-200);
             cursor: pointer;
@@ -457,9 +474,11 @@
             white-space: nowrap;
             text-decoration: none;
             touch-action: manipulation;
-            min-height: 36px;
+            min-height: 44px;
+            min-width: 44px;
             position: relative;
             z-index: 11;
+            box-sizing: border-box;
         }
 
         .action-btn:hover {
@@ -486,7 +505,7 @@
             color: white;
         }
 
-        /* Modal Styles */
+        /* Modal Styles - MOBILE FIXED */
         .modal {
             display: none;
             position: fixed;
@@ -495,13 +514,14 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
+            z-index: 3000;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             opacity: 0;
             transition: opacity 0.3s ease;
             padding: 20px;
             box-sizing: border-box;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -512,8 +532,8 @@
 
         .modal-content {
             background: white;
-            padding: 30px;
-            width: 90%;
+            padding: 25px;
+            width: 100%;
             max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
@@ -521,6 +541,8 @@
             position: relative;
             border: 1px solid var(--gray-200);
             -webkit-overflow-scrolling: touch;
+            margin-top: 60px;
+            margin-bottom: 20px;
         }
 
         .modal-header {
@@ -530,6 +552,10 @@
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
         }
 
         .modal-title {
@@ -545,14 +571,14 @@
             font-size: 24px;
             color: var(--gray-600);
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
             touch-action: manipulation;
-            z-index: 10;
+            z-index: 11;
             position: relative;
         }
 
@@ -570,6 +596,13 @@
             margin-bottom: 20px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
         }
 
         .tab-btn {
@@ -585,6 +618,7 @@
             white-space: nowrap;
             flex-shrink: 0;
             touch-action: manipulation;
+            min-height: 44px;
         }
 
         .tab-btn:hover {
@@ -598,6 +632,7 @@
 
         .tab-content {
             display: none;
+            width: 100%;
         }
 
         .tab-content.active {
@@ -609,11 +644,13 @@
             padding: 20px;
             background: #f8f9fa;
             border: 1px solid var(--gray-200);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .add-product-btn {
             margin-top: 15px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: var(--primary);
             color: white;
             border: none;
@@ -623,6 +660,10 @@
             gap: 8px;
             font-weight: 500;
             touch-action: manipulation;
+            width: 100%;
+            justify-content: center;
+            min-height: 44px;
+            box-sizing: border-box;
         }
 
         .add-product-btn:hover {
@@ -636,17 +677,22 @@
             border: 1px solid var(--gray-200);
             position: relative;
             z-index: 1;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .remove-product-btn {
             margin-top: 10px;
-            padding: 8px 16px;
+            padding: 12px 16px;
             background: #dc2626;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 14px;
             touch-action: manipulation;
+            width: 100%;
+            min-height: 44px;
+            box-sizing: border-box;
         }
 
         .remove-product-btn:hover {
@@ -895,6 +941,7 @@
             text-align: center;
             touch-action: manipulation;
             min-height: 44px;
+            min-width: 44px;
         }
 
         .save-btn:hover {
@@ -997,6 +1044,8 @@
             cursor: pointer;
             background: white;
             flex-shrink: 0;
+            min-width: 45px;
+            min-height: 45px;
         }
 
         .color-input {
@@ -1006,6 +1055,7 @@
             font-size: 14px;
             text-transform: uppercase;
             box-sizing: border-box;
+            min-height: 44px;
         }
 
         .color-input:focus {
@@ -1166,7 +1216,7 @@
         }
 
         .post-action-btn {
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: white;
             border: 1px solid var(--gray-200);
             cursor: pointer;
@@ -1179,9 +1229,11 @@
             white-space: nowrap;
             text-decoration: none;
             touch-action: manipulation;
-            min-height: 36px;
+            min-height: 44px;
+            min-width: 44px;
             position: relative;
             z-index: 11;
+            box-sizing: border-box;
         }
 
         .post-action-btn:hover {
@@ -1248,7 +1300,7 @@
         }
 
         .filter-btn {
-            padding: 8px 16px;
+            padding: 10px 16px;
             background: white;
             border: 1px solid var(--gray-200);
             cursor: pointer;
@@ -1261,6 +1313,8 @@
             white-space: nowrap;
             text-decoration: none;
             touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .filter-btn:hover {
@@ -1282,13 +1336,14 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
+            z-index: 3001;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             opacity: 0;
             transition: opacity 0.3s ease;
             padding: 20px;
             box-sizing: border-box;
+            overflow-y: auto;
         }
 
         .edit-post-modal.active {
@@ -1298,14 +1353,16 @@
 
         .edit-post-modal-content {
             background: white;
-            padding: 30px;
-            width: 90%;
+            padding: 25px;
+            width: 100%;
             max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             position: relative;
             border: 1px solid var(--gray-200);
+            margin-top: 60px;
+            margin-bottom: 20px;
         }
 
         .edit-post-modal-header {
@@ -1315,6 +1372,10 @@
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
         }
 
         .edit-post-modal-title {
@@ -1330,13 +1391,15 @@
             font-size: 24px;
             color: var(--gray-600);
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
             touch-action: manipulation;
+            min-width: 44px;
+            min-height: 44px;
         }
 
         .edit-post-modal-close:hover {
@@ -1382,6 +1445,7 @@
             gap: 15px;
             margin-top: 25px;
             justify-content: flex-end;
+            flex-wrap: wrap;
         }
 
         .edit-post-modal-save {
@@ -1394,6 +1458,8 @@
             transition: all 0.2s;
             font-size: 16px;
             touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .edit-post-modal-save:hover {
@@ -1411,6 +1477,8 @@
             transition: all 0.2s;
             font-size: 16px;
             touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .edit-post-modal-cancel:hover {
@@ -1475,7 +1543,7 @@
         /* Toast */
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px;
             right: 20px;
             left: 20px;
             background: var(--primary);
@@ -1485,16 +1553,18 @@
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
-            z-index: 2000;
+            z-index: 4000;
             font-weight: 500;
             text-align: center;
             max-width: 400px;
             margin: 0 auto;
             box-sizing: border-box;
+            border-radius: 8px;
         }
 
         @media (min-width: 768px) {
             .toast {
+                bottom: 30px;
                 right: 30px;
                 left: auto;
                 text-align: left;
@@ -1516,7 +1586,7 @@
             background: white;
             border-top: 1px solid var(--gray-200);
             padding: 10px;
-            z-index: 1000;
+            z-index: 2000;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
             width: 100%;
             box-sizing: border-box;
@@ -1540,6 +1610,8 @@
             transition: all 0.2s;
             min-width: 60px;
             touch-action: manipulation;
+            min-height: 50px;
+            justify-content: center;
         }
 
         .mobile-nav-link:hover {
@@ -1564,6 +1636,8 @@
             background: #f8f9fa;
             border: 1px solid var(--gray-200);
             border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .color-customization h4 {
@@ -1611,25 +1685,29 @@
         }
 
         .color-picker {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border: 2px solid var(--gray-200);
             cursor: pointer;
             background: white;
             flex-shrink: 0;
-            min-width: 40px;
+            min-width: 44px;
+            min-height: 44px;
             touch-action: manipulation;
+            border-radius: 4px;
         }
 
         .color-hex-input {
             flex: 1;
             min-width: 0;
-            padding: 8px;
+            padding: 12px;
             border: 1px solid var(--gray-200);
             font-size: 14px;
             text-transform: uppercase;
             width: 100%;
             max-width: 120px;
+            min-height: 44px;
+            box-sizing: border-box;
         }
 
         .color-hex-input:focus {
@@ -1644,6 +1722,8 @@
             background: #f8f9fa;
             border: 1px solid var(--gray-200);
             border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .mobile-optimized-product h4 {
@@ -1661,13 +1741,16 @@
             flex-direction: column;
             gap: 10px;
             margin-bottom: 15px;
+            width: 100%;
         }
 
         .gallery-image-item {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         @media (min-width: 768px) {
@@ -1678,14 +1761,17 @@
         }
 
         .remove-gallery-image {
-            padding: 8px 16px;
+            padding: 12px 16px;
             background: #dc2626;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 14px;
-            align-self: flex-start;
+            align-self: stretch;
             touch-action: manipulation;
+            min-height: 44px;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
 
         @media (min-width: 768px) {
@@ -1696,7 +1782,7 @@
 
         .add-gallery-image {
             margin-top: 10px;
-            padding: 8px 16px;
+            padding: 12px 16px;
             background: var(--primary);
             color: white;
             border: none;
@@ -1707,6 +1793,10 @@
             gap: 8px;
             justify-content: center;
             touch-action: manipulation;
+            width: 100%;
+            min-height: 44px;
+            box-sizing: border-box;
+            border-radius: 4px;
         }
 
         /* Modal Actions Mobile Fix */
@@ -1743,7 +1833,7 @@
         @media (max-width: 1024px) {
             .admin-content {
                 display: block;
-                padding: 85px 20px 80px;
+                padding: 85px 20px 100px;
             }
             
             .admin-sidebar {
@@ -1766,6 +1856,14 @@
             .admin-header.scrolled .admin-header-content {
                 padding: 10px 20px;
             }
+            
+            .modal-content {
+                margin-top: 40px;
+            }
+            
+            .edit-post-modal-content {
+                margin-top: 40px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1787,7 +1885,7 @@
             }
             
             .admin-content {
-                padding: 80px var(--mobile-padding) 80px;
+                padding: 80px var(--mobile-padding) 100px;
             }
             
             .admin-main {
@@ -1869,24 +1967,29 @@
             
             .modal-content {
                 padding: 20px;
-                width: 95%;
-                max-width: 95%;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 20px;
             }
             
             .edit-post-modal-content {
                 padding: 20px;
-                width: 95%;
-                max-width: 95%;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 20px;
             }
             
             .action-header {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 15px;
             }
             
             .sortable-item {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
+                gap: 15px;
+                padding: 15px;
             }
             
             .item-actions {
@@ -1927,8 +2030,8 @@
             }
             
             .color-picker {
-                width: 35px;
-                height: 35px;
+                width: 40px;
+                height: 40px;
             }
             
             .color-hex-input {
@@ -1941,12 +2044,25 @@
                 overflow-x: auto;
                 white-space: nowrap;
                 padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
             }
             
             .tab-btn {
                 padding: 10px 15px;
                 font-size: 14px;
                 min-height: 44px;
+            }
+            
+            .toast {
+                bottom: 90px;
+            }
+            
+            .drag-handle {
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -1958,6 +2074,7 @@
             .logout-btn {
                 padding: 8px 12px;
                 font-size: 14px;
+                min-height: 44px;
             }
             
             .save-btn {
@@ -2073,6 +2190,14 @@
                 align-self: stretch;
                 text-align: center;
             }
+            
+            .item-content {
+                padding-right: 0;
+            }
+            
+            .drag-handle {
+                align-self: flex-start;
+            }
         }
 
         @media (max-width: 360px) {
@@ -2116,21 +2241,27 @@
             }
             
             .color-picker {
-                width: 30px;
-                height: 30px;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .action-btn, .post-action-btn, .filter-btn {
+                font-size: 12px;
+                padding: 8px 10px;
             }
         }
 
         /* ==================== MOBILE TOUCH FIXES ==================== */
         /* Ensure buttons are tappable on mobile */
-        button, .action-btn, .save-btn, .post-action-btn, .filter-btn, .tab-btn, .modal-close {
+        button, .action-btn, .save-btn, .post-action-btn, .filter-btn, .tab-btn, .modal-close, .login-btn {
             cursor: pointer;
             -webkit-tap-highlight-color: rgba(0,0,0,0.1);
             tap-highlight-color: rgba(0,0,0,0.1);
+            font-family: 'Lato';
         }
 
         /* Prevent text selection on interactive elements */
-        .sortable-item, .post-item, button, .action-btn {
+        .sortable-item, .post-item, button, .action-btn, .drag-handle {
             user-select: none;
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -2146,7 +2277,11 @@
         /* Fix for iOS Safari */
         @supports (-webkit-touch-callout: none) {
             .admin-content {
-                padding-bottom: 100px; /* Extra space for mobile nav */
+                padding-bottom: 120px; /* Extra space for mobile nav */
+            }
+            
+            .modal-content, .edit-post-modal-content {
+                max-height: 80vh;
             }
         }
 
@@ -2161,11 +2296,41 @@
             }
             
             .admin-main {
-                padding-bottom: 100px; /* Space for mobile nav */
+                padding-bottom: 120px; /* Space for mobile nav */
+            }
+            
+            .toast {
+                z-index: 4000;
             }
         }
+
+        /* Prevent scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Touch-friendly scroll areas */
+        .sortable-list, .posts-list, .modal-content, .edit-post-modal-content {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Fix for touch interactions on draggable items */
+        .sortable-item * {
+            pointer-events: none;
+        }
+
+        .sortable-item .drag-handle {
+            pointer-events: auto;
+        }
+
+        .sortable-item .action-btn {
+            pointer-events: auto;
+        }
     </style>
-    <!-- SortableJS for drag and drop -->
+    <!-- SortableJS for drag and drop with touch support -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
@@ -2349,7 +2514,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                             <div class="color-picker-row">
                                 <div class="color-preview" id="colorPreview" style="background: #ffffff;"></div>
                                 <input type="text" class="color-input" id="postColor" placeholder="#FFFFFF" maxlength="7" value="#FFFFFF">
-                                <button type="button" class="post-action-btn" id="resetColorBtn" style="padding: 8px 16px;">
+                                <button type="button" class="post-action-btn" id="resetColorBtn" style="padding: 10px 16px; min-height: 44px;">
                                     <i class="fas fa-undo"></i> Reset to White
                                 </button>
                             </div>
@@ -2518,7 +2683,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                     <div class="color-picker-row">
                         <div class="color-preview" id="editColorPreview" style="background: #ffffff;"></div>
                         <input type="text" class="color-input" id="editPostColor" placeholder="#FFFFFF" maxlength="7" value="#FFFFFF">
-                        <button type="button" class="post-action-btn" id="editResetColorBtn" style="padding: 8px 16px;">
+                        <button type="button" class="post-action-btn" id="editResetColorBtn" style="padding: 10px 16px; min-height: 44px;">
                             <i class="fas fa-undo"></i> Reset to White
                         </button>
                     </div>
@@ -2703,20 +2868,45 @@ Links will automatically be clickable: https://example.com"></textarea>
         let currentEditingPostId = null;
         let currentEditingCollectionId = null;
         let currentEditingProductId = null;
+        let isTouchDevice = false;
         
         // Mobile detection with improved touch detection
-        const isMobile = () => {
-            return window.innerWidth <= 768 || ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        const checkTouchDevice = () => {
+            isTouchDevice = ('ontouchstart' in window) || 
+                           (navigator.maxTouchPoints > 0) || 
+                           (navigator.msMaxTouchPoints > 0) ||
+                           (window.innerWidth <= 768);
+            return isTouchDevice;
         };
         
-        // Add touch event polyfill for better mobile support
+        // Add touch event support with proper handling
         const addTouchSupport = () => {
-            document.addEventListener('touchstart', function() {}, {passive: true});
-            document.addEventListener('touchmove', function() {}, {passive: true});
-            document.addEventListener('touchend', function() {}, {passive: true});
+            document.addEventListener('touchstart', function(e) {
+                // Prevent double-tap zoom
+                if (e.touches.length > 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            
+            document.addEventListener('touchmove', function(e) {
+                // Allow scrolling in modals
+                if (e.target.closest('.modal-content') || e.target.closest('.edit-post-modal-content')) {
+                    e.stopPropagation();
+                }
+            }, { passive: true });
+            
+            document.addEventListener('touchend', function(e) {
+                // Handle button press feedback
+                const button = e.target.closest('button, .action-btn, .save-btn, .post-action-btn, .filter-btn, .tab-btn, .modal-close, .login-btn');
+                if (button) {
+                    e.preventDefault();
+                    button.focus();
+                }
+            }, { passive: false });
         };
         
         document.addEventListener('DOMContentLoaded', function() {
+            checkTouchDevice();
             addTouchSupport();
             
             // DOM Elements
@@ -2755,26 +2945,45 @@ Links will automatically be clickable: https://example.com"></textarea>
             const setupMobileModalClose = (modal, closeBtn) => {
                 if (closeBtn) {
                     // Add both click and touch events
-                    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+                    const closeModal = () => {
+                        modal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                    };
+                    
+                    closeBtn.addEventListener('click', closeModal);
                     closeBtn.addEventListener('touchend', (e) => {
                         e.preventDefault();
-                        modal.classList.remove('active');
+                        e.stopPropagation();
+                        closeModal();
                     });
                 }
                 
                 // Close modal on background tap
-                modal.addEventListener('click', (e) => {
+                const handleBackgroundClick = (e) => {
                     if (e.target === modal) {
                         modal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
                     }
-                });
+                };
                 
+                modal.addEventListener('click', handleBackgroundClick);
                 modal.addEventListener('touchend', (e) => {
                     if (e.target === modal) {
                         e.preventDefault();
+                        e.stopPropagation();
                         modal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
                     }
                 });
+            };
+            
+            // Prevent body scroll when modal is open
+            const preventBodyScroll = () => {
+                document.body.classList.add('modal-open');
+                document.body.style.overflow = 'hidden';
             };
             
             // Header scroll effect
@@ -2802,6 +3011,12 @@ Links will automatically be clickable: https://example.com"></textarea>
                 colorPreview.style.background = '#FFFFFF';
             });
             
+            resetColorBtn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                postColorInput.value = '#FFFFFF';
+                colorPreview.style.background = '#FFFFFF';
+            });
+            
             // Edit color picker initialization
             editPostColorInput.addEventListener('input', function() {
                 let color = this.value.trim();
@@ -2818,9 +3033,16 @@ Links will automatically be clickable: https://example.com"></textarea>
                 editColorPreview.style.background = '#FFFFFF';
             });
             
+            editResetColorBtn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                editPostColorInput.value = '#FFFFFF';
+                editColorPreview.style.background = '#FFFFFF';
+            });
+            
             // Edit post modal setup
             function closeEditPostModal() {
                 editPostModal.classList.remove('active');
+                document.body.classList.remove('modal-open');
                 document.body.style.overflow = 'auto';
                 currentEditingPostId = null;
             }
@@ -2828,11 +3050,15 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Setup modal close with touch support
             setupMobileModalClose(editPostModal, editPostModalClose);
             
-            document.getElementById('editPostCancelBtn').addEventListener('click', closeEditPostModal);
-            document.getElementById('editPostCancelBtn').addEventListener('touchend', function(e) {
-                e.preventDefault();
-                closeEditPostModal();
-            });
+            const editPostCancelBtn = document.getElementById('editPostCancelBtn');
+            if (editPostCancelBtn) {
+                editPostCancelBtn.addEventListener('click', closeEditPostModal);
+                editPostCancelBtn.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeEditPostModal();
+                });
+            }
             
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && editPostModal.classList.contains('active')) {
@@ -2841,72 +3067,78 @@ Links will automatically be clickable: https://example.com"></textarea>
             });
             
             // Edit image preview
-            document.getElementById('editPostImageUrl').addEventListener('input', function() {
-                const preview = document.getElementById('editPostImagePreview');
-                if (this.value.trim()) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
+            const editPostImageUrl = document.getElementById('editPostImageUrl');
+            if (editPostImageUrl) {
+                editPostImageUrl.addEventListener('input', function() {
+                    const preview = document.getElementById('editPostImagePreview');
+                    if (this.value.trim()) {
+                        preview.src = this.value;
+                        preview.style.display = 'block';
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                });
+            }
             
             // Edit post form submission with touch support
-            document.getElementById('editPostForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const editSaveBtn = document.getElementById('editPostSaveBtn');
-                const editSaveText = document.getElementById('editPostSaveText');
-                const editLoading = document.getElementById('editPostLoading');
-                
-                editSaveBtn.disabled = true;
-                editSaveText.style.display = 'none';
-                editLoading.style.display = 'inline-block';
-                
-                try {
-                    const postId = document.getElementById('editPostId').value;
-                    const content = document.getElementById('editPostContent').value.trim();
+            const editPostForm = document.getElementById('editPostForm');
+            if (editPostForm) {
+                editPostForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
                     
-                    if (!content) {
-                        showToast('Please enter post content');
-                        return;
+                    const editSaveBtn = document.getElementById('editPostSaveBtn');
+                    const editSaveText = document.getElementById('editPostSaveText');
+                    const editLoading = document.getElementById('editPostLoading');
+                    
+                    editSaveBtn.disabled = true;
+                    editSaveText.style.display = 'none';
+                    editLoading.style.display = 'inline-block';
+                    
+                    try {
+                        const postId = document.getElementById('editPostId').value;
+                        const content = document.getElementById('editPostContent').value.trim();
+                        
+                        if (!content) {
+                            showToast('Please enter post content');
+                            return;
+                        }
+                        
+                        let postColor = editPostColorInput.value.trim();
+                        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                        if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
+                            postColor = '#FFFFFF';
+                        }
+                        
+                        const updateData = {
+                            content: content,
+                            backgroundColor: postColor,
+                            updatedAt: new Date().toISOString()
+                        };
+                        
+                        const imageUrl = document.getElementById('editPostImageUrl').value.trim();
+                        if (imageUrl) {
+                            updateData.imageUrl = imageUrl;
+                        } else {
+                            // Remove image if field is empty
+                            updateData.imageUrl = firebase.firestore.FieldValue.delete();
+                        }
+                        
+                        await db.collection('posts').doc(postId).update(updateData);
+                        
+                        showToast('Post updated successfully!');
+                        closeEditPostModal();
+                        loadPosts();
+                        
+                    } catch (error) {
+                        console.error('Error updating post:', error);
+                        showToast('Error updating post: ' + error.message);
+                    } finally {
+                        editSaveBtn.disabled = false;
+                        editSaveText.style.display = 'inline';
+                        editLoading.style.display = 'none';
                     }
-                    
-                    let postColor = editPostColorInput.value.trim();
-                    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-                    if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
-                        postColor = '#FFFFFF';
-                    }
-                    
-                    const updateData = {
-                        content: content,
-                        backgroundColor: postColor,
-                        updatedAt: new Date().toISOString()
-                    };
-                    
-                    const imageUrl = document.getElementById('editPostImageUrl').value.trim();
-                    if (imageUrl) {
-                        updateData.imageUrl = imageUrl;
-                    } else {
-                        // Remove image if field is empty
-                        updateData.imageUrl = firebase.firestore.FieldValue.delete();
-                    }
-                    
-                    await db.collection('posts').doc(postId).update(updateData);
-                    
-                    showToast('Post updated successfully!');
-                    closeEditPostModal();
-                    loadPosts();
-                    
-                } catch (error) {
-                    console.error('Error updating post:', error);
-                    showToast('Error updating post: ' + error.message);
-                } finally {
-                    editSaveBtn.disabled = false;
-                    editSaveText.style.display = 'inline';
-                    editLoading.style.display = 'none';
-                }
-            });
+                });
+            }
             
             // Check if already logged in
             const checkAuth = () => {
@@ -3032,6 +3264,36 @@ Links will automatically be clickable: https://example.com"></textarea>
                 }
             });
             
+            changePasswordBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                const newPassword = prompt('Enter new password (min 6 characters):');
+                if (!newPassword) return;
+                
+                if (newPassword.length < 6) {
+                    alert('Password must be at least 6 characters long');
+                    return;
+                }
+                
+                const confirmPassword = prompt('Confirm new password:');
+                if (newPassword !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+                
+                try {
+                    const user = auth.currentUser;
+                    user.updatePassword(newPassword).then(() => {
+                        showToast('Password changed successfully!');
+                    }).catch((error) => {
+                        console.error('Error changing password:', error);
+                        showToast('Error changing password: ' + error.message);
+                    });
+                } catch (error) {
+                    console.error('Error changing password:', error);
+                    showToast('Error changing password: ' + error.message);
+                }
+            });
+            
             // Logout with touch support
             logoutBtn.addEventListener('click', () => {
                 if (confirm('Are you sure you want to logout?')) {
@@ -3051,17 +3313,17 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Navigation with enhanced touch support
             function setupNavigation() {
                 const setupLink = (link) => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
+                    const handleNavigation = (e) => {
+                        if (e.type === 'touchend') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
                         const section = link.getAttribute('data-section');
                         navigateToSection(section);
-                    });
+                    };
                     
-                    link.addEventListener('touchend', (e) => {
-                        e.preventDefault();
-                        const section = link.getAttribute('data-section');
-                        navigateToSection(section);
-                    });
+                    link.addEventListener('click', handleNavigation);
+                    link.addEventListener('touchend', handleNavigation);
                 };
                 
                 const sidebarLinks = document.querySelectorAll('.sidebar-link');
@@ -3169,15 +3431,18 @@ Links will automatically be clickable: https://example.com"></textarea>
             }
             
             // Post image preview
-            document.getElementById('postImageUrl').addEventListener('input', function() {
-                const preview = document.getElementById('postImagePreview');
-                if (this.value.trim()) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
+            const postImageUrl = document.getElementById('postImageUrl');
+            if (postImageUrl) {
+                postImageUrl.addEventListener('input', function() {
+                    const preview = document.getElementById('postImagePreview');
+                    if (this.value.trim()) {
+                        preview.src = this.value;
+                        preview.style.display = 'block';
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                });
+            }
             
             // Format timestamp for admin
             function formatTimestamp(timestamp) {
@@ -3216,48 +3481,51 @@ Links will automatically be clickable: https://example.com"></textarea>
             }
             
             // Save profile changes with touch support
-            document.getElementById('profileForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const saveProfileBtn = document.getElementById('saveProfileBtn');
-                const saveProfileText = document.getElementById('saveProfileText');
-                const profileLoading = document.getElementById('profileLoading');
-                
-                saveProfileBtn.disabled = true;
-                saveProfileText.style.display = 'none';
-                profileLoading.style.display = 'inline-block';
-                
-                try {
-                    const profileData = {
-                        name: document.getElementById('profileName').value.trim(),
-                        username: document.getElementById('profileUsername').value.trim().replace('@', ''),
-                        bio: document.getElementById('profileBio').value.trim(),
-                        verified: document.getElementById('verifiedToggle').checked,
-                        verifiedTooltip: verifiedTooltipInput.value.trim() || 'Official presence of Trulune Malaysia',
-                        profileImage: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
-                        updatedAt: new Date().toISOString()
-                    };
+            const profileForm = document.getElementById('profileForm');
+            if (profileForm) {
+                profileForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
                     
-                    await db.collection('profile').doc('main').set(profileData, { merge: true });
+                    const saveProfileBtn = document.getElementById('saveProfileBtn');
+                    const saveProfileText = document.getElementById('saveProfileText');
+                    const profileLoading = document.getElementById('profileLoading');
                     
-                    await updateExistingPostsWithProfileInfo(profileData);
+                    saveProfileBtn.disabled = true;
+                    saveProfileText.style.display = 'none';
+                    profileLoading.style.display = 'inline-block';
                     
-                    const verifiedTooltip = document.getElementById('verifiedTooltipText');
-                    if (verifiedTooltip) {
-                        verifiedTooltip.textContent = profileData.verifiedTooltip;
+                    try {
+                        const profileData = {
+                            name: document.getElementById('profileName').value.trim(),
+                            username: document.getElementById('profileUsername').value.trim().replace('@', ''),
+                            bio: document.getElementById('profileBio').value.trim(),
+                            verified: document.getElementById('verifiedToggle').checked,
+                            verifiedTooltip: verifiedTooltipInput.value.trim() || 'Official presence of Trulune Malaysia',
+                            profileImage: document.getElementById('profileImageUrl').value.trim() || 'images/Logo.png',
+                            updatedAt: new Date().toISOString()
+                        };
+                        
+                        await db.collection('profile').doc('main').set(profileData, { merge: true });
+                        
+                        await updateExistingPostsWithProfileInfo(profileData);
+                        
+                        const verifiedTooltip = document.getElementById('verifiedTooltipText');
+                        if (verifiedTooltip) {
+                            verifiedTooltip.textContent = profileData.verifiedTooltip;
+                        }
+                        
+                        showToast('Profile updated successfully! All existing posts have been updated.');
+                        
+                    } catch (error) {
+                        console.error('Error updating profile:', error);
+                        showToast('Error updating profile: ' + error.message);
+                    } finally {
+                        saveProfileBtn.disabled = false;
+                        saveProfileText.style.display = 'inline';
+                        profileLoading.style.display = 'none';
                     }
-                    
-                    showToast('Profile updated successfully! All existing posts have been updated.');
-                    
-                } catch (error) {
-                    console.error('Error updating profile:', error);
-                    showToast('Error updating profile: ' + error.message);
-                } finally {
-                    saveProfileBtn.disabled = false;
-                    saveProfileText.style.display = 'inline';
-                    profileLoading.style.display = 'none';
-                }
-            });
+                });
+            }
             
             // Update existing posts with new profile info
             async function updateExistingPostsWithProfileInfo(profileData) {
@@ -3283,81 +3551,84 @@ Links will automatically be clickable: https://example.com"></textarea>
             }
             
             // Create new post with color option and touch support
-            document.getElementById('createPostForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const publishPostBtn = document.getElementById('publishPostBtn');
-                const publishPostText = document.getElementById('publishPostText');
-                const postLoading = document.getElementById('postLoading');
-                
-                publishPostBtn.disabled = true;
-                publishPostText.style.display = 'none';
-                postLoading.style.display = 'inline-block';
-                
-                try {
-                    const content = document.getElementById('postContent').value.trim();
-                    if (!content) {
-                        showToast('Please enter post content');
+            const createPostForm = document.getElementById('createPostForm');
+            if (createPostForm) {
+                createPostForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const publishPostBtn = document.getElementById('publishPostBtn');
+                    const publishPostText = document.getElementById('publishPostText');
+                    const postLoading = document.getElementById('postLoading');
+                    
+                    publishPostBtn.disabled = true;
+                    publishPostText.style.display = 'none';
+                    postLoading.style.display = 'inline-block';
+                    
+                    try {
+                        const content = document.getElementById('postContent').value.trim();
+                        if (!content) {
+                            showToast('Please enter post content');
+                            publishPostBtn.disabled = false;
+                            publishPostText.style.display = 'inline';
+                            postLoading.style.display = 'none';
+                            return;
+                        }
+                        
+                        const profileDoc = await db.collection('profile').doc('main').get();
+                        const profileData = profileDoc.exists ? profileDoc.data() : {
+                            name: 'Trulune Malaysia',
+                            profileImage: 'images/Logo.png',
+                            verified: false,
+                            verifiedTooltip: 'Official presence of Trulune Malaysia'
+                        };
+                        
+                        let postColor = postColorInput.value.trim();
+                        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                        if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
+                            postColor = '#FFFFFF';
+                        }
+                        
+                        const postData = {
+                            content: content,
+                            authorName: profileData.name,
+                            authorAvatar: profileData.profileImage,
+                            verified: profileData.verified || false,
+                            backgroundColor: postColor,
+                            timestamp: new Date().toISOString(),
+                            createdAt: new Date().toISOString(),
+                            likes: 0,
+                            likedBy: [],
+                            pinned: false,
+                            archived: false
+                        };
+                        
+                        const imageUrl = document.getElementById('postImageUrl').value.trim();
+                        if (imageUrl) {
+                            postData.imageUrl = imageUrl;
+                        }
+                        
+                        await db.collection('posts').add(postData);
+                        
+                        document.getElementById('postContent').value = '';
+                        document.getElementById('postImageUrl').value = '';
+                        document.getElementById('postImagePreview').style.display = 'none';
+                        postColorInput.value = '#FFFFFF';
+                        colorPreview.style.background = '#FFFFFF';
+                        
+                        showToast('Post published successfully!');
+                        
+                        navigateToSection('manage-posts');
+                        
+                    } catch (error) {
+                        console.error('Error creating post:', error);
+                        showToast('Error creating post: ' + error.message);
+                    } finally {
                         publishPostBtn.disabled = false;
                         publishPostText.style.display = 'inline';
                         postLoading.style.display = 'none';
-                        return;
                     }
-                    
-                    const profileDoc = await db.collection('profile').doc('main').get();
-                    const profileData = profileDoc.exists ? profileDoc.data() : {
-                        name: 'Trulune Malaysia',
-                        profileImage: 'images/Logo.png',
-                        verified: false,
-                        verifiedTooltip: 'Official presence of Trulune Malaysia'
-                    };
-                    
-                    let postColor = postColorInput.value.trim();
-                    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-                    if (!postColor.startsWith('#') || !hexRegex.test(postColor)) {
-                        postColor = '#FFFFFF';
-                    }
-                    
-                    const postData = {
-                        content: content,
-                        authorName: profileData.name,
-                        authorAvatar: profileData.profileImage,
-                        verified: profileData.verified || false,
-                        backgroundColor: postColor,
-                        timestamp: new Date().toISOString(),
-                        createdAt: new Date().toISOString(),
-                        likes: 0,
-                        likedBy: [],
-                        pinned: false,
-                        archived: false
-                    };
-                    
-                    const imageUrl = document.getElementById('postImageUrl').value.trim();
-                    if (imageUrl) {
-                        postData.imageUrl = imageUrl;
-                    }
-                    
-                    await db.collection('posts').add(postData);
-                    
-                    document.getElementById('postContent').value = '';
-                    document.getElementById('postImageUrl').value = '';
-                    document.getElementById('postImagePreview').style.display = 'none';
-                    postColorInput.value = '#FFFFFF';
-                    colorPreview.style.background = '#FFFFFF';
-                    
-                    showToast('Post published successfully!');
-                    
-                    navigateToSection('manage-posts');
-                    
-                } catch (error) {
-                    console.error('Error creating post:', error);
-                    showToast('Error creating post: ' + error.message);
-                } finally {
-                    publishPostBtn.disabled = false;
-                    publishPostText.style.display = 'inline';
-                    postLoading.style.display = 'none';
-                }
-            });
+                });
+            }
             
             // Open edit post modal
             function openEditPostModal(postId, postData) {
@@ -3386,7 +3657,7 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 // Open modal
                 editPostModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                preventBodyScroll();
             }
             
             // Archive/Unarchive post
@@ -3528,108 +3799,115 @@ Links will automatically be clickable: https://example.com"></textarea>
                         
                         // Add event listeners for edit buttons with touch support
                         document.querySelectorAll('.edit-post-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                const post = postsArray.find(p => p.id === postId);
-                                if (post) {
-                                    openEditPostModal(postId, post);
-                                }
-                            });
-                            
-                            button.addEventListener('touchend', async (e) => {
-                                e.preventDefault();
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                const post = postsArray.find(p => p.id === postId);
-                                if (post) {
-                                    openEditPostModal(postId, post);
-                                }
-                            });
+                            const setupEditButton = (btn) => {
+                                btn.addEventListener('click', async (e) => {
+                                    const postId = e.currentTarget.getAttribute('data-post-id');
+                                    const post = postsArray.find(p => p.id === postId);
+                                    if (post) {
+                                        openEditPostModal(postId, post);
+                                    }
+                                });
+                                
+                                btn.addEventListener('touchend', async (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const postId = e.currentTarget.getAttribute('data-post-id');
+                                    const post = postsArray.find(p => p.id === postId);
+                                    if (post) {
+                                        openEditPostModal(postId, post);
+                                    }
+                                });
+                            };
+                            setupEditButton(button);
                         });
                         
                         // Add event listeners for archive buttons with touch support
                         document.querySelectorAll('.archive-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                const isArchived = e.currentTarget.classList.contains('archived');
-                                await toggleArchivePost(postId, isArchived);
-                            });
-                            
-                            button.addEventListener('touchend', async (e) => {
-                                e.preventDefault();
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                const isArchived = e.currentTarget.classList.contains('archived');
-                                await toggleArchivePost(postId, isArchived);
-                            });
+                            const setupArchiveButton = (btn) => {
+                                btn.addEventListener('click', async (e) => {
+                                    const postId = e.currentTarget.getAttribute('data-post-id');
+                                    const isArchived = e.currentTarget.classList.contains('archived');
+                                    await toggleArchivePost(postId, isArchived);
+                                });
+                                
+                                btn.addEventListener('touchend', async (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const postId = e.currentTarget.getAttribute('data-post-id');
+                                    const isArchived = e.currentTarget.classList.contains('archived');
+                                    await toggleArchivePost(postId, isArchived);
+                                });
+                            };
+                            setupArchiveButton(button);
                         });
                         
                         // Add event listeners for pin buttons with touch support
                         document.querySelectorAll('.pin-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                const isPinned = e.currentTarget.classList.contains('pinned');
-                                
-                                try {
-                                    await db.collection('posts').doc(postId).update({
-                                        pinned: !isPinned
-                                    });
+                            const setupPinButton = (btn) => {
+                                btn.addEventListener('click', async (e) => {
+                                    const postId = e.currentTarget.getAttribute('data-post-id');
+                                    const isPinned = e.currentTarget.classList.contains('pinned');
                                     
-                                    showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
-                                    loadPosts();
-                                } catch (error) {
-                                    console.error('Error toggling pin:', error);
-                                    showToast('Error updating post');
-                                }
-                            });
-                            
-                            button.addEventListener('touchend', async (e) => {
-                                e.preventDefault();
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                const isPinned = e.currentTarget.classList.contains('pinned');
+                                    try {
+                                        await db.collection('posts').doc(postId).update({
+                                            pinned: !isPinned
+                                        });
+                                        
+                                        showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
+                                        loadPosts();
+                                    } catch (error) {
+                                        console.error('Error toggling pin:', error);
+                                        showToast('Error updating post');
+                                    }
+                                });
                                 
-                                try {
-                                    await db.collection('posts').doc(postId).update({
-                                        pinned: !isPinned
-                                    });
+                                btn.addEventListener('touchend', async (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    const postId = e.currentTarget.getAttribute('data-post-id');
+                                    const isPinned = e.currentTarget.classList.contains('pinned');
                                     
-                                    showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
-                                    loadPosts();
-                                } catch (error) {
-                                    console.error('Error toggling pin:', error);
-                                    showToast('Error updating post');
-                                }
-                            });
+                                    try {
+                                        await db.collection('posts').doc(postId).update({
+                                            pinned: !isPinned
+                                        });
+                                        
+                                        showToast(isPinned ? 'Post unpinned' : 'Post pinned!');
+                                        loadPosts();
+                                    } catch (error) {
+                                        console.error('Error toggling pin:', error);
+                                        showToast('Error updating post');
+                                    }
+                                });
+                            };
+                            setupPinButton(button);
                         });
                         
                         // Add event listeners for delete buttons with touch support
                         document.querySelectorAll('.delete-post-btn').forEach(button => {
-                            button.addEventListener('click', async (e) => {
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
-                                    try {
-                                        await db.collection('posts').doc(postId).delete();
-                                        showToast('Post deleted successfully');
-                                        loadPosts();
-                                    } catch (error) {
-                                        console.error('Error deleting post:', error);
-                                        showToast('Error deleting post');
+                            const setupDeleteButton = (btn) => {
+                                const handleDelete = async () => {
+                                    const postId = btn.getAttribute('data-post-id');
+                                    if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+                                        try {
+                                            await db.collection('posts').doc(postId).delete();
+                                            showToast('Post deleted successfully');
+                                            loadPosts();
+                                        } catch (error) {
+                                            console.error('Error deleting post:', error);
+                                            showToast('Error deleting post');
+                                        }
                                     }
-                                }
-                            });
-                            
-                            button.addEventListener('touchend', async (e) => {
-                                e.preventDefault();
-                                const postId = e.currentTarget.getAttribute('data-post-id');
-                                if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
-                                    try {
-                                        await db.collection('posts').doc(postId).delete();
-                                        showToast('Post deleted successfully');
-                                        loadPosts();
-                                    } catch (error) {
-                                        console.error('Error deleting post:', error);
-                                        showToast('Error deleting post');
-                                    }
-                                }
-                            });
+                                };
+                                
+                                btn.addEventListener('click', handleDelete);
+                                btn.addEventListener('touchend', (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDelete();
+                                });
+                            };
+                            setupDeleteButton(button);
                         });
                         
                         postsLoading.style.display = 'none';
@@ -3666,7 +3944,7 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Setup filter buttons for posts with touch support
             document.querySelectorAll('.filter-btn').forEach(button => {
                 const setupFilterButton = (btn) => {
-                    btn.addEventListener('click', function() {
+                    const handleFilter = function() {
                         // Remove active class from all buttons
                         document.querySelectorAll('.filter-btn').forEach(b => {
                             b.classList.remove('active');
@@ -3680,23 +3958,13 @@ Links will automatically be clickable: https://example.com"></textarea>
                         
                         // Reload posts with filter
                         loadPosts();
-                    });
+                    };
                     
+                    btn.addEventListener('click', handleFilter);
                     btn.addEventListener('touchend', function(e) {
                         e.preventDefault();
-                        // Remove active class from all buttons
-                        document.querySelectorAll('.filter-btn').forEach(b => {
-                            b.classList.remove('active');
-                        });
-                        
-                        // Add active class to clicked button
-                        this.classList.add('active');
-                        
-                        // Update current filter
-                        currentFilter = this.getAttribute('data-filter');
-                        
-                        // Reload posts with filter
-                        loadPosts();
+                        e.stopPropagation();
+                        handleFilter.call(this);
                     });
                 };
                 
@@ -3710,14 +3978,18 @@ Links will automatically be clickable: https://example.com"></textarea>
             const noBookCollectionsMessage = document.getElementById('noBookCollectionsMessage');
             
             // Add Book Collection with touch support
-            addBookCollectionBtn.addEventListener('click', () => {
-                openBookCollectionModal();
-            });
-            
-            addBookCollectionBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                openBookCollectionModal();
-            });
+            if (addBookCollectionBtn) {
+                const handleAddCollection = () => {
+                    openBookCollectionModal();
+                };
+                
+                addBookCollectionBtn.addEventListener('click', handleAddCollection);
+                addBookCollectionBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAddCollection();
+                });
+            }
             
             // Open Book Collection Modal with mobile optimization
             function openBookCollectionModal(collectionId = null) {
@@ -3732,17 +4004,24 @@ Links will automatically be clickable: https://example.com"></textarea>
                 document.getElementById('bookCollectionCoverPreview').style.display = 'block';
                 
                 // Clear products
-                document.getElementById('bookCollectionProducts').innerHTML = '';
+                const productsContainer = document.getElementById('bookCollectionProducts');
+                if (productsContainer) {
+                    productsContainer.innerHTML = '';
+                }
                 
                 // Update modal title
                 const modalTitle = document.getElementById('bookCollectionModalTitle');
-                modalTitle.textContent = collectionId ? 'Edit Book Collection' : 'Add Book Collection';
+                if (modalTitle) {
+                    modalTitle.textContent = collectionId ? 'Edit Book Collection' : 'Add Book Collection';
+                }
                 
                 // Show first tab
                 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
                 document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById('basic-info-tab').classList.add('active');
-                document.querySelector('[data-tab="basic-info"]').classList.add('active');
+                const basicInfoTab = document.getElementById('basic-info-tab');
+                const basicInfoBtn = document.querySelector('[data-tab="basic-info"]');
+                if (basicInfoTab) basicInfoTab.classList.add('active');
+                if (basicInfoBtn) basicInfoBtn.classList.add('active');
                 
                 // Load data if editing
                 if (collectionId) {
@@ -3754,22 +4033,28 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 // Open modal
                 bookCollectionModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                preventBodyScroll();
             }
             
             // Setup book collection modal close with touch support
             setupMobileModalClose(bookCollectionModal, bookCollectionModalClose);
             
-            document.getElementById('bookCollectionCancelBtn').addEventListener('click', () => {
-                bookCollectionModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-            
-            document.getElementById('bookCollectionCancelBtn').addEventListener('touchend', (e) => {
-                e.preventDefault();
-                bookCollectionModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
+            const bookCollectionCancelBtn = document.getElementById('bookCollectionCancelBtn');
+            if (bookCollectionCancelBtn) {
+                bookCollectionCancelBtn.addEventListener('click', () => {
+                    bookCollectionModal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = 'auto';
+                });
+                
+                bookCollectionCancelBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    bookCollectionModal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = 'auto';
+                });
+            }
             
             // Load Book Collection Data
             async function loadBookCollectionData(collectionId) {
@@ -3791,14 +4076,16 @@ Links will automatically be clickable: https://example.com"></textarea>
                         
                         // Load products
                         const productsContainer = document.getElementById('bookCollectionProducts');
-                        productsContainer.innerHTML = '';
-                        
-                        if (data.products && data.products.length > 0) {
-                            data.products.forEach((product, index) => {
-                                addProductToCollection(product, index);
-                            });
-                        } else {
-                            addProductToCollection();
+                        if (productsContainer) {
+                            productsContainer.innerHTML = '';
+                            
+                            if (data.products && data.products.length > 0) {
+                                data.products.forEach((product, index) => {
+                                    addProductToCollection(product, index);
+                                });
+                            } else {
+                                addProductToCollection();
+                            }
                         }
                     }
                 } catch (error) {
@@ -3810,10 +4097,12 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Add Product to Collection - MOBILE OPTIMIZED
             function addProductToCollection(product = null, index = null) {
                 const productsContainer = document.getElementById('bookCollectionProducts');
+                if (!productsContainer) return;
+                
                 const productIndex = index !== null ? index : productsContainer.children.length;
                 
                 const productDiv = document.createElement('div');
-                productDiv.className = isMobile() ? 'mobile-optimized-product' : 'product-item';
+                productDiv.className = isTouchDevice ? 'mobile-optimized-product' : 'product-item';
                 
                 // Use mobile optimized layout
                 const productHTML = `
@@ -3892,53 +4181,50 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 // Add event listeners with touch support
                 const removeBtn = productDiv.querySelector('.remove-product-btn');
-                removeBtn.addEventListener('click', () => {
-                    if (productsContainer.children.length > 1) {
-                        productDiv.remove();
-                        renumberProducts();
-                    } else {
-                        showToast('At least one product is required');
-                    }
-                });
-                
-                removeBtn.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    if (productsContainer.children.length > 1) {
-                        productDiv.remove();
-                        renumberProducts();
-                    } else {
-                        showToast('At least one product is required');
-                    }
-                });
+                if (removeBtn) {
+                    const handleRemoveProduct = () => {
+                        if (productsContainer.children.length > 1) {
+                            productDiv.remove();
+                            renumberProducts();
+                        } else {
+                            showToast('At least one product is required');
+                        }
+                    };
+                    
+                    removeBtn.addEventListener('click', handleRemoveProduct);
+                    removeBtn.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleRemoveProduct();
+                    });
+                }
                 
                 // Add gallery image functionality with touch support
                 const addGalleryBtn = productDiv.querySelector('.add-gallery-image');
                 const galleryContainer = productDiv.querySelector('.gallery-images');
                 
-                const setupAddGalleryBtn = (btn) => {
-                    btn.addEventListener('click', () => {
-                        const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
-                        if (galleryItems.length >= 4) {
-                            showToast('Maximum 4 gallery images allowed');
-                            return;
-                        }
+                if (addGalleryBtn && galleryContainer) {
+                    const setupAddGalleryBtn = (btn) => {
+                        const handleAddGallery = () => {
+                            const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
+                            if (galleryItems.length >= 4) {
+                                showToast('Maximum 4 gallery images allowed');
+                                return;
+                            }
+                            
+                            addGalleryImageItem(galleryContainer);
+                        };
                         
-                        addGalleryImageItem(galleryContainer);
-                    });
+                        btn.addEventListener('click', handleAddGallery);
+                        btn.addEventListener('touchend', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleAddGallery();
+                        });
+                    };
                     
-                    btn.addEventListener('touchend', (e) => {
-                        e.preventDefault();
-                        const galleryItems = galleryContainer.querySelectorAll('.gallery-image-item');
-                        if (galleryItems.length >= 4) {
-                            showToast('Maximum 4 gallery images allowed');
-                            return;
-                        }
-                        
-                        addGalleryImageItem(galleryContainer);
-                    });
-                };
-                
-                setupAddGalleryBtn(addGalleryBtn);
+                    setupAddGalleryBtn(addGalleryBtn);
+                }
                 
                 // Add remove event listeners to existing gallery images
                 productDiv.querySelectorAll('.remove-gallery-image').forEach(btn => {
@@ -3950,10 +4236,10 @@ Links will automatically be clickable: https://example.com"></textarea>
             function addGalleryImageItem(galleryContainer) {
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-image-item';
-                galleryItem.style.marginBottom = isMobile() ? '10px' : '10px';
+                galleryItem.style.marginBottom = isTouchDevice ? '10px' : '10px';
                 galleryItem.innerHTML = `
                     <input type="text" class="form-input gallery-image" placeholder="Gallery image URL">
-                    <button type="button" class="remove-gallery-image" style="${isMobile() ? 'margin-top: 8px; padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; width: 100%;' : 'margin-left: 10px; padding: 5px 10px; background: #dc2626; color: white; border: none; cursor: pointer;'}">Remove</button>
+                    <button type="button" class="remove-gallery-image" style="${isTouchDevice ? 'margin-top: 8px; padding: 12px 16px; background: #dc2626; color: white; border: none; cursor: pointer; width: 100%; min-height: 44px;' : 'margin-left: 10px; padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; min-height: 44px;'}">Remove</button>
                 `;
                 
                 galleryContainer.appendChild(galleryItem);
@@ -3965,13 +4251,15 @@ Links will automatically be clickable: https://example.com"></textarea>
             
             // Helper function to setup remove gallery button
             function setupRemoveGalleryBtn(btn) {
-                btn.addEventListener('click', function() {
+                const handleRemoveGallery = function() {
                     this.closest('.gallery-image-item').remove();
-                });
+                };
                 
+                btn.addEventListener('click', handleRemoveGallery);
                 btn.addEventListener('touchend', function(e) {
                     e.preventDefault();
-                    this.closest('.gallery-image-item').remove();
+                    e.stopPropagation();
+                    handleRemoveGallery.call(this);
                 });
             }
             
@@ -4029,6 +4317,8 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Renumber Products
             function renumberProducts() {
                 const productsContainer = document.getElementById('bookCollectionProducts');
+                if (!productsContainer) return;
+                
                 const productItems = productsContainer.querySelectorAll('.product-item, .mobile-optimized-product');
                 
                 productItems.forEach((item, index) => {
@@ -4040,173 +4330,191 @@ Links will automatically be clickable: https://example.com"></textarea>
             }
             
             // Add Product to Collection Button with touch support
-            document.getElementById('addProductToCollectionBtn').addEventListener('click', () => {
-                addProductToCollection();
-            });
-            
-            document.getElementById('addProductToCollectionBtn').addEventListener('touchend', (e) => {
-                e.preventDefault();
-                addProductToCollection();
-            });
+            const addProductToCollectionBtn = document.getElementById('addProductToCollectionBtn');
+            if (addProductToCollectionBtn) {
+                const handleAddProduct = () => {
+                    addProductToCollection();
+                };
+                
+                addProductToCollectionBtn.addEventListener('click', handleAddProduct);
+                addProductToCollectionBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAddProduct();
+                });
+            }
             
             // Tab functionality with touch support
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const tab = this.getAttribute('data-tab');
+                const setupTabButton = (button) => {
+                    const handleTabClick = function() {
+                        const tab = this.getAttribute('data-tab');
+                        
+                        // Update active tab button
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Update active tab content
+                        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                        const targetTab = document.getElementById(`${tab}-tab`);
+                        if (targetTab) {
+                            targetTab.classList.add('active');
+                        }
+                    };
                     
-                    // Update active tab button
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update active tab content
-                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                    document.getElementById(`${tab}-tab`).classList.add('active');
-                });
+                    button.addEventListener('click', handleTabClick);
+                    button.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleTabClick.call(this);
+                    });
+                };
                 
-                btn.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    const tab = this.getAttribute('data-tab');
-                    
-                    // Update active tab button
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update active tab content
-                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                    document.getElementById(`${tab}-tab`).classList.add('active');
-                });
+                setupTabButton(btn);
             });
             
             // Cover image preview
-            document.getElementById('bookCollectionCover').addEventListener('input', function() {
-                const preview = document.getElementById('bookCollectionCoverPreview');
-                if (this.value.trim()) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                }
-            });
+            const bookCollectionCover = document.getElementById('bookCollectionCover');
+            if (bookCollectionCover) {
+                bookCollectionCover.addEventListener('input', function() {
+                    const preview = document.getElementById('bookCollectionCoverPreview');
+                    if (this.value.trim()) {
+                        preview.src = this.value;
+                        preview.style.display = 'block';
+                    }
+                });
+            }
             
             // Save Book Collection - MOBILE OPTIMIZED
-            document.getElementById('bookCollectionForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const saveBtn = document.getElementById('saveBookCollectionBtn');
-                const saveText = document.getElementById('saveBookCollectionText');
-                const loading = document.getElementById('bookCollectionLoading');
-                
-                saveBtn.disabled = true;
-                saveText.style.display = 'none';
-                loading.style.display = 'inline-block';
-                
-                try {
-                    const collectionId = document.getElementById('bookCollectionId').value;
-                    const title = document.getElementById('bookCollectionTitle').value.trim();
-                    const description = document.getElementById('bookCollectionDesc').value.trim();
-                    const coverImage = document.getElementById('bookCollectionCover').value.trim();
+            const bookCollectionForm = document.getElementById('bookCollectionForm');
+            if (bookCollectionForm) {
+                bookCollectionForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
                     
-                    if (!title || !description || !coverImage) {
-                        showToast('Please fill all required fields');
+                    const saveBtn = document.getElementById('saveBookCollectionBtn');
+                    const saveText = document.getElementById('saveBookCollectionText');
+                    const loading = document.getElementById('bookCollectionLoading');
+                    
+                    if (!saveBtn || !saveText || !loading) {
+                        console.error('Save button elements not found');
                         return;
                     }
                     
-                    // Collect products data
-                    const products = [];
-                    const productItems = document.querySelectorAll('.product-item, .mobile-optimized-product');
+                    saveBtn.disabled = true;
+                    saveText.style.display = 'none';
+                    loading.style.display = 'inline-block';
                     
-                    productItems.forEach((item, index) => {
-                        const name = item.querySelector('.product-name')?.value.trim();
-                        const desc = item.querySelector('.product-desc')?.value.trim();
-                        const image = item.querySelector('.product-image')?.value.trim();
-                        const price = item.querySelector('.product-price')?.value.trim();
-                        const buttonText = item.querySelector('.product-button-text')?.value.trim();
-                        const buttonLink = item.querySelector('.product-button-link')?.value.trim();
+                    try {
+                        const collectionId = document.getElementById('bookCollectionId').value;
+                        const title = document.getElementById('bookCollectionTitle').value.trim();
+                        const description = document.getElementById('bookCollectionDesc').value.trim();
+                        const coverImage = document.getElementById('bookCollectionCover').value.trim();
                         
-                        if (!name || !desc || !image || !price || !buttonText || !buttonLink) {
+                        if (!title || !description || !coverImage) {
+                            showToast('Please fill all required fields');
                             return;
                         }
                         
-                        // Get color customization values
-                        const backgroundColor = item.querySelector('.product-bg-color-text')?.value.trim() || '#000000';
-                        const textColor = item.querySelector('.product-text-color-text')?.value.trim() || '#ffffff';
-                        const priceColor = item.querySelector('.product-price-color-text')?.value.trim() || '#ffffff';
+                        // Collect products data
+                        const products = [];
+                        const productItems = document.querySelectorAll('.product-item, .mobile-optimized-product');
                         
-                        // Collect gallery images
-                        const galleryImages = [];
-                        item.querySelectorAll('.gallery-image').forEach(input => {
-                            if (input.value.trim()) {
-                                galleryImages.push(input.value.trim());
+                        productItems.forEach((item, index) => {
+                            const name = item.querySelector('.product-name')?.value.trim();
+                            const desc = item.querySelector('.product-desc')?.value.trim();
+                            const image = item.querySelector('.product-image')?.value.trim();
+                            const price = item.querySelector('.product-price')?.value.trim();
+                            const buttonText = item.querySelector('.product-button-text')?.value.trim();
+                            const buttonLink = item.querySelector('.product-button-link')?.value.trim();
+                            
+                            if (!name || !desc || !image || !price || !buttonText || !buttonLink) {
+                                return;
                             }
+                            
+                            // Get color customization values
+                            const backgroundColor = item.querySelector('.product-bg-color-text')?.value.trim() || '#000000';
+                            const textColor = item.querySelector('.product-text-color-text')?.value.trim() || '#ffffff';
+                            const priceColor = item.querySelector('.product-price-color-text')?.value.trim() || '#ffffff';
+                            
+                            // Collect gallery images
+                            const galleryImages = [];
+                            item.querySelectorAll('.gallery-image').forEach(input => {
+                                if (input.value.trim()) {
+                                    galleryImages.push(input.value.trim());
+                                }
+                            });
+                            
+                            products.push({
+                                name,
+                                description: desc,
+                                image,
+                                price,
+                                buttonText,
+                                buttonLink,
+                                backgroundColor,
+                                textColor,
+                                priceColor,
+                                galleryImages: galleryImages.slice(0, 4) // Limit to 4
+                            });
                         });
                         
-                        products.push({
-                            name,
-                            description: desc,
-                            image,
-                            price,
-                            buttonText,
-                            buttonLink,
-                            backgroundColor,
-                            textColor,
-                            priceColor,
-                            galleryImages: galleryImages.slice(0, 4) // Limit to 4
-                        });
-                    });
-                    
-                    if (products.length === 0) {
-                        showToast('At least one product is required');
-                        return;
+                        if (products.length === 0) {
+                            showToast('At least one product is required');
+                            return;
+                        }
+                        
+                        const collectionData = {
+                            title,
+                            description,
+                            coverImage,
+                            products,
+                            order: collectionId ? undefined : Date.now(), // Use timestamp for new items
+                            updatedAt: new Date().toISOString()
+                        };
+                        
+                        if (collectionId) {
+                            // Update existing collection
+                            await db.collection('bookCollections').doc(collectionId).update(collectionData);
+                            showToast('Collection updated successfully!');
+                        } else {
+                            // Add new collection
+                            collectionData.createdAt = new Date().toISOString();
+                            await db.collection('bookCollections').add(collectionData);
+                            showToast('Collection added successfully!');
+                        }
+                        
+                        bookCollectionModal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                        loadBookCollections();
+                        
+                    } catch (error) {
+                        console.error('Error saving collection:', error);
+                        showToast('Error saving collection: ' + error.message);
+                    } finally {
+                        saveBtn.disabled = false;
+                        saveText.style.display = 'inline';
+                        loading.style.display = 'none';
                     }
-                    
-                    const collectionData = {
-                        title,
-                        description,
-                        coverImage,
-                        products,
-                        order: collectionId ? undefined : Date.now(), // Use timestamp for new items
-                        updatedAt: new Date().toISOString()
-                    };
-                    
-                    if (collectionId) {
-                        // Update existing collection
-                        await db.collection('bookCollections').doc(collectionId).update(collectionData);
-                        showToast('Collection updated successfully!');
-                    } else {
-                        // Add new collection
-                        collectionData.createdAt = new Date().toISOString();
-                        await db.collection('bookCollections').add(collectionData);
-                        showToast('Collection added successfully!');
-                    }
-                    
-                    bookCollectionModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                    loadBookCollections();
-                    
-                } catch (error) {
-                    console.error('Error saving collection:', error);
-                    showToast('Error saving collection: ' + error.message);
-                } finally {
-                    saveBtn.disabled = false;
-                    saveText.style.display = 'inline';
-                    loading.style.display = 'none';
-                }
-            });
+                });
+            }
             
             // Load Book Collections
             async function loadBookCollections() {
                 try {
-                    bookCollectionsLoading.style.display = 'block';
-                    bookCollectionsList.style.display = 'none';
-                    noBookCollectionsMessage.style.display = 'none';
+                    if (bookCollectionsLoading) bookCollectionsLoading.style.display = 'block';
+                    if (bookCollectionsList) bookCollectionsList.style.display = 'none';
+                    if (noBookCollectionsMessage) noBookCollectionsMessage.style.display = 'none';
                     
                     const collectionsSnapshot = await db.collection('bookCollections')
                         .orderBy('order', 'desc')
                         .get();
                     
-                    bookCollectionsList.innerHTML = '';
+                    if (bookCollectionsList) bookCollectionsList.innerHTML = '';
                     
                     if (collectionsSnapshot.empty) {
-                        bookCollectionsLoading.style.display = 'none';
-                        noBookCollectionsMessage.style.display = 'block';
+                        if (bookCollectionsLoading) bookCollectionsLoading.style.display = 'none';
+                        if (noBookCollectionsMessage) noBookCollectionsMessage.style.display = 'block';
                     } else {
                         collectionsSnapshot.forEach((doc) => {
                             const collection = doc.data();
@@ -4233,87 +4541,103 @@ Links will automatically be clickable: https://example.com"></textarea>
                                 </div>
                             `;
                             
-                            bookCollectionsList.appendChild(li);
+                            if (bookCollectionsList) bookCollectionsList.appendChild(li);
                         });
                         
                         // Initialize Sortable with touch support
-                        new Sortable(bookCollectionsList, {
-                            animation: 150,
-                            ghostClass: 'sortable-ghost',
-                            chosenClass: 'sortable-chosen',
-                            handle: '.drag-handle',
-                            onEnd: async function(evt) {
-                                // Update order in database
-                                const items = Array.from(bookCollectionsList.children);
-                                const updatePromises = items.map((item, index) => {
-                                    const id = item.getAttribute('data-id');
-                                    return db.collection('bookCollections').doc(id).update({
-                                        order: Date.now() - index // Higher order = first
+                        if (bookCollectionsList) {
+                            new Sortable(bookCollectionsList, {
+                                animation: 150,
+                                ghostClass: 'sortable-ghost',
+                                chosenClass: 'sortable-chosen',
+                                handle: '.drag-handle',
+                                forceFallback: isTouchDevice, // Use fallback for touch devices
+                                fallbackClass: 'sortable-fallback',
+                                fallbackOnBody: true,
+                                fallbackTolerance: 1,
+                                onStart: function() {
+                                    // Add active class to body to prevent scrolling
+                                    document.body.classList.add('sortable-active');
+                                },
+                                onEnd: function() {
+                                    // Remove active class from body
+                                    document.body.classList.remove('sortable-active');
+                                    
+                                    // Update order in database
+                                    const items = Array.from(bookCollectionsList.children);
+                                    const updatePromises = items.map((item, index) => {
+                                        const id = item.getAttribute('data-id');
+                                        return db.collection('bookCollections').doc(id).update({
+                                            order: Date.now() - index // Higher order = first
+                                        });
                                     });
-                                });
-                                
-                                try {
-                                    await Promise.all(updatePromises);
-                                    showToast('Order updated successfully!');
-                                } catch (error) {
-                                    console.error('Error updating order:', error);
-                                    showToast('Error updating order');
+                                    
+                                    try {
+                                        Promise.all(updatePromises).then(() => {
+                                            showToast('Order updated successfully!');
+                                        }).catch((error) => {
+                                            console.error('Error updating order:', error);
+                                            showToast('Error updating order');
+                                        });
+                                    } catch (error) {
+                                        console.error('Error updating order:', error);
+                                        showToast('Error updating order');
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                         
                         // Add event listeners for edit buttons with touch support
                         document.querySelectorAll('.edit-collection-btn').forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                const collectionId = this.getAttribute('data-id');
-                                openBookCollectionModal(collectionId);
-                            });
-                            
-                            btn.addEventListener('touchend', function(e) {
-                                e.preventDefault();
-                                const collectionId = this.getAttribute('data-id');
-                                openBookCollectionModal(collectionId);
-                            });
+                            const setupEditCollectionButton = (button) => {
+                                const handleEditCollection = () => {
+                                    const collectionId = button.getAttribute('data-id');
+                                    openBookCollectionModal(collectionId);
+                                };
+                                
+                                button.addEventListener('click', handleEditCollection);
+                                button.addEventListener('touchend', (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleEditCollection();
+                                });
+                            };
+                            setupEditCollectionButton(btn);
                         });
                         
                         // Add event listeners for delete buttons with touch support
                         document.querySelectorAll('.delete-collection-btn').forEach(btn => {
-                            btn.addEventListener('click', async function() {
-                                const collectionId = this.getAttribute('data-id');
-                                if (confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
-                                    try {
-                                        await db.collection('bookCollections').doc(collectionId).delete();
-                                        showToast('Collection deleted successfully');
-                                        loadBookCollections();
-                                    } catch (error) {
-                                        console.error('Error deleting collection:', error);
-                                        showToast('Error deleting collection');
+                            const setupDeleteCollectionButton = (button) => {
+                                const handleDeleteCollection = async () => {
+                                    const collectionId = button.getAttribute('data-id');
+                                    if (confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+                                        try {
+                                            await db.collection('bookCollections').doc(collectionId).delete();
+                                            showToast('Collection deleted successfully');
+                                            loadBookCollections();
+                                        } catch (error) {
+                                            console.error('Error deleting collection:', error);
+                                            showToast('Error deleting collection');
+                                        }
                                     }
-                                }
-                            });
-                            
-                            btn.addEventListener('touchend', async function(e) {
-                                e.preventDefault();
-                                const collectionId = this.getAttribute('data-id');
-                                if (confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
-                                    try {
-                                        await db.collection('bookCollections').doc(collectionId).delete();
-                                        showToast('Collection deleted successfully');
-                                        loadBookCollections();
-                                    } catch (error) {
-                                        console.error('Error deleting collection:', error);
-                                        showToast('Error deleting collection');
-                                    }
-                                }
-                            });
+                                };
+                                
+                                button.addEventListener('click', handleDeleteCollection);
+                                button.addEventListener('touchend', (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDeleteCollection();
+                                });
+                            };
+                            setupDeleteCollectionButton(btn);
                         });
                         
-                        bookCollectionsLoading.style.display = 'none';
-                        bookCollectionsList.style.display = 'block';
+                        if (bookCollectionsLoading) bookCollectionsLoading.style.display = 'none';
+                        if (bookCollectionsList) bookCollectionsList.style.display = 'block';
                     }
                 } catch (error) {
                     console.error('Error loading collections:', error);
-                    bookCollectionsLoading.style.display = 'none';
+                    if (bookCollectionsLoading) bookCollectionsLoading.style.display = 'none';
                     showToast('Error loading collections: ' + error.message);
                 }
             }
@@ -4325,14 +4649,18 @@ Links will automatically be clickable: https://example.com"></textarea>
             const noProductGridMessage = document.getElementById('noProductGridMessage');
             
             // Add Product Grid with touch support
-            addProductGridBtn.addEventListener('click', () => {
-                openProductGridModal();
-            });
-            
-            addProductGridBtn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                openProductGridModal();
-            });
+            if (addProductGridBtn) {
+                const handleAddProductGrid = () => {
+                    openProductGridModal();
+                };
+                
+                addProductGridBtn.addEventListener('click', handleAddProductGrid);
+                addProductGridBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAddProductGrid();
+                });
+            }
             
             // Open Product Grid Modal - MOBILE OPTIMIZED
             function openProductGridModal(productId = null) {
@@ -4344,9 +4672,17 @@ Links will automatically be clickable: https://example.com"></textarea>
                 document.getElementById('productGridDesc').value = '';
                 document.getElementById('productGridPrice').value = '';
                 document.getElementById('productGridMainImage').value = '';
-                document.getElementById('productGridMainImagePreview').src = '';
-                document.getElementById('productGridMainImagePreview').style.display = 'none';
-                document.getElementById('productGridGallery').innerHTML = '';
+                const mainImagePreview = document.getElementById('productGridMainImagePreview');
+                if (mainImagePreview) {
+                    mainImagePreview.src = '';
+                    mainImagePreview.style.display = 'none';
+                }
+                
+                const productGridGallery = document.getElementById('productGridGallery');
+                if (productGridGallery) {
+                    productGridGallery.innerHTML = '';
+                }
+                
                 document.getElementById('productGridButtonText').value = 'Get it Now';
                 document.getElementById('productGridButtonLink').value = '#';
                 document.getElementById('productGridBadge').value = '';
@@ -4356,7 +4692,9 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 // Update modal title
                 const modalTitle = document.getElementById('productGridModalTitle');
-                modalTitle.textContent = productId ? 'Edit Product' : 'Add Product';
+                if (modalTitle) {
+                    modalTitle.textContent = productId ? 'Edit Product' : 'Add Product';
+                }
                 
                 // Load data if editing
                 if (productId) {
@@ -4365,22 +4703,28 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 // Open modal
                 productGridModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                preventBodyScroll();
             }
             
             // Setup product grid modal close with touch support
             setupMobileModalClose(productGridModal, productGridModalClose);
             
-            document.getElementById('productGridCancelBtn').addEventListener('click', () => {
-                productGridModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-            
-            document.getElementById('productGridCancelBtn').addEventListener('touchend', (e) => {
-                e.preventDefault();
-                productGridModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
+            const productGridCancelBtn = document.getElementById('productGridCancelBtn');
+            if (productGridCancelBtn) {
+                productGridCancelBtn.addEventListener('click', () => {
+                    productGridModal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = 'auto';
+                });
+                
+                productGridCancelBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    productGridModal.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = 'auto';
+                });
+            }
             
             // Load Product Grid Data
             async function loadProductGridData(productId) {
@@ -4399,21 +4743,23 @@ Links will automatically be clickable: https://example.com"></textarea>
                         document.getElementById('productGridBadge').value = data.badge || '';
                         
                         const preview = document.getElementById('productGridMainImagePreview');
-                        if (data.mainImage) {
+                        if (data.mainImage && preview) {
                             preview.src = data.mainImage;
                             preview.style.display = 'block';
                         }
                         
                         // Load gallery images
                         const galleryContainer = document.getElementById('productGridGallery');
-                        galleryContainer.innerHTML = '';
-                        
-                        if (data.galleryImages && data.galleryImages.length > 0) {
-                            data.galleryImages.forEach((image, index) => {
-                                addGalleryImage(image, index);
-                            });
-                        } else {
-                            addGalleryImage();
+                        if (galleryContainer) {
+                            galleryContainer.innerHTML = '';
+                            
+                            if (data.galleryImages && data.galleryImages.length > 0) {
+                                data.galleryImages.forEach((image, index) => {
+                                    addGalleryImage(image, index);
+                                });
+                            } else {
+                                addGalleryImage();
+                            }
                         }
                     }
                 } catch (error) {
@@ -4425,16 +4771,18 @@ Links will automatically be clickable: https://example.com"></textarea>
             // Add Gallery Image - MOBILE OPTIMIZED
             function addGalleryImage(imageUrl = '', index = null) {
                 const galleryContainer = document.getElementById('productGridGallery');
+                if (!galleryContainer) return;
+                
                 const galleryIndex = index !== null ? index : galleryContainer.children.length;
                 
                 const galleryItem = document.createElement('div');
                 galleryItem.className = 'gallery-image-item';
-                galleryItem.style.marginBottom = isMobile() ? '15px' : '15px';
+                galleryItem.style.marginBottom = isTouchDevice ? '15px' : '15px';
                 
                 galleryItem.innerHTML = `
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <input type="text" class="form-input gallery-image-url" value="${imageUrl}" placeholder="Gallery image URL">
-                        <button type="button" class="remove-gallery-image-btn" style="padding: 8px 16px; background: #dc2626; color: white; border: none; cursor: pointer; text-align: center;">Remove</button>
+                        <button type="button" class="remove-gallery-image-btn" style="padding: 12px 16px; background: #dc2626; color: white; border: none; cursor: pointer; text-align: center; min-height: 44px;">Remove</button>
                     </div>
                 `;
                 
@@ -4442,142 +4790,156 @@ Links will automatically be clickable: https://example.com"></textarea>
                 
                 // Add remove event listener with touch support
                 const removeBtn = galleryItem.querySelector('.remove-gallery-image-btn');
-                removeBtn.addEventListener('click', () => {
-                    if (galleryContainer.children.length > 1) {
-                        galleryItem.remove();
-                    } else {
-                        showToast('At least one gallery image is required');
+                if (removeBtn) {
+                    const handleRemoveGalleryImage = () => {
+                        if (galleryContainer.children.length > 1) {
+                            galleryItem.remove();
+                        } else {
+                            showToast('At least one gallery image is required');
+                        }
+                    };
+                    
+                    removeBtn.addEventListener('click', handleRemoveGalleryImage);
+                    removeBtn.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleRemoveGalleryImage();
+                    });
+                }
+            }
+            
+            // Add Gallery Image Button with touch support
+            const addGalleryImageBtn = document.getElementById('addGalleryImageBtn');
+            if (addGalleryImageBtn) {
+                const handleAddGalleryImage = () => {
+                    const galleryContainer = document.getElementById('productGridGallery');
+                    if (!galleryContainer) return;
+                    
+                    if (galleryContainer.children.length >= 4) {
+                        showToast('Maximum 4 gallery images allowed');
+                        return;
                     }
-                });
+                    addGalleryImage();
+                };
                 
-                removeBtn.addEventListener('touchend', (e) => {
+                addGalleryImageBtn.addEventListener('click', handleAddGalleryImage);
+                addGalleryImageBtn.addEventListener('touchend', (e) => {
                     e.preventDefault();
-                    if (galleryContainer.children.length > 1) {
-                        galleryItem.remove();
-                    } else {
-                        showToast('At least one gallery image is required');
+                    e.stopPropagation();
+                    handleAddGalleryImage();
+                });
+            }
+            
+            // Main image preview
+            const productGridMainImage = document.getElementById('productGridMainImage');
+            if (productGridMainImage) {
+                productGridMainImage.addEventListener('input', function() {
+                    const preview = document.getElementById('productGridMainImagePreview');
+                    if (this.value.trim() && preview) {
+                        preview.src = this.value;
+                        preview.style.display = 'block';
                     }
                 });
             }
             
-            // Add Gallery Image Button with touch support
-            document.getElementById('addGalleryImageBtn').addEventListener('click', () => {
-                const galleryContainer = document.getElementById('productGridGallery');
-                if (galleryContainer.children.length >= 4) {
-                    showToast('Maximum 4 gallery images allowed');
-                    return;
-                }
-                addGalleryImage();
-            });
-            
-            document.getElementById('addGalleryImageBtn').addEventListener('touchend', (e) => {
-                e.preventDefault();
-                const galleryContainer = document.getElementById('productGridGallery');
-                if (galleryContainer.children.length >= 4) {
-                    showToast('Maximum 4 gallery images allowed');
-                    return;
-                }
-                addGalleryImage();
-            });
-            
-            // Main image preview
-            document.getElementById('productGridMainImage').addEventListener('input', function() {
-                const preview = document.getElementById('productGridMainImagePreview');
-                if (this.value.trim()) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                }
-            });
-            
             // Save Product Grid - MOBILE OPTIMIZED
-            document.getElementById('productGridForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const saveBtn = document.getElementById('saveProductGridBtn');
-                const saveText = document.getElementById('saveProductGridText');
-                const loading = document.getElementById('productGridLoading');
-                
-                saveBtn.disabled = true;
-                saveText.style.display = 'none';
-                loading.style.display = 'inline-block';
-                
-                try {
-                    const productId = document.getElementById('productGridId').value;
-                    const name = document.getElementById('productGridName').value.trim();
-                    const description = document.getElementById('productGridDesc').value.trim();
-                    const price = document.getElementById('productGridPrice').value.trim();
-                    const mainImage = document.getElementById('productGridMainImage').value.trim();
-                    const buttonText = document.getElementById('productGridButtonText').value.trim();
-                    const buttonLink = document.getElementById('productGridButtonLink').value.trim();
-                    const badge = document.getElementById('productGridBadge').value.trim();
+            const productGridForm = document.getElementById('productGridForm');
+            if (productGridForm) {
+                productGridForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
                     
-                    if (!name || !description || !price || !mainImage || !buttonText || !buttonLink) {
-                        showToast('Please fill all required fields');
+                    const saveBtn = document.getElementById('saveProductGridBtn');
+                    const saveText = document.getElementById('saveProductGridText');
+                    const loading = document.getElementById('productGridLoading');
+                    
+                    if (!saveBtn || !saveText || !loading) {
+                        console.error('Save button elements not found');
                         return;
                     }
                     
-                    // Collect gallery images
-                    const galleryImages = [];
-                    document.querySelectorAll('.gallery-image-url').forEach(input => {
-                        if (input.value.trim()) {
-                            galleryImages.push(input.value.trim());
+                    saveBtn.disabled = true;
+                    saveText.style.display = 'none';
+                    loading.style.display = 'inline-block';
+                    
+                    try {
+                        const productId = document.getElementById('productGridId').value;
+                        const name = document.getElementById('productGridName').value.trim();
+                        const description = document.getElementById('productGridDesc').value.trim();
+                        const price = document.getElementById('productGridPrice').value.trim();
+                        const mainImage = document.getElementById('productGridMainImage').value.trim();
+                        const buttonText = document.getElementById('productGridButtonText').value.trim();
+                        const buttonLink = document.getElementById('productGridButtonLink').value.trim();
+                        const badge = document.getElementById('productGridBadge').value.trim();
+                        
+                        if (!name || !description || !price || !mainImage || !buttonText || !buttonLink) {
+                            showToast('Please fill all required fields');
+                            return;
                         }
-                    });
-                    
-                    const productData = {
-                        name,
-                        description,
-                        price,
-                        mainImage,
-                        buttonText,
-                        buttonLink,
-                        badge: badge || null,
-                        galleryImages: galleryImages.slice(0, 4), // Limit to 4
-                        updatedAt: new Date().toISOString()
-                    };
-                    
-                    if (productId) {
-                        // Update existing product
-                        await db.collection('productGrid').doc(productId).update(productData);
-                        showToast('Product updated successfully!');
-                    } else {
-                        // Add new product - set order for new products
-                        productData.order = Date.now();
-                        productData.createdAt = new Date().toISOString();
-                        await db.collection('productGrid').add(productData);
-                        showToast('Product added successfully!');
+                        
+                        // Collect gallery images
+                        const galleryImages = [];
+                        document.querySelectorAll('.gallery-image-url').forEach(input => {
+                            if (input.value.trim()) {
+                                galleryImages.push(input.value.trim());
+                            }
+                        });
+                        
+                        const productData = {
+                            name,
+                            description,
+                            price,
+                            mainImage,
+                            buttonText,
+                            buttonLink,
+                            badge: badge || null,
+                            galleryImages: galleryImages.slice(0, 4), // Limit to 4
+                            updatedAt: new Date().toISOString()
+                        };
+                        
+                        if (productId) {
+                            // Update existing product
+                            await db.collection('productGrid').doc(productId).update(productData);
+                            showToast('Product updated successfully!');
+                        } else {
+                            // Add new product - set order for new products
+                            productData.order = Date.now();
+                            productData.createdAt = new Date().toISOString();
+                            await db.collection('productGrid').add(productData);
+                            showToast('Product added successfully!');
+                        }
+                        
+                        productGridModal.classList.remove('active');
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                        loadProductGrid();
+                        
+                    } catch (error) {
+                        console.error('Error saving product:', error);
+                        showToast('Error saving product: ' + error.message);
+                    } finally {
+                        saveBtn.disabled = false;
+                        saveText.style.display = 'inline';
+                        loading.style.display = 'none';
                     }
-                    
-                    productGridModal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                    loadProductGrid();
-                    
-                } catch (error) {
-                    console.error('Error saving product:', error);
-                    showToast('Error saving product: ' + error.message);
-                } finally {
-                    saveBtn.disabled = false;
-                    saveText.style.display = 'inline';
-                    loading.style.display = 'none';
-                }
-            });
+                });
+            }
             
             // Load Product Grid - MOBILE OPTIMIZED
             async function loadProductGrid() {
                 try {
-                    productGridLoading.style.display = 'block';
-                    productGridList.style.display = 'none';
-                    noProductGridMessage.style.display = 'none';
+                    if (productGridLoading) productGridLoading.style.display = 'block';
+                    if (productGridList) productGridList.style.display = 'none';
+                    if (noProductGridMessage) noProductGridMessage.style.display = 'none';
                     
                     const productsSnapshot = await db.collection('productGrid')
                         .orderBy('order', 'desc')
                         .get();
                     
-                    productGridList.innerHTML = '';
+                    if (productGridList) productGridList.innerHTML = '';
                     
                     if (productsSnapshot.empty) {
-                        productGridLoading.style.display = 'none';
-                        noProductGridMessage.style.display = 'block';
+                        if (productGridLoading) productGridLoading.style.display = 'none';
+                        if (noProductGridMessage) noProductGridMessage.style.display = 'block';
                     } else {
                         productsSnapshot.forEach((doc) => {
                             const product = doc.data();
@@ -4604,87 +4966,103 @@ Links will automatically be clickable: https://example.com"></textarea>
                                 </div>
                             `;
                             
-                            productGridList.appendChild(li);
+                            if (productGridList) productGridList.appendChild(li);
                         });
                         
                         // Initialize Sortable with touch support
-                        new Sortable(productGridList, {
-                            animation: 150,
-                            ghostClass: 'sortable-ghost',
-                            chosenClass: 'sortable-chosen',
-                            handle: '.drag-handle',
-                            onEnd: async function(evt) {
-                                // Update order in database
-                                const items = Array.from(productGridList.children);
-                                const updatePromises = items.map((item, index) => {
-                                    const id = item.getAttribute('data-id');
-                                    return db.collection('productGrid').doc(id).update({
-                                        order: Date.now() - index // Higher order = first
+                        if (productGridList) {
+                            new Sortable(productGridList, {
+                                animation: 150,
+                                ghostClass: 'sortable-ghost',
+                                chosenClass: 'sortable-chosen',
+                                handle: '.drag-handle',
+                                forceFallback: isTouchDevice, // Use fallback for touch devices
+                                fallbackClass: 'sortable-fallback',
+                                fallbackOnBody: true,
+                                fallbackTolerance: 1,
+                                onStart: function() {
+                                    // Add active class to body to prevent scrolling
+                                    document.body.classList.add('sortable-active');
+                                },
+                                onEnd: function() {
+                                    // Remove active class from body
+                                    document.body.classList.remove('sortable-active');
+                                    
+                                    // Update order in database
+                                    const items = Array.from(productGridList.children);
+                                    const updatePromises = items.map((item, index) => {
+                                        const id = item.getAttribute('data-id');
+                                        return db.collection('productGrid').doc(id).update({
+                                            order: Date.now() - index // Higher order = first
+                                        });
                                     });
-                                });
-                                
-                                try {
-                                    await Promise.all(updatePromises);
-                                    showToast('Order updated successfully!');
-                                } catch (error) {
-                                    console.error('Error updating order:', error);
-                                    showToast('Error updating order');
+                                    
+                                    try {
+                                        Promise.all(updatePromises).then(() => {
+                                            showToast('Order updated successfully!');
+                                        }).catch((error) => {
+                                            console.error('Error updating order:', error);
+                                            showToast('Error updating order');
+                                        });
+                                    } catch (error) {
+                                        console.error('Error updating order:', error);
+                                        showToast('Error updating order');
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                         
                         // Add event listeners for edit buttons with touch support
                         document.querySelectorAll('.edit-product-btn').forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                const productId = this.getAttribute('data-id');
-                                openProductGridModal(productId);
-                            });
-                            
-                            btn.addEventListener('touchend', function(e) {
-                                e.preventDefault();
-                                const productId = this.getAttribute('data-id');
-                                openProductGridModal(productId);
-                            });
+                            const setupEditProductButton = (button) => {
+                                const handleEditProduct = () => {
+                                    const productId = button.getAttribute('data-id');
+                                    openProductGridModal(productId);
+                                };
+                                
+                                button.addEventListener('click', handleEditProduct);
+                                button.addEventListener('touchend', (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleEditProduct();
+                                });
+                            };
+                            setupEditProductButton(btn);
                         });
                         
                         // Add event listeners for delete buttons with touch support
                         document.querySelectorAll('.delete-product-btn').forEach(btn => {
-                            btn.addEventListener('click', async function() {
-                                const productId = this.getAttribute('data-id');
-                                if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
-                                    try {
-                                        await db.collection('productGrid').doc(productId).delete();
-                                        showToast('Product deleted successfully');
-                                        loadProductGrid();
-                                    } catch (error) {
-                                        console.error('Error deleting product:', error);
-                                        showToast('Error deleting product');
+                            const setupDeleteProductButton = (button) => {
+                                const handleDeleteProduct = async () => {
+                                    const productId = button.getAttribute('data-id');
+                                    if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                                        try {
+                                            await db.collection('productGrid').doc(productId).delete();
+                                            showToast('Product deleted successfully');
+                                            loadProductGrid();
+                                        } catch (error) {
+                                            console.error('Error deleting product:', error);
+                                            showToast('Error deleting product');
+                                        }
                                     }
-                                }
-                            });
-                            
-                            btn.addEventListener('touchend', async function(e) {
-                                e.preventDefault();
-                                const productId = this.getAttribute('data-id');
-                                if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
-                                    try {
-                                        await db.collection('productGrid').doc(productId).delete();
-                                        showToast('Product deleted successfully');
-                                        loadProductGrid();
-                                    } catch (error) {
-                                        console.error('Error deleting product:', error);
-                                        showToast('Error deleting product');
-                                    }
-                                }
-                            });
+                                };
+                                
+                                button.addEventListener('click', handleDeleteProduct);
+                                button.addEventListener('touchend', (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDeleteProduct();
+                                });
+                            };
+                            setupDeleteProductButton(btn);
                         });
                         
-                        productGridLoading.style.display = 'none';
-                        productGridList.style.display = 'block';
+                        if (productGridLoading) productGridLoading.style.display = 'none';
+                        if (productGridList) productGridList.style.display = 'block';
                     }
                 } catch (error) {
                     console.error('Error loading products:', error);
-                    productGridLoading.style.display = 'none';
+                    if (productGridLoading) productGridLoading.style.display = 'none';
                     showToast('Error loading products: ' + error.message);
                 }
             }
@@ -4715,6 +5093,11 @@ Links will automatically be clickable: https://example.com"></textarea>
             }
             
             setInterval(updateLastLoginDisplay, 60000);
+            
+            // Add window resize handler
+            window.addEventListener('resize', function() {
+                checkTouchDevice();
+            });
         });
     </script>
 </body>
